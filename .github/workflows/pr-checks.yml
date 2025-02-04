@@ -39,5 +39,18 @@ jobs:
       - name: Verify Flutter Build
         run: flutter build apk --debug
 
-      - name: Run Tests
-        run: flutter test
+      - name: Run Tests with Coverage
+        run: flutter test --coverage
+
+      - name: Enforce Code Coverage
+        uses: VGVentures/very-good-coverage@v1.1.1
+        with:
+          path: "./coverage/lcov.info"
+          min_coverage: 80 # Adjust threshold as needed
+          exclude: "**/*.g.dart **/*.freezed.dart **/*.config.dart **/*.mocks.dart" # Exclude generated files
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
