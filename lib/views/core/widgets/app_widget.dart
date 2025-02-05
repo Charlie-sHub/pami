@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pami/views/core/theme/theme.dart';
 
 /// App's entry widget
 class AppWidget extends StatelessWidget {
@@ -9,10 +10,7 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'PAMI',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: appTheme,
       home: const Scaffold(
         body: Center(
           child: Text(
