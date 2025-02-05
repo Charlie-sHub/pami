@@ -36,8 +36,11 @@ jobs:
       - name: Run Linter
         run: flutter analyze
 
-      - name: Verify Flutter Build
-        run: flutter build apk --debug
+      - name: Build Release APK
+        run: flutter build apk --release -t lib/main_prod.dart
+
+      - name: Build Debug APK
+        run: flutter build apk --debug -t lib/main_dev.dart
 
       - name: Run Tests with Coverage
         run: flutter test --coverage
@@ -50,7 +53,7 @@ jobs:
           exclude: "**/*.g.dart **/*.freezed.dart **/*.config.dart **/*.mocks.dart" # Exclude generated files
 
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/lcov.info
