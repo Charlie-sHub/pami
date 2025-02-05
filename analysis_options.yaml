@@ -24,6 +24,8 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.gr.dart"
+    - "**/*.config.dart"
+    - "**/*.mocks.dart"
     - "**/*.freezed.dart"
     - "lib/generated/**"
     - "lib/injection.config.dart"
