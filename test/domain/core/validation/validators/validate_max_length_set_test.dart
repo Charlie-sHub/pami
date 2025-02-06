@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/domain/core/failures/failure.dart';
-import 'package:pami/domain/core/validation/validators/validate_max_length_iterable.dart';
+import 'package:pami/domain/core/validation/validators/validate_max_length_set.dart';
 
 void main() {
   group(
@@ -11,11 +11,11 @@ void main() {
         'should return the input iterable when it is empty',
         () {
           // Arrange
-          const input = <int>[];
+          const input = <int>{};
           const maxLength = 5;
 
           // Act
-          final result = validateMaxLengthIterable(
+          final result = validateMaxLengthSet(
             input: input,
             maxLength: maxLength,
           );
@@ -30,12 +30,12 @@ void main() {
         'when its length is less than the max length',
         () {
           // Arrange
-          const input = [1, 2, 3];
+          const input = {1, 2, 3};
           const maxLength = 5;
 
           // Act
           final result =
-              validateMaxLengthIterable(input: input, maxLength: maxLength);
+              validateMaxLengthSet(input: input, maxLength: maxLength);
 
           // Assert
           expect(result, right(input));
@@ -47,12 +47,12 @@ void main() {
         'when its length is equal to the max length',
         () {
           // Arrange
-          const input = [1, 2, 3, 4, 5];
+          const input = {1, 2, 3, 4, 5};
           const maxLength = 5;
 
           // Act
           final result =
-              validateMaxLengthIterable(input: input, maxLength: maxLength);
+              validateMaxLengthSet(input: input, maxLength: maxLength);
 
           // Assert
           expect(result, right(input));
@@ -69,17 +69,17 @@ void main() {
         'when the input length is greater than the max length',
         () {
           // Arrange
-          const input = [1, 2, 3, 4, 5, 6];
+          const input = {1, 2, 3, 4, 5, 6};
           const maxLength = 5;
 
           // Act
           final result =
-              validateMaxLengthIterable(input: input, maxLength: maxLength);
+              validateMaxLengthSet(input: input, maxLength: maxLength);
 
           // Assert
           expect(
             result,
-            left<Failure<Iterable<int>>, Iterable<int>>(
+            left<Failure<Set<int>>, Set<int>>(
               const Failure.collectionExceedsLength(
                 failedValue: input,
                 maxLength: maxLength,

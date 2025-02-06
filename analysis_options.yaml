@@ -9,6 +9,8 @@ linter:
     - prefer_final_locals
     - prefer_final_fields
     - prefer_single_quotes
+    - prefer_const_declarations
+    - prefer_expression_function_bodies
     - unnecessary_this
     - use_super_parameters
     - avoid_redundant_argument_values
@@ -41,4 +43,5 @@ analyzer:
     always_use_package_imports: error
     inference_failure_on_function_invocation: ignore
     inference_failure_on_instance_creation: ignore
+    strict_raw_type: ignore
 
