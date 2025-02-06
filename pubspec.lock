@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "16e298750b6d0af7ce8a3ba7c18c69c3785d11b15ec83f6dcd0ad2a0009b3cab"
+      sha256: "03f6da266a27a4538a69295ec142cb5717d7d4e5727b84658b63e1e1509bac9c"
       url: "https://pub.dev"
     source: hosted
-    version: "76.0.0"
+    version: "79.0.0"
   _flutterfire_internals:
     dependency: transitive
     description:
@@ -23,13 +23,13 @@ packages:
     source: sdk
     version: "0.3.3"
   analyzer:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: analyzer
-      sha256: "1f14db053a8c23e260789e9b0980fa27f2680dd640932cae5e1137cce0e46e1e"
+      sha256: c9040fc56483c22a5e04a9f6a251313118b1a3c42423770623128fa484115643
       url: "https://pub.dev"
     source: hosted
-    version: "6.11.0"
+    version: "7.2.0"
   animated_bottom_navigation_bar:
     dependency: "direct main"
     description:
@@ -79,7 +79,7 @@ packages:
     source: hosted
     version: "9.3.0+1"
   auto_route_generator:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: auto_route_generator
       sha256: c2e359d8932986d4d1bcad7a428143f81384ce10fef8d4aa5bc29e1f83766a46
@@ -95,7 +95,7 @@ packages:
     source: hosted
     version: "9.0.0"
   bloc_test:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: bloc_test
       sha256: "1dd549e58be35148bc22a9135962106aa29334bc1e3f285994946a1057b29d7b"
@@ -667,13 +667,13 @@ packages:
     source: sdk
     version: "0.0.0"
   freezed:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: freezed
-      sha256: "62b248b2dfb06ded10c84b713215b25aea020a5b08c32e801a974361557ebc3f"
+      sha256: "59a584c24b3acdc5250bb856d0d3e9c0b798ed14a4af1ddb7dc1c7b41df91c9c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0-0.0.dev"
+    version: "2.5.8"
   freezed_annotation:
     dependency: "direct main"
     description:
