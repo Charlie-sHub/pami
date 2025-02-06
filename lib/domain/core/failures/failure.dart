@@ -8,68 +8,68 @@ class Failure<T> with _$Failure<T> {
   // --- Value Failures (Validation Errors) ---
   /// [Failure] indicating an invalid date
   const factory Failure.invalidDate({
-    required DateTime failed,
+    required DateTime failedValue,
   }) = InvalidDate<T>;
 
   /// [Failure] indicating an invalid email
   const factory Failure.invalidEmail({
-    required String failed,
+    required String failedValue,
   }) = InvalidEmail<T>;
 
   /// [Failure] indicating an invalid password
   const factory Failure.invalidPassword({
-    required String failed,
+    required String failedValue,
   }) = InvalidPassword<T>;
 
   /// [Failure] indicating an invalid name
   const factory Failure.invalidName({
-    required String failed,
+    required String failedValue,
   }) = InvalidName<T>;
 
   /// [Failure] indicating an empty string
   const factory Failure.emptyString({
-    required String failed,
+    required String failedValue,
   }) = EmptyString<T>;
 
   /// [Failure] indicating a multi-line string
   const factory Failure.multiLineString({
-    required String failed,
+    required String failedValue,
   }) = MultiLineString<T>;
 
   /// [Failure] indicating a string that does not match a given pattern
   const factory Failure.stringMismatch({
-    required String failed,
+    required String failedValue,
   }) = StringMismatch<T>;
 
-  /// [Failure] indicating a given integer is out of bounds
-  const factory Failure.integerOutOfBounds({
-    required int failed,
-  }) = IntegerOutOfBounds<T>;
+  /// [Failure] indicating a given num is out of bounds
+  const factory Failure.numOutOfBounds({
+    required num failedValue,
+  }) = NumOutOfBounds<T>;
 
   /// [Failure] indicating invalid coordinates
   const factory Failure.invalidCoordinate({
-    required double failed,
+    required double failedValue,
   }) = InvalidCoordinates<T>;
 
   /// [Failure] indicating an empty set
   const factory Failure.emptySet({
-    required T failed,
+    required T failedValue,
   }) = EmptySet<T>;
 
   /// [Failure] indicating an empty list
   const factory Failure.emptyList({
-    required T failed,
+    required T failedValue,
   }) = EmptyList<T>;
 
   /// [Failure] indicating a string that exceeds a given length
   const factory Failure.stringExceedsLength({
-    required String failed,
+    required String failedValue,
     required int maxLength,
   }) = StringExceedsLength<T>;
 
   /// [Failure] indicating a collection that exceeds a given length
   const factory Failure.collectionExceedsLength({
-    required T failed,
+    required T failedValue,
     required int maxLength,
   }) = CollectionExceedsLength<T>;
 
