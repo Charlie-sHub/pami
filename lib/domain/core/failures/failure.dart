@@ -41,9 +41,9 @@ class Failure<T> with _$Failure<T> {
     required String failedValue,
   }) = StringMismatch<T>;
 
-  /// [Failure] indicating a given num is out of bounds
-  const factory Failure.numOutOfBounds({
-    required num failedValue,
+  /// [Failure] indicating a given double is out of bounds
+  const factory Failure.doubleOutOfBounds({
+    required double failedValue,
   }) = NumOutOfBounds<T>;
 
   /// [Failure] indicating invalid coordinates
@@ -72,6 +72,11 @@ class Failure<T> with _$Failure<T> {
     required T failedValue,
     required int maxLength,
   }) = CollectionExceedsLength<T>;
+
+  /// [Failure] indicating an invalid url
+  const factory Failure.invalidUrl({
+    required String failedValue,
+  }) = InvalidUrl<T>;
 
   // ---  Failures (Server/Cache Errors) ---
   /// [Failure] indicating a not found error

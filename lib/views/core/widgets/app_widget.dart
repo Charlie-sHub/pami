@@ -10,25 +10,23 @@ class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'PAMI',
-      theme: appTheme,
-      supportedLocales: L10n.all,
-      locale: L10n.all.first,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'PLACEHOLDER',
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'PAMI',
+        theme: appTheme,
+        supportedLocales: L10n.all,
+        locale: L10n.all.first,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        home: const Scaffold(
+          body: Center(
+            child: Text(
+              'PLACEHOLDER',
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

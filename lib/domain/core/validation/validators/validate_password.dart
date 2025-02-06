@@ -3,9 +3,16 @@ import 'package:pami/domain/core/failures/failure.dart';
 
 /// Validates a password
 Either<Failure<String>, String> validatePassword(String input) {
-  // A regex could be added to set password requirements, such as
-  // having at least one number, mixing upper and lower case letters, etc.
-  if (input.length >= 6) {
+  // Regex to check for:
+  // - At least 8 characters
+  // - At least one uppercase letter
+  // - At least one lowercase letter
+  // - At least one number
+  // - At least one special character
+  final passwordRegex =
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+
+  if (passwordRegex.hasMatch(input)) {
     return right(input);
   } else {
     return left(Failure.invalidPassword(failedValue: input));
