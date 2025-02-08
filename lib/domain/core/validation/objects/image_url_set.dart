@@ -6,6 +6,8 @@ import 'package:pami/domain/core/validation/validators/validate_max_length_set.d
 
 /// A value object representing a set of [Url]s.
 class ImageUrlSet extends ValueObject<Set<Url>> {
+  const ImageUrlSet._(this.value);
+
   /// Creates a new [ImageUrlSet]
   factory ImageUrlSet(Set<Url> input) => ImageUrlSet._(
         validateMaxLengthSet(
@@ -14,19 +16,11 @@ class ImageUrlSet extends ValueObject<Set<Url>> {
         ),
       );
 
-  const ImageUrlSet._(this.value);
-
   @override
   final Either<Failure<Set<Url>>, Set<Url>> value;
 
   /// Maximum number of [Url]s
   static const maxLength = 5;
-
-  @override
-  Either<Failure<dynamic>, Unit> get failureOrUnit => value.fold(
-        left,
-        (_) => right(unit),
-      );
 
   /// Returns the number of [Url]s in the set
   int get length => value.getOrElse(() => const <Url>{}).length;

@@ -12,55 +12,62 @@ void main() {
         'when the input is a valid password',
         () {
           // Arrange
-          const input = 'ValidP@sswOrd123';
+          const validPassword = 'ValidP@sswOrd123';
+          final password = Password(validPassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(validPassword));
         },
       );
+
       test(
         'should return a Password with the input value '
         'when the input is a valid password with special characters',
         () {
           // Arrange
-          const input = r'V@l!dP@$$wOrd123#';
+          const validPasswordWithSpecialChars = r'V@l!dP@$$wOrd123#';
+          final password = Password(validPasswordWithSpecialChars);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(validPasswordWithSpecialChars));
         },
       );
+
       test(
         'should return a Password with the input value '
         'when the input is a valid password with more special characters',
         () {
           // Arrange
-          const input = r'V@l!dP@$$wOrd123#$&';
+          const validPasswordWithMoreSpecialChars = r'V@l!dP@$$wOrd123#$&';
+          final password = Password(validPasswordWithMoreSpecialChars);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(validPasswordWithMoreSpecialChars));
         },
       );
+
       test(
         'should return a Password with the input value '
         'when the input is a valid password with more numbers',
         () {
           // Arrange
-          const input = r'V@l!dP@$$wOrd123456789#';
+          const validPasswordWithMoreNumbers = r'V@l!dP@$$wOrd123456789#';
+          final password = Password(validPasswordWithMoreNumbers);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(validPasswordWithMoreNumbers));
         },
       );
     },
@@ -74,16 +81,19 @@ void main() {
         'when the input is an empty string',
         () {
           // Arrange
-          const input = '';
+          const emptyPassword = '';
+          final password = Password(emptyPassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.emptyString(failedValue: input),
+              const Failure<String>.emptyString(
+                failedValue: emptyPassword,
+              ),
             ),
           );
         },
@@ -94,17 +104,18 @@ void main() {
         'when the input is too short',
         () {
           // Arrange
-          const input = 'Short1@';
+          const shortPassword = 'Short1@';
+          final password = Password(shortPassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
               const Failure<String>.invalidPassword(
-                failedValue: input,
+                failedValue: shortPassword,
               ),
             ),
           );
@@ -116,17 +127,18 @@ void main() {
         'when the input does not contain a number',
         () {
           // Arrange
-          const input = 'NoNumberPassword@';
+          const noNumberPassword = 'NoNumberPassword@';
+          final password = Password(noNumberPassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
               const Failure<String>.invalidPassword(
-                failedValue: input,
+                failedValue: noNumberPassword,
               ),
             ),
           );
@@ -138,17 +150,18 @@ void main() {
         'when the input does not contain an uppercase letter',
         () {
           // Arrange
-          const input = 'nopassword123@';
+          const noUppercasePassword = 'nopassword123@';
+          final password = Password(noUppercasePassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
               const Failure<String>.invalidPassword(
-                failedValue: input,
+                failedValue: noUppercasePassword,
               ),
             ),
           );
@@ -160,56 +173,65 @@ void main() {
         'when the input does not contain a lowercase letter',
         () {
           // Arrange
-          const input = 'NOPASSWORD123@';
+          const noLowercasePassword = 'NOPASSWORD123@';
+          final password = Password(noLowercasePassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
               const Failure<String>.invalidPassword(
-                failedValue: input,
+                failedValue: noLowercasePassword,
               ),
             ),
           );
         },
       );
+
       test(
         'should return a Failure.multiLineString '
         'when the input contains multiple lines',
         () {
           // Arrange
-          const input = 'Password\n123@';
+          const multiLinePassword = 'Password\n123@';
+          final password = Password(multiLinePassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.multiLineString(failedValue: input),
+              const Failure<String>.multiLineString(
+                failedValue: multiLinePassword,
+              ),
             ),
           );
         },
       );
+
       test(
         'should return a Failure.invalidPassword '
         'when the input does not contain a special character',
         () {
           // Arrange
-          const input = 'NoSpecialCharacter123A';
+          const noSpecialCharPassword = 'NoSpecialCharacter123A';
+          final password = Password(noSpecialCharPassword);
 
           // Act
-          final result = Password(input);
+          final result = password.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.invalidPassword(failedValue: input),
+              const Failure<String>.invalidPassword(
+                failedValue: noSpecialCharPassword,
+              ),
             ),
           );
         },

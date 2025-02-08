@@ -4,20 +4,41 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/minutes.dart';
 
 void main() {
+  late Minutes validMinutesObject;
+  late Minutes limitMinutesObject;
+  late Minutes zeroMinutesObject;
+  late Minutes overLimitMinutesObject;
+  late Minutes negativeMinutesObject;
+
+  setUp(
+    () {
+      // Arrange
+      const validMinutes = 720.0;
+      const limitMinutes = Minutes.limit;
+      const zeroMinutes = 0.0;
+      const overLimitMinutes = Minutes.limit + 0.1;
+      const negativeMinutes = -1.0;
+
+      validMinutesObject = Minutes(validMinutes);
+      limitMinutesObject = Minutes(limitMinutes);
+      zeroMinutesObject = Minutes(zeroMinutes);
+      overLimitMinutesObject = Minutes(overLimitMinutes);
+      negativeMinutesObject = Minutes(negativeMinutes);
+    },
+  );
+
   group(
     'Testing on success',
     () {
       test(
-        'should return a Minutes with the input value when the input is valid',
+        'should return a Minutes with the input value '
+        'when the input is valid',
         () {
-          // Arrange
-          const input = 720.0; // Half of the limit
-
           // Act
-          final result = Minutes(input);
+          final result = validMinutesObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(720));
         },
       );
 
@@ -25,28 +46,22 @@ void main() {
         'should return a Minutes with the input value '
         'when the input is at the limit',
         () {
-          // Arrange
-          const input = Minutes.limit;
-
           // Act
-          final result = Minutes(input);
+          final result = limitMinutesObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(Minutes.limit));
         },
       );
 
       test(
         'should return a Minutes with the input value when the input is 0',
         () {
-          // Arrange
-          const input = 0.0;
-
           // Act
-          final result = Minutes(input);
+          final result = zeroMinutesObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(0));
         },
       );
     },
@@ -59,36 +74,33 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the limit',
         () {
-          // Arrange
-          const input = Minutes.limit + 0.1;
-
           // Act
-          final result = Minutes(input);
+          final result = overLimitMinutesObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: Minutes.limit + 0.1,
+              ),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.doubleOutOfBounds when the input is negative',
+        'should return a Failure.doubleOutOfBounds '
+        'when the input is negative',
         () {
-          // Arrange
-          const input = -1.0;
-
           // Act
-          final result = Minutes(input);
+          final result = negativeMinutesObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(failedValue: -1),
             ),
           );
         },

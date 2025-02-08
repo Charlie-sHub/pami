@@ -12,13 +12,17 @@ void main() {
         'when the input is valid',
         () {
           // Arrange
-          const input = 'This is a valid notification content.';
+          const validNotificationContent =
+              'This is a valid notification content.';
+          final validNotificationContentObject = NotificationContent(
+            validNotificationContent,
+          );
 
           // Act
-          final result = NotificationContent(input);
+          final result = validNotificationContentObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(validNotificationContent));
         },
       );
 
@@ -27,13 +31,17 @@ void main() {
         'when the input is at max length',
         () {
           // Arrange
-          final input = 'a' * NotificationContent.maxLength;
+          final maxLengthNotificationContent =
+              'a' * NotificationContent.maxLength;
+          final maxLengthNotificationContentObject = NotificationContent(
+            maxLengthNotificationContent,
+          );
 
           // Act
-          final result = NotificationContent(input);
+          final result = maxLengthNotificationContentObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(maxLengthNotificationContent));
         },
       );
     },
@@ -47,17 +55,21 @@ void main() {
         'when the input exceeds the max length',
         () {
           // Arrange
-          final input = 'a' * (NotificationContent.maxLength + 1);
+          final overMaxLengthNotificationContent =
+              'a' * (NotificationContent.maxLength + 1);
+          final overMaxLengthNotificationContentObject = NotificationContent(
+            overMaxLengthNotificationContent,
+          );
 
           // Act
-          final result = NotificationContent(input);
+          final result = overMaxLengthNotificationContentObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
               Failure<String>.stringExceedsLength(
-                failedValue: input,
+                failedValue: overMaxLengthNotificationContent,
                 maxLength: NotificationContent.maxLength,
               ),
             ),
@@ -69,16 +81,21 @@ void main() {
         'should return a Failure.emptyString when the input is empty',
         () {
           // Arrange
-          const input = '';
+          const emptyNotificationContent = '';
+          final emptyNotificationContentObject = NotificationContent(
+            emptyNotificationContent,
+          );
 
           // Act
-          final result = NotificationContent(input);
+          final result = emptyNotificationContentObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.emptyString(failedValue: input),
+              const Failure<String>.emptyString(
+                failedValue: emptyNotificationContent,
+              ),
             ),
           );
         },
@@ -89,16 +106,21 @@ void main() {
         'when the input contains multiple lines',
         () {
           // Arrange
-          const input = 'Notification\nContent';
+          const multiLineNotificationContent = 'Notification\nContent';
+          final multiLineNotificationContentObject = NotificationContent(
+            multiLineNotificationContent,
+          );
 
           // Act
-          final result = NotificationContent(input);
+          final result = multiLineNotificationContentObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.multiLineString(failedValue: input),
+              const Failure<String>.multiLineString(
+                failedValue: multiLineNotificationContent,
+              ),
             ),
           );
         },

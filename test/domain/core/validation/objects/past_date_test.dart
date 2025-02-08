@@ -12,14 +12,19 @@ void main() {
         'when the input is in the past',
         () {
           // Arrange
-          final input = DateTime.now().subtract(const Duration(days: 1));
-          final expectedDate = DateTime(input.year, input.month, input.day);
+          final pastDate = DateTime.now().subtract(const Duration(days: 1));
+          final expectedPastDate = DateTime(
+            pastDate.year,
+            pastDate.month,
+            pastDate.day,
+          );
+          final pastDateObject = PastDate(pastDate);
 
           // Act
-          final result = PastDate(input);
+          final result = pastDateObject.value;
 
           // Assert
-          expect(result.value, right(expectedDate));
+          expect(result, right(expectedPastDate));
         },
       );
     },
@@ -29,20 +34,28 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.invalidDate when the input is in the future',
+        'should return a Failure.invalidDate '
+        'when the input is in the future',
         () {
           // Arrange
-          final input = DateTime.now().add(const Duration(days: 1));
-          final failedValue = DateTime(input.year, input.month, input.day);
+          final futureDate = DateTime.now().add(const Duration(days: 1));
+          final expectedFutureDate = DateTime(
+            futureDate.year,
+            futureDate.month,
+            futureDate.day,
+          );
+          final futureDateObject = PastDate(futureDate);
 
           // Act
-          final result = PastDate(input);
+          final result = futureDateObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              Failure<DateTime>.invalidDate(failedValue: failedValue),
+              Failure<DateTime>.invalidDate(
+                failedValue: expectedFutureDate,
+              ),
             ),
           );
         },

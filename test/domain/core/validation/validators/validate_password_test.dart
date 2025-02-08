@@ -35,6 +35,7 @@ void main() {
           expect(result, right(input));
         },
       );
+
       test(
         'should return the input password '
         'when it is a valid password with more special characters',
@@ -49,6 +50,7 @@ void main() {
           expect(result, right(input));
         },
       );
+
       test(
         'should return the input password '
         'when it is a valid password with more numbers',
@@ -167,6 +169,7 @@ void main() {
           );
         },
       );
+
       test(
         'should return a Failure.invalidPassword '
         'when the input does not contain a special character',
