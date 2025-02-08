@@ -98,6 +98,7 @@ void main() {
           );
         },
       );
+
       test(
         'should return a Failure.doubleOutOfBounds '
         'when the input is a double less than the min',

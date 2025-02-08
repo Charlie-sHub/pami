@@ -21,6 +21,7 @@ void main() {
           expect(result.value, right(input));
         },
       );
+
       test(
         'should return a Password with the input value '
         'when the input is a valid password with special characters',
@@ -35,6 +36,7 @@ void main() {
           expect(result.value, right(input));
         },
       );
+
       test(
         'should return a Password with the input value '
         'when the input is a valid password with more special characters',
@@ -49,6 +51,7 @@ void main() {
           expect(result.value, right(input));
         },
       );
+
       test(
         'should return a Password with the input value '
         'when the input is a valid password with more numbers',
@@ -176,6 +179,7 @@ void main() {
           );
         },
       );
+
       test(
         'should return a Failure.multiLineString '
         'when the input contains multiple lines',
@@ -195,6 +199,7 @@ void main() {
           );
         },
       );
+
       test(
         'should return a Failure.invalidPassword '
         'when the input does not contain a special character',

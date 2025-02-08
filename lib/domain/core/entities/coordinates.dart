@@ -23,13 +23,22 @@ class Coordinates with _$Coordinates {
         longitude: Longitude(0),
       );
 
-  /// Gets an [Either] of [Failure] or [Unit]
-  Either<Failure<dynamic>, Unit> get failureOrUnit =>
-      latitude.failureOrUnit.andThen(longitude.failureOrUnit).fold(
-            left,
-            (_) => right(unit),
-          );
+  /// Gets an [Option] of [Failure] of any of its fields
+  Option<Failure<dynamic>> get failureOption => Either.map2(
+        latitude.failureOrUnit,
+        longitude.failureOrUnit,
+        (_, __) => unit,
+      ).fold(
+        some,
+        (_) => none(),
+      );
+
+  /// Gets an [Either] of [Failure] or [Unit] based on the [failureOption]
+  Either<Failure<dynamic>, Unit> get failureOrUnit => failureOption.fold(
+        () => right(unit),
+        left,
+      );
 
   /// Checks if the [Coordinates] is valid
-  bool get isValid => failureOrUnit.isRight();
+  bool get isValid => failureOption.isNone();
 }

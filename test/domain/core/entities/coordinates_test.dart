@@ -1,93 +1,119 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 
+import '../../../misc/get_valid_coordinates.dart';
+
 void main() {
-  group(
-    'Constructor',
-    () {
-      test(
-        'should create a valid Coordinates when all inputs are valid',
-        () {
-          // Arrange
-          final latitude = Latitude(40.7128);
-          final longitude = Longitude(-74.0060);
-
-          // Act
-          final coordinates = Coordinates(
-            latitude: latitude,
-            longitude: longitude,
-          );
-
-          // Assert
-          expect(coordinates.latitude, latitude);
-          expect(coordinates.longitude, longitude);
-          expect(coordinates.isValid, true);
-          expect(coordinates.failureOrUnit, right(unit));
-        },
-      );
-    },
+  final validCoordinates = getValidCoordinates();
+  final invalidLatitudeCoordinates = validCoordinates.copyWith(
+    latitude: Latitude(-91),
+  );
+  final invalidLongitudeCoordinates = validCoordinates.copyWith(
+    longitude: Longitude(-181),
+  );
+  final invalidLatitudeAndLongitudeCoordinates = validCoordinates.copyWith(
+    latitude: Latitude(-91),
+    longitude: Longitude(-181),
   );
 
   group(
-    'Empty Constructor',
+    'Testing on success',
     () {
       test(
-        'should create an empty Coordinates with default values',
-        () {
-          // Act
-          final coordinates = Coordinates.empty();
-
+        'should be valid when all inputs are valid',
+        () async {
           // Assert
-          expect(coordinates.latitude, Latitude(0));
-          expect(coordinates.longitude, Longitude(0));
-          expect(coordinates.isValid, true);
-          expect(coordinates.failureOrUnit, right(unit));
+          expect(validCoordinates.isValid, true);
         },
       );
-    },
-  );
 
-  group(
-    'failureOrUnit',
-    () {
+      test(
+        'should return none when all inputs are valid',
+        () async {
+          // Assert
+          expect(validCoordinates.failureOption, none());
+        },
+      );
+
       test(
         'should return right(unit) when all inputs are valid',
-        () {
-          // Arrange
-          final latitude = Latitude(40.7128);
-          final longitude = Longitude(-74.0060);
-
-          // Act
-          final coordinates = Coordinates(
-            latitude: latitude,
-            longitude: longitude,
-          );
-
+        () async {
           // Assert
-          expect(coordinates.failureOrUnit, right(unit));
+          expect(validCoordinates.failureOrUnit, right(unit));
+        },
+      );
+    },
+  );
+
+  group(
+    'Testing on failure',
+    () {
+      test(
+        'should be invalid with invalidLatitudeCoordinates',
+        () async {
+          // Assert
+          expect(invalidLatitudeCoordinates.isValid, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidLongitudeCoordinates',
+        () async {
+          // Assert
+          expect(invalidLongitudeCoordinates.isValid, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidLatitudeAndLongitudeCoordinates',
+        () async {
+          // Assert
+          expect(invalidLatitudeAndLongitudeCoordinates.isValid, false);
+        },
+      );
+
+      test(
+        'should return some when latitude is invalid',
+        () async {
+          // Assert
+          expect(
+            invalidLatitudeCoordinates.failureOption,
+            isA<Some<Failure<dynamic>>>(),
+          );
+        },
+      );
+
+      test(
+        'should return some when longitude is invalid',
+        () async {
+          // Assert
+          expect(
+            invalidLongitudeCoordinates.failureOption,
+            isA<Some<Failure<dynamic>>>(),
+          );
+        },
+      );
+
+      test(
+        'should return some when latitude and longitude are invalid',
+        () async {
+          // Assert
+          expect(
+            invalidLatitudeAndLongitudeCoordinates.failureOption,
+            isA<Some<Failure<dynamic>>>(),
+          );
         },
       );
 
       test(
         'should return left when latitude is invalid',
-        () {
-          // Arrange
-          final latitude = Latitude(100);
-          final longitude = Longitude(-74.0060);
-
-          // Act
-          final coordinates = Coordinates(
-            latitude: latitude,
-            longitude: longitude,
-          );
-
+        () async {
           // Assert
           expect(
-            coordinates.failureOrUnit,
+            invalidLatitudeCoordinates.failureOrUnit,
             isA<Left<Failure<dynamic>, Unit>>(),
           );
         },
@@ -95,81 +121,23 @@ void main() {
 
       test(
         'should return left when longitude is invalid',
-        () {
-          // Arrange
-          final latitude = Latitude(40.7128);
-          final longitude = Longitude(-200);
-
-          // Act
-          final coordinates = Coordinates(
-            latitude: latitude,
-            longitude: longitude,
-          );
-
+        () async {
           // Assert
           expect(
-            coordinates.failureOrUnit,
+            invalidLongitudeCoordinates.failureOrUnit,
             isA<Left<Failure<dynamic>, Unit>>(),
           );
         },
       );
-    },
-  );
-
-  group(
-    'isValid',
-    () {
-      test(
-        'should return true when all inputs are valid',
-        () {
-          // Arrange
-          final latitude = Latitude(40.7128);
-          final longitude = Longitude(-74.0060);
-
-          // Act
-          final coordinates = Coordinates(
-            latitude: latitude,
-            longitude: longitude,
-          );
-
-          // Assert
-          expect(coordinates.isValid, true);
-        },
-      );
 
       test(
-        'should return false when latitude is invalid',
-        () {
-          // Arrange
-          final latitude = Latitude(100);
-          final longitude = Longitude(-74.0060);
-
-          // Act
-          final coordinates = Coordinates(
-            latitude: latitude,
-            longitude: longitude,
-          );
-
+        'should return left when latitude and longitude are invalid',
+        () async {
           // Assert
-          expect(coordinates.isValid, false);
-        },
-      );
-
-      test(
-        'should return false when longitude is invalid',
-        () {
-          // Arrange
-          final latitude = Latitude(40.7128);
-          final longitude = Longitude(-200);
-
-          // Act
-          final coordinates = Coordinates(
-            latitude: latitude,
-            longitude: longitude,
+          expect(
+            invalidLatitudeAndLongitudeCoordinates.failureOrUnit,
+            isA<Left<Failure<dynamic>, Unit>>(),
           );
-
-          // Assert
-          expect(coordinates.isValid, false);
         },
       );
     },

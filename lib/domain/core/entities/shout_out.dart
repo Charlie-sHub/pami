@@ -48,15 +48,27 @@ class ShoutOut with _$ShoutOut {
         dateCreated: PastDate(DateTime.now()),
       );
 
-  /// Gets an [Option] of [Failure]
-  Option<Failure<dynamic>> get failureOption => title.failureOrUnit
-      .andThen(description.failureOrUnit)
-      .andThen(coordinates.failureOrUnit)
-      .andThen(duration.failureOrUnit)
-      .andThen(dateCreated.failureOrUnit)
-      .fold(some, (_) => none());
+  /// Gets an [Option] of [Failure] of any of its fields
+  Option<Failure<dynamic>> get failureOption => Either.map5(
+        title.failureOrUnit,
+        description.failureOrUnit,
+        coordinates.failureOrUnit,
+        duration.failureOrUnit,
+        dateCreated.failureOrUnit,
+        (
+          _,
+          __,
+          ___,
+          ____,
+          _____,
+        ) =>
+            unit,
+      ).fold(
+        some,
+        (_) => none(),
+      );
 
-  /// Gets an [Either] of [Failure] or [Unit]
+  /// Gets an [Either] of [Failure] or [Unit] based on the [failureOption]
   Either<Failure<dynamic>, Unit> get failureOrUnit => failureOption.fold(
         () => right(unit),
         left,

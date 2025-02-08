@@ -242,6 +242,7 @@ void main() {
           expect(result, false);
         },
       );
+
       test(
         'should return true when the set is invalid',
         () {
@@ -298,6 +299,7 @@ void main() {
           expect(result, false);
         },
       );
+
       test(
         'should return false when the set is invalid',
         () {

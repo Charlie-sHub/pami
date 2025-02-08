@@ -74,6 +74,7 @@ void main() {
           );
         },
       );
+
       test(
         'should return a Failure.doubleOutOfBounds when the input is negative',
         () {
