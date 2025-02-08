@@ -105,6 +105,7 @@ void main() {
           expect(result, right(input));
         },
       );
+
       test(
         'should return the input URL '
         'when it is a valid URL with special characters',

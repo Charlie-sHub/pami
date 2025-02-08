@@ -53,6 +53,7 @@ void main() {
           expect(result, right(input));
         },
       );
+
       test(
         'should return the trimmed input string '
         'when its length is greater than the max length due to empty space',

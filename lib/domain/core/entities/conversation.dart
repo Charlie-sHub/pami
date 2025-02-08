@@ -32,12 +32,17 @@ class Conversation with _$Conversation {
         dateCreated: PastDate(DateTime.now()),
       );
 
-  /// Gets an [Option] of [Failure]
-  Option<Failure<dynamic>> get failureOption => lastMessage.failureOrUnit
-      .andThen(dateCreated.failureOrUnit)
-      .fold(some, (_) => none());
+  /// Gets an [Option] of [Failure] of any of its fields
+  Option<Failure<dynamic>> get failureOption => Either.map2(
+        lastMessage.failureOrUnit,
+        dateCreated.failureOrUnit,
+        (_, __) => unit,
+      ).fold(
+        some,
+        (_) => none(),
+      );
 
-  /// Gets an [Either] of [Failure] or [Unit]
+  /// Gets an [Either] of [Failure] or [Unit] based on the [failureOption]
   Either<Failure<dynamic>, Unit> get failureOrUnit => failureOption.fold(
         () => right(unit),
         left,
