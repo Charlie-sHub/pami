@@ -7,18 +7,15 @@ void main() {
   group(
     'Testing on success',
     () {
+      const validEmail = 'test@example.com';
+      final validEmailAddress = EmailAddress(validEmail);
+
       test(
         'should return an EmailAddress with the input value '
         'when the input is a valid email',
         () {
-          // Arrange
-          const input = 'test@example.com';
-
-          // Act
-          final result = EmailAddress(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(validEmailAddress.value, right(validEmail));
         },
       );
     },
@@ -27,21 +24,20 @@ void main() {
   group(
     'Testing on failure',
     () {
+      const invalidEmail = 'not a valid email';
+      const emptyEmail = '';
+      final invalidEmailAddress = EmailAddress(invalidEmail);
+      final emptyEmailAddress = EmailAddress(emptyEmail);
+
       test(
         'should return a Failure.invalidEmail '
         'when the input is not a valid email',
         () {
-          // Arrange
-          const input = 'not a valid email';
-
-          // Act
-          final result = EmailAddress(input);
-
           // Assert
           expect(
-            result.value,
+            invalidEmailAddress.value,
             left(
-              const Failure<String>.invalidEmail(failedValue: input),
+              const Failure<String>.invalidEmail(failedValue: invalidEmail),
             ),
           );
         },
@@ -51,17 +47,11 @@ void main() {
         'should return a Failure.invalidEmail '
         'when the input is an empty string',
         () {
-          // Arrange
-          const input = '';
-
-          // Act
-          final result = EmailAddress(input);
-
           // Assert
           expect(
-            result.value,
+            emptyEmailAddress.value,
             left(
-              const Failure<String>.invalidEmail(failedValue: input),
+              const Failure<String>.invalidEmail(failedValue: emptyEmail),
             ),
           );
         },

@@ -4,6 +4,8 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_max_length_set.dart';
 
 void main() {
+  const maxLength = 5;
+
   group(
     'Testing on success',
     () {
@@ -12,7 +14,6 @@ void main() {
         () {
           // Arrange
           const input = <int>{};
-          const maxLength = 5;
 
           // Act
           final result = validateMaxLengthSet(
@@ -31,7 +32,6 @@ void main() {
         () {
           // Arrange
           const input = {1, 2, 3};
-          const maxLength = 5;
 
           // Act
           final result =
@@ -48,7 +48,6 @@ void main() {
         () {
           // Arrange
           const input = {1, 2, 3, 4, 5};
-          const maxLength = 5;
 
           // Act
           final result =
@@ -70,7 +69,6 @@ void main() {
         () {
           // Arrange
           const input = {1, 2, 3, 4, 5, 6};
-          const maxLength = 5;
 
           // Act
           final result =

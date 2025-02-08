@@ -7,17 +7,18 @@ void main() {
   group(
     'Testing on success',
     () {
+      const validRadius = 10.0;
+      const limitRadius = MapRadius.limit;
+      const zeroRadius = 0.0;
+      final validMapRadius = MapRadius(validRadius);
+      final limitMapRadius = MapRadius(limitRadius);
+      final zeroMapRadius = MapRadius(zeroRadius);
+
       test(
         'should return a Radius with the input value when the input is valid',
         () {
-          // Arrange
-          const input = 10.0; // Half of the limit
-
-          // Act
-          final result = MapRadius(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(validMapRadius.value, right(validRadius));
         },
       );
 
@@ -25,28 +26,16 @@ void main() {
         'should return a Radius with the input value '
         'when the input is at the limit',
         () {
-          // Arrange
-          const input = MapRadius.limit;
-
-          // Act
-          final result = MapRadius(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(limitMapRadius.value, right(limitRadius));
         },
       );
 
       test(
         'should return a Radius with the input value when the input is 0',
         () {
-          // Arrange
-          const input = 0.0;
-
-          // Act
-          final result = MapRadius(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(zeroMapRadius.value, right(zeroRadius));
         },
       );
     },
@@ -55,21 +44,22 @@ void main() {
   group(
     'Testing on failure',
     () {
+      const overLimitRadius = MapRadius.limit + 0.1;
+      const negativeRadius = -1.0;
+      final overLimitMapRadius = MapRadius(overLimitRadius);
+      final negativeMapRadius = MapRadius(negativeRadius);
+
       test(
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the limit',
         () {
-          // Arrange
-          const input = MapRadius.limit + 0.1;
-
-          // Act
-          final result = MapRadius(input);
-
           // Assert
           expect(
-            result.value,
+            overLimitMapRadius.value,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: overLimitRadius,
+              ),
             ),
           );
         },
@@ -78,17 +68,13 @@ void main() {
       test(
         'should return a Failure.doubleOutOfBounds when the input is negative',
         () {
-          // Arrange
-          const input = -1.0;
-
-          // Act
-          final result = MapRadius(input);
-
           // Assert
           expect(
-            result.value,
+            negativeMapRadius.value,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: negativeRadius,
+              ),
             ),
           );
         },

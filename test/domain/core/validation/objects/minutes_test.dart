@@ -7,17 +7,18 @@ void main() {
   group(
     'Testing on success',
     () {
+      const validMinutes = 720.0;
+      const limitMinutes = Minutes.limit;
+      const zeroMinutes = 0.0;
+      final validMinutesObject = Minutes(validMinutes);
+      final limitMinutesObject = Minutes(limitMinutes);
+      final zeroMinutesObject = Minutes(zeroMinutes);
+
       test(
         'should return a Minutes with the input value when the input is valid',
         () {
-          // Arrange
-          const input = 720.0; // Half of the limit
-
-          // Act
-          final result = Minutes(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(validMinutesObject.value, right(validMinutes));
         },
       );
 
@@ -25,28 +26,16 @@ void main() {
         'should return a Minutes with the input value '
         'when the input is at the limit',
         () {
-          // Arrange
-          const input = Minutes.limit;
-
-          // Act
-          final result = Minutes(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(limitMinutesObject.value, right(limitMinutes));
         },
       );
 
       test(
         'should return a Minutes with the input value when the input is 0',
         () {
-          // Arrange
-          const input = 0.0;
-
-          // Act
-          final result = Minutes(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(zeroMinutesObject.value, right(zeroMinutes));
         },
       );
     },
@@ -55,21 +44,22 @@ void main() {
   group(
     'Testing on failure',
     () {
+      const overLimitMinutes = Minutes.limit + 0.1;
+      const negativeMinutes = -1.0;
+      final overLimitMinutesObject = Minutes(overLimitMinutes);
+      final negativeMinutesObject = Minutes(negativeMinutes);
+
       test(
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the limit',
         () {
-          // Arrange
-          const input = Minutes.limit + 0.1;
-
-          // Act
-          final result = Minutes(input);
-
           // Assert
           expect(
-            result.value,
+            overLimitMinutesObject.value,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: overLimitMinutes,
+              ),
             ),
           );
         },
@@ -78,17 +68,13 @@ void main() {
       test(
         'should return a Failure.doubleOutOfBounds when the input is negative',
         () {
-          // Arrange
-          const input = -1.0;
-
-          // Act
-          final result = Minutes(input);
-
           // Assert
           expect(
-            result.value,
+            negativeMinutesObject.value,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: negativeMinutes,
+              ),
             ),
           );
         },

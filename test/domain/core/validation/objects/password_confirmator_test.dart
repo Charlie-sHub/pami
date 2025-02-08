@@ -4,25 +4,26 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/password_confirmator.dart';
 
 void main() {
+  const validPassword = 'password123';
+  const validConfirmation = 'password123';
+  const mismatchedConfirmation = 'differentPassword';
+  const emptyPassword = '';
+  const emptyConfirmation = '';
+
   group(
     'Testing on success',
     () {
+      final validPasswordConfirmator = PasswordConfirmator(
+        password: validPassword,
+        confirmation: validConfirmation,
+      );
+
       test(
         'should return a PasswordConfirmator with the input value '
         'when the password and confirmation match',
         () {
-          // Arrange
-          const password = 'password123';
-          const confirmation = 'password123';
-
-          // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
-          );
-
           // Assert
-          expect(result.value, right(confirmation));
+          expect(validPasswordConfirmator.value, right(validConfirmation));
         },
       );
     },
@@ -31,25 +32,30 @@ void main() {
   group(
     'Testing on failure',
     () {
+      final mismatchedPasswordConfirmator = PasswordConfirmator(
+        password: validPassword,
+        confirmation: mismatchedConfirmation,
+      );
+      final emptyPasswordConfirmator = PasswordConfirmator(
+        password: emptyPassword,
+        confirmation: emptyConfirmation,
+      );
+      final emptyConfirmationConfirmator = PasswordConfirmator(
+        password: emptyPassword,
+        confirmation: emptyConfirmation,
+      );
+
       test(
         'should return a Failure.stringMismatch '
         'when the password and confirmation do not match',
         () {
-          // Arrange
-          const password = 'password123';
-          const confirmation = 'differentPassword';
-
-          // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
-          );
-
           // Assert
           expect(
-            result.value,
+            mismatchedPasswordConfirmator.value,
             left(
-              const Failure<String>.stringMismatch(failedValue: confirmation),
+              const Failure<String>.stringMismatch(
+                failedValue: mismatchedConfirmation,
+              ),
             ),
           );
         },
@@ -58,21 +64,11 @@ void main() {
       test(
         'should return a Failure.emptyString when the password is empty',
         () {
-          // Arrange
-          const password = '';
-          const confirmation = '';
-
-          // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
-          );
-
           // Assert
           expect(
-            result.value,
+            emptyPasswordConfirmator.value,
             left(
-              const Failure<String>.emptyString(failedValue: confirmation),
+              const Failure<String>.emptyString(failedValue: emptyConfirmation),
             ),
           );
         },
@@ -81,21 +77,11 @@ void main() {
       test(
         'should return a Failure.emptyString when the confirmation is empty',
         () {
-          // Arrange
-          const password = '';
-          const confirmation = '';
-
-          // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
-          );
-
           // Assert
           expect(
-            result.value,
+            emptyConfirmationConfirmator.value,
             left(
-              const Failure<String>.emptyString(failedValue: confirmation),
+              const Failure<String>.emptyString(failedValue: emptyConfirmation),
             ),
           );
         },
