@@ -45,3 +45,9 @@ analyzer:
     inference_failure_on_instance_creation: ignore
     strict_raw_type: ignore
 
+coverage:
+  ignore:
+    - "**/*.g.dart"
+    - "**/freezed.dart"
+    - "**/config.dart"
+

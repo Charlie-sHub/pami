@@ -4,26 +4,26 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/password_confirmator.dart';
 
 void main() {
-  const validPassword = 'password123';
-  const validConfirmation = 'password123';
-  const mismatchedConfirmation = 'differentPassword';
-  const emptyPassword = '';
-  const emptyConfirmation = '';
-
   group(
     'Testing on success',
     () {
-      final validPasswordConfirmator = PasswordConfirmator(
-        password: validPassword,
-        confirmation: validConfirmation,
-      );
-
       test(
         'should return a PasswordConfirmator with the input value '
         'when the password and confirmation match',
         () {
+          // Arrange
+          const validPassword = 'password123';
+          const validConfirmation = 'password123';
+          final validPasswordConfirmator = PasswordConfirmator(
+            password: validPassword,
+            confirmation: validConfirmation,
+          );
+
+          // Act
+          final result = validPasswordConfirmator.value;
+
           // Assert
-          expect(validPasswordConfirmator.value, right(validConfirmation));
+          expect(result, right(validConfirmation));
         },
       );
     },
@@ -32,26 +32,24 @@ void main() {
   group(
     'Testing on failure',
     () {
-      final mismatchedPasswordConfirmator = PasswordConfirmator(
-        password: validPassword,
-        confirmation: mismatchedConfirmation,
-      );
-      final emptyPasswordConfirmator = PasswordConfirmator(
-        password: emptyPassword,
-        confirmation: emptyConfirmation,
-      );
-      final emptyConfirmationConfirmator = PasswordConfirmator(
-        password: emptyPassword,
-        confirmation: emptyConfirmation,
-      );
-
       test(
         'should return a Failure.stringMismatch '
         'when the password and confirmation do not match',
         () {
+          // Arrange
+          const validPassword = 'password123';
+          const mismatchedConfirmation = 'differentPassword';
+          final mismatchedPasswordConfirmator = PasswordConfirmator(
+            password: validPassword,
+            confirmation: mismatchedConfirmation,
+          );
+
+          // Act
+          final result = mismatchedPasswordConfirmator.value;
+
           // Assert
           expect(
-            mismatchedPasswordConfirmator.value,
+            result,
             left(
               const Failure<String>.stringMismatch(
                 failedValue: mismatchedConfirmation,
@@ -64,24 +62,51 @@ void main() {
       test(
         'should return a Failure.emptyString when the password is empty',
         () {
+          // Arrange
+          const emptyPassword = '';
+          const emptyConfirmation = '';
+          final emptyPasswordConfirmator = PasswordConfirmator(
+            password: emptyPassword,
+            confirmation: emptyConfirmation,
+          );
+
+          // Act
+          final result = emptyPasswordConfirmator.value;
+
           // Assert
           expect(
-            emptyPasswordConfirmator.value,
+            result,
             left(
-              const Failure<String>.emptyString(failedValue: emptyConfirmation),
+              const Failure<String>.emptyString(
+                failedValue: emptyConfirmation,
+              ),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.emptyString when the confirmation is empty',
+        'should return a Failure.emptyString '
+        'when the confirmation is empty',
         () {
+          // Arrange
+          const emptyPassword = '';
+          const emptyConfirmation = '';
+          final emptyConfirmationConfirmator = PasswordConfirmator(
+            password: emptyPassword,
+            confirmation: emptyConfirmation,
+          );
+
+          // Act
+          final result = emptyConfirmationConfirmator.value;
+
           // Assert
           expect(
-            emptyConfirmationConfirmator.value,
+            result,
             left(
-              const Failure<String>.emptyString(failedValue: emptyConfirmation),
+              const Failure<String>.emptyString(
+                failedValue: emptyConfirmation,
+              ),
             ),
           );
         },

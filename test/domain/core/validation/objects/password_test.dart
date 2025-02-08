@@ -4,145 +4,238 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
 void main() {
-  group('Testing on success', () {
-    const validPassword = 'ValidP@sswOrd123';
-    const validPasswordWithSpecialChars = r'V@l!dP@$$wOrd123#';
-    const validPasswordWithMoreSpecialChars = r'V@l!dP@$$wOrd123#$&';
-    const validPasswordWithMoreNumbers = r'V@l!dP@$$wOrd123456789#';
-
-    test(
-      'should return a Password with the input value '
-      'when the input is a valid password',
-      () {
-        final result = Password(validPassword);
-        expect(result.value, right(validPassword));
-      },
-    );
-
-    test(
-      'should return a Password with the input value '
-      'when the input is a valid password with special characters',
-      () {
-        final result = Password(validPasswordWithSpecialChars);
-        expect(result.value, right(validPasswordWithSpecialChars));
-      },
-    );
-
-    test(
-      'should return a Password with the input value '
-      'when the input is a valid password with more special characters',
-      () {
-        final result = Password(validPasswordWithMoreSpecialChars);
-        expect(result.value, right(validPasswordWithMoreSpecialChars));
-      },
-    );
-
-    test(
-      'should return a Password with the input value '
-      'when the input is a valid password with more numbers',
-      () {
-        final result = Password(validPasswordWithMoreNumbers);
-        expect(result.value, right(validPasswordWithMoreNumbers));
-      },
-    );
-  });
-
-  group('Testing on failure', () {
-    const emptyPassword = '';
-    const shortPassword = 'Short1@';
-    const noNumberPassword = 'NoNumberPassword@';
-    const noUppercasePassword = 'nopassword123@';
-    const noLowercasePassword = 'NOPASSWORD123@';
-    const multiLinePassword = 'Password\n123@';
-    const noSpecialCharPassword = 'NoSpecialCharacter123A';
-
-    test(
-        'should return a Failure.emptyString when the input is an empty string',
+  group(
+    'Testing on success',
+    () {
+      test(
+        'should return a Password with the input value '
+        'when the input is a valid password',
         () {
-      final result = Password(emptyPassword);
-      expect(
-        result.value,
-        left(const Failure<String>.emptyString(failedValue: emptyPassword)),
-      );
-    });
+          // Arrange
+          const validPassword = 'ValidP@sswOrd123';
+          final password = Password(validPassword);
 
-    test('should return a Failure.invalidPassword when the input is too short',
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(result, right(validPassword));
+        },
+      );
+
+      test(
+        'should return a Password with the input value '
+        'when the input is a valid password with special characters',
         () {
-      final result = Password(shortPassword);
-      expect(
-        result.value,
-        left(const Failure<String>.invalidPassword(failedValue: shortPassword)),
-      );
-    });
+          // Arrange
+          const validPasswordWithSpecialChars = r'V@l!dP@$$wOrd123#';
+          final password = Password(validPasswordWithSpecialChars);
 
-    test(
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(result, right(validPasswordWithSpecialChars));
+        },
+      );
+
+      test(
+        'should return a Password with the input value '
+        'when the input is a valid password with more special characters',
+        () {
+          // Arrange
+          const validPasswordWithMoreSpecialChars = r'V@l!dP@$$wOrd123#$&';
+          final password = Password(validPasswordWithMoreSpecialChars);
+
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(result, right(validPasswordWithMoreSpecialChars));
+        },
+      );
+
+      test(
+        'should return a Password with the input value '
+        'when the input is a valid password with more numbers',
+        () {
+          // Arrange
+          const validPasswordWithMoreNumbers = r'V@l!dP@$$wOrd123456789#';
+          final password = Password(validPasswordWithMoreNumbers);
+
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(result, right(validPasswordWithMoreNumbers));
+        },
+      );
+    },
+  );
+
+  group(
+    'Testing on failure',
+    () {
+      test(
+        'should return a Failure.emptyString '
+        'when the input is an empty string',
+        () {
+          // Arrange
+          const emptyPassword = '';
+          final password = Password(emptyPassword);
+
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.emptyString(
+                failedValue: emptyPassword,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
         'should return a Failure.invalidPassword '
-        'when the input does not contain a number', () {
-      final result = Password(noNumberPassword);
-      expect(
-        result.value,
-        left(
-          const Failure<String>.invalidPassword(
-            failedValue: noNumberPassword,
-          ),
-        ),
-      );
-    });
+        'when the input is too short',
+        () {
+          // Arrange
+          const shortPassword = 'Short1@';
+          final password = Password(shortPassword);
 
-    test(
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidPassword(
+                failedValue: shortPassword,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
         'should return a Failure.invalidPassword '
-        'when the input does not contain an uppercase letter', () {
-      final result = Password(noUppercasePassword);
-      expect(
-        result.value,
-        left(
-          const Failure<String>.invalidPassword(
-            failedValue: noUppercasePassword,
-          ),
-        ),
-      );
-    });
+        'when the input does not contain a number',
+        () {
+          // Arrange
+          const noNumberPassword = 'NoNumberPassword@';
+          final password = Password(noNumberPassword);
 
-    test(
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidPassword(
+                failedValue: noNumberPassword,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
         'should return a Failure.invalidPassword '
-        'when the input does not contain a lowercase letter', () {
-      final result = Password(noLowercasePassword);
-      expect(
-        result.value,
-        left(
-          const Failure<String>.invalidPassword(
-            failedValue: noLowercasePassword,
-          ),
-        ),
-      );
-    });
+        'when the input does not contain an uppercase letter',
+        () {
+          // Arrange
+          const noUppercasePassword = 'nopassword123@';
+          final password = Password(noUppercasePassword);
 
-    test(
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidPassword(
+                failedValue: noUppercasePassword,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return a Failure.invalidPassword '
+        'when the input does not contain a lowercase letter',
+        () {
+          // Arrange
+          const noLowercasePassword = 'NOPASSWORD123@';
+          final password = Password(noLowercasePassword);
+
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidPassword(
+                failedValue: noLowercasePassword,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
         'should return a Failure.multiLineString '
-        'when the input contains multiple lines', () {
-      final result = Password(multiLinePassword);
-      expect(
-        result.value,
-        left(
-          const Failure<String>.multiLineString(
-            failedValue: multiLinePassword,
-          ),
-        ),
-      );
-    });
+        'when the input contains multiple lines',
+        () {
+          // Arrange
+          const multiLinePassword = 'Password\n123@';
+          final password = Password(multiLinePassword);
 
-    test(
-        'should return a Failure.invalidPassword '
-        'when the input does not contain a special character', () {
-      final result = Password(noSpecialCharPassword);
-      expect(
-        result.value,
-        left(
-          const Failure<String>.invalidPassword(
-            failedValue: noSpecialCharPassword,
-          ),
-        ),
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.multiLineString(
+                failedValue: multiLinePassword,
+              ),
+            ),
+          );
+        },
       );
-    });
-  });
+
+      test(
+        'should return a Failure.invalidPassword '
+        'when the input does not contain a special character',
+        () {
+          // Arrange
+          const noSpecialCharPassword = 'NoSpecialCharacter123A';
+          final password = Password(noSpecialCharPassword);
+
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidPassword(
+                failedValue: noSpecialCharPassword,
+              ),
+            ),
+          );
+        },
+      );
+    },
+  );
 }

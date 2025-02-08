@@ -7,19 +7,19 @@ void main() {
   group(
     'Testing on success',
     () {
-      const validMessageContent = 'This is a valid message content.';
-      final maxLengthMessageContent = 'a' * MessageContent.maxLength;
-      final validMessageContentObject = MessageContent(validMessageContent);
-      final maxLengthMessageContentObject = MessageContent(
-        maxLengthMessageContent,
-      );
-
       test(
         'should return a MessageContent with the input value '
         'when the input is valid',
         () {
+          // Arrange
+          const validMessageContent = 'This is a valid message content.';
+          final validMessageContentObject = MessageContent(validMessageContent);
+
+          // Act
+          final result = validMessageContentObject.value;
+
           // Assert
-          expect(validMessageContentObject.value, right(validMessageContent));
+          expect(result, right(validMessageContent));
         },
       );
 
@@ -27,11 +27,17 @@ void main() {
         'should return a MessageContent with the input value '
         'when the input is at max length',
         () {
-          // Assert
-          expect(
-            maxLengthMessageContentObject.value,
-            right(maxLengthMessageContent),
+          // Arrange
+          final maxLengthMessageContent = 'a' * MessageContent.maxLength;
+          final maxLengthMessageContentObject = MessageContent(
+            maxLengthMessageContent,
           );
+
+          // Act
+          final result = maxLengthMessageContentObject.value;
+
+          // Assert
+          expect(result, right(maxLengthMessageContent));
         },
       );
     },
@@ -40,20 +46,23 @@ void main() {
   group(
     'Testing on failure',
     () {
-      final overMaxLengthMessageContent = 'a' * (MessageContent.maxLength + 1);
-      const emptyMessageContent = '';
-      final overMaxLengthMessageContentObject = MessageContent(
-        overMaxLengthMessageContent,
-      );
-      final emptyMessageContentObject = MessageContent(emptyMessageContent);
-
       test(
         'should return a Failure.stringExceedsLength '
         'when the input exceeds the max length',
         () {
+          // Arrange
+          final overMaxLengthMessageContent =
+              'a' * (MessageContent.maxLength + 1);
+          final overMaxLengthMessageContentObject = MessageContent(
+            overMaxLengthMessageContent,
+          );
+
+          // Act
+          final result = overMaxLengthMessageContentObject.value;
+
           // Assert
           expect(
-            overMaxLengthMessageContentObject.value,
+            result,
             left(
               Failure<String>.stringExceedsLength(
                 failedValue: overMaxLengthMessageContent,
@@ -67,9 +76,18 @@ void main() {
       test(
         'should return a Failure.emptyString when the input is empty',
         () {
+          // Arrange
+          const emptyMessageContent = '';
+          final emptyMessageContentObject = MessageContent(
+            emptyMessageContent,
+          );
+
+          // Act
+          final result = emptyMessageContentObject.value;
+
           // Assert
           expect(
-            emptyMessageContentObject.value,
+            result,
             left(
               const Failure<String>.emptyString(
                 failedValue: emptyMessageContent,

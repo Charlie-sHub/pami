@@ -1,162 +1,289 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
+import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/misc/enums/category.dart';
+import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 import 'package:pami/domain/core/validation/objects/minutes.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
+import 'package:pami/domain/core/validation/objects/unique_id.dart';
+import 'package:pami/domain/core/validation/objects/url.dart';
 
 import '../../../misc/get_valid_shout_out.dart';
 
 void main() {
-  final validShoutOut = getValidShoutOut();
-  final invalidTitleShoutOut = validShoutOut.copyWith(
-    title: Name(''),
-  );
-  final invalidDescriptionShoutOut = validShoutOut.copyWith(
-    description: EntityDescription(''),
-  );
-  final invalidCoordinatesShoutOut = validShoutOut.copyWith(
-    coordinates: Coordinates(
-      latitude: Latitude(91),
-      longitude: Longitude(181),
-    ),
-  );
-  final invalidDurationShoutOut = validShoutOut.copyWith(
-    duration: Minutes(-1),
-  );
-  final invalidDateCreatedShoutOut = validShoutOut.copyWith(
-    dateCreated: PastDate(
-      DateTime.now().add(const Duration(days: 10)),
-    ),
-  );
+  late ShoutOut validShoutOut;
+  late ShoutOut invalidTitleShoutOut;
+  late ShoutOut invalidDescriptionShoutOut;
+  late ShoutOut invalidCoordinatesShoutOut;
+  late ShoutOut invalidDurationShoutOut;
+  late ShoutOut invalidDateCreatedShoutOut;
 
-  group(
-    'Testing on success',
+  setUp(
     () {
-      test(
-        'should be valid when all inputs are valid',
-        () async {
-          // Assert
-          expect(validShoutOut.isValid, true);
-        },
+      // Arrange
+      validShoutOut = getValidShoutOut();
+      invalidTitleShoutOut = validShoutOut.copyWith(
+        title: Name(''),
       );
-
-      test(
-        'should return none when all inputs are valid',
-        () async {
-          // Assert
-          expect(validShoutOut.failureOption, none());
-        },
+      invalidDescriptionShoutOut = validShoutOut.copyWith(
+        description: EntityDescription(''),
       );
-
-      test(
-        'should return right(unit) when all inputs are valid',
-        () async {
-          // Assert
-          expect(validShoutOut.failureOrUnit, right(unit));
-        },
+      invalidCoordinatesShoutOut = validShoutOut.copyWith(
+        coordinates: Coordinates(
+          latitude: Latitude(91),
+          longitude: Longitude(181),
+        ),
+      );
+      invalidDurationShoutOut = validShoutOut.copyWith(
+        duration: Minutes(-1),
+      );
+      invalidDateCreatedShoutOut = validShoutOut.copyWith(
+        dateCreated: PastDate(
+          DateTime.now().add(const Duration(days: 10)),
+        ),
       );
     },
   );
 
   group(
-    'Testing on failure',
+    'ShoutOut',
     () {
-      test(
-        'should be invalid with invalidTitleShoutOut',
-        () async {
-          // Assert
-          expect(invalidTitleShoutOut.isValid, false);
-        },
-      );
+      group(
+        'Testing on success',
+        () {
+          test(
+            'should be valid when all inputs are valid',
+            () {
+              // Act
+              final result = validShoutOut.isValid;
 
-      test(
-        'should be invalid with invalidDescriptionShoutOut',
-        () async {
-          // Assert
-          expect(invalidDescriptionShoutOut.isValid, false);
-        },
-      );
+              // Assert
+              expect(result, true);
+            },
+          );
 
-      test(
-        'should be invalid with invalidCoordinatesShoutOut',
-        () async {
-          // Assert
-          expect(invalidCoordinatesShoutOut.isValid, false);
-        },
-      );
+          test(
+            'should return none when all inputs are valid',
+            () {
+              // Act
+              final result = validShoutOut.failureOption;
 
-      test(
-        'should be invalid with invalidDurationShoutOut',
-        () async {
-          // Assert
-          expect(invalidDurationShoutOut.isValid, false);
-        },
-      );
+              // Assert
+              expect(result, none());
+            },
+          );
 
-      test(
-        'should be invalid with invalidDateCreatedShoutOut',
-        () async {
-          // Assert
-          expect(invalidDateCreatedShoutOut.isValid, false);
-        },
-      );
+          test(
+            'should return right(unit) when all inputs are valid',
+            () {
+              // Act
+              final result = validShoutOut.failureOrUnit;
 
-      test(
-        'should return some when title is invalid',
-        () async {
-          // Assert
-          expect(
-            invalidTitleShoutOut.failureOption,
-            isA<Some<Failure<dynamic>>>(),
+              // Assert
+              expect(result, right(unit));
+            },
           );
         },
       );
 
-      test(
-        'should return some when description is invalid',
-        () async {
-          // Assert
-          expect(
-            invalidDescriptionShoutOut.failureOption,
-            isA<Some<Failure<dynamic>>>(),
+      group(
+        'Testing on failure',
+        () {
+          test(
+            'should be invalid with invalidTitleShoutOut',
+            () {
+              // Act
+              final result = invalidTitleShoutOut.isValid;
+
+              // Assert
+              expect(result, false);
+            },
+          );
+
+          test(
+            'should be invalid with invalidDescriptionShoutOut',
+            () {
+              // Act
+              final result = invalidDescriptionShoutOut.isValid;
+
+              // Assert
+              expect(result, false);
+            },
+          );
+
+          test(
+            'should be invalid with invalidCoordinatesShoutOut',
+            () {
+              // Act
+              final result = invalidCoordinatesShoutOut.isValid;
+
+              // Assert
+              expect(result, false);
+            },
+          );
+
+          test(
+            'should be invalid with invalidDurationShoutOut',
+            () {
+              // Act
+              final result = invalidDurationShoutOut.isValid;
+
+              // Assert
+              expect(result, false);
+            },
+          );
+
+          test(
+            'should be invalid with invalidDateCreatedShoutOut',
+            () {
+              // Act
+              final result = invalidDateCreatedShoutOut.isValid;
+
+              // Assert
+              expect(result, false);
+            },
+          );
+
+          test(
+            'should return some when title is invalid',
+            () {
+              // Act
+              final result = invalidTitleShoutOut.failureOption;
+
+              // Assert
+              expect(result, isA<Some<Failure<dynamic>>>());
+            },
+          );
+
+          test(
+            'should return some when description is invalid',
+            () {
+              // Act
+              final result = invalidDescriptionShoutOut.failureOption;
+
+              // Assert
+              expect(result, isA<Some<Failure<dynamic>>>());
+            },
+          );
+
+          test(
+            'should return some when coordinates is invalid',
+            () {
+              // Act
+              final result = invalidCoordinatesShoutOut.failureOption;
+
+              // Assert
+              expect(result, isA<Some<Failure<dynamic>>>());
+            },
+          );
+
+          test(
+            'should return some when duration is invalid',
+            () {
+              // Act
+              final result = invalidDurationShoutOut.failureOption;
+
+              // Assert
+              expect(result, isA<Some<Failure<dynamic>>>());
+            },
+          );
+
+          test(
+            'should return some when dateCreated is invalid',
+            () {
+              // Act
+              final result = invalidDateCreatedShoutOut.failureOption;
+
+              // Assert
+              expect(result, isA<Some<Failure<dynamic>>>());
+            },
+          );
+
+          test(
+            'should return left when title is invalid',
+            () {
+              // Act
+              final result = invalidTitleShoutOut.failureOrUnit;
+
+              // Assert
+              expect(result, isA<Left<Failure<dynamic>, Unit>>());
+            },
+          );
+
+          test(
+            'should return left when description is invalid',
+            () {
+              // Act
+              final result = invalidDescriptionShoutOut.failureOrUnit;
+
+              // Assert
+              expect(result, isA<Left<Failure<dynamic>, Unit>>());
+            },
+          );
+
+          test(
+            'should return left when coordinates is invalid',
+            () {
+              // Act
+              final result = invalidCoordinatesShoutOut.failureOrUnit;
+
+              // Assert
+              expect(result, isA<Left<Failure<dynamic>, Unit>>());
+            },
+          );
+
+          test(
+            'should return left when duration is invalid',
+            () {
+              // Act
+              final result = invalidDurationShoutOut.failureOrUnit;
+
+              // Assert
+              expect(result, isA<Left<Failure<dynamic>, Unit>>());
+            },
+          );
+
+          test(
+            'should return left when dateCreated is invalid',
+            () {
+              // Act
+              final result = invalidDateCreatedShoutOut.failureOrUnit;
+
+              // Assert
+              expect(result, isA<Left<Failure<dynamic>, Unit>>());
+            },
           );
         },
       );
 
-      test(
-        'should return some when coordinates is invalid',
-        () async {
-          // Assert
-          expect(
-            invalidCoordinatesShoutOut.failureOption,
-            isA<Some<Failure<dynamic>>>(),
-          );
-        },
-      );
+      group(
+        'empty',
+        () {
+          test(
+            'should return a ShoutOut with default values',
+            () {
+              // Act
+              final shoutOut = ShoutOut.empty();
 
-      test(
-        'should return some when duration is invalid',
-        () async {
-          // Assert
-          expect(
-            invalidDurationShoutOut.failureOption,
-            isA<Some<Failure<dynamic>>>(),
-          );
-        },
-      );
-
-      test(
-        'should return some when dateCreated is invalid',
-        () async {
-          // Assert
-          expect(
-            invalidDateCreatedShoutOut.failureOption,
-            isA<Some<Failure<dynamic>>>(),
+              // Assert
+              expect(shoutOut.id, isA<UniqueId>());
+              expect(shoutOut.creatorId, isA<UniqueId>());
+              expect(shoutOut.type, isA<ShoutOutType>());
+              expect(shoutOut.title, isA<Name>());
+              expect(shoutOut.description, isA<EntityDescription>());
+              expect(shoutOut.coordinates, isA<Coordinates>());
+              expect(shoutOut.duration, isA<Minutes>());
+              expect(shoutOut.categories, <Category>{});
+              expect(shoutOut.imageUrls, <Url>{});
+              expect(shoutOut.isOpen, false);
+              expect(shoutOut.dateCreated, isA<PastDate>());
+            },
           );
         },
       );

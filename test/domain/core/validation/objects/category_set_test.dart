@@ -5,32 +5,42 @@ import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/validation/objects/category_set.dart';
 
 void main() {
-  final validCategorySet = CategorySet(
-    const {
-      Category.food,
-      Category.music,
-    },
-  );
-  final emptyCategorySet = CategorySet(
-    const {},
-  );
-  final fullCategorySet = CategorySet(
-    const {
-      Category.food,
-      Category.music,
-      Category.sports,
-      Category.travel,
-      Category.beauty,
-    },
-  );
-  final invalidCategorySet = CategorySet(
-    const {
-      Category.food,
-      Category.music,
-      Category.sports,
-      Category.travel,
-      Category.beauty,
-      Category.misc,
+  late CategorySet validCategorySet;
+  late CategorySet emptyCategorySet;
+  late CategorySet fullCategorySet;
+  late CategorySet invalidCategorySet;
+
+  setUp(
+    () {
+      // Arrange
+      validCategorySet = CategorySet(
+        const {
+          Category.food,
+          Category.music,
+        },
+      );
+      emptyCategorySet = CategorySet(
+        const {},
+      );
+      fullCategorySet = CategorySet(
+        const {
+          Category.food,
+          Category.music,
+          Category.sports,
+          Category.travel,
+          Category.beauty,
+        },
+      );
+      invalidCategorySet = CategorySet(
+        const {
+          Category.food,
+          Category.music,
+          Category.sports,
+          Category.travel,
+          Category.beauty,
+          Category.misc,
+        },
+      );
     },
   );
 
@@ -53,9 +63,12 @@ void main() {
         'should return a Failure.collectionExceedsLength '
         'when the input set exceeds the max length',
         () {
+          // Act
+          final result = invalidCategorySet.value;
+
           // Assert
           expect(
-            invalidCategorySet.value,
+            result,
             left(
               const Failure<Set<Category>>.collectionExceedsLength(
                 failedValue: {
@@ -81,17 +94,23 @@ void main() {
       test(
         'should return unit when the value is right',
         () {
+          // Act
+          final result = validCategorySet.failureOrUnit;
+
           // Assert
-          expect(validCategorySet.failureOrUnit, right(unit));
+          expect(result, right(unit));
         },
       );
 
       test(
         'should return a failure when the value is left',
         () {
+          // Act
+          final result = invalidCategorySet.failureOrUnit;
+
           // Assert
           expect(
-            invalidCategorySet.failureOrUnit,
+            result,
             left(
               const Failure<Set<Category>>.collectionExceedsLength(
                 failedValue: {
@@ -117,16 +136,22 @@ void main() {
       test(
         'should return the correct length when the value is right',
         () {
+          // Act
+          final result = validCategorySet.length;
+
           // Assert
-          expect(validCategorySet.length, 2);
+          expect(result, 2);
         },
       );
 
       test(
         'should return 0 when the value is left',
         () {
+          // Act
+          final result = invalidCategorySet.length;
+
           // Assert
-          expect(invalidCategorySet.length, 0);
+          expect(result, 0);
         },
       );
     },
@@ -138,24 +163,33 @@ void main() {
       test(
         'should return true when the length is equal to maxLength',
         () {
+          // Act
+          final result = fullCategorySet.isFull;
+
           // Assert
-          expect(fullCategorySet.isFull, true);
+          expect(result, true);
         },
       );
 
       test(
         'should return false when the length is less than maxLength',
         () {
+          // Act
+          final result = validCategorySet.isFull;
+
           // Assert
-          expect(validCategorySet.isFull, false);
+          expect(result, false);
         },
       );
 
       test(
         'should return false when the length is greater than maxLength',
         () {
+          // Act
+          final result = invalidCategorySet.isFull;
+
           // Assert
-          expect(invalidCategorySet.isFull, false);
+          expect(result, false);
         },
       );
     },
@@ -167,24 +201,33 @@ void main() {
       test(
         'should return true when the set is empty',
         () {
+          // Act
+          final result = emptyCategorySet.isEmpty;
+
           // Assert
-          expect(emptyCategorySet.isEmpty, true);
+          expect(result, true);
         },
       );
 
       test(
         'should return false when the set is not empty',
         () {
+          // Act
+          final result = validCategorySet.isEmpty;
+
           // Assert
-          expect(validCategorySet.isEmpty, false);
+          expect(result, false);
         },
       );
 
       test(
         'should return true when the set is invalid',
         () {
+          // Act
+          final result = invalidCategorySet.isEmpty;
+
           // Assert
-          expect(invalidCategorySet.isEmpty, true);
+          expect(result, true);
         },
       );
     },
@@ -196,24 +239,33 @@ void main() {
       test(
         'should return true when the set is not empty',
         () {
+          // Act
+          final result = validCategorySet.isNotEmpty;
+
           // Assert
-          expect(validCategorySet.isNotEmpty, true);
+          expect(result, true);
         },
       );
 
       test(
         'should return false when the set is empty',
         () {
+          // Act
+          final result = emptyCategorySet.isNotEmpty;
+
           // Assert
-          expect(emptyCategorySet.isNotEmpty, false);
+          expect(result, false);
         },
       );
 
       test(
         'should return false when the set is invalid',
         () {
+          // Act
+          final result = invalidCategorySet.isNotEmpty;
+
           // Assert
-          expect(invalidCategorySet.isNotEmpty, false);
+          expect(result, false);
         },
       );
     },

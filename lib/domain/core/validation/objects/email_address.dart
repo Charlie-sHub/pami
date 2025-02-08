@@ -8,7 +8,9 @@ class EmailAddress extends ValueObject<String> {
   const EmailAddress._(this.value);
 
   /// Creates a new [EmailAddress]
-  factory EmailAddress(String input) => EmailAddress._(validateEmail(input));
+  factory EmailAddress(String input) => EmailAddress._(
+        validateEmail(input),
+      );
 
   @override
   final Either<Failure<String>, String> value;
