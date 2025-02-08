@@ -12,17 +12,18 @@ void main() {
         'when the password and confirmation match',
         () {
           // Arrange
-          const password = 'password123';
-          const confirmation = 'password123';
-
-          // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
+          const validPassword = 'password123';
+          const validConfirmation = 'password123';
+          final validPasswordConfirmator = PasswordConfirmator(
+            password: validPassword,
+            confirmation: validConfirmation,
           );
 
+          // Act
+          final result = validPasswordConfirmator.value;
+
           // Assert
-          expect(result.value, right(confirmation));
+          expect(result, right(validConfirmation));
         },
       );
     },
@@ -36,20 +37,23 @@ void main() {
         'when the password and confirmation do not match',
         () {
           // Arrange
-          const password = 'password123';
-          const confirmation = 'differentPassword';
+          const validPassword = 'password123';
+          const mismatchedConfirmation = 'differentPassword';
+          final mismatchedPasswordConfirmator = PasswordConfirmator(
+            password: validPassword,
+            confirmation: mismatchedConfirmation,
+          );
 
           // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
-          );
+          final result = mismatchedPasswordConfirmator.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.stringMismatch(failedValue: confirmation),
+              const Failure<String>.stringMismatch(
+                failedValue: mismatchedConfirmation,
+              ),
             ),
           );
         },
@@ -59,43 +63,50 @@ void main() {
         'should return a Failure.emptyString when the password is empty',
         () {
           // Arrange
-          const password = '';
-          const confirmation = '';
+          const emptyPassword = '';
+          const emptyConfirmation = '';
+          final emptyPasswordConfirmator = PasswordConfirmator(
+            password: emptyPassword,
+            confirmation: emptyConfirmation,
+          );
 
           // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
-          );
+          final result = emptyPasswordConfirmator.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.emptyString(failedValue: confirmation),
+              const Failure<String>.emptyString(
+                failedValue: emptyConfirmation,
+              ),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.emptyString when the confirmation is empty',
+        'should return a Failure.emptyString '
+        'when the confirmation is empty',
         () {
           // Arrange
-          const password = '';
-          const confirmation = '';
+          const emptyPassword = '';
+          const emptyConfirmation = '';
+          final emptyConfirmationConfirmator = PasswordConfirmator(
+            password: emptyPassword,
+            confirmation: emptyConfirmation,
+          );
 
           // Act
-          final result = PasswordConfirmator(
-            password: password,
-            confirmation: confirmation,
-          );
+          final result = emptyConfirmationConfirmator.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.emptyString(failedValue: confirmation),
+              const Failure<String>.emptyString(
+                failedValue: emptyConfirmation,
+              ),
             ),
           );
         },

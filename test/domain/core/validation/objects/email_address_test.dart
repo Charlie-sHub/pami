@@ -12,13 +12,62 @@ void main() {
         'when the input is a valid email',
         () {
           // Arrange
-          const input = 'test@example.com';
+          const validEmail = 'test@example.com';
+          final validEmailAddress = EmailAddress(validEmail);
 
           // Act
-          final result = EmailAddress(input);
+          final result = validEmailAddress.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(validEmail));
+        },
+      );
+
+      test(
+        'should return an EmailAddress with the input value '
+        'when the input is a valid email with a subdomain',
+        () {
+          // Arrange
+          const validEmail = 'test@subdomain.example.com';
+          final validEmailAddress = EmailAddress(validEmail);
+
+          // Act
+          final result = validEmailAddress.value;
+
+          // Assert
+          expect(result, right(validEmail));
+        },
+      );
+
+      test(
+        'should return an EmailAddress with the input value '
+        'when the input is a valid email with a plus sign',
+        () {
+          // Arrange
+          const validEmail = 'test+alias@example.com';
+          final validEmailAddress = EmailAddress(validEmail);
+
+          // Act
+          final result = validEmailAddress.value;
+
+          // Assert
+          expect(result, right(validEmail));
+        },
+      );
+
+      test(
+        'should return an EmailAddress with the input value '
+        'when the input is a valid email with numbers',
+        () {
+          // Arrange
+          const validEmail = 'test1234@example.com';
+          final validEmailAddress = EmailAddress(validEmail);
+
+          // Act
+          final result = validEmailAddress.value;
+
+          // Assert
+          expect(result, right(validEmail));
         },
       );
     },
@@ -32,16 +81,17 @@ void main() {
         'when the input is not a valid email',
         () {
           // Arrange
-          const input = 'not a valid email';
+          const invalidEmail = 'not a valid email';
+          final invalidEmailAddress = EmailAddress(invalidEmail);
 
           // Act
-          final result = EmailAddress(input);
+          final result = invalidEmailAddress.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.invalidEmail(failedValue: input),
+              const Failure<String>.invalidEmail(failedValue: invalidEmail),
             ),
           );
         },
@@ -52,16 +102,80 @@ void main() {
         'when the input is an empty string',
         () {
           // Arrange
-          const input = '';
+          const emptyEmail = '';
+          final emptyEmailAddress = EmailAddress(emptyEmail);
 
           // Act
-          final result = EmailAddress(input);
+          final result = emptyEmailAddress.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<String>.invalidEmail(failedValue: input),
+              const Failure<String>.invalidEmail(failedValue: emptyEmail),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return a Failure.invalidEmail '
+        'when the input is missing the @ symbol',
+        () {
+          // Arrange
+          const invalidEmail = 'testexample.com';
+          final invalidEmailAddress = EmailAddress(invalidEmail);
+
+          // Act
+          final result = invalidEmailAddress.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidEmail(failedValue: invalidEmail),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return a Failure.invalidEmail '
+        'when the input is missing the domain',
+        () {
+          // Arrange
+          const invalidEmail = 'test@';
+          final invalidEmailAddress = EmailAddress(invalidEmail);
+
+          // Act
+          final result = invalidEmailAddress.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidEmail(failedValue: invalidEmail),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return a Failure.invalidEmail '
+        'when the input is missing the username',
+        () {
+          // Arrange
+          const invalidEmail = '@example.com';
+          final invalidEmailAddress = EmailAddress(invalidEmail);
+
+          // Act
+          final result = invalidEmailAddress.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              const Failure<String>.invalidEmail(failedValue: invalidEmail),
             ),
           );
         },

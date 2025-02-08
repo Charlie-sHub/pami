@@ -1,29 +1,29 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/domain/core/failures/failure.dart';
-import 'package:pami/domain/core/validation/objects/minutes.dart';
+import 'package:pami/domain/core/validation/objects/map_radius.dart';
 
 void main() {
-  late Minutes validMinutesObject;
-  late Minutes limitMinutesObject;
-  late Minutes zeroMinutesObject;
-  late Minutes overLimitMinutesObject;
-  late Minutes negativeMinutesObject;
+  late MapRadius validMapRadius;
+  late MapRadius limitMapRadius;
+  late MapRadius zeroMapRadius;
+  late MapRadius overLimitMapRadius;
+  late MapRadius negativeMapRadius;
 
   setUp(
     () {
       // Arrange
-      const validMinutes = 720.0;
-      const limitMinutes = Minutes.limit;
-      const zeroMinutes = 0.0;
-      const overLimitMinutes = Minutes.limit + 0.1;
-      const negativeMinutes = -1.0;
+      const validRadius = 10.0;
+      const limitRadius = MapRadius.limit;
+      const zeroRadius = 0.0;
+      const overLimitRadius = MapRadius.limit + 0.1;
+      const negativeRadius = -1.0;
 
-      validMinutesObject = Minutes(validMinutes);
-      limitMinutesObject = Minutes(limitMinutes);
-      zeroMinutesObject = Minutes(zeroMinutes);
-      overLimitMinutesObject = Minutes(overLimitMinutes);
-      negativeMinutesObject = Minutes(negativeMinutes);
+      validMapRadius = MapRadius(validRadius);
+      limitMapRadius = MapRadius(limitRadius);
+      zeroMapRadius = MapRadius(zeroRadius);
+      overLimitMapRadius = MapRadius(overLimitRadius);
+      negativeMapRadius = MapRadius(negativeRadius);
     },
   );
 
@@ -31,34 +31,35 @@ void main() {
     'Testing on success',
     () {
       test(
-        'should return a Minutes with the input value '
+        'should return a Radius with the input value '
         'when the input is valid',
         () {
           // Act
-          final result = validMinutesObject.value;
+          final result = validMapRadius.value;
 
           // Assert
-          expect(result, right(720));
+          expect(result, right(10));
         },
       );
 
       test(
-        'should return a Minutes with the input value '
+        'should return a Radius with the input value '
         'when the input is at the limit',
         () {
           // Act
-          final result = limitMinutesObject.value;
+          final result = limitMapRadius.value;
 
           // Assert
-          expect(result, right(Minutes.limit));
+          expect(result, right(MapRadius.limit));
         },
       );
 
       test(
-        'should return a Minutes with the input value when the input is 0',
+        'should return a Radius with the input value '
+        'when the input is 0',
         () {
           // Act
-          final result = zeroMinutesObject.value;
+          final result = zeroMapRadius.value;
 
           // Assert
           expect(result, right(0));
@@ -75,14 +76,14 @@ void main() {
         'when the input exceeds the limit',
         () {
           // Act
-          final result = overLimitMinutesObject.value;
+          final result = overLimitMapRadius.value;
 
           // Assert
           expect(
             result,
             left(
               const Failure<double>.doubleOutOfBounds(
-                failedValue: Minutes.limit + 0.1,
+                failedValue: MapRadius.limit + 0.1,
               ),
             ),
           );
@@ -94,7 +95,7 @@ void main() {
         'when the input is negative',
         () {
           // Act
-          final result = negativeMinutesObject.value;
+          final result = negativeMapRadius.value;
 
           // Assert
           expect(

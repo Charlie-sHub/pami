@@ -4,6 +4,29 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
 
 void main() {
+  late KarmaPercentage validKarma;
+  late KarmaPercentage limitKarma;
+  late KarmaPercentage zeroKarma;
+  late KarmaPercentage overLimitKarma;
+  late KarmaPercentage negativeKarma;
+
+  setUp(
+    () {
+      // Arrange
+      const validKarmaPercentage = 50.0;
+      const limitKarmaPercentage = KarmaPercentage.limit;
+      const zeroKarmaPercentage = 0.0;
+      const overLimitKarmaPercentage = KarmaPercentage.limit + 0.1;
+      const negativeKarmaPercentage = -1.0;
+
+      validKarma = KarmaPercentage(validKarmaPercentage);
+      limitKarma = KarmaPercentage(limitKarmaPercentage);
+      zeroKarma = KarmaPercentage(zeroKarmaPercentage);
+      overLimitKarma = KarmaPercentage(overLimitKarmaPercentage);
+      negativeKarma = KarmaPercentage(negativeKarmaPercentage);
+    },
+  );
+
   group(
     'Testing on success',
     () {
@@ -11,14 +34,11 @@ void main() {
         'should return a KarmaPercentage with the input value '
         'when the input is valid',
         () {
-          // Arrange
-          const input = 50.0;
-
           // Act
-          final result = KarmaPercentage(input);
+          final result = validKarma.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(50));
         },
       );
 
@@ -26,14 +46,11 @@ void main() {
         'should return a KarmaPercentage with the input value '
         'when the input is at the limit',
         () {
-          // Arrange
-          const input = KarmaPercentage.limit;
-
           // Act
-          final result = KarmaPercentage(input);
+          final result = limitKarma.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(KarmaPercentage.limit));
         },
       );
 
@@ -41,14 +58,11 @@ void main() {
         'should return a KarmaPercentage with the input value '
         'when the input is 0',
         () {
-          // Arrange
-          const input = 0.0;
-
           // Act
-          final result = KarmaPercentage(input);
+          final result = zeroKarma.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(0));
         },
       );
     },
@@ -61,36 +75,33 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the limit',
         () {
-          // Arrange
-          const input = KarmaPercentage.limit + 0.1;
-
           // Act
-          final result = KarmaPercentage(input);
+          final result = overLimitKarma.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: KarmaPercentage.limit + 0.1,
+              ),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.doubleOutOfBounds when the input is negative',
+        'should return a Failure.doubleOutOfBounds '
+        'when the input is negative',
         () {
-          // Arrange
-          const input = -1.0;
-
           // Act
-          final result = KarmaPercentage(input);
+          final result = negativeKarma.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(failedValue: -1),
             ),
           );
         },
@@ -104,27 +115,19 @@ void main() {
       test(
         'should return the correct percentage when the value is right',
         () {
-          // Arrange
-          const input = 50.0;
-          final karmaPercentage = KarmaPercentage(input);
-
           // Act
-          final result = karmaPercentage.percentage;
+          final result = validKarma.percentage;
 
           // Assert
-          expect(result, input);
+          expect(result, 50.0);
         },
       );
 
       test(
         'should return 0.0 when the value is left',
         () {
-          // Arrange
-          const input = KarmaPercentage.limit + 0.1;
-          final karmaPercentage = KarmaPercentage(input);
-
           // Act
-          final result = karmaPercentage.percentage;
+          final result = overLimitKarma.percentage;
 
           // Assert
           expect(result, 0.0);
@@ -139,12 +142,8 @@ void main() {
       test(
         'should return the correct left percentage when the value is right',
         () {
-          // Arrange
-          const input = 50.0;
-          final karmaPercentage = KarmaPercentage(input);
-
           // Act
-          final result = karmaPercentage.leftPercentage;
+          final result = validKarma.leftPercentage;
 
           // Assert
           expect(result, 50.0);
@@ -154,12 +153,8 @@ void main() {
       test(
         'should return 100.0 when the value is left',
         () {
-          // Arrange
-          const input = KarmaPercentage.limit + 0.1;
-          final karmaPercentage = KarmaPercentage(input);
-
           // Act
-          final result = karmaPercentage.leftPercentage;
+          final result = overLimitKarma.leftPercentage;
 
           // Assert
           expect(result, 100.0);

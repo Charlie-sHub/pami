@@ -5,45 +5,81 @@ import 'package:pami/domain/core/validation/objects/image_url_set.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 
 void main() {
+  late ImageUrlSet validImageUrlSet;
+  late ImageUrlSet emptyImageUrlSet;
+  late ImageUrlSet fullImageUrlSet;
+  late ImageUrlSet invalidImageUrlSet;
+
+  setUp(
+    () {
+      // Arrange
+      validImageUrlSet = ImageUrlSet(
+        {
+          Url('https://a.com'),
+          Url('https://b.com'),
+        },
+      );
+      emptyImageUrlSet = ImageUrlSet(
+        const {},
+      );
+      fullImageUrlSet = ImageUrlSet(
+        {
+          Url('https://a.com'),
+          Url('https://b.com'),
+          Url('https://c.com'),
+          Url('https://d.com'),
+          Url('https://e.com'),
+        },
+      );
+      invalidImageUrlSet = ImageUrlSet(
+        {
+          Url('https://a.com'),
+          Url('https://b.com'),
+          Url('https://c.com'),
+          Url('https://d.com'),
+          Url('https://e.com'),
+          Url('https://f.com'),
+        },
+      );
+    },
+  );
+
   group(
-    'Testing on constructor',
+    'constructor',
     () {
       test(
         'should return ImageUrlSet with input when valid',
         () {
           // Arrange
-          final input = {Url('https://a.com'), Url('https://b.com')};
+          final validSet = validImageUrlSet.getOrCrash();
 
           // Act
-          final result = ImageUrlSet(input);
+          final result = validImageUrlSet.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(validSet));
         },
       );
 
       test(
         'should return Failure when input exceeds max length',
         () {
-          // Arrange
-          final input = {
-            Url('https://a.com'),
-            Url('https://b.com'),
-            Url('https://c.com'),
-            Url('https://d.com'),
-            Url('https://e.com'),
-            Url('https://f.com'),
-          };
-
           // Act
-          final result = ImageUrlSet(input);
+          final result = invalidImageUrlSet.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
               Failure<Set<Url>>.collectionExceedsLength(
-                failedValue: input,
+                failedValue: {
+                  Url('https://a.com'),
+                  Url('https://b.com'),
+                  Url('https://c.com'),
+                  Url('https://d.com'),
+                  Url('https://e.com'),
+                  Url('https://f.com'),
+                },
                 maxLength: 5,
               ),
             ),
@@ -54,17 +90,13 @@ void main() {
   );
 
   group(
-    'Testing on failureOrUnit',
+    'failureOrUnit',
     () {
       test(
         'should return unit when value is right',
         () {
-          // Arrange
-          final input = {Url('https://a.com'), Url('https://b.com')};
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.failureOrUnit;
+          final result = validImageUrlSet.failureOrUnit;
 
           // Assert
           expect(result, right(unit));
@@ -74,26 +106,22 @@ void main() {
       test(
         'should return failure when value is left',
         () {
-          // Arrange
-          final input = {
-            Url('https://a.com'),
-            Url('https://b.com'),
-            Url('https://c.com'),
-            Url('https://d.com'),
-            Url('https://e.com'),
-            Url('https://f.com'),
-          };
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.failureOrUnit;
+          final result = invalidImageUrlSet.failureOrUnit;
 
           // Assert
           expect(
             result,
             left(
               Failure<Set<Url>>.collectionExceedsLength(
-                failedValue: input,
+                failedValue: {
+                  Url('https://a.com'),
+                  Url('https://b.com'),
+                  Url('https://c.com'),
+                  Url('https://d.com'),
+                  Url('https://e.com'),
+                  Url('https://f.com'),
+                },
                 maxLength: 5,
               ),
             ),
@@ -104,17 +132,13 @@ void main() {
   );
 
   group(
-    'Testing on length',
+    'length',
     () {
       test(
         'should return correct length when value is right',
         () {
-          // Arrange
-          final input = {Url('https://a.com'), Url('https://b.com')};
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.length;
+          final result = validImageUrlSet.length;
 
           // Assert
           expect(result, 2);
@@ -124,19 +148,8 @@ void main() {
       test(
         'should return 0 when value is left',
         () {
-          // Arrange
-          final input = {
-            Url('https://a.com'),
-            Url('https://b.com'),
-            Url('https://c.com'),
-            Url('https://d.com'),
-            Url('https://e.com'),
-            Url('https://f.com'),
-          };
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.length;
+          final result = invalidImageUrlSet.length;
 
           // Assert
           expect(result, 0);
@@ -146,23 +159,13 @@ void main() {
   );
 
   group(
-    'Testing on isFull',
+    'isFull',
     () {
       test(
         'should return true when length equals maxLength',
         () {
-          // Arrange
-          final input = {
-            Url('https://a.com'),
-            Url('https://b.com'),
-            Url('https://c.com'),
-            Url('https://d.com'),
-            Url('https://e.com'),
-          };
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isFull;
+          final result = fullImageUrlSet.isFull;
 
           // Assert
           expect(result, true);
@@ -172,12 +175,8 @@ void main() {
       test(
         'should return false when length is less than maxLength',
         () {
-          // Arrange
-          final input = {Url('https://a.com'), Url('https://b.com')};
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isFull;
+          final result = validImageUrlSet.isFull;
 
           // Assert
           expect(result, false);
@@ -187,19 +186,8 @@ void main() {
       test(
         'should return false when length is greater than maxLength',
         () {
-          // Arrange
-          final input = {
-            Url('https://a.com'),
-            Url('https://b.com'),
-            Url('https://c.com'),
-            Url('https://d.com'),
-            Url('https://e.com'),
-            Url('https://f.com'),
-          };
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isFull;
+          final result = invalidImageUrlSet.isFull;
 
           // Assert
           expect(result, false);
@@ -209,17 +197,13 @@ void main() {
   );
 
   group(
-    'Testing on isEmpty',
+    'isEmpty',
     () {
       test(
         'should return true when set is empty',
         () {
-          // Arrange
-          const input = <Url>{};
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isEmpty;
+          final result = emptyImageUrlSet.isEmpty;
 
           // Assert
           expect(result, true);
@@ -229,12 +213,8 @@ void main() {
       test(
         'should return false when set is not empty',
         () {
-          // Arrange
-          final input = {Url('https://a.com'), Url('https://b.com')};
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isEmpty;
+          final result = validImageUrlSet.isEmpty;
 
           // Assert
           expect(result, false);
@@ -244,19 +224,8 @@ void main() {
       test(
         'should return true when set is invalid',
         () {
-          // Arrange
-          final input = {
-            Url('https://a.com'),
-            Url('https://b.com'),
-            Url('https://c.com'),
-            Url('https://d.com'),
-            Url('https://e.com'),
-            Url('https://f.com'),
-          };
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isEmpty;
+          final result = invalidImageUrlSet.isEmpty;
 
           // Assert
           expect(result, true);
@@ -266,17 +235,13 @@ void main() {
   );
 
   group(
-    'Testing on isNotEmpty',
+    'isNotEmpty',
     () {
       test(
         'should return true when set is not empty',
         () {
-          // Arrange
-          final input = {Url('https://a.com'), Url('https://b.com')};
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isNotEmpty;
+          final result = validImageUrlSet.isNotEmpty;
 
           // Assert
           expect(result, true);
@@ -286,12 +251,8 @@ void main() {
       test(
         'should return false when set is empty',
         () {
-          // Arrange
-          const input = <Url>{};
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isNotEmpty;
+          final result = emptyImageUrlSet.isNotEmpty;
 
           // Assert
           expect(result, false);
@@ -301,19 +262,8 @@ void main() {
       test(
         'should return false when set is invalid',
         () {
-          // Arrange
-          final input = {
-            Url('https://a.com'),
-            Url('https://b.com'),
-            Url('https://c.com'),
-            Url('https://d.com'),
-            Url('https://e.com'),
-            Url('https://f.com'),
-          };
-          final imageUrlSet = ImageUrlSet(input);
-
           // Act
-          final result = imageUrlSet.isNotEmpty;
+          final result = invalidImageUrlSet.isNotEmpty;
 
           // Assert
           expect(result, false);

@@ -3,20 +3,20 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:pami/domain/core/validation/validators/validate_bounded_double.dart';
 
-/// A value object representing minutes.
-class Minutes extends ValueObject<double> {
-  const Minutes._(this.value);
+/// A value object representing a radius.
+class MapRadius extends ValueObject<double> {
+  const MapRadius._(this.value);
 
-  /// Creates a new [Minutes]
-  factory Minutes(double input) => Minutes._(
+  /// Creates a new [MapRadius]
+  factory MapRadius(double input) => MapRadius._(
         validateBoundedDouble(
           max: limit,
           input: input,
         ),
       );
 
-  /// Maximum amount of minutes
-  static const limit = 1440.0;
+  /// Maximum radius
+  static const limit = 20.0;
 
   @override
   final Either<Failure<double>, double> value;

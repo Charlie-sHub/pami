@@ -4,6 +4,37 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 
 void main() {
+  late Longitude validLongitudeObject;
+  late Longitude limitLongitudeObject;
+  late Longitude zeroLongitudeObject;
+  late Longitude negativeLongitudeObject;
+  late Longitude negativeLimitLongitudeObject;
+  late Longitude overLimitLongitudeObject;
+  late Longitude underNegativeLimitLongitudeObject;
+
+  setUp(
+    () {
+      // Arrange
+      const validLongitude = 90.0;
+      const limitLongitude = Longitude.limit;
+      const zeroLongitude = 0.0;
+      const negativeLongitude = -90.0;
+      const negativeLimitLongitude = -Longitude.limit;
+      const overLimitLongitude = Longitude.limit + 0.1;
+      const underNegativeLimitLongitude = -Longitude.limit - 0.1;
+
+      validLongitudeObject = Longitude(validLongitude);
+      limitLongitudeObject = Longitude(limitLongitude);
+      zeroLongitudeObject = Longitude(zeroLongitude);
+      negativeLongitudeObject = Longitude(negativeLongitude);
+      negativeLimitLongitudeObject = Longitude(negativeLimitLongitude);
+      overLimitLongitudeObject = Longitude(overLimitLongitude);
+      underNegativeLimitLongitudeObject = Longitude(
+        underNegativeLimitLongitude,
+      );
+    },
+  );
+
   group(
     'Testing on success',
     () {
@@ -11,14 +42,11 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is valid',
         () {
-          // Arrange
-          const input = 90.0;
-
           // Act
-          final result = Longitude(input);
+          final result = validLongitudeObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(90));
         },
       );
 
@@ -26,14 +54,11 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is at the positive limit',
         () {
-          // Arrange
-          const input = Longitude.limit;
-
           // Act
-          final result = Longitude(input);
+          final result = limitLongitudeObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(Longitude.limit));
         },
       );
 
@@ -41,14 +66,11 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is 0',
         () {
-          // Arrange
-          const input = 0.0;
-
           // Act
-          final result = Longitude(input);
+          final result = zeroLongitudeObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(0));
         },
       );
 
@@ -56,14 +78,11 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is negative',
         () {
-          // Arrange
-          const input = -90.0;
-
           // Act
-          final result = Longitude(input);
+          final result = negativeLongitudeObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(-90));
         },
       );
 
@@ -71,14 +90,11 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is at the negative limit',
         () {
-          // Arrange
-          const input = -Longitude.limit;
-
           // Act
-          final result = Longitude(input);
+          final result = negativeLimitLongitudeObject.value;
 
           // Assert
-          expect(result.value, right(input));
+          expect(result, right(-Longitude.limit));
         },
       );
     },
@@ -91,17 +107,16 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the positive limit',
         () {
-          // Arrange
-          const input = Longitude.limit + 0.1;
-
           // Act
-          final result = Longitude(input);
+          final result = overLimitLongitudeObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: Longitude.limit + 0.1,
+              ),
             ),
           );
         },
@@ -111,17 +126,16 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the negative limit',
         () {
-          // Arrange
-          const input = -Longitude.limit - 0.1;
-
           // Act
-          final result = Longitude(input);
+          final result = underNegativeLimitLongitudeObject.value;
 
           // Assert
           expect(
-            result.value,
+            result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: -Longitude.limit - 0.1,
+              ),
             ),
           );
         },
