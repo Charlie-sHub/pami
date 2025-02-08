@@ -7,19 +7,21 @@ void main() {
   group(
     'Testing on success',
     () {
-      const validDescription = 'This is a valid description.';
-      final maxLengthDescription = 'a' * EntityDescription.maxLength;
-      final validEntityDescription = EntityDescription(validDescription);
-      final maxLengthEntityDescription = EntityDescription(
-        maxLengthDescription,
-      );
-
       test(
         'should return a EntityDescription with the input value '
         'when the input is valid',
         () {
+          // Arrange
+          const validDescription = 'This is a valid description.';
+          final validEntityDescription = EntityDescription(
+            validDescription,
+          );
+
+          // Act
+          final result = validEntityDescription.value;
+
           // Assert
-          expect(validEntityDescription.value, right(validDescription));
+          expect(result, right(validDescription));
         },
       );
 
@@ -27,8 +29,17 @@ void main() {
         'should return a EntityDescription with the input value '
         'when the input is at max length',
         () {
+          // Arrange
+          final maxLengthDescription = 'a' * EntityDescription.maxLength;
+          final maxLengthEntityDescription = EntityDescription(
+            maxLengthDescription,
+          );
+
+          // Act
+          final result = maxLengthEntityDescription.value;
+
           // Assert
-          expect(maxLengthEntityDescription.value, right(maxLengthDescription));
+          expect(result, right(maxLengthDescription));
         },
       );
     },
@@ -37,20 +48,23 @@ void main() {
   group(
     'Testing on failure',
     () {
-      final overMaxLengthDescription = 'a' * (EntityDescription.maxLength + 1);
-      const emptyDescription = '';
-      final overMaxLengthEntityDescription = EntityDescription(
-        overMaxLengthDescription,
-      );
-      final emptyEntityDescription = EntityDescription(emptyDescription);
-
       test(
         'should return a Failure.stringExceedsLength '
         'when the input exceeds the max length',
         () {
+          // Arrange
+          final overMaxLengthDescription =
+              'a' * (EntityDescription.maxLength + 1);
+          final overMaxLengthEntityDescription = EntityDescription(
+            overMaxLengthDescription,
+          );
+
+          // Act
+          final result = overMaxLengthEntityDescription.value;
+
           // Assert
           expect(
-            overMaxLengthEntityDescription.value,
+            result,
             left(
               Failure<String>.stringExceedsLength(
                 failedValue: overMaxLengthDescription,
@@ -62,14 +76,24 @@ void main() {
       );
 
       test(
-        'should return a Failure.emptyString '
-        'when the input is empty',
+        'should return a Failure.emptyString when the input is empty',
         () {
+          // Arrange
+          const emptyDescription = '';
+          final emptyEntityDescription = EntityDescription(
+            emptyDescription,
+          );
+
+          // Act
+          final result = emptyEntityDescription.value;
+
           // Assert
           expect(
-            emptyEntityDescription.value,
+            result,
             left(
-              const Failure<String>.emptyString(failedValue: emptyDescription),
+              const Failure<String>.emptyString(
+                failedValue: emptyDescription,
+              ),
             ),
           );
         },

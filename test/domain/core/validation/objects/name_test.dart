@@ -7,16 +7,18 @@ void main() {
   group(
     'Testing on success',
     () {
-      const validName = 'John Doe';
-      final maxLengthName = 'a' * Name.maxLength;
-      final validNameObject = Name(validName);
-      final maxLengthNameObject = Name(maxLengthName);
-
       test(
         'should return a Name with the input value when the input is valid',
         () {
+          // Arrange
+          const validName = 'John Doe';
+          final validNameObject = Name(validName);
+
+          // Act
+          final result = validNameObject.value;
+
           // Assert
-          expect(validNameObject.value, right(validName));
+          expect(result, right(validName));
         },
       );
 
@@ -24,8 +26,15 @@ void main() {
         'should return a Name with the input value '
         'when the input is at max length',
         () {
+          // Arrange
+          final maxLengthName = 'a' * Name.maxLength;
+          final maxLengthNameObject = Name(maxLengthName);
+
+          // Act
+          final result = maxLengthNameObject.value;
+
           // Assert
-          expect(maxLengthNameObject.value, right(maxLengthName));
+          expect(result, right(maxLengthName));
         },
       );
     },
@@ -34,20 +43,20 @@ void main() {
   group(
     'Testing on failure',
     () {
-      final overMaxLengthName = 'a' * (Name.maxLength + 1);
-      const emptyName = '';
-      const multiLineName = 'John\nDoe';
-      final overMaxLengthNameObject = Name(overMaxLengthName);
-      final emptyNameObject = Name(emptyName);
-      final multiLineNameObject = Name(multiLineName);
-
       test(
         'should return a Failure.stringExceedsLength '
         'when the input exceeds the max length',
         () {
+          // Arrange
+          final overMaxLengthName = 'a' * (Name.maxLength + 1);
+          final overMaxLengthNameObject = Name(overMaxLengthName);
+
+          // Act
+          final result = overMaxLengthNameObject.value;
+
           // Assert
           expect(
-            overMaxLengthNameObject.value,
+            result,
             left(
               Failure<String>.stringExceedsLength(
                 failedValue: overMaxLengthName,
@@ -59,12 +68,18 @@ void main() {
       );
 
       test(
-        'should return a Failure.emptyString '
-        'when the input is empty',
+        'should return a Failure.emptyString when the input is empty',
         () {
+          // Arrange
+          const emptyName = '';
+          final emptyNameObject = Name(emptyName);
+
+          // Act
+          final result = emptyNameObject.value;
+
           // Assert
           expect(
-            emptyNameObject.value,
+            result,
             left(
               const Failure<String>.emptyString(failedValue: emptyName),
             ),
@@ -76,11 +91,20 @@ void main() {
         'should return a Failure.multiLineString '
         'when the input contains multiple lines',
         () {
+          // Arrange
+          const multiLineName = 'John\nDoe';
+          final multiLineNameObject = Name(multiLineName);
+
+          // Act
+          final result = multiLineNameObject.value;
+
           // Assert
           expect(
-            multiLineNameObject.value,
+            result,
             left(
-              const Failure<String>.multiLineString(failedValue: multiLineName),
+              const Failure<String>.multiLineString(
+                failedValue: multiLineName,
+              ),
             ),
           );
         },
