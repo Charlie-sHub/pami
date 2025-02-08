@@ -4,6 +4,7 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_string_length.dart';
 
 void main() {
+  const length = 5;
   group(
     'Testing on success',
     () {
@@ -12,7 +13,6 @@ void main() {
         () {
           // Arrange
           const input = '';
-          const length = 5;
 
           // Act
           final result = validateStringLength(input: input, length: length);
@@ -28,7 +28,6 @@ void main() {
         () {
           // Arrange
           const input = 'abc';
-          const length = 5;
 
           // Act
           final result = validateStringLength(input: input, length: length);
@@ -44,7 +43,6 @@ void main() {
         () {
           // Arrange
           const input = 'abcde';
-          const length = 5;
 
           // Act
           final result = validateStringLength(input: input, length: length);
@@ -60,7 +58,6 @@ void main() {
         () {
           // Arrange
           const input = 'abcde  ';
-          const length = 5;
 
           // Act
           final result = validateStringLength(input: input, length: length);
@@ -81,7 +78,6 @@ void main() {
         () {
           // Arrange
           const input = 'abcdef';
-          const length = 5;
 
           // Act
           final result = validateStringLength(input: input, length: length);

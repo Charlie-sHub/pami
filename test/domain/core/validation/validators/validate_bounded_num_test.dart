@@ -4,6 +4,8 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_bounded_double.dart';
 
 void main() {
+  const double max = 100;
+
   group(
     'Testing on success',
     () {
@@ -12,7 +14,6 @@ void main() {
         () {
           // Arrange
           const double input = 50;
-          const double max = 100;
 
           // Act
           final result = validateBoundedDouble(input: input, max: max);
@@ -27,7 +28,6 @@ void main() {
         () {
           // Arrange
           const double input = 0;
-          const double max = 100;
 
           // Act
           final result = validateBoundedDouble(input: input, max: max);
@@ -42,7 +42,6 @@ void main() {
         () {
           // Arrange
           const double input = 100;
-          const double max = 100;
 
           // Act
           final result = validateBoundedDouble(input: input, max: max);
@@ -63,7 +62,6 @@ void main() {
         () {
           // Arrange
           const input = -1.0;
-          const double max = 100;
 
           // Act
           final result = validateBoundedDouble(input: input, max: max);
@@ -84,7 +82,6 @@ void main() {
         () {
           // Arrange
           const double input = 101;
-          const double max = 100;
 
           // Act
           final result = validateBoundedDouble(input: input, max: max);
@@ -105,7 +102,6 @@ void main() {
         () {
           // Arrange
           const input = -1.5;
-          const double max = 100;
 
           // Act
           final result = validateBoundedDouble(input: input, max: max);
@@ -126,7 +122,6 @@ void main() {
         () {
           // Arrange
           const input = 100.5;
-          const double max = 100;
 
           // Act
           final result = validateBoundedDouble(input: input, max: max);

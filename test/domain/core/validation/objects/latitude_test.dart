@@ -7,17 +7,22 @@ void main() {
   group(
     'Testing on success',
     () {
+      const validLatitude = 45.0;
+      const limitLatitude = Latitude.limit;
+      const zeroLatitude = 0.0;
+      const negativeLatitude = -45.0;
+      const negativeLimitLatitude = -Latitude.limit;
+      final validLatitudeObject = Latitude(validLatitude);
+      final limitLatitudeObject = Latitude(limitLatitude);
+      final zeroLatitudeObject = Latitude(zeroLatitude);
+      final negativeLatitudeObject = Latitude(negativeLatitude);
+      final negativeLimitLatitudeObject = Latitude(negativeLimitLatitude);
+
       test(
         'should return a Latitude with the input value when the input is valid',
         () {
-          // Arrange
-          const input = 45.0;
-
-          // Act
-          final result = Latitude(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(validLatitudeObject.value, right(validLatitude));
         },
       );
 
@@ -25,28 +30,16 @@ void main() {
         'should return a Latitude with the input value '
         'when the input is at the limit',
         () {
-          // Arrange
-          const input = Latitude.limit;
-
-          // Act
-          final result = Latitude(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(limitLatitudeObject.value, right(limitLatitude));
         },
       );
 
       test(
         'should return a Latitude with the input value when the input is 0',
         () {
-          // Arrange
-          const input = 0.0;
-
-          // Act
-          final result = Latitude(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(zeroLatitudeObject.value, right(zeroLatitude));
         },
       );
 
@@ -54,14 +47,8 @@ void main() {
         'should return a Latitude with the input value '
         'when the input is negative',
         () {
-          // Arrange
-          const input = -45.0;
-
-          // Act
-          final result = Latitude(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(negativeLatitudeObject.value, right(negativeLatitude));
         },
       );
 
@@ -69,14 +56,11 @@ void main() {
         'should return a Latitude with the input value '
         'when the input is at the negative limit',
         () {
-          // Arrange
-          const input = -Latitude.limit;
-
-          // Act
-          final result = Latitude(input);
-
           // Assert
-          expect(result.value, right(input));
+          expect(
+            negativeLimitLatitudeObject.value,
+            right(negativeLimitLatitude),
+          );
         },
       );
     },
@@ -85,21 +69,24 @@ void main() {
   group(
     'Testing on failure',
     () {
+      const overLimitLatitude = Latitude.limit + 0.1;
+      const underNegativeLimitLatitude = -Latitude.limit - 0.1;
+      final overLimitLatitudeObject = Latitude(overLimitLatitude);
+      final underNegativeLimitLatitudeObject = Latitude(
+        underNegativeLimitLatitude,
+      );
+
       test(
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the positive limit',
         () {
-          // Arrange
-          const input = Latitude.limit + 0.1;
-
-          // Act
-          final result = Latitude(input);
-
           // Assert
           expect(
-            result.value,
+            overLimitLatitudeObject.value,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: overLimitLatitude,
+              ),
             ),
           );
         },
@@ -109,17 +96,13 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the negative limit',
         () {
-          // Arrange
-          const input = -Latitude.limit - 0.1;
-
-          // Act
-          final result = Latitude(input);
-
           // Assert
           expect(
-            result.value,
+            underNegativeLimitLatitudeObject.value,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: input),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: underNegativeLimitLatitude,
+              ),
             ),
           );
         },

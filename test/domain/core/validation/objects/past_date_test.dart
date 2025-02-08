@@ -7,19 +7,19 @@ void main() {
   group(
     'Testing on success',
     () {
+      final pastDate = DateTime.now().subtract(const Duration(days: 1));
+      final expectedPastDate = DateTime(
+        pastDate.year,
+        pastDate.month,
+        pastDate.day,
+      );
+
       test(
         'should return a PastDate with the input value '
         'when the input is in the past',
         () {
-          // Arrange
-          final input = DateTime.now().subtract(const Duration(days: 1));
-          final expectedDate = DateTime(input.year, input.month, input.day);
-
-          // Act
-          final result = PastDate(input);
-
-          // Assert
-          expect(result.value, right(expectedDate));
+          final result = PastDate(pastDate);
+          expect(result.value, right(expectedPastDate));
         },
       );
     },
@@ -28,21 +28,21 @@ void main() {
   group(
     'Testing on failure',
     () {
+      final futureDate = DateTime.now().add(const Duration(days: 1));
+      final expectedFutureDate = DateTime(
+        futureDate.year,
+        futureDate.month,
+        futureDate.day,
+      );
+
       test(
         'should return a Failure.invalidDate when the input is in the future',
         () {
-          // Arrange
-          final input = DateTime.now().add(const Duration(days: 1));
-          final failedValue = DateTime(input.year, input.month, input.day);
-
-          // Act
-          final result = PastDate(input);
-
-          // Assert
+          final result = PastDate(futureDate);
           expect(
             result.value,
             left(
-              Failure<DateTime>.invalidDate(failedValue: failedValue),
+              Failure<DateTime>.invalidDate(failedValue: expectedFutureDate),
             ),
           );
         },
