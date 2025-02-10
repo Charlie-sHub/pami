@@ -7,7 +7,7 @@ import 'package:pami/domain/core/validation/objects/password.dart';
 /// Interface for the authentication repository
 abstract class AuthenticationRepositoryInterface {
   /// Returns the currently signed in user
-  Future<Option<User>> getSignedInUser();
+  Future<Option<User>> getLoggedInUser();
 
   /// Registers a new user with the given email and password
   Future<Either<Failure, Unit>> register({
@@ -29,5 +29,5 @@ abstract class AuthenticationRepositoryInterface {
   Future<Either<Failure, Unit>> signInWithApple();
 
   /// Signs out the current user
-  Future<void> signOut();
+  Future<void> logOut();
 }
