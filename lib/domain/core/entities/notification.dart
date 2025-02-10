@@ -1,43 +1,39 @@
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pami/domain/core/failures/failure.dart';
-import 'package:pami/domain/core/misc/enums/transaction_status.dart';
+import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
-part 'transaction.freezed.dart';
+part 'notification.freezed.dart';
 
-/// Transaction entity
+/// Notification entity
 @freezed
-class Transaction with _$Transaction {
-  const Transaction._();
+class Notification with _$Notification {
+  const Notification._();
 
   /// Default constructor
-  const factory Transaction({
+  const factory Notification({
     required UniqueId id,
-    required UniqueId shoutOutCreatorId,
-    required UniqueId interestedId,
-    required TransactionStatus status,
-    required QrCode qrCode,
+    required EntityDescription description,
+    required bool seen,
     required PastDate dateCreated,
-  }) = _Transaction;
+  }) = _Notification;
 
   /// Empty constructor
-  factory Transaction.empty() => Transaction(
+  factory Notification.empty() => Notification(
         id: UniqueId(),
-        shoutOutCreatorId: UniqueId(),
-        interestedId: UniqueId(),
-        status: TransactionStatus.pending,
-        qrCode: QrCode(
-          1,
-          QrErrorCorrectLevel.L,
-        ),
+        description: EntityDescription(''),
+        seen: false,
         dateCreated: PastDate(DateTime.now()),
       );
 
   /// Gets an [Option] of [Failure] of any of its fields
-  Option<Failure<dynamic>> get failureOption => dateCreated.failureOrUnit.fold(
+  Option<Failure<dynamic>> get failureOption => Either.map2(
+        description.failureOrUnit,
+        dateCreated.failureOrUnit,
+        (_, __) => unit,
+      ).fold(
         some,
         (_) => none(),
       );
@@ -48,7 +44,7 @@ class Transaction with _$Transaction {
         left,
       );
 
-  /// Checks if the [Transaction] is valid
+  /// Checks if the [Notification] is valid
   /// That  is if the [failureOption] is [None]
   bool get isValid => failureOption.isNone();
 }
