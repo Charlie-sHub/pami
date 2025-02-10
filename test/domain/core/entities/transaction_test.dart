@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/domain/core/entities/transaction.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/misc/enums/transaction_status.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -116,7 +117,7 @@ void main() {
               expect(transaction.id, isA<UniqueId>());
               expect(transaction.shoutOutCreatorId, isA<UniqueId>());
               expect(transaction.interestedId, isA<UniqueId>());
-              expect(transaction.isCompleted, false);
+              expect(transaction.status, TransactionStatus.pending);
               expect(transaction.qrCode, isA<QrCode>());
               expect(transaction.dateCreated, isA<PastDate>());
             },
