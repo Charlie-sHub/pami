@@ -266,6 +266,12 @@ void main() {
             ),
           ),
         ],
+        verify: (_) => verifyNever(
+          mockRepository.register(
+            user: anyNamed('user'),
+            password: anyNamed('password'),
+          ),
+        ),
       );
 
       blocTest<RegistrationFormBloc, RegistrationFormState>(
