@@ -1,25 +1,21 @@
-part of 'login_form_bloc.dart';
+part of 'forgotten_password_form_bloc.dart';
 
-/// Login form state
+/// Forgotten password form state
 @freezed
-class LoginFormState with _$LoginFormState {
+class ForgottenPasswordFormState with _$ForgottenPasswordFormState {
   /// Default constructor
-  const factory LoginFormState({
+  const factory ForgottenPasswordFormState({
     required EmailAddress email,
-    required Password password,
     required bool showErrorMessages,
     required bool isSubmitting,
-    required Option<User> thirdPartyUserOption,
     required Option<Either<Failure, Unit>> failureOrSuccessOption,
-  }) = _LoginFormState;
+  }) = _ForgottenPasswordFormState;
 
   /// Empty constructor
-  factory LoginFormState.initial() => LoginFormState(
+  factory ForgottenPasswordFormState.initial() => ForgottenPasswordFormState(
         email: EmailAddress(''),
-        password: Password(''),
         showErrorMessages: false,
         isSubmitting: false,
-        thirdPartyUserOption: none(),
         failureOrSuccessOption: none(),
       );
 }
