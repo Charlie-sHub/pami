@@ -29,4 +29,7 @@ abstract class AuthenticationRepositoryInterface {
 
   /// Signs out the current user
   Future<void> logOut();
+
+  /// Resets the password for the given email
+  Future<Either<Failure, Unit>> resetPassword(EmailAddress emailAddress);
 }

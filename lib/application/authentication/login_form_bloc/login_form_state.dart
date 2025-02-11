@@ -11,7 +11,7 @@ class LoginFormState with _$LoginFormState {
     required bool isSubmitting,
     required Option<User> thirdPartyUserOption,
     required Option<Either<Failure, Unit>> failureOrSuccessOption,
-  }) = _State;
+  }) = _LoginFormState;
 
   /// Empty constructor
   factory LoginFormState.initial() => LoginFormState(
