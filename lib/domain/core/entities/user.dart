@@ -21,6 +21,7 @@ class User with _$User {
     required UniqueId id,
     required EmailAddress email,
     required Name name,
+    required Name username,
     required EntityDescription bio,
     required Url avatar,
     required bool isVerified,
@@ -35,6 +36,7 @@ class User with _$User {
         id: UniqueId(),
         email: EmailAddress(''),
         name: Name(''),
+        username: Name(''),
         bio: EntityDescription(''),
         avatar: Url(''),
         isVerified: false,
@@ -45,9 +47,10 @@ class User with _$User {
       );
 
   /// Gets an [Option] of [Failure] of any of its fields
-  Option<Failure<dynamic>> get failureOption => Either.map7(
+  Option<Failure<dynamic>> get failureOption => Either.map8(
         email.failureOrUnit,
         name.failureOrUnit,
+        username.failureOrUnit,
         bio.failureOrUnit,
         avatar.failureOrUnit,
         karma.failureOrUnit,
@@ -61,6 +64,7 @@ class User with _$User {
           _____,
           ______,
           _______,
+          ________,
         ) =>
             unit,
       ).fold(
