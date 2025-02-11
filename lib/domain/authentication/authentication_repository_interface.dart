@@ -11,9 +11,8 @@ abstract class AuthenticationRepositoryInterface {
 
   /// Registers a new user with the given email and password
   Future<Either<Failure, Unit>> register({
-    required EmailAddress email,
+    required User user,
     required Password password,
-    required String username,
   });
 
   /// Signs in a user with the given email and password
