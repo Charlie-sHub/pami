@@ -78,6 +78,9 @@ class Failure<T> with _$Failure<T> {
     required String failedValue,
   }) = InvalidUrl<T>;
 
+  /// [Failure] indicating empty fields of a form
+  const factory Failure.emptyFields() = EmptyFields<T>;
+
   // ---  Failures (Server/Cache Errors) ---
   /// [Failure] indicating a not found error
   const factory Failure.notFoundError() = NotFoundError<T>;

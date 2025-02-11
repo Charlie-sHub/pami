@@ -11,6 +11,7 @@ User getValidUser() => User(
       id: UniqueId(),
       email: EmailAddress('test@test.test'),
       name: Name('test'),
+      username: Name('@name'),
       bio: EntityDescription('test'),
       avatar: Url('https://www.test.test'),
       isVerified: false,

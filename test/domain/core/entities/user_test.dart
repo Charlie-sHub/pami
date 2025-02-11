@@ -16,6 +16,7 @@ void main() {
   late User validUser;
   late User invalidEmailUser;
   late User invalidNameUser;
+  late User invalidUsernameUser;
   late User invalidBioUser;
   late User invalidAvatarUser;
   late User invalidKarmaUser;
@@ -31,6 +32,9 @@ void main() {
       );
       invalidNameUser = validUser.copyWith(
         name: Name(''),
+      );
+      invalidUsernameUser = validUser.copyWith(
+        username: Name(''),
       );
       invalidBioUser = validUser.copyWith(
         bio: EntityDescription(''),
@@ -121,6 +125,17 @@ void main() {
           );
 
           test(
+            'should be invalid with invalidUsernameUser',
+            () {
+              // Act
+              final result = invalidUsernameUser.isValid;
+
+              // Assert
+              expect(result, false);
+            },
+          );
+
+          test(
             'should be invalid with invalidBioUser',
             () {
               // Act
@@ -191,6 +206,17 @@ void main() {
             () {
               // Act
               final result = invalidNameUser.failureOption;
+
+              // Assert
+              expect(result, isA<Some<Failure<dynamic>>>());
+            },
+          );
+
+          test(
+            'should return some when username is invalid',
+            () {
+              // Act
+              final result = invalidUsernameUser.failureOption;
 
               // Assert
               expect(result, isA<Some<Failure<dynamic>>>());
