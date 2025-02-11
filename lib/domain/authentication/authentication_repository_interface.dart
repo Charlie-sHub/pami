@@ -17,16 +17,16 @@ abstract class AuthenticationRepositoryInterface {
   });
 
   /// Signs in a user with the given email and password
-  Future<Either<Failure, Unit>> signInWithEmailAndPassword({
+  Future<Either<Failure, Unit>> logIn({
     required EmailAddress email,
     required Password password,
   });
 
   /// Signs in a user via Google
-  Future<Either<Failure, Unit>> signInWithGoogle();
+  Future<Either<Failure, Option<User>>> logInGoogle();
 
   /// Signs in a user via Apple
-  Future<Either<Failure, Unit>> signInWithApple();
+  Future<Either<Failure, Option<User>>> logInApple();
 
   /// Signs out the current user
   Future<void> logOut();
