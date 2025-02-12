@@ -6,7 +6,7 @@ import 'package:pami/domain/core/failures/failure.dart';
 /// Interface for the map repository
 abstract class MapRepositoryInterface {
   /// Fetches the shout outs of the current user based on the [settings]
-  Future<Either<Failure, List<ShoutOut>>> fetchShoutOutsForMap(
+  Stream<Either<Failure, Set<ShoutOut>>> watchShoutOuts(
     MapSettings settings,
   );
 }
