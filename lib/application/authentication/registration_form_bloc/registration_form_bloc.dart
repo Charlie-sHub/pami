@@ -104,13 +104,13 @@ class RegistrationFormBloc
           ),
         ),
         submitted: () async {
-          Either<Failure, Unit>? failureOrUnit;
           emit(
             state.copyWith(
               isSubmitting: true,
               failureOrSuccessOption: none(),
             ),
           );
+          Either<Failure, Unit>? failureOrUnit;
           final canRegister = state.user.isValid &&
               state.password.isValid() &&
               state.passwordConfirmator.isValid() &&

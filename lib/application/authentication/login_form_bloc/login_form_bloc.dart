@@ -32,28 +32,28 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
           ),
         ),
         loggedIn: () async {
+          emit(
+            state.copyWith(
+              isSubmitting: true,
+              failureOrSuccessOption: none(),
+            ),
+          );
           final isEmailValid = state.email.isValid();
           final isPasswordValid = state.password.isValid();
-
-          Either<Failure, Unit>? failureOrSuccess;
-
+          Either<Failure, Unit>? failureOrUnit;
           if (isEmailValid && isPasswordValid) {
-            emit(
-              state.copyWith(
-                isSubmitting: true,
-                failureOrSuccessOption: none(),
-              ),
-            );
-            failureOrSuccess = await _repository.logIn(
+            failureOrUnit = await _repository.logIn(
               email: state.email,
               password: state.password,
             );
+          } else {
+            failureOrUnit = left(const Failure.emptyFields());
           }
           emit(
             state.copyWith(
               isSubmitting: false,
               showErrorMessages: true,
-              failureOrSuccessOption: optionOf(failureOrSuccess),
+              failureOrSuccessOption: optionOf(failureOrUnit),
             ),
           );
           return null;
@@ -82,9 +82,9 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         failureOrSuccessOption: none(),
       ),
     );
-    final failureOrSuccess = await forwardedCall();
+    final failureOrUnit = await forwardedCall();
     emitter(
-      failureOrSuccess.fold(
+      failureOrUnit.fold(
         (failure) => state.copyWith(
           isSubmitting: false,
           failureOrSuccessOption: some(left(failure)),
