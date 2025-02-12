@@ -45,6 +45,7 @@ analyzer:
     inference_failure_on_instance_creation: ignore
     strict_raw_type: ignore
     one_member_abstracts: ignore
+    flutter_style_todos: ignore
 
 coverage:
   ignore:

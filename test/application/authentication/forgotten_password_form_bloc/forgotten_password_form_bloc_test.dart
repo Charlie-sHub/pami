@@ -48,8 +48,9 @@ void main() {
         '[isSubmitting: false, failureOrSuccessOption: some(right(unit))]'
         ' when email is valid and repository returns Right',
         setUp: () {
-          when(mockRepository.resetPassword(any))
-              .thenAnswer((_) async => right(unit));
+          when(
+            mockRepository.resetPassword(any),
+          ).thenAnswer((_) async => right(unit));
         },
         seed: () => ForgottenPasswordFormState.initial().copyWith(
           email: EmailAddress(validEmail),
@@ -61,6 +62,7 @@ void main() {
         expect: () => [
           forgottenPasswordFormBloc.state.copyWith(
             isSubmitting: true,
+            showErrorMessages: false,
             failureOrSuccessOption: none(),
           ),
           forgottenPasswordFormBloc.state.copyWith(
@@ -68,9 +70,9 @@ void main() {
             failureOrSuccessOption: some(right(unit)),
           ),
         ],
-        verify: (_) =>
-            verify(mockRepository.resetPassword(EmailAddress(validEmail)))
-                .called(1),
+        verify: (_) => verify(
+          mockRepository.resetPassword(EmailAddress(validEmail)),
+        ).called(1),
       );
     },
   );
@@ -96,6 +98,7 @@ void main() {
         expect: () => [
           forgottenPasswordFormBloc.state.copyWith(
             isSubmitting: true,
+            showErrorMessages: false,
             failureOrSuccessOption: none(),
           ),
           forgottenPasswordFormBloc.state.copyWith(
@@ -121,6 +124,11 @@ void main() {
           const ForgottenPasswordFormEvent.submitted(),
         ),
         expect: () => [
+          forgottenPasswordFormBloc.state.copyWith(
+            isSubmitting: true,
+            showErrorMessages: false,
+            failureOrSuccessOption: none(),
+          ),
           forgottenPasswordFormBloc.state.copyWith(
             showErrorMessages: true,
             failureOrSuccessOption: some(

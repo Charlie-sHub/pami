@@ -26,31 +26,25 @@ class ForgottenPasswordFormBloc
           ),
         ),
         submitted: () async {
-          Either<Failure, Unit>? failureOrSuccess;
+          emit(
+            state.copyWith(
+              isSubmitting: true,
+              failureOrSuccessOption: none(),
+            ),
+          );
+          Either<Failure, Unit>? failureOrUnit;
           if (state.email.isValid()) {
-            emit(
-              state.copyWith(
-                isSubmitting: true,
-                failureOrSuccessOption: none(),
-              ),
-            );
-            failureOrSuccess = await _repository.resetPassword(state.email);
-            emit(
-              state.copyWith(
-                isSubmitting: false,
-                failureOrSuccessOption: some(failureOrSuccess),
-              ),
-            );
+            failureOrUnit = await _repository.resetPassword(state.email);
           } else {
-            emit(
-              state.copyWith(
-                showErrorMessages: true,
-                failureOrSuccessOption: some(
-                  left(const Failure.emptyFields()),
-                ),
-              ),
-            );
+            failureOrUnit = left(const Failure.emptyFields());
           }
+          emit(
+            state.copyWith(
+              isSubmitting: false,
+              showErrorMessages: true,
+              failureOrSuccessOption: some(failureOrUnit),
+            ),
+          );
           return null;
         },
       ),
