@@ -28,9 +28,7 @@ void main() {
   );
 
   tearDown(
-    () {
-      mapWatcherBloc.close();
-    },
+    () => mapWatcherBloc.close(),
   );
 
   group(
