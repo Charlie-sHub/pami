@@ -4,6 +4,6 @@ import 'package:pami/domain/core/failures/failure.dart';
 
 /// Interface for the interested shout outs repository
 abstract class InterestedShoutOutsRepositoryInterface {
-  /// Fetches the shout outs of the current user
-  Future<Either<Failure, List<ShoutOut>>> fetchInterestedShoutOuts();
+  /// Fetches the interested shout outs
+  Stream<Either<Failure, Set<ShoutOut>>> watchInterestedShoutOuts();
 }
