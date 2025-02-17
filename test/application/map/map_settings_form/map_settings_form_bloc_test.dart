@@ -1,13 +1,13 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/application/map/map_settings/map_settings_bloc.dart';
+import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/map_radius.dart';
 
 void main() {
-  late MapSettingsBloc mapSettingsBloc;
+  late MapSettingsFormBloc mapSettingsFormBloc;
 
   const validRadius = 10.0;
   const validType = ShoutOutType.request;
@@ -15,21 +15,21 @@ void main() {
 
   setUp(
     () {
-      mapSettingsBloc = MapSettingsBloc();
+      mapSettingsFormBloc = MapSettingsFormBloc();
     },
   );
 
   group(
     'Testing on success',
     () {
-      blocTest<MapSettingsBloc, MapSettingsState>(
+      blocTest<MapSettingsFormBloc, MapSettingsFormState>(
         'emits a state with the changed radius when RadiusChanged is added',
-        build: () => mapSettingsBloc,
+        build: () => mapSettingsFormBloc,
         act: (bloc) => bloc.add(
-          const MapSettingsEvent.radiusChanged(validRadius),
+          const MapSettingsFormEvent.radiusChanged(validRadius),
         ),
         expect: () => [
-          MapSettingsState.initial().copyWith(
+          MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               radius: MapRadius(validRadius),
             ),
@@ -37,14 +37,14 @@ void main() {
         ],
       );
 
-      blocTest<MapSettingsBloc, MapSettingsState>(
+      blocTest<MapSettingsFormBloc, MapSettingsFormState>(
         'emits a state with the changed type when TypeChanged is added',
-        build: () => mapSettingsBloc,
+        build: () => mapSettingsFormBloc,
         act: (bloc) => bloc.add(
-          const MapSettingsEvent.typeChanged(validType),
+          const MapSettingsFormEvent.typeChanged(validType),
         ),
         expect: () => [
-          MapSettingsState.initial().copyWith(
+          MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               type: validType,
             ),
@@ -52,15 +52,15 @@ void main() {
         ],
       );
 
-      blocTest<MapSettingsBloc, MapSettingsState>(
+      blocTest<MapSettingsFormBloc, MapSettingsFormState>(
         'emits a state with the changed categories '
         'when CategoriesChanged is added',
-        build: () => mapSettingsBloc,
+        build: () => mapSettingsFormBloc,
         act: (bloc) => bloc.add(
-          const MapSettingsEvent.categoriesChanged(validCategories),
+          const MapSettingsFormEvent.categoriesChanged(validCategories),
         ),
         expect: () => [
-          MapSettingsState.initial().copyWith(
+          MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               categories: validCategories,
             ),
@@ -68,14 +68,14 @@ void main() {
         ],
       );
 
-      blocTest<MapSettingsBloc, MapSettingsState>(
+      blocTest<MapSettingsFormBloc, MapSettingsFormState>(
         'emits the initial state when ResetSettings is added',
-        build: () => mapSettingsBloc,
+        build: () => mapSettingsFormBloc,
         act: (bloc) => bloc.add(
-          const MapSettingsEvent.resetSettings(),
+          const MapSettingsFormEvent.resetSettings(),
         ),
         expect: () => [
-          MapSettingsState.initial(),
+          MapSettingsFormState.initial(),
         ],
       );
     },
