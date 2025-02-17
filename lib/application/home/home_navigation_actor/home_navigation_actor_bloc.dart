@@ -2,17 +2,17 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'home_navigation_bloc.freezed.dart';
-part 'home_navigation_event.dart';
-part 'home_navigation_state.dart';
+part 'home_navigation_actor_bloc.freezed.dart';
+part 'home_navigation_actor_event.dart';
+part 'home_navigation_actor_state.dart';
 
 /// Home navigation bloc
 @injectable
-class HomeNavigationBloc
-    extends Bloc<HomeNavigationEvent, HomeNavigationState> {
+class HomeNavigationActorBloc
+    extends Bloc<HomeNavigationActorEvent, HomeNavigationActorState> {
   /// Default constructor
-  HomeNavigationBloc() : super(const HomeNavigationState()) {
-    on<HomeNavigationEvent>(
+  HomeNavigationActorBloc() : super(const HomeNavigationActorState()) {
+    on<HomeNavigationActorEvent>(
       (event, emit) => event.when(
         tabSelected: (index) {
           var newIndex = index;

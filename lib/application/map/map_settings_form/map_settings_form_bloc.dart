@@ -6,16 +6,17 @@ import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/map_radius.dart';
 
-part 'map_settings_bloc.freezed.dart';
-part 'map_settings_event.dart';
-part 'map_settings_state.dart';
+part 'map_settings_form_bloc.freezed.dart';
+part 'map_settings_form_event.dart';
+part 'map_settings_form_state.dart';
 
 /// Map settings bloc
 @injectable
-class MapSettingsBloc extends Bloc<MapSettingsEvent, MapSettingsState> {
+class MapSettingsFormBloc
+    extends Bloc<MapSettingsFormEvent, MapSettingsFormState> {
   /// Default constructor
-  MapSettingsBloc() : super(MapSettingsState.initial()) {
-    on<MapSettingsEvent>(
+  MapSettingsFormBloc() : super(MapSettingsFormState.initial()) {
+    on<MapSettingsFormEvent>(
       (event, emit) => event.when(
         radiusChanged: (radius) => emit(
           state.copyWith(
@@ -39,7 +40,7 @@ class MapSettingsBloc extends Bloc<MapSettingsEvent, MapSettingsState> {
           ),
         ),
         resetSettings: () => emit(
-          MapSettingsState.initial(),
+          MapSettingsFormState.initial(),
         ),
       ),
     );
