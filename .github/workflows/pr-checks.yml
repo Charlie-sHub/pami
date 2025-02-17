@@ -27,7 +27,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.27.4
+          flutter-version: 3.29.0
           channel: stable
           cache: true
 
@@ -36,6 +36,9 @@ jobs:
 
       - name: Run Build Runner
         run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Generate Localizations
+        run: flutter gen-l10n
 
       - name: Run Linter
         run: flutter analyze
@@ -53,8 +56,8 @@ jobs:
         uses: VGVentures/very-good-coverage@v1.1.1
         with:
           path: "./coverage/lcov.info"
-          min_coverage: 80 # Adjust threshold as needed
-          exclude: "**/*.g.dart **/*.freezed.dart **/*.config.dart **/*.mocks.dart" # Exclude generated files
+          min_coverage: 80
+          exclude: "**/*.g.dart **/*.freezed.dart **/*.config.dart **/*.mocks.dart"
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
