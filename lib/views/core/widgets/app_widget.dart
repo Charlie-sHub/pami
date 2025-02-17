@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pami/l10n/app_localizations.dart';
 import 'package:pami/l10n/l10n.dart';
+import 'package:pami/src/generated/i18n/app_localizations.dart';
 import 'package:pami/views/core/theme/theme.dart';
 
 /// App's entry widget
