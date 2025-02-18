@@ -4,11 +4,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/help_and_support/contact_form/contact_form_bloc.dart';
-import 'package:pami/domain/core/entities/message.dart';
+import 'package:pami/domain/core/entities/contact_message.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/help_and_support/help_and_support_repository_interface.dart';
 
+import '../../../misc/get_valid_contact_message.dart';
 import 'contact_form_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<HelpAndSupportRepositoryInterface>()])
@@ -19,9 +20,7 @@ void main() {
   const validMessageContent = 'This is a valid message.';
   const invalidMessageContent = '';
   const failure = Failure.serverError(errorString: 'error');
-  final validMessage = Message.empty().copyWith(
-    content: MessageContent(validMessageContent),
-  );
+  final validMessage = getValidContactMessage();
 
   setUp(
     () {
@@ -56,7 +55,7 @@ void main() {
         'valid and repository returns Right',
         setUp: () {
           when(
-            mockRepository.submitContactRequest(any),
+            mockRepository.submitContact(any),
           ).thenAnswer(
             (_) async => right(unit),
           );
@@ -81,7 +80,7 @@ void main() {
           ),
         ],
         verify: (_) => verify(
-          mockRepository.submitContactRequest(validMessage),
+          mockRepository.submitContact(validMessage),
         ).called(1),
       );
     },
@@ -96,7 +95,7 @@ void main() {
         'failureOrSuccessOption: some(left(failure))] when message is '
         'valid and repository returns Left',
         setUp: () {
-          when(mockRepository.submitContactRequest(any)).thenAnswer(
+          when(mockRepository.submitContact(any)).thenAnswer(
             (_) async => left(failure),
           );
         },
@@ -120,7 +119,7 @@ void main() {
           ),
         ],
         verify: (_) => verify(
-          mockRepository.submitContactRequest(validMessage),
+          mockRepository.submitContact(validMessage),
         ).called(1),
       );
 
@@ -130,7 +129,7 @@ void main() {
         'failureOrSuccessOption: some(left(Failure.emptyFields()))] '
         'when message is invalid',
         seed: () => ContactFormState.initial().copyWith(
-          message: Message.empty().copyWith(
+          message: ContactMessage.empty().copyWith(
             content: MessageContent(invalidMessageContent),
           ),
         ),
@@ -153,7 +152,7 @@ void main() {
           ),
         ],
         verify: (_) => verifyNever(
-          mockRepository.submitContactRequest(any),
+          mockRepository.submitContact(any),
         ),
       );
     },

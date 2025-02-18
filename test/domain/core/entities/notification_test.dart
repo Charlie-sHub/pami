@@ -35,133 +35,128 @@ void main() {
   );
 
   group(
-    'Notification',
+    'Testing on success',
     () {
-      group(
-        'Testing on success',
+      test(
+        'should be valid when all inputs are valid',
         () {
-          test(
-            'should be valid when all inputs are valid',
-            () {
-              // Act
-              final result = validNotification.isValid;
+          // Act
+          final result = validNotification.isValid;
 
-              // Assert
-              expect(result, true);
-            },
-          );
-
-          test(
-            'should return none when all inputs are valid',
-            () {
-              // Act
-              final result = validNotification.failureOption;
-
-              // Assert
-              expect(result, none());
-            },
-          );
-
-          test(
-            'should return right(unit) when all inputs are valid',
-            () {
-              // Act
-              final result = validNotification.failureOrUnit;
-
-              // Assert
-              expect(result, right(unit));
-            },
-          );
+          // Assert
+          expect(result, true);
         },
       );
 
-      group(
-        'Testing on failure',
+      test(
+        'should return none when all inputs are valid',
         () {
-          test(
-            'should be invalid when description is invalid',
-            () {
-              // Act
-              final result = invalidDescriptionNotification.isValid;
+          // Act
+          final result = validNotification.failureOption;
 
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should return some when description is invalid',
-            () {
-              // Act
-              final result = invalidDescriptionNotification.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return left when description is invalid',
-            () {
-              // Act
-              final result = invalidDescriptionNotification.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
-
-          test(
-            'should be invalid when dateCreated is invalid',
-            () {
-              // Act
-              final result = invalidDateCreatedNotification.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should return some when dateCreated is invalid',
-            () {
-              // Act
-              final result = invalidDateCreatedNotification.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return left when dateCreated is invalid',
-            () {
-              // Act
-              final result = invalidDateCreatedNotification.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
+          // Assert
+          expect(result, none());
         },
       );
 
-      group(
-        'empty',
+      test(
+        'should return right(unit) when all inputs are valid',
         () {
-          test(
-            'should return a Notification with default values',
-            () {
-              // Act
-              final notification = Notification.empty();
+          // Act
+          final result = validNotification.failureOrUnit;
 
-              // Assert
-              expect(notification.id, isA<UniqueId>());
-              expect(notification.description, isA<EntityDescription>());
-              expect(notification.seen, false);
-              expect(notification.dateCreated, isA<PastDate>());
-            },
-          );
+          // Assert
+          expect(result, right(unit));
+        },
+      );
+    },
+  );
+
+  group(
+    'Testing on failure',
+    () {
+      test(
+        'should be invalid when description is invalid',
+        () {
+          // Act
+          final result = invalidDescriptionNotification.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should return some when description is invalid',
+        () {
+          // Act
+          final result = invalidDescriptionNotification.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return left when description is invalid',
+        () {
+          // Act
+          final result = invalidDescriptionNotification.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+
+      test(
+        'should be invalid when dateCreated is invalid',
+        () {
+          // Act
+          final result = invalidDateCreatedNotification.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should return some when dateCreated is invalid',
+        () {
+          // Act
+          final result = invalidDateCreatedNotification.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return left when dateCreated is invalid',
+        () {
+          // Act
+          final result = invalidDateCreatedNotification.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+    },
+  );
+
+  group(
+    'empty',
+    () {
+      test(
+        'should return a Notification with default values',
+        () {
+          // Act
+          final notification = Notification.empty();
+
+          // Assert
+          expect(notification.id, isA<UniqueId>());
+          expect(notification.description, isA<EntityDescription>());
+          expect(notification.seen, false);
+          expect(notification.dateCreated, isA<PastDate>());
         },
       );
     },

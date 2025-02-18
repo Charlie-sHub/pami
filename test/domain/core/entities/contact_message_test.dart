@@ -1,26 +1,27 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/entities/message.dart';
+import 'package:pami/domain/core/entities/contact_message.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/misc/enums/contact_message_type.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 
-import '../../../misc/get_valid_message.dart';
+import '../../../misc/get_valid_contact_message.dart';
 
 void main() {
-  late Message validMessage;
-  late Message invalidContentMessage;
-  late Message invalidDateCreatedMessage;
+  late ContactMessage validContactMessage;
+  late ContactMessage invalidContentContactMessage;
+  late ContactMessage invalidDateCreatedContactMessage;
 
   setUp(
     () {
       // Arrange
-      validMessage = getValidMessage();
-      invalidContentMessage = validMessage.copyWith(
+      validContactMessage = getValidContactMessage();
+      invalidContentContactMessage = validContactMessage.copyWith(
         content: MessageContent(''),
       );
-      invalidDateCreatedMessage = validMessage.copyWith(
+      invalidDateCreatedContactMessage = validContactMessage.copyWith(
         dateCreated: PastDate(
           DateTime.now().add(const Duration(days: 10)),
         ),
@@ -35,7 +36,7 @@ void main() {
         'should be valid when all inputs are valid',
         () {
           // Act
-          final result = validMessage.isValid;
+          final result = validContactMessage.isValid;
 
           // Assert
           expect(result, true);
@@ -46,7 +47,7 @@ void main() {
         'should return none when all inputs are valid',
         () {
           // Act
-          final result = validMessage.failureOption;
+          final result = validContactMessage.failureOption;
 
           // Assert
           expect(result, none());
@@ -57,7 +58,7 @@ void main() {
         'should return right(unit) when all inputs are valid',
         () {
           // Act
-          final result = validMessage.failureOrUnit;
+          final result = validContactMessage.failureOrUnit;
 
           // Assert
           expect(result, right(unit));
@@ -70,10 +71,10 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should be invalid with invalidContentMessage',
+        'should be invalid with invalidContentContactMessage',
         () {
           // Act
-          final result = invalidContentMessage.isValid;
+          final result = invalidContentContactMessage.isValid;
 
           // Assert
           expect(result, false);
@@ -81,10 +82,10 @@ void main() {
       );
 
       test(
-        'should be invalid with invalidDateCreatedMessage',
+        'should be invalid with invalidDateCreatedContactMessage',
         () {
           // Act
-          final result = invalidDateCreatedMessage.isValid;
+          final result = invalidDateCreatedContactMessage.isValid;
 
           // Assert
           expect(result, false);
@@ -95,7 +96,7 @@ void main() {
         'should return some when content is invalid',
         () {
           // Act
-          final result = invalidContentMessage.failureOption;
+          final result = invalidContentContactMessage.failureOption;
 
           // Assert
           expect(result, isA<Some<Failure<dynamic>>>());
@@ -106,7 +107,7 @@ void main() {
         'should return some when dateCreated is invalid',
         () {
           // Act
-          final result = invalidDateCreatedMessage.failureOption;
+          final result = invalidDateCreatedContactMessage.failureOption;
 
           // Assert
           expect(result, isA<Some<Failure<dynamic>>>());
@@ -117,7 +118,7 @@ void main() {
         'should return left when content is invalid',
         () {
           // Act
-          final result = invalidContentMessage.failureOrUnit;
+          final result = invalidContentContactMessage.failureOrUnit;
 
           // Assert
           expect(result, isA<Left<Failure<dynamic>, Unit>>());
@@ -128,7 +129,7 @@ void main() {
         'should return left when dateCreated is invalid',
         () {
           // Act
-          final result = invalidDateCreatedMessage.failureOrUnit;
+          final result = invalidDateCreatedContactMessage.failureOrUnit;
 
           // Assert
           expect(result, isA<Left<Failure<dynamic>, Unit>>());
@@ -141,17 +142,17 @@ void main() {
     'empty',
     () {
       test(
-        'should return a Message with default values',
+        'should return a ContactMessage with default values',
         () {
           // Act
-          final message = Message.empty();
+          final contactMessage = ContactMessage.empty();
 
           // Assert
-          expect(message.id, isA<UniqueId>());
-          expect(message.senderId, isA<UniqueId>());
-          expect(message.content, isA<MessageContent>());
-          expect(message.isRead, false);
-          expect(message.dateCreated, isA<PastDate>());
+          expect(contactMessage.id, isA<UniqueId>());
+          expect(contactMessage.senderId, isA<UniqueId>());
+          expect(contactMessage.content, isA<MessageContent>());
+          expect(contactMessage.type, ContactMessageType.other);
+          expect(contactMessage.dateCreated, isA<PastDate>());
         },
       );
     },
