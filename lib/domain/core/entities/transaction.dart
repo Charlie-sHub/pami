@@ -26,8 +26,8 @@ class Transaction with _$Transaction {
   /// Empty constructor
   factory Transaction.empty() => Transaction(
         id: UniqueId(),
-        shoutOutCreatorId: UniqueId(),
-        interestedId: UniqueId(),
+        shoutOutCreatorId: UniqueId.fromUniqueString(''),
+        interestedId: UniqueId.fromUniqueString(''),
         status: TransactionStatus.pending,
         qrCode: QrCode(
           1,
