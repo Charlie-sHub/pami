@@ -26,102 +26,97 @@ void main() {
   );
 
   group(
-    'Transaction',
+    'Testing on success',
     () {
-      group(
-        'Testing on success',
+      test(
+        'should be valid when all inputs are valid',
         () {
-          test(
-            'should be valid when all inputs are valid',
-            () {
-              // Act
-              final result = validTransaction.isValid;
+          // Act
+          final result = validTransaction.isValid;
 
-              // Assert
-              expect(result, true);
-            },
-          );
-
-          test(
-            'should return none when all inputs are valid',
-            () {
-              // Act
-              final result = validTransaction.failureOption;
-
-              // Assert
-              expect(result, none());
-            },
-          );
-
-          test(
-            'should return right(unit) when all inputs are valid',
-            () {
-              // Act
-              final result = validTransaction.failureOrUnit;
-
-              // Assert
-              expect(result, right(unit));
-            },
-          );
+          // Assert
+          expect(result, true);
         },
       );
 
-      group(
-        'Testing on failure',
+      test(
+        'should return none when all inputs are valid',
         () {
-          test(
-            'should be invalid with invalidDateCreatedTransaction',
-            () {
-              // Act
-              final result = invalidDateCreatedTransaction.isValid;
+          // Act
+          final result = validTransaction.failureOption;
 
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should return some when dateCreated is invalid',
-            () {
-              // Act
-              final result = invalidDateCreatedTransaction.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return left when dateCreated is invalid',
-            () {
-              // Act
-              final result = invalidDateCreatedTransaction.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
+          // Assert
+          expect(result, none());
         },
       );
 
-      group(
-        'empty',
+      test(
+        'should return right(unit) when all inputs are valid',
         () {
-          test(
-            'should return a Transaction with default values',
-            () {
-              // Act
-              final transaction = Transaction.empty();
+          // Act
+          final result = validTransaction.failureOrUnit;
 
-              // Assert
-              expect(transaction.id, isA<UniqueId>());
-              expect(transaction.shoutOutCreatorId, isA<UniqueId>());
-              expect(transaction.interestedId, isA<UniqueId>());
-              expect(transaction.status, TransactionStatus.pending);
-              expect(transaction.qrCode, isA<QrCode>());
-              expect(transaction.dateCreated, isA<PastDate>());
-            },
-          );
+          // Assert
+          expect(result, right(unit));
+        },
+      );
+    },
+  );
+
+  group(
+    'Testing on failure',
+    () {
+      test(
+        'should be invalid with invalidDateCreatedTransaction',
+        () {
+          // Act
+          final result = invalidDateCreatedTransaction.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should return some when dateCreated is invalid',
+        () {
+          // Act
+          final result = invalidDateCreatedTransaction.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return left when dateCreated is invalid',
+        () {
+          // Act
+          final result = invalidDateCreatedTransaction.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+    },
+  );
+
+  group(
+    'empty',
+    () {
+      test(
+        'should return a Transaction with default values',
+        () {
+          // Act
+          final transaction = Transaction.empty();
+
+          // Assert
+          expect(transaction.id, isA<UniqueId>());
+          expect(transaction.shoutOutCreatorId, isA<UniqueId>());
+          expect(transaction.interestedId, isA<UniqueId>());
+          expect(transaction.status, TransactionStatus.pending);
+          expect(transaction.qrCode, isA<QrCode>());
+          expect(transaction.dateCreated, isA<PastDate>());
         },
       );
     },
