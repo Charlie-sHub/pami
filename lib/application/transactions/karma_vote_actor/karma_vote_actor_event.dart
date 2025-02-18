@@ -5,7 +5,7 @@ part of 'karma_vote_actor_bloc.dart';
 class KarmaVoteActorEvent with _$KarmaVoteActorEvent {
   /// Vote submitted event
   const factory KarmaVoteActorEvent.voteSubmitted({
-    required UniqueId transactionId,
+    required UniqueId shoutOutId,
     required bool isPositive,
   }) = _VoteSubmitted;
 }

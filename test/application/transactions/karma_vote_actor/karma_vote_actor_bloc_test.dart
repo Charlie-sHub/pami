@@ -25,6 +25,7 @@ void main() {
       karmaVoteActorBloc = KarmaVoteActorBloc(mockRepository);
     },
   );
+
   group(
     'Testing on success',
     () {
@@ -34,7 +35,7 @@ void main() {
         setUp: () {
           when(
             mockRepository.submitKarmaVote(
-              transactionId: anyNamed('transactionId'),
+              shoutOutId: anyNamed('shoutOutId'),
               vote: anyNamed('vote'),
             ),
           ).thenAnswer((_) async => right(unit));
@@ -42,7 +43,7 @@ void main() {
         build: () => karmaVoteActorBloc,
         act: (bloc) => bloc.add(
           KarmaVoteActorEvent.voteSubmitted(
-            transactionId: validTransactionId,
+            shoutOutId: validTransactionId,
             isPositive: isPositive,
           ),
         ),
@@ -52,7 +53,7 @@ void main() {
         ],
         verify: (_) => verify(
           mockRepository.submitKarmaVote(
-            transactionId: validTransactionId,
+            shoutOutId: validTransactionId,
             vote: isPositive,
           ),
         ).called(1),
@@ -69,7 +70,7 @@ void main() {
         setUp: () {
           when(
             mockRepository.submitKarmaVote(
-              transactionId: anyNamed('transactionId'),
+              shoutOutId: anyNamed('shoutOutId'),
               vote: anyNamed('vote'),
             ),
           ).thenAnswer((_) async => left(failure));
@@ -77,7 +78,7 @@ void main() {
         build: () => karmaVoteActorBloc,
         act: (bloc) => bloc.add(
           KarmaVoteActorEvent.voteSubmitted(
-            transactionId: validTransactionId,
+            shoutOutId: validTransactionId,
             isPositive: isPositive,
           ),
         ),
@@ -87,7 +88,7 @@ void main() {
         ],
         verify: (_) => verify(
           mockRepository.submitKarmaVote(
-            transactionId: validTransactionId,
+            shoutOutId: validTransactionId,
             vote: isPositive,
           ),
         ).called(1),
