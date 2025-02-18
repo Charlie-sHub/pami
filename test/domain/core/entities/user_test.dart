@@ -59,326 +59,321 @@ void main() {
   );
 
   group(
-    'User',
+    'Testing on success',
     () {
-      group(
-        'Testing on success',
+      test(
+        'should be valid when all inputs are valid',
         () {
-          test(
-            'should be valid when all inputs are valid',
-            () {
-              // Act
-              final result = validUser.isValid;
+          // Act
+          final result = validUser.isValid;
 
-              // Assert
-              expect(result, true);
-            },
-          );
-
-          test(
-            'should return none when all inputs are valid',
-            () {
-              // Act
-              final result = validUser.failureOption;
-
-              // Assert
-              expect(result, none());
-            },
-          );
-
-          test(
-            'should return right(unit) when all inputs are valid',
-            () {
-              // Act
-              final result = validUser.failureOrUnit;
-
-              // Assert
-              expect(result, right(unit));
-            },
-          );
+          // Assert
+          expect(result, true);
         },
       );
 
-      group(
-        'Testing on failure',
+      test(
+        'should return none when all inputs are valid',
         () {
-          test(
-            'should be invalid with invalidEmailUser',
-            () {
-              // Act
-              final result = invalidEmailUser.isValid;
+          // Act
+          final result = validUser.failureOption;
 
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should be invalid with invalidNameUser',
-            () {
-              // Act
-              final result = invalidNameUser.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should be invalid with invalidUsernameUser',
-            () {
-              // Act
-              final result = invalidUsernameUser.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should be invalid with invalidBioUser',
-            () {
-              // Act
-              final result = invalidBioUser.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should be invalid with invalidAvatarUser',
-            () {
-              // Act
-              final result = invalidAvatarUser.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should be invalid with invalidKarmaUser',
-            () {
-              // Act
-              final result = invalidKarmaUser.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should be invalid with invalidLastLoginUser',
-            () {
-              // Act
-              final result = invalidLastLoginUser.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should be invalid with invalidDateCreatedUser',
-            () {
-              // Act
-              final result = invalidDateCreatedUser.isValid;
-
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should return some when email is invalid',
-            () {
-              // Act
-              final result = invalidEmailUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return some when name is invalid',
-            () {
-              // Act
-              final result = invalidNameUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return some when username is invalid',
-            () {
-              // Act
-              final result = invalidUsernameUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return some when bio is invalid',
-            () {
-              // Act
-              final result = invalidBioUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return some when avatar is invalid',
-            () {
-              // Act
-              final result = invalidAvatarUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return some when karma is invalid',
-            () {
-              // Act
-              final result = invalidKarmaUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return some when lastLogin is invalid',
-            () {
-              // Act
-              final result = invalidLastLoginUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return some when dateCreated is invalid',
-            () {
-              // Act
-              final result = invalidDateCreatedUser.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return left when email is invalid',
-            () {
-              // Act
-              final result = invalidEmailUser.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
-
-          test(
-            'should return left when name is invalid',
-            () {
-              // Act
-              final result = invalidNameUser.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
-
-          test(
-            'should return left when bio is invalid',
-            () {
-              // Act
-              final result = invalidBioUser.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
-
-          test(
-            'should return left when avatar is invalid',
-            () {
-              // Act
-              final result = invalidAvatarUser.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
-
-          test(
-            'should return left when karma is invalid',
-            () {
-              // Act
-              final result = invalidKarmaUser.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
-
-          test(
-            'should return left when lastLogin is invalid',
-            () {
-              // Act
-              final result = invalidLastLoginUser.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
-
-          test(
-            'should return left when dateCreated is invalid',
-            () {
-              // Act
-              final result = invalidDateCreatedUser.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
+          // Assert
+          expect(result, none());
         },
       );
 
-      group(
-        'empty',
+      test(
+        'should return right(unit) when all inputs are valid',
         () {
-          test(
-            'should return a User with default values',
-            () {
-              // Act
-              final user = User.empty();
+          // Act
+          final result = validUser.failureOrUnit;
 
-              // Assert
-              expect(user.id, isA<UniqueId>());
-              expect(user.email, isA<EmailAddress>());
-              expect(user.name, isA<Name>());
-              expect(user.bio, isA<EntityDescription>());
-              expect(user.avatar, isA<Url>());
-              expect(user.isVerified, false);
-              expect(user.karma, isA<KarmaPercentage>());
-              expect(user.interestedShoutOutIds, <UniqueId>{});
-              expect(user.lastLogin, isA<PastDate>());
-              expect(user.dateCreated, isA<PastDate>());
-            },
-          );
+          // Assert
+          expect(result, right(unit));
+        },
+      );
+    },
+  );
+
+  group(
+    'Testing on failure',
+    () {
+      test(
+        'should be invalid with invalidEmailUser',
+        () {
+          // Act
+          final result = invalidEmailUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidNameUser',
+        () {
+          // Act
+          final result = invalidNameUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidUsernameUser',
+        () {
+          // Act
+          final result = invalidUsernameUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidBioUser',
+        () {
+          // Act
+          final result = invalidBioUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidAvatarUser',
+        () {
+          // Act
+          final result = invalidAvatarUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidKarmaUser',
+        () {
+          // Act
+          final result = invalidKarmaUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidLastLoginUser',
+        () {
+          // Act
+          final result = invalidLastLoginUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should be invalid with invalidDateCreatedUser',
+        () {
+          // Act
+          final result = invalidDateCreatedUser.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should return some when email is invalid',
+        () {
+          // Act
+          final result = invalidEmailUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return some when name is invalid',
+        () {
+          // Act
+          final result = invalidNameUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return some when username is invalid',
+        () {
+          // Act
+          final result = invalidUsernameUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return some when bio is invalid',
+        () {
+          // Act
+          final result = invalidBioUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return some when avatar is invalid',
+        () {
+          // Act
+          final result = invalidAvatarUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return some when karma is invalid',
+        () {
+          // Act
+          final result = invalidKarmaUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return some when lastLogin is invalid',
+        () {
+          // Act
+          final result = invalidLastLoginUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return some when dateCreated is invalid',
+        () {
+          // Act
+          final result = invalidDateCreatedUser.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return left when email is invalid',
+        () {
+          // Act
+          final result = invalidEmailUser.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+
+      test(
+        'should return left when name is invalid',
+        () {
+          // Act
+          final result = invalidNameUser.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+
+      test(
+        'should return left when bio is invalid',
+        () {
+          // Act
+          final result = invalidBioUser.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+
+      test(
+        'should return left when avatar is invalid',
+        () {
+          // Act
+          final result = invalidAvatarUser.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+
+      test(
+        'should return left when karma is invalid',
+        () {
+          // Act
+          final result = invalidKarmaUser.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+
+      test(
+        'should return left when lastLogin is invalid',
+        () {
+          // Act
+          final result = invalidLastLoginUser.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+
+      test(
+        'should return left when dateCreated is invalid',
+        () {
+          // Act
+          final result = invalidDateCreatedUser.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+    },
+  );
+
+  group(
+    'empty',
+    () {
+      test(
+        'should return a User with default values',
+        () {
+          // Act
+          final user = User.empty();
+
+          // Assert
+          expect(user.id, isA<UniqueId>());
+          expect(user.email, isA<EmailAddress>());
+          expect(user.name, isA<Name>());
+          expect(user.bio, isA<EntityDescription>());
+          expect(user.avatar, isA<Url>());
+          expect(user.isVerified, false);
+          expect(user.karma, isA<KarmaPercentage>());
+          expect(user.interestedShoutOutIds, <UniqueId>{});
+          expect(user.lastLogin, isA<PastDate>());
+          expect(user.dateCreated, isA<PastDate>());
         },
       );
     },
