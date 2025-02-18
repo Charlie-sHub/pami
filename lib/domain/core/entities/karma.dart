@@ -23,8 +23,8 @@ class Karma with _$Karma {
   /// Empty constructor
   factory Karma.empty() => Karma(
         id: UniqueId(),
-        giverId: UniqueId(),
-        transactionId: UniqueId(),
+        giverId: UniqueId.fromUniqueString(''),
+        transactionId: UniqueId.fromUniqueString(''),
         isPositive: false,
         dateCreated: PastDate(DateTime.now()),
       );

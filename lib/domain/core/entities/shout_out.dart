@@ -36,7 +36,7 @@ class ShoutOut with _$ShoutOut {
   /// Empty constructor
   factory ShoutOut.empty() => ShoutOut(
         id: UniqueId(),
-        creatorId: UniqueId(),
+        creatorId: UniqueId.fromUniqueString(''),
         type: ShoutOutType.request,
         title: Name(''),
         description: EntityDescription(''),
