@@ -25,8 +25,8 @@ class Conversation with _$Conversation {
   /// Empty constructor
   factory Conversation.empty() => Conversation(
         id: UniqueId(),
-        shoutOutCreatorId: UniqueId(),
-        interestedId: UniqueId(),
+        shoutOutCreatorId: UniqueId.fromUniqueString(''),
+        interestedId: UniqueId.fromUniqueString(''),
         lastMessage: MessageContent(''),
         lastMessageDate: DateTime.now(),
         dateCreated: PastDate(DateTime.now()),

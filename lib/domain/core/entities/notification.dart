@@ -15,6 +15,7 @@ class Notification with _$Notification {
   /// Default constructor
   const factory Notification({
     required UniqueId id,
+    required UniqueId recipientId,
     required EntityDescription description,
     required bool seen,
     required PastDate dateCreated,
@@ -23,6 +24,7 @@ class Notification with _$Notification {
   /// Empty constructor
   factory Notification.empty() => Notification(
         id: UniqueId(),
+        recipientId: UniqueId.fromUniqueString(''),
         description: EntityDescription(''),
         seen: false,
         dateCreated: PastDate(DateTime.now()),
