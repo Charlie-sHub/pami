@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pami/domain/core/entities/conversation.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
-import 'package:pami/domain/my_shout_outs/my_shout_outs_repository_interface.dart';
+import 'package:pami/domain/messages/messages_repository_interface.dart';
 
 part 'conversations_watcher_bloc.freezed.dart';
 part 'conversations_watcher_event.dart';
@@ -48,7 +48,7 @@ class ConversationsWatcherBloc
     );
   }
 
-  final MyShoutOutsRepositoryInterface _repository;
+  final MessagesRepositoryInterface _repository;
 
   StreamSubscription<Either<Failure, List<Conversation>>>? _streamSubscription;
 

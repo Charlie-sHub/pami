@@ -5,17 +5,17 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pami/application/my_shout_outs/conversations_watcher/conversations_watcher_bloc.dart';
+import 'package:pami/application/messages/conversations_watcher/conversations_watcher_bloc.dart';
 import 'package:pami/domain/core/entities/conversation.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
-import 'package:pami/domain/my_shout_outs/my_shout_outs_repository_interface.dart';
+import 'package:pami/domain/messages/messages_repository_interface.dart';
 
 import 'conversations_watcher_bloc_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<MyShoutOutsRepositoryInterface>()])
+@GenerateNiceMocks([MockSpec<MessagesRepositoryInterface>()])
 void main() {
-  late MockMyShoutOutsRepositoryInterface mockRepository;
+  late MockMessagesRepositoryInterface mockRepository;
   late ConversationsWatcherBloc conversationsWatcherBloc;
 
   final validShoutOutId = UniqueId();
@@ -24,7 +24,7 @@ void main() {
 
   setUp(
     () {
-      mockRepository = MockMyShoutOutsRepositoryInterface();
+      mockRepository = MockMessagesRepositoryInterface();
       conversationsWatcherBloc = ConversationsWatcherBloc(mockRepository);
     },
   );
