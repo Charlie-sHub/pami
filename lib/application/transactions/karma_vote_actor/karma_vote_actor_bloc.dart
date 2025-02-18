@@ -18,10 +18,10 @@ class KarmaVoteActorBloc
       : super(const KarmaVoteActorState.initial()) {
     on<KarmaVoteActorEvent>(
       (event, emit) => event.when(
-        voteSubmitted: (transactionId, isPositive) async {
+        voteSubmitted: (shoutOutId, isPositive) async {
           emit(const KarmaVoteActorState.actionInProgress());
           final failureOrSuccess = await _repository.submitKarmaVote(
-            transactionId: transactionId,
+            shoutOutId: shoutOutId,
             vote: isPositive,
           );
           emit(
