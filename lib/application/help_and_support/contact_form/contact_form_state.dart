@@ -5,7 +5,7 @@ part of 'contact_form_bloc.dart';
 class ContactFormState with _$ContactFormState {
   /// Contact form state
   const factory ContactFormState({
-    required Message message,
+    required ContactMessage message,
     required bool showErrorMessages,
     required bool isSubmitting,
     required Option<Either<Failure, Unit>> failureOrSuccessOption,
@@ -13,7 +13,7 @@ class ContactFormState with _$ContactFormState {
 
   /// Initial contact form state
   factory ContactFormState.initial() => ContactFormState(
-        message: Message.empty(),
+        message: ContactMessage.empty(),
         showErrorMessages: false,
         isSubmitting: false,
         failureOrSuccessOption: none(),

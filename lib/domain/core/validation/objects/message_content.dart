@@ -17,7 +17,7 @@ class MessageContent extends ValueObject<String> {
       );
 
   /// Maximum number of characters
-  static const maxLength = 400;
+  static const maxLength = 800;
 
   @override
   final Either<Failure<String>, String> value;

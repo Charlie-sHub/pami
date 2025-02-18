@@ -23,99 +23,94 @@ void main() {
   );
 
   group(
-    'MapSettings',
+    'Testing on success',
     () {
-      group(
-        'Testing on success',
+      test(
+        'should be valid when all inputs are valid',
         () {
-          test(
-            'should be valid when all inputs are valid',
-            () {
-              // Act
-              final result = validMapSettings.isValid;
+          // Act
+          final result = validMapSettings.isValid;
 
-              // Assert
-              expect(result, true);
-            },
-          );
-
-          test(
-            'should return none when all inputs are valid',
-            () {
-              // Act
-              final result = validMapSettings.failureOption;
-
-              // Assert
-              expect(result, none());
-            },
-          );
-
-          test(
-            'should return right(unit) when all inputs are valid',
-            () {
-              // Act
-              final result = validMapSettings.failureOrUnit;
-
-              // Assert
-              expect(result, right(unit));
-            },
-          );
+          // Assert
+          expect(result, true);
         },
       );
 
-      group(
-        'Testing on failure',
+      test(
+        'should return none when all inputs are valid',
         () {
-          test(
-            'should be invalid with invalidRadiusMapSettings',
-            () {
-              // Act
-              final result = invalidRadiusMapSettings.isValid;
+          // Act
+          final result = validMapSettings.failureOption;
 
-              // Assert
-              expect(result, false);
-            },
-          );
-
-          test(
-            'should return some when radius is invalid',
-            () {
-              // Act
-              final result = invalidRadiusMapSettings.failureOption;
-
-              // Assert
-              expect(result, isA<Some<Failure<dynamic>>>());
-            },
-          );
-
-          test(
-            'should return left when radius is invalid',
-            () {
-              // Act
-              final result = invalidRadiusMapSettings.failureOrUnit;
-
-              // Assert
-              expect(result, isA<Left<Failure<dynamic>, Unit>>());
-            },
-          );
+          // Assert
+          expect(result, none());
         },
       );
 
-      group(
-        'empty',
+      test(
+        'should return right(unit) when all inputs are valid',
         () {
-          test(
-            'should return a MapSettings with default values',
-            () {
-              // Act
-              final mapSettings = MapSettings.empty();
+          // Act
+          final result = validMapSettings.failureOrUnit;
 
-              // Assert
-              expect(mapSettings.radius, isA<MapRadius>());
-              expect(mapSettings.type, ShoutOutType.offer);
-              expect(mapSettings.categories, <Category>{});
-            },
-          );
+          // Assert
+          expect(result, right(unit));
+        },
+      );
+    },
+  );
+
+  group(
+    'Testing on failure',
+    () {
+      test(
+        'should be invalid with invalidRadiusMapSettings',
+        () {
+          // Act
+          final result = invalidRadiusMapSettings.isValid;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+
+      test(
+        'should return some when radius is invalid',
+        () {
+          // Act
+          final result = invalidRadiusMapSettings.failureOption;
+
+          // Assert
+          expect(result, isA<Some<Failure<dynamic>>>());
+        },
+      );
+
+      test(
+        'should return left when radius is invalid',
+        () {
+          // Act
+          final result = invalidRadiusMapSettings.failureOrUnit;
+
+          // Assert
+          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+        },
+      );
+    },
+  );
+
+  group(
+    'empty',
+    () {
+      test(
+        'should return a MapSettings with default values',
+        () {
+          // Act
+          final mapSettings = MapSettings.empty();
+
+          // Assert
+          expect(mapSettings.radius, isA<MapRadius>());
+          expect(mapSettings.type, ShoutOutType.offer);
+          expect(mapSettings.categories, <Category>{});
         },
       );
     },
