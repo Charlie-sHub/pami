@@ -16,6 +16,7 @@ void main() {
       // Arrange
       validNotification = Notification(
         id: UniqueId(),
+        recipientId: UniqueId(),
         description: EntityDescription('Valid Description'),
         seen: false,
         dateCreated: PastDate(

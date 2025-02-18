@@ -24,7 +24,7 @@ class Message with _$Message {
   /// Empty constructor
   factory Message.empty() => Message(
         id: UniqueId(),
-        senderId: UniqueId(),
+        senderId: UniqueId.fromUniqueString(''),
         content: MessageContent(''),
         isRead: false,
         dateCreated: PastDate(DateTime.now()),

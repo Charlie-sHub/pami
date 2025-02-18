@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pami/application/authentication/forgotten_password_form_bloc/forgotten_password_form_bloc.dart';
+import 'package:pami/application/authentication/forgotten_password_form/forgotten_password_form_bloc.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
