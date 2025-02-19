@@ -13,8 +13,9 @@ part 'authentication_state.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   /// Default constructor
-  AuthenticationBloc(this._repository)
-      : super(const AuthenticationState.initial()) {
+  AuthenticationBloc(
+    this._repository,
+  ) : super(const AuthenticationState.initial()) {
     on<AuthenticationEvent>(
       (event, emit) => event.when(
         authenticationCheckRequested: () async {

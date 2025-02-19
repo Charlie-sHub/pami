@@ -14,8 +14,9 @@ part 'transaction_actor_state.dart';
 class TransactionActorBloc
     extends Bloc<TransactionActorEvent, TransactionActorState> {
   /// Default constructor.
-  TransactionActorBloc(this._repository)
-      : super(const TransactionActorState.initial()) {
+  TransactionActorBloc(
+    this._repository,
+  ) : super(const TransactionActorState.initial()) {
     on<TransactionActorEvent>(
       (event, emit) => event.when(
         transactionCreated: (shoutOutId) async {
