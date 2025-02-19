@@ -18,8 +18,9 @@ part 'transaction_listener_state.dart';
 class TransactionListenerBloc
     extends Bloc<TransactionListenerEvent, TransactionListenerState> {
   /// Default constructor
-  TransactionListenerBloc(this._repository)
-      : super(const TransactionListenerState.initial()) {
+  TransactionListenerBloc(
+    this._repository,
+  ) : super(const TransactionListenerState.initial()) {
     on<TransactionListenerEvent>(
       (event, emit) => event.when(
         listenShoutOutStarted: (shoutOutId) async {

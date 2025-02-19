@@ -16,7 +16,9 @@ part 'login_form_state.dart';
 @injectable
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   /// Default constructor
-  LoginFormBloc(this._repository) : super(LoginFormState.initial()) {
+  LoginFormBloc(
+    this._repository,
+  ) : super(LoginFormState.initial()) {
     on<LoginFormEvent>(
       (event, emit) => event.when(
         emailChanged: (emailString) => emit(

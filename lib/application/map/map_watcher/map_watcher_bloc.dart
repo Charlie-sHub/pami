@@ -17,13 +17,15 @@ part 'map_watcher_state.dart';
 @injectable
 class MapWatcherBloc extends Bloc<MapWatcherEvent, MapWatcherState> {
   /// Default constructor
-  MapWatcherBloc(this._mapRepository) : super(const MapWatcherState.initial()) {
+  MapWatcherBloc(
+    this._repository,
+  ) : super(const MapWatcherState.initial()) {
     on<MapWatcherEvent>(
       (event, emit) => event.when(
         watchStarted: (settings) async {
           emit(const MapWatcherState.actionInProgress());
           await _streamSubscription?.cancel();
-          _streamSubscription = _mapRepository.watchShoutOuts(settings).listen(
+          _streamSubscription = _repository.watchShoutOuts(settings).listen(
                 (failureOrShoutOuts) => add(
                   MapWatcherEvent.resultsReceived(failureOrShoutOuts),
                 ),
@@ -40,7 +42,7 @@ class MapWatcherBloc extends Bloc<MapWatcherEvent, MapWatcherState> {
     );
   }
 
-  final MapRepositoryInterface _mapRepository;
+  final MapRepositoryInterface _repository;
 
   StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
 

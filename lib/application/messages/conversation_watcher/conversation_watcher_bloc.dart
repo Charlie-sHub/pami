@@ -18,8 +18,9 @@ part 'conversation_watcher_state.dart';
 class ConversationWatcherBloc
     extends Bloc<ConversationWatcherEvent, ConversationWatcherState> {
   /// Default constructor
-  ConversationWatcherBloc(this._repository)
-      : super(const ConversationWatcherState.initial()) {
+  ConversationWatcherBloc(
+    this._repository,
+  ) : super(const ConversationWatcherState.initial()) {
     on<ConversationWatcherEvent>(
       (event, emit) => event.when(
         watchStarted: (conversationId) async {

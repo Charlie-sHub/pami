@@ -14,13 +14,16 @@ part 'shout_out_deletion_actor_state.dart';
 class ShoutOutDeletionActorBloc
     extends Bloc<ShoutOutDeletionActorEvent, ShoutOutDeletionActorState> {
   /// Default constructor.
-  ShoutOutDeletionActorBloc(this._repository)
-      : super(const ShoutOutDeletionActorState.initial()) {
+  ShoutOutDeletionActorBloc(
+    this._repository,
+  ) : super(const ShoutOutDeletionActorState.initial()) {
     on<ShoutOutDeletionActorEvent>(
       (event, emit) => event.when(
         deleteRequested: (shoutOutId) async {
           emit(const ShoutOutDeletionActorState.actionInProgress());
-          final failureOrSuccess = await _repository.deleteShoutOut(shoutOutId);
+          final failureOrSuccess = await _repository.deleteShoutOut(
+            shoutOutId,
+          );
           emit(
             failureOrSuccess.fold(
               ShoutOutDeletionActorState.deletionFailure,
