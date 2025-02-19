@@ -14,8 +14,9 @@ part 'karma_vote_actor_state.dart';
 class KarmaVoteActorBloc
     extends Bloc<KarmaVoteActorEvent, KarmaVoteActorState> {
   /// Default constructor.
-  KarmaVoteActorBloc(this._repository)
-      : super(const KarmaVoteActorState.initial()) {
+  KarmaVoteActorBloc(
+    this._repository,
+  ) : super(const KarmaVoteActorState.initial()) {
     on<KarmaVoteActorEvent>(
       (event, emit) => event.when(
         voteSubmitted: (shoutOutId, isPositive) async {

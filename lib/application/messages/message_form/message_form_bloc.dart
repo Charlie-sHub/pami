@@ -15,7 +15,9 @@ part 'message_form_state.dart';
 @injectable
 class MessageFormBloc extends Bloc<MessageFormEvent, MessageFormState> {
   /// Default constructor
-  MessageFormBloc(this._repository) : super(MessageFormState.initial()) {
+  MessageFormBloc(
+    this._repository,
+  ) : super(MessageFormState.initial()) {
     on<MessageFormEvent>(
       (event, emit) => event.when(
         messageChanged: (message) => emit(

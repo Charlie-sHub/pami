@@ -17,8 +17,9 @@ part 'my_shout_outs_watcher_state.dart';
 class MyShoutOutsWatcherBloc
     extends Bloc<MyShoutOutsWatcherEvent, MyShoutOutsWatcherState> {
   /// Default constructor
-  MyShoutOutsWatcherBloc(this._repository)
-      : super(const MyShoutOutsWatcherState.initial()) {
+  MyShoutOutsWatcherBloc(
+    this._repository,
+  ) : super(const MyShoutOutsWatcherState.initial()) {
     on<MyShoutOutsWatcherEvent>(
       (event, emit) => event.when(
         watchStarted: () async {
@@ -26,7 +27,9 @@ class MyShoutOutsWatcherBloc
           await _streamSubscription?.cancel();
           _streamSubscription = _repository.watchMyShoutOuts().listen(
                 (failureOrShoutOuts) => add(
-                  MyShoutOutsWatcherEvent.shoutOutsReceived(failureOrShoutOuts),
+                  MyShoutOutsWatcherEvent.shoutOutsReceived(
+                    failureOrShoutOuts,
+                  ),
                 ),
               );
           return null;

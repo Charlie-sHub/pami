@@ -15,8 +15,9 @@ part 'forgotten_password_form_state.dart';
 class ForgottenPasswordFormBloc
     extends Bloc<ForgottenPasswordFormEvent, ForgottenPasswordFormState> {
   /// Default constructor
-  ForgottenPasswordFormBloc(this._repository)
-      : super(ForgottenPasswordFormState.initial()) {
+  ForgottenPasswordFormBloc(
+    this._repository,
+  ) : super(ForgottenPasswordFormState.initial()) {
     on<ForgottenPasswordFormEvent>(
       (event, emit) => event.when(
         emailChanged: (email) => emit(
