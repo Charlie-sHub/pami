@@ -6,7 +6,7 @@ import 'package:pami/domain/core/validation/objects/unique_id.dart';
 /// Interface for the notification repository
 abstract class NotificationRepositoryInterface {
   /// Fetches the notifications of the current user
-  Future<Either<Failure, List<Notification>>> fetchNotifications();
+  Stream<Either<Failure, List<Notification>>> watchNotifications();
 
   /// Marks a notification as read
   Future<Either<Failure, Unit>> markAsRead(UniqueId id);
