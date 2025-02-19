@@ -16,7 +16,9 @@ part 'contact_form_state.dart';
 @injectable
 class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
   /// Default constructor
-  ContactFormBloc(this._repository) : super(ContactFormState.initial()) {
+  ContactFormBloc(
+    this._repository,
+  ) : super(ContactFormState.initial()) {
     on<ContactFormEvent>(
       (event, emit) => event.when(
         typeChanged: (type) => emit(

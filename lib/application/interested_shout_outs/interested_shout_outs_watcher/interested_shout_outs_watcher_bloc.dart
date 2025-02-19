@@ -17,8 +17,9 @@ part 'interested_shout_outs_watcher_state.dart';
 class InterestedShoutOutsWatcherBloc extends Bloc<
     InterestedShoutOutsWatcherEvent, InterestedShoutOutsWatcherState> {
   /// Default constructor
-  InterestedShoutOutsWatcherBloc(this._repository)
-      : super(const InterestedShoutOutsWatcherState.initial()) {
+  InterestedShoutOutsWatcherBloc(
+    this._repository,
+  ) : super(const InterestedShoutOutsWatcherState.initial()) {
     on<InterestedShoutOutsWatcherEvent>(
       (event, emit) => event.when(
         watchStarted: () async {

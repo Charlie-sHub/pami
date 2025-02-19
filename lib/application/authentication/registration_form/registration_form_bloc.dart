@@ -21,8 +21,9 @@ part 'registration_form_state.dart';
 class RegistrationFormBloc
     extends Bloc<RegistrationFormEvent, RegistrationFormState> {
   /// Default constructor
-  RegistrationFormBloc(this._repository)
-      : super(RegistrationFormState.initial()) {
+  RegistrationFormBloc(
+    this._repository,
+  ) : super(RegistrationFormState.initial()) {
     on<RegistrationFormEvent>(
       (event, emit) => event.when(
         initialized: (userOption) => emit(

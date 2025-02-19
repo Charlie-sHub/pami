@@ -9,7 +9,7 @@ abstract class NotificationRepositoryInterface {
   Future<Either<Failure, List<Notification>>> fetchNotifications();
 
   /// Marks a notification as read
-  Future<Either<Failure, Unit>> markNotificationAsRead(UniqueId id);
+  Future<Either<Failure, Unit>> markAsRead(UniqueId id);
 
   /// Deletes a notification
   Future<Either<Failure, Unit>> deleteNotification(UniqueId id);

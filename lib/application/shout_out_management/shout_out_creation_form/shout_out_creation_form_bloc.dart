@@ -20,8 +20,9 @@ part 'shout_out_creation_form_state.dart';
 class ShoutOutCreationFormBloc
     extends Bloc<ShoutOutCreationFormEvent, ShoutOutCreationFormState> {
   /// Default constructor
-  ShoutOutCreationFormBloc(this._repository)
-      : super(ShoutOutCreationFormState.initial()) {
+  ShoutOutCreationFormBloc(
+    this._repository,
+  ) : super(ShoutOutCreationFormState.initial()) {
     on<ShoutOutCreationFormEvent>(
       (event, emit) => event.when(
         initialized: (type) => emit(
