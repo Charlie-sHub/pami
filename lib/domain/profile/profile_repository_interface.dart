@@ -8,6 +8,9 @@ abstract class ProfileRepositoryInterface {
   /// Returns the [User] with the given [id]
   Future<Either<Failure, User>> getUserProfile(UniqueId id);
 
+  /// Returns the [User] that is currently signed in
+  Future<Either<Failure, User>> getCurrentUser();
+
   /// Updates the [User] with the given [user]
   Future<Either<Failure, Unit>> updateUserProfile(User user);
 
