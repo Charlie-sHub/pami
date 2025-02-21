@@ -8,7 +8,7 @@ part 'user_deletion_actor_bloc.freezed.dart';
 part 'user_deletion_actor_event.dart';
 part 'user_deletion_actor_state.dart';
 
-/// Bloc for deleting a shout out.
+/// Bloc for deleting a User.
 @injectable
 class UserDeletionActorBloc
     extends Bloc<UserDeletionActorEvent, UserDeletionActorState> {
