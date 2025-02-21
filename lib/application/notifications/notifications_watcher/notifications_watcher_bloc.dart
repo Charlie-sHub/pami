@@ -12,7 +12,7 @@ part 'notifications_watcher_bloc.freezed.dart';
 part 'notifications_watcher_event.dart';
 part 'notifications_watcher_state.dart';
 
-/// My shout outs watcher bloc
+/// Notifications watcher bloc
 @injectable
 class NotificationsWatcherBloc
     extends Bloc<NotificationsWatcherEvent, NotificationsWatcherState> {
