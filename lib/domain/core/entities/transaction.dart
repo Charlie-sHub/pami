@@ -4,7 +4,6 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/transaction_status.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 part 'transaction.freezed.dart';
 
@@ -19,7 +18,6 @@ class Transaction with _$Transaction {
     required UniqueId shoutOutCreatorId,
     required UniqueId interestedId,
     required TransactionStatus status,
-    required QrCode qrCode,
     required PastDate dateCreated,
   }) = _Transaction;
 
@@ -29,10 +27,6 @@ class Transaction with _$Transaction {
         shoutOutCreatorId: UniqueId.fromUniqueString(''),
         interestedId: UniqueId.fromUniqueString(''),
         status: TransactionStatus.pending,
-        qrCode: QrCode(
-          1,
-          QrErrorCorrectLevel.L,
-        ),
         dateCreated: PastDate(DateTime.now()),
       );
 
