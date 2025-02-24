@@ -5,7 +5,6 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/transaction_status.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../misc/get_valid_transaction.dart';
 
@@ -19,7 +18,9 @@ void main() {
       validTransaction = getValidTransaction();
       invalidDateCreatedTransaction = validTransaction.copyWith(
         dateCreated: PastDate(
-          DateTime.now().add(const Duration(days: 10)),
+          DateTime.now().add(
+            const Duration(days: 10),
+          ),
         ),
       );
     },
@@ -115,7 +116,6 @@ void main() {
           expect(transaction.shoutOutCreatorId, isA<UniqueId>());
           expect(transaction.interestedId, isA<UniqueId>());
           expect(transaction.status, TransactionStatus.pending);
-          expect(transaction.qrCode, isA<QrCode>());
           expect(transaction.dateCreated, isA<PastDate>());
         },
       );

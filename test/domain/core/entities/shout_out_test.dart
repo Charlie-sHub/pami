@@ -13,6 +13,7 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../misc/get_valid_shout_out.dart';
 
@@ -280,6 +281,7 @@ void main() {
           expect(shoutOut.imageUrls, <Url>{});
           expect(shoutOut.isOpen, false);
           expect(shoutOut.dateCreated, isA<PastDate>());
+          expect(shoutOut.qrCode, isA<QrCode>());
         },
       );
     },

@@ -6,6 +6,8 @@ import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 
+import '../../../misc/get_valid_notification.dart';
+
 void main() {
   late Notification validNotification;
   late Notification invalidDescriptionNotification;
@@ -14,15 +16,7 @@ void main() {
   setUp(
     () {
       // Arrange
-      validNotification = Notification(
-        id: UniqueId(),
-        recipientId: UniqueId(),
-        description: EntityDescription('Valid Description'),
-        seen: false,
-        dateCreated: PastDate(
-          DateTime.now().subtract(const Duration(days: 1)),
-        ),
-      );
+      validNotification = getValidNotification();
       invalidDescriptionNotification = validNotification.copyWith(
         description: EntityDescription(''),
       );
