@@ -10,6 +10,7 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 part 'shout_out.freezed.dart';
 
@@ -31,22 +32,30 @@ class ShoutOut with _$ShoutOut {
     required Set<Url> imageUrls,
     required bool isOpen,
     required PastDate dateCreated,
+    required QrCode qrCode,
   }) = _ShoutOut;
 
   /// Empty constructor
-  factory ShoutOut.empty() => ShoutOut(
-        id: UniqueId(),
-        creatorId: UniqueId.fromUniqueString(''),
-        type: ShoutOutType.request,
-        title: Name(''),
-        description: EntityDescription(''),
-        coordinates: Coordinates.empty(),
-        duration: Minutes(0),
-        categories: {},
-        imageUrls: {},
-        isOpen: false,
-        dateCreated: PastDate(DateTime.now()),
-      );
+  factory ShoutOut.empty() {
+    final id = UniqueId();
+    return ShoutOut(
+      id: id,
+      creatorId: UniqueId.fromUniqueString(''),
+      type: ShoutOutType.request,
+      title: Name(''),
+      description: EntityDescription(''),
+      coordinates: Coordinates.empty(),
+      duration: Minutes(0),
+      categories: {},
+      imageUrls: {},
+      isOpen: false,
+      dateCreated: PastDate(DateTime.now()),
+      qrCode: QrCode.fromData(
+        data: id.getOrCrash(),
+        errorCorrectLevel: QrErrorCorrectLevel.M,
+      ),
+    );
+  }
 
   /// Gets an [Option] of [Failure] of any of its fields
   Option<Failure<dynamic>> get failureOption => Either.map5(
