@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/data/core/models/user_dto.dart';
-
-import '../../../misc/get_valid_user.dart';
 
 void main() {
   final user = getValidUser();

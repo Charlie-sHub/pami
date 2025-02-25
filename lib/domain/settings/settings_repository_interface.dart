@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:pami/domain/core/entities/settings.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 
 /// Interface for the settings repository

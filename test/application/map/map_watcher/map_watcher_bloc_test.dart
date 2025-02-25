@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
-import 'package:pami/domain/core/entities/map_settings.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
@@ -16,7 +16,7 @@ void main() {
   late MockMapRepositoryInterface mockMapRepository;
   late MapWatcherBloc mapWatcherBloc;
 
-  final validSettings = MapSettings.empty();
+  final validSettings = getValidMapSettings();
   final validShoutOuts = {ShoutOut.empty()};
   const failure = Failure.serverError(errorString: 'error');
 

@@ -4,12 +4,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/messages/message_form/message_form_bloc.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/message.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/messages/messages_repository_interface.dart';
 
-import '../../../misc/get_valid_message.dart';
 import 'message_form_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<MessagesRepositoryInterface>()])
