@@ -1,29 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/transaction.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/transaction_status.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 
-import '../../../misc/get_valid_transaction.dart';
-
 void main() {
-  late Transaction validTransaction;
-  late Transaction invalidDateCreatedTransaction;
-
-  setUp(
-    () {
-      // Arrange
-      validTransaction = getValidTransaction();
-      invalidDateCreatedTransaction = validTransaction.copyWith(
-        dateCreated: PastDate(
-          DateTime.now().add(
-            const Duration(days: 10),
-          ),
-        ),
-      );
-    },
+  final validTransaction = getValidTransaction();
+  final invalidDateCreatedTransaction = validTransaction.copyWith(
+    dateCreated: PastDate(
+      DateTime.now().add(
+        const Duration(days: 10),
+      ),
+    ),
   );
 
   group(

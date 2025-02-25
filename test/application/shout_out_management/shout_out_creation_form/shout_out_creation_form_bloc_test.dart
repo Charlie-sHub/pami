@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/shout_out_management/shout_out_creation_form/shout_out_creation_form_bloc.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
@@ -13,7 +14,6 @@ import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/shout_out_management/shout_out_management_repository_interface.dart';
 
-import '../../../misc/get_valid_shout_out.dart';
 import 'shout_out_creation_form_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<ShoutOutManagementRepositoryInterface>()])

@@ -1,25 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/map_radius.dart';
 
-import '../../../misc/get_valid_map_settings.dart';
-
 void main() {
-  late MapSettings validMapSettings;
-  late MapSettings invalidRadiusMapSettings;
-
-  setUp(
-    () {
-      // Arrange
-      validMapSettings = getValidMapSettings();
-      invalidRadiusMapSettings = validMapSettings.copyWith(
-        radius: MapRadius(-1),
-      );
-    },
+  final validMapSettings = getValidMapSettings();
+  final invalidRadiusMapSettings = validMapSettings.copyWith(
+    radius: MapRadius(-1),
   );
 
   group(

@@ -8,14 +8,14 @@ import 'package:pami/domain/core/validation/objects/unique_id.dart';
 abstract class ShoutOutManagementRepositoryInterface {
   /// Creates a new shout out
   Future<Either<Failure, Unit>> createShoutOut({
-    ShoutOut shoutOut,
-    XFile imageFile,
+    required ShoutOut shoutOut,
+    required XFile imageFile,
   });
 
   /// Edits an existing shout out
   Future<Either<Failure, Unit>> editShoutOut({
-    ShoutOut shoutOut,
-    Option<XFile> imageFile,
+    required ShoutOut shoutOut,
+    required Option<XFile> imageFile,
   });
 
   /// Deletes an existing shout out

@@ -116,11 +116,14 @@ class RegistrationFormBloc
               state.password.isValid() &&
               state.passwordConfirmator.isValid() &&
               state.acceptedEULA &&
-              (state.imageFile.isSome() || state.user.avatar.isValid());
+              (state.imageFile.isSome());
           if (canRegister) {
             failureOrUnit = await _repository.register(
               user: state.user,
               password: state.password,
+              imageFile: state.imageFile.getOrElse(
+                () => XFile(''),
+              ),
             );
           } else {
             failureOrUnit = left(const Failure.emptyFields());

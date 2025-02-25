@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/contact_message.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/contact_message_type.dart';
@@ -7,26 +8,15 @@ import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 
-import '../../../misc/get_valid_contact_message.dart';
-
 void main() {
-  late ContactMessage validContactMessage;
-  late ContactMessage invalidContentContactMessage;
-  late ContactMessage invalidDateCreatedContactMessage;
-
-  setUp(
-    () {
-      // Arrange
-      validContactMessage = getValidContactMessage();
-      invalidContentContactMessage = validContactMessage.copyWith(
-        content: MessageContent(''),
-      );
-      invalidDateCreatedContactMessage = validContactMessage.copyWith(
-        dateCreated: PastDate(
-          DateTime.now().add(const Duration(days: 10)),
-        ),
-      );
-    },
+  final validContactMessage = getValidContactMessage();
+  final invalidContentContactMessage = validContactMessage.copyWith(
+    content: MessageContent(''),
+  );
+  final invalidDateCreatedContactMessage = validContactMessage.copyWith(
+    dateCreated: PastDate(
+      DateTime.now().add(const Duration(days: 10)),
+    ),
   );
 
   group(

@@ -4,12 +4,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/login_form/login_form_bloc.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
-import '../../../misc/get_valid_user.dart';
 import 'login_form_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<AuthenticationRepositoryInterface>()])
