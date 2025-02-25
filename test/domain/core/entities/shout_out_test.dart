@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
@@ -15,41 +16,27 @@ import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../../misc/get_valid_shout_out.dart';
-
 void main() {
-  late ShoutOut validShoutOut;
-  late ShoutOut invalidTitleShoutOut;
-  late ShoutOut invalidDescriptionShoutOut;
-  late ShoutOut invalidCoordinatesShoutOut;
-  late ShoutOut invalidDurationShoutOut;
-  late ShoutOut invalidDateCreatedShoutOut;
-
-  setUp(
-    () {
-      // Arrange
-      validShoutOut = getValidShoutOut();
-      invalidTitleShoutOut = validShoutOut.copyWith(
-        title: Name(''),
-      );
-      invalidDescriptionShoutOut = validShoutOut.copyWith(
-        description: EntityDescription(''),
-      );
-      invalidCoordinatesShoutOut = validShoutOut.copyWith(
-        coordinates: Coordinates(
-          latitude: Latitude(91),
-          longitude: Longitude(181),
-        ),
-      );
-      invalidDurationShoutOut = validShoutOut.copyWith(
-        duration: Minutes(-1),
-      );
-      invalidDateCreatedShoutOut = validShoutOut.copyWith(
-        dateCreated: PastDate(
-          DateTime.now().add(const Duration(days: 10)),
-        ),
-      );
-    },
+  final validShoutOut = getValidShoutOut();
+  final invalidTitleShoutOut = validShoutOut.copyWith(
+    title: Name(''),
+  );
+  final invalidDescriptionShoutOut = validShoutOut.copyWith(
+    description: EntityDescription(''),
+  );
+  final invalidCoordinatesShoutOut = validShoutOut.copyWith(
+    coordinates: Coordinates(
+      latitude: Latitude(91),
+      longitude: Longitude(181),
+    ),
+  );
+  final invalidDurationShoutOut = validShoutOut.copyWith(
+    duration: Minutes(-1),
+  );
+  final invalidDateCreatedShoutOut = validShoutOut.copyWith(
+    dateCreated: PastDate(
+      DateTime.now().add(const Duration(days: 10)),
+    ),
   );
 
   group(

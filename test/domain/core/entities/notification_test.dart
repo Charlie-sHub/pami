@@ -1,31 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/notification.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 
-import '../../../misc/get_valid_notification.dart';
-
 void main() {
-  late Notification validNotification;
-  late Notification invalidDescriptionNotification;
-  late Notification invalidDateCreatedNotification;
-
-  setUp(
-    () {
-      // Arrange
-      validNotification = getValidNotification();
-      invalidDescriptionNotification = validNotification.copyWith(
-        description: EntityDescription(''),
-      );
-      invalidDateCreatedNotification = validNotification.copyWith(
-        dateCreated: PastDate(
-          DateTime.now().add(const Duration(days: 1)),
-        ),
-      );
-    },
+  final validNotification = getValidNotification();
+  final invalidDescriptionNotification = validNotification.copyWith(
+    description: EntityDescription(''),
+  );
+  final invalidDateCreatedNotification = validNotification.copyWith(
+    dateCreated: PastDate(
+      DateTime.now().add(const Duration(days: 1)),
+    ),
   );
 
   group(

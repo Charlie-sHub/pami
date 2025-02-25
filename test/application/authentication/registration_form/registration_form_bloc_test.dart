@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
@@ -13,7 +14,6 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 import 'package:pami/domain/core/validation/objects/password_confirmator.dart';
 
-import '../../../misc/get_valid_user.dart';
 import 'registration_form_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<AuthenticationRepositoryInterface>()])
@@ -205,6 +205,7 @@ void main() {
             mockRepository.register(
               user: anyNamed('user'),
               password: anyNamed('password'),
+              imageFile: anyNamed('imageFile'),
             ),
           ).thenAnswer((_) async => right(unit));
         },
@@ -236,6 +237,7 @@ void main() {
           mockRepository.register(
             user: anyNamed('user'),
             password: anyNamed('password'),
+            imageFile: anyNamed('imageFile'),
           ),
         ).called(1),
       );
@@ -270,6 +272,7 @@ void main() {
           mockRepository.register(
             user: anyNamed('user'),
             password: anyNamed('password'),
+            imageFile: anyNamed('imageFile'),
           ),
         ),
       );
@@ -284,6 +287,7 @@ void main() {
             mockRepository.register(
               user: anyNamed('user'),
               password: anyNamed('password'),
+              imageFile: anyNamed('imageFile'),
             ),
           ).thenAnswer((_) async => left(failure));
         },
@@ -315,6 +319,7 @@ void main() {
           mockRepository.register(
             user: anyNamed('user'),
             password: anyNamed('password'),
+            imageFile: anyNamed('imageFile'),
           ),
         ).called(1),
       );

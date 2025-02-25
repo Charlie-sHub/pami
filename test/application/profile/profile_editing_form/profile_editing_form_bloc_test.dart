@@ -5,13 +5,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/profile/profile_editing_form/profile_editing_form_bloc.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
-import '../../../misc/get_valid_user.dart';
 import 'profile_editing_form_bloc_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<ProfileRepositoryInterface>()])
