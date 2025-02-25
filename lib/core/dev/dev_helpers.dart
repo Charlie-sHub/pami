@@ -5,6 +5,7 @@ import 'package:pami/domain/core/entities/karma.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/entities/message.dart';
 import 'package:pami/domain/core/entities/notification.dart';
+import 'package:pami/domain/core/entities/settings.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/entities/transaction.dart';
 import 'package:pami/domain/core/entities/user.dart';
@@ -129,4 +130,9 @@ Transaction getValidTransaction() => Transaction(
       interestedId: UniqueId(),
       status: TransactionStatus.confirmed,
       dateCreated: PastDate(DateTime.now()),
+    );
+
+/// Returns a valid [Settings] entity for development purposes.
+Settings getValidSettings() => const Settings(
+      notificationsEnabled: true,
     );
