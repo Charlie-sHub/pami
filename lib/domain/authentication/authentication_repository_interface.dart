@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
@@ -13,6 +14,7 @@ abstract class AuthenticationRepositoryInterface {
   Future<Either<Failure, Unit>> register({
     required User user,
     required Password password,
+    required XFile imageFile,
   });
 
   /// Signs in a user with the given email and password

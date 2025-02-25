@@ -1,28 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 
-import '../../../misc/get_valid_coordinates.dart';
-
 void main() {
-  late Coordinates validCoordinates;
-  late Coordinates invalidLatitudeCoordinates;
-  late Coordinates invalidLongitudeCoordinates;
-
-  setUp(
-    () {
-      // Arrange
-      validCoordinates = getValidCoordinates();
-      invalidLatitudeCoordinates = validCoordinates.copyWith(
-        latitude: Latitude(-91),
-      );
-      invalidLongitudeCoordinates = validCoordinates.copyWith(
-        longitude: Longitude(-181),
-      );
-    },
+  final validCoordinates = getValidCoordinates();
+  final invalidLatitudeCoordinates = validCoordinates.copyWith(
+    latitude: Latitude(-91),
+  );
+  final invalidLongitudeCoordinates = validCoordinates.copyWith(
+    longitude: Longitude(-181),
   );
 
   group(

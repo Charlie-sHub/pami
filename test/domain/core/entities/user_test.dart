@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
@@ -10,52 +11,35 @@ import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 
-import '../../../misc/get_valid_user.dart';
-
 void main() {
-  late User validUser;
-  late User invalidEmailUser;
-  late User invalidNameUser;
-  late User invalidUsernameUser;
-  late User invalidBioUser;
-  late User invalidAvatarUser;
-  late User invalidKarmaUser;
-  late User invalidLastLoginUser;
-  late User invalidDateCreatedUser;
-
-  setUp(
-    () {
-      // Arrange
-      validUser = getValidUser();
-      invalidEmailUser = validUser.copyWith(
-        email: EmailAddress('invalid-email'),
-      );
-      invalidNameUser = validUser.copyWith(
-        name: Name(''),
-      );
-      invalidUsernameUser = validUser.copyWith(
-        username: Name(''),
-      );
-      invalidBioUser = validUser.copyWith(
-        bio: EntityDescription(''),
-      );
-      invalidAvatarUser = validUser.copyWith(
-        avatar: Url('invalid-url'),
-      );
-      invalidKarmaUser = validUser.copyWith(
-        karma: KarmaPercentage(-1),
-      );
-      invalidLastLoginUser = validUser.copyWith(
-        lastLogin: PastDate(
-          DateTime.now().add(const Duration(days: 10)),
-        ),
-      );
-      invalidDateCreatedUser = validUser.copyWith(
-        dateCreated: PastDate(
-          DateTime.now().add(const Duration(days: 10)),
-        ),
-      );
-    },
+  final validUser = getValidUser();
+  final invalidEmailUser = validUser.copyWith(
+    email: EmailAddress('invalid-email'),
+  );
+  final invalidNameUser = validUser.copyWith(
+    name: Name(''),
+  );
+  final invalidUsernameUser = validUser.copyWith(
+    username: Name(''),
+  );
+  final invalidBioUser = validUser.copyWith(
+    bio: EntityDescription(''),
+  );
+  final invalidAvatarUser = validUser.copyWith(
+    avatar: Url('invalid-url'),
+  );
+  final invalidKarmaUser = validUser.copyWith(
+    karma: KarmaPercentage(-1),
+  );
+  final invalidLastLoginUser = validUser.copyWith(
+    lastLogin: PastDate(
+      DateTime.now().add(const Duration(days: 10)),
+    ),
+  );
+  final invalidDateCreatedUser = validUser.copyWith(
+    dateCreated: PastDate(
+      DateTime.now().add(const Duration(days: 10)),
+    ),
   );
 
   group(

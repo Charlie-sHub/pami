@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/data/core/models/shout_out_dto.dart';
-
-import '../../../misc/get_valid_shout_out.dart';
 
 void main() {
   final shoutOut = getValidShoutOut();

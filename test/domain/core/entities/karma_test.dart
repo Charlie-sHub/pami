@@ -1,26 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart' show getValidKarma;
 import 'package:pami/domain/core/entities/karma.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 
-import '../../../misc/get_valid_karma.dart';
-
 void main() {
-  late Karma validKarma;
-  late Karma invalidDateCreatedKarma;
-
-  setUp(
-    () {
-      // Arrange
-      validKarma = getValidKarma();
-      invalidDateCreatedKarma = validKarma.copyWith(
-        dateCreated: PastDate(
-          DateTime.now().add(const Duration(days: 10)),
-        ),
-      );
-    },
+  final validKarma = getValidKarma();
+  final invalidDateCreatedKarma = validKarma.copyWith(
+    dateCreated: PastDate(
+      DateTime.now().add(const Duration(days: 10)),
+    ),
   );
 
   group(

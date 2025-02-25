@@ -1,31 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/message.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 
-import '../../../misc/get_valid_message.dart';
-
 void main() {
-  late Message validMessage;
-  late Message invalidContentMessage;
-  late Message invalidDateCreatedMessage;
-
-  setUp(
-    () {
-      // Arrange
-      validMessage = getValidMessage();
-      invalidContentMessage = validMessage.copyWith(
-        content: MessageContent(''),
-      );
-      invalidDateCreatedMessage = validMessage.copyWith(
-        dateCreated: PastDate(
-          DateTime.now().add(const Duration(days: 10)),
-        ),
-      );
-    },
+  final validMessage = getValidMessage();
+  final invalidContentMessage = validMessage.copyWith(
+    content: MessageContent(''),
+  );
+  final invalidDateCreatedMessage = validMessage.copyWith(
+    dateCreated: PastDate(
+      DateTime.now().add(const Duration(days: 10)),
+    ),
   );
 
   group(
