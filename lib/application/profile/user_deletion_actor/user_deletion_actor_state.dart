@@ -2,18 +2,18 @@ part of 'user_deletion_actor_bloc.dart';
 
 /// User deletion state.
 @freezed
-class UserDeletionActorState with _$UserDeletionActorState {
+sealed class UserDeletionActorState with _$UserDeletionActorState {
   /// Initial state.
-  const factory UserDeletionActorState.initial() = _Initial;
+  const factory UserDeletionActorState.initial() = Initial;
 
   /// Action in progress state.
-  const factory UserDeletionActorState.actionInProgress() = _ActionInProgress;
+  const factory UserDeletionActorState.actionInProgress() = ActionInProgress;
 
   /// Deletion success state.
-  const factory UserDeletionActorState.deletionSuccess() = _DeletionSuccess;
+  const factory UserDeletionActorState.deletionSuccess() = DeletionSuccess;
 
   /// Deletion failure state.
   const factory UserDeletionActorState.deletionFailure(
     Failure failure,
-  ) = _DeletionFailure;
+  ) = DeletionFailure;
 }

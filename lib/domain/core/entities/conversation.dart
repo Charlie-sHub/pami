@@ -9,7 +9,7 @@ part 'conversation.freezed.dart';
 
 /// Conversation entity
 @freezed
-class Conversation with _$Conversation {
+abstract class Conversation with _$Conversation {
   const Conversation._();
 
   /// Default constructor

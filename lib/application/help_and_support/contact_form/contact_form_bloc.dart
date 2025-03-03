@@ -20,48 +20,53 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
     this._repository,
   ) : super(ContactFormState.initial()) {
     on<ContactFormEvent>(
-      (event, emit) => event.when(
-        typeChanged: (type) => emit(
-          state.copyWith(
-            message: state.message.copyWith(
-              type: type,
-            ),
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        messageChanged: (message) => emit(
-          state.copyWith(
-            message: state.message.copyWith(
-              content: MessageContent(message),
-            ),
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        submitted: () async {
-          emit(
-            state.copyWith(
-              isSubmitting: true,
-              failureOrSuccessOption: none(),
-            ),
-          );
-          Either<Failure, Unit>? failureOrUnit;
-          if (state.message.isValid) {
-            failureOrUnit = await _repository.submitContact(state.message);
-          } else {
-            failureOrUnit = left(const Failure.emptyFields());
-          }
-          emit(
-            state.copyWith(
-              isSubmitting: false,
-              showErrorMessages: true,
-              failureOrSuccessOption: some(failureOrUnit),
-            ),
-          );
-          return null;
-        },
-      ),
+      (event, emit) => switch (event) {
+        _TypeChanged(:final type) => _handleTypeChanged(type, emit),
+        _MessageChanged(:final message) => _handleMessageChanged(message, emit),
+        _Submitted() => _handleSubmitted(emit),
+      },
     );
   }
 
   final HelpAndSupportRepositoryInterface _repository;
+
+  void _handleTypeChanged(ContactMessageType type, Emitter emit) => emit(
+        state.copyWith(
+          message: state.message.copyWith(
+            type: type,
+          ),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handleMessageChanged(String message, Emitter emit) => emit(
+        state.copyWith(
+          message: state.message.copyWith(
+            content: MessageContent(message),
+          ),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  Future<void> _handleSubmitted(Emitter emit) async {
+    emit(
+      state.copyWith(
+        isSubmitting: true,
+        failureOrSuccessOption: none(),
+      ),
+    );
+    Either<Failure, Unit> failureOrUnit;
+    if (state.message.isValid) {
+      failureOrUnit = await _repository.submitContact(state.message);
+    } else {
+      failureOrUnit = left(const Failure.emptyFields());
+    }
+    emit(
+      state.copyWith(
+        isSubmitting: false,
+        showErrorMessages: true,
+        failureOrSuccessOption: some(failureOrUnit),
+      ),
+    );
+  }
 }

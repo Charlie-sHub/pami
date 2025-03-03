@@ -2,7 +2,7 @@ part of 'login_form_bloc.dart';
 
 /// Login form event
 @freezed
-class LoginFormEvent with _$LoginFormEvent {
+sealed class LoginFormEvent with _$LoginFormEvent {
   /// Email changed event
   const factory LoginFormEvent.emailChanged(String email) = _EmailChanged;
 

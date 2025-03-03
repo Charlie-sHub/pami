@@ -17,32 +17,43 @@ class MapSettingsFormBloc
   /// Default constructor
   MapSettingsFormBloc() : super(MapSettingsFormState.initial()) {
     on<MapSettingsFormEvent>(
-      (event, emit) => event.when(
-        radiusChanged: (radius) => emit(
-          state.copyWith(
-            settings: state.settings.copyWith(
-              radius: MapRadius(radius),
-            ),
+      (event, emit) => switch (event) {
+        _RadiusChanged(:final radius) => _handleRadiusChanged(radius, emit),
+        _TypeChanged(:final type) => _handleTypeChanged(type, emit),
+        _CategoriesChanged(:final categories) => _handleCategoriesChanged(
+            categories,
+            emit,
           ),
-        ),
-        typeChanged: (type) => emit(
-          state.copyWith(
-            settings: state.settings.copyWith(
-              type: type,
-            ),
-          ),
-        ),
-        categoriesChanged: (categories) => emit(
-          state.copyWith(
-            settings: state.settings.copyWith(
-              categories: categories,
-            ),
-          ),
-        ),
-        resetSettings: () => emit(
-          MapSettingsFormState.initial(),
-        ),
-      ),
+        _ResetSettings() => _handleResetSettings(emit),
+      },
     );
   }
+
+  void _handleRadiusChanged(double radius, Emitter emit) => emit(
+        state.copyWith(
+          settings: state.settings.copyWith(
+            radius: MapRadius(radius),
+          ),
+        ),
+      );
+
+  void _handleTypeChanged(ShoutOutType type, Emitter emit) => emit(
+        state.copyWith(
+          settings: state.settings.copyWith(
+            type: type,
+          ),
+        ),
+      );
+
+  void _handleCategoriesChanged(Set<Category> categories, Emitter emit) => emit(
+        state.copyWith(
+          settings: state.settings.copyWith(
+            categories: categories,
+          ),
+        ),
+      );
+
+  void _handleResetSettings(Emitter emit) => emit(
+        MapSettingsFormState.initial(),
+      );
 }

@@ -8,7 +8,7 @@ part 'coordinates.freezed.dart';
 
 /// Coordinates entity
 @freezed
-class Coordinates with _$Coordinates {
+abstract class Coordinates with _$Coordinates {
   const Coordinates._();
 
   /// Default constructor

@@ -6,7 +6,7 @@ part 'settings.freezed.dart';
 /// We don't have a good idea of what the settings should be
 /// this entity is basically a placeholder
 @freezed
-class Settings with _$Settings {
+abstract class Settings with _$Settings {
   const Settings._();
 
   /// Default constructor

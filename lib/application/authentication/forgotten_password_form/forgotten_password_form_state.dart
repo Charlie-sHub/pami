@@ -2,7 +2,7 @@ part of 'forgotten_password_form_bloc.dart';
 
 /// Forgotten password form state
 @freezed
-class ForgottenPasswordFormState with _$ForgottenPasswordFormState {
+abstract class ForgottenPasswordFormState with _$ForgottenPasswordFormState {
   /// Default constructor
   const factory ForgottenPasswordFormState({
     required EmailAddress email,

@@ -33,7 +33,7 @@ void main() {
       streamController = StreamController<AuthenticationState>.broadcast();
 
       // Common mock behavior
-      when(mockBloc.state).thenReturn(const AuthenticationState.initial());
+      provideDummy<AuthenticationState>(const AuthenticationState.initial());
       when(mockBloc.stream).thenAnswer((_) => streamController.stream);
     },
   );

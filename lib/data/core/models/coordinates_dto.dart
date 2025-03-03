@@ -8,7 +8,7 @@ part 'coordinates_dto.g.dart';
 
 /// Coordinates DTO
 @freezed
-class CoordinatesDto with _$CoordinatesDto {
+abstract class CoordinatesDto with _$CoordinatesDto {
   const CoordinatesDto._();
 
   /// Default constructor

@@ -20,73 +20,81 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     this._repository,
   ) : super(LoginFormState.initial()) {
     on<LoginFormEvent>(
-      (event, emit) => event.when(
-        emailChanged: (emailString) => emit(
-          state.copyWith(
-            email: EmailAddress(emailString),
-            failureOrSuccessOption: none(),
+      (event, emit) => switch (event) {
+        _EmailChanged(:final email) => _handleEmailChanged(email, emit),
+        _PasswordChanged(:final password) => _handlePasswordChanged(
+            password,
+            emit,
           ),
-        ),
-        passwordChanged: (passwordString) => emit(
-          state.copyWith(
-            password: Password(passwordString),
-            failureOrSuccessOption: none(),
+        _LoggedIn() => _handleLoggedIn(emit),
+        _LoggedInGoogle() => _performActionOnThirdPartyLogin(
+            forwardedCall: _repository.logInGoogle,
+            emit: emit,
           ),
-        ),
-        loggedIn: () async {
-          emit(
-            state.copyWith(
-              isSubmitting: true,
-              failureOrSuccessOption: none(),
-            ),
-          );
-          final isEmailValid = state.email.isValid();
-          final isPasswordValid = state.password.isValid();
-          Either<Failure, Unit>? failureOrUnit;
-          if (isEmailValid && isPasswordValid) {
-            failureOrUnit = await _repository.logIn(
-              email: state.email,
-              password: state.password,
-            );
-          } else {
-            failureOrUnit = left(const Failure.emptyFields());
-          }
-          emit(
-            state.copyWith(
-              isSubmitting: false,
-              showErrorMessages: true,
-              failureOrSuccessOption: optionOf(failureOrUnit),
-            ),
-          );
-          return null;
-        },
-        loggedInGoogle: () => _performActionOnThirdPartyLogin(
-          forwardedCall: _repository.logInGoogle,
-          emitter: emit,
-        ),
-        loggedInApple: () => _performActionOnThirdPartyLogin(
-          forwardedCall: _repository.logInApple,
-          emitter: emit,
-        ),
-      ),
+        _LoggedInApple() => _performActionOnThirdPartyLogin(
+            forwardedCall: _repository.logInApple,
+            emit: emit,
+          ),
+      },
     );
   }
 
   final AuthenticationRepositoryInterface _repository;
 
-  Future<void> _performActionOnThirdPartyLogin({
-    required Future<Either<Failure, Option<User>>> Function() forwardedCall,
-    required Emitter<LoginFormState> emitter,
-  }) async {
-    emitter(
+  void _handleEmailChanged(String emailString, Emitter emit) => emit(
+        state.copyWith(
+          email: EmailAddress(emailString),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handlePasswordChanged(String passwordString, Emitter emit) => emit(
+        state.copyWith(
+          password: Password(passwordString),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  Future<void> _handleLoggedIn(Emitter emit) async {
+    emit(
       state.copyWith(
         isSubmitting: true,
         failureOrSuccessOption: none(),
       ),
     );
-    final failureOrUnit = await forwardedCall();
-    emitter(
-      failureOrUnit.fold(
+    Either<Failure, Unit>? failureOrUnit;
+    if (state.email.isValid() && state.password.isValid()) {
+      failureOrUnit = await _repository.logIn(
+        email: state.email,
+        password: state.password,
+      );
+    } else {
+      failureOrUnit = left(const Failure.emptyFields());
+    }
+    emit(
+      state.copyWith(
+        isSubmitting: false,
+        showErrorMessages: true,
+        failureOrSuccessOption: optionOf(failureOrUnit),
+      ),
+    );
+  }
+
+  Future<void> _performActionOnThirdPartyLogin({
+    required Future<Either<Failure, Option<User>>> Function() forwardedCall,
+    required Emitter emit,
+  }) async {
+    emit(
+      state.copyWith(
+        isSubmitting: true,
+        failureOrSuccessOption: none(),
+      ),
+    );
+
+    final failureOrUserOption = await forwardedCall();
+
+    emit(
+      failureOrUserOption.fold(
         (failure) => state.copyWith(
           isSubmitting: false,
           failureOrSuccessOption: some(left(failure)),

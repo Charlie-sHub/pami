@@ -19,38 +19,43 @@ class ForgottenPasswordFormBloc
     this._repository,
   ) : super(ForgottenPasswordFormState.initial()) {
     on<ForgottenPasswordFormEvent>(
-      (event, emit) => event.when(
-        emailChanged: (email) => emit(
-          state.copyWith(
-            email: EmailAddress(email),
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        submitted: () async {
-          emit(
-            state.copyWith(
-              isSubmitting: true,
-              failureOrSuccessOption: none(),
-            ),
-          );
-          Either<Failure, Unit>? failureOrUnit;
-          if (state.email.isValid()) {
-            failureOrUnit = await _repository.resetPassword(state.email);
-          } else {
-            failureOrUnit = left(const Failure.emptyFields());
-          }
-          emit(
-            state.copyWith(
-              isSubmitting: false,
-              showErrorMessages: true,
-              failureOrSuccessOption: some(failureOrUnit),
-            ),
-          );
-          return null;
-        },
-      ),
+      (event, emit) => switch (event) {
+        _EmailChanged(:final email) => _handleEmailChanged(email, emit),
+        _Submitted() => _handleSubmitted(emit),
+      },
     );
   }
 
   final AuthenticationRepositoryInterface _repository;
+
+  void _handleEmailChanged(String email, Emitter emit) => emit(
+        state.copyWith(
+          email: EmailAddress(email),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  Future<void> _handleSubmitted(Emitter emit) async {
+    emit(
+      state.copyWith(
+        isSubmitting: true,
+        failureOrSuccessOption: none(),
+      ),
+    );
+
+    Either<Failure, Unit> failureOrUnit;
+    if (state.email.isValid()) {
+      failureOrUnit = await _repository.resetPassword(state.email);
+    } else {
+      failureOrUnit = left(const Failure.emptyFields());
+    }
+
+    emit(
+      state.copyWith(
+        isSubmitting: false,
+        showErrorMessages: true,
+        failureOrSuccessOption: some(failureOrUnit),
+      ),
+    );
+  }
 }

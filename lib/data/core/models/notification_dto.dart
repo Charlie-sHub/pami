@@ -10,7 +10,7 @@ part 'notification_dto.g.dart';
 
 /// Notification DTO
 @freezed
-class NotificationDto with _$NotificationDto {
+abstract class NotificationDto with _$NotificationDto {
   const NotificationDto._();
 
   /// Default constructor

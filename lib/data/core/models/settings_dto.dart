@@ -6,7 +6,7 @@ part 'settings_dto.g.dart';
 
 /// Settings DTO
 @freezed
-class SettingsDto with _$SettingsDto {
+abstract class SettingsDto with _$SettingsDto {
   const SettingsDto._();
 
   /// Default constructor

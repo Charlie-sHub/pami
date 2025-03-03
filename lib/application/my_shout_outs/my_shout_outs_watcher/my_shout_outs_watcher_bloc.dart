@@ -21,32 +21,41 @@ class MyShoutOutsWatcherBloc
     this._repository,
   ) : super(const MyShoutOutsWatcherState.initial()) {
     on<MyShoutOutsWatcherEvent>(
-      (event, emit) => event.when(
-        watchStarted: () async {
-          emit(const MyShoutOutsWatcherState.actionInProgress());
-          await _streamSubscription?.cancel();
-          _streamSubscription = _repository.watchMyShoutOuts().listen(
-                (failureOrShoutOuts) => add(
-                  MyShoutOutsWatcherEvent.shoutOutsReceived(
-                    failureOrShoutOuts,
-                  ),
-                ),
-              );
-          return null;
-        },
-        shoutOutsReceived: (result) => emit(
-          result.fold(
-            MyShoutOutsWatcherState.loadFailure,
-            MyShoutOutsWatcherState.loadSuccess,
+      (event, emit) => switch (event) {
+        _WatchStarted() => _handleWatchStarted(emit),
+        _ShoutOutsReceived(:final failureOrShoutOuts) =>
+          _handleShoutOutsReceived(
+            failureOrShoutOuts,
+            emit,
           ),
-        ),
-      ),
+      },
     );
   }
 
   final MyShoutOutsRepositoryInterface _repository;
-
   StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
+
+  Future<void> _handleShoutOutsReceived(
+    Either<Failure, Set<ShoutOut>> failureOrShoutOuts,
+    Emitter emit,
+  ) async {
+    emit(
+      failureOrShoutOuts.fold(
+        MyShoutOutsWatcherState.loadFailure,
+        MyShoutOutsWatcherState.loadSuccess,
+      ),
+    );
+  }
+
+  Future<void> _handleWatchStarted(Emitter emit) async {
+    emit(const MyShoutOutsWatcherState.actionInProgress());
+    await _streamSubscription?.cancel();
+    _streamSubscription = _repository.watchMyShoutOuts().listen(
+          (failureOrShoutOuts) => add(
+            MyShoutOutsWatcherEvent.shoutOutsReceived(failureOrShoutOuts),
+          ),
+        );
+  }
 
   @override
   Future<void> close() async {

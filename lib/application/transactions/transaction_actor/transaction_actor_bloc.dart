@@ -18,23 +18,30 @@ class TransactionActorBloc
     this._repository,
   ) : super(const TransactionActorState.initial()) {
     on<TransactionActorEvent>(
-      (event, emit) => event.when(
-        transactionCreated: (shoutOutId) async {
-          emit(const TransactionActorState.actionInProgress());
-          final failureOrSuccess = await _repository.createTransaction(
+      (event, emit) => switch (event) {
+        _TransactionCreated(:final shoutOutId) => _handleTransactionCreated(
             shoutOutId,
-          );
-          emit(
-            failureOrSuccess.fold(
-              TransactionActorState.transactionFailure,
-              (_) => TransactionActorState.transactionSuccess(shoutOutId),
-            ),
-          );
-          return null;
-        },
-      ),
+            emit,
+          ),
+      },
     );
   }
 
   final TransactionRepositoryInterface _repository;
+
+  Future<void> _handleTransactionCreated(
+    UniqueId shoutOutId,
+    Emitter emit,
+  ) async {
+    emit(const TransactionActorState.actionInProgress());
+    final failureOrSuccess = await _repository.createTransaction(
+      shoutOutId,
+    );
+    emit(
+      failureOrSuccess.fold(
+        TransactionActorState.transactionFailure,
+        (_) => TransactionActorState.transactionSuccess(shoutOutId),
+      ),
+    );
+  }
 }

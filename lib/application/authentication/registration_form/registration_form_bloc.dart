@@ -25,121 +25,135 @@ class RegistrationFormBloc
     this._repository,
   ) : super(RegistrationFormState.initial()) {
     on<RegistrationFormEvent>(
-      (event, emit) => event.when(
-        initialized: (userOption) => emit(
-          userOption.fold(
-            () => state.copyWith(
-              initialized: true,
-            ),
-            (user) => state.copyWith(
-              user: user,
-              initialized: true,
-            ),
+      (event, emit) => switch (event) {
+        _Initialized(:final userOption) => _handleInitialized(userOption, emit),
+        _ImageChanged(:final imageFile) => _handleImageChanged(imageFile, emit),
+        _NameChanged(:final name) => _handleNameChanged(name, emit),
+        _UsernameChanged(:final username) => _handleUsernameChanged(
+            username,
+            emit,
           ),
-        ),
-        imageChanged: (imageFile) => emit(
-          state.copyWith(
-            imageFile: some(imageFile),
-            failureOrSuccessOption: none(),
+        _PasswordChanged(:final password) => _handlePasswordChanged(
+            password,
+            emit,
           ),
-        ),
-        nameChanged: (name) => emit(
-          state.copyWith(
-            user: state.user.copyWith(
-              name: Name(name),
-            ),
-            failureOrSuccessOption: none(),
+        _PasswordConfirmationChanged(:final passwordConfirmation) =>
+          _handlePasswordConfirmationChanged(
+            passwordConfirmation,
+            emit,
           ),
-        ),
-        usernameChanged: (username) => emit(
-          state.copyWith(
-            user: state.user.copyWith(
-              username: Name(username),
-            ),
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        passwordChanged: (password) => emit(
-          state.copyWith(
-            password: Password(password),
-            passwordConfirmator: PasswordConfirmator(
-              password: password,
-              confirmation: state.passwordToCompare,
-            ),
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        passwordConfirmationChanged: (passwordConfirmation) => emit(
-          state.copyWith(
-            passwordConfirmator: PasswordConfirmator(
-              password: state.password.value.fold(
-                (failure) => '',
-                id,
-              ),
-              confirmation: passwordConfirmation,
-            ),
-            passwordToCompare: passwordConfirmation,
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        emailAddressChanged: (email) => emit(
-          state.copyWith(
-            user: state.user.copyWith(
-              email: EmailAddress(email),
-            ),
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        bioChanged: (bio) => emit(
-          state.copyWith(
-            user: state.user.copyWith(
-              bio: EntityDescription(bio),
-            ),
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        tappedEULA: () => emit(
-          state.copyWith(
-            acceptedEULA: !state.acceptedEULA,
-            failureOrSuccessOption: none(),
-          ),
-        ),
-        submitted: () async {
-          emit(
-            state.copyWith(
-              isSubmitting: true,
-              failureOrSuccessOption: none(),
-            ),
-          );
-          Either<Failure, Unit>? failureOrUnit;
-          final canRegister = state.user.isValid &&
-              state.password.isValid() &&
-              state.passwordConfirmator.isValid() &&
-              state.acceptedEULA &&
-              (state.imageFile.isSome());
-          if (canRegister) {
-            failureOrUnit = await _repository.register(
-              user: state.user,
-              password: state.password,
-              imageFile: state.imageFile.getOrElse(
-                () => XFile(''),
-              ),
-            );
-          } else {
-            failureOrUnit = left(const Failure.emptyFields());
-          }
-          emit(
-            state.copyWith(
-              isSubmitting: false,
-              showErrorMessages: true,
-              failureOrSuccessOption: optionOf(failureOrUnit),
-            ),
-          );
-          return null;
-        },
-      ),
+        _EmailAddressChanged(:final email) => _handleEmailChanged(email, emit),
+        _BioChanged(:final bio) => _handleBioChanged(bio, emit),
+        _TappedEULA() => _handleTappedEULA(emit),
+        _Submitted() => _handleSubmitted(emit),
+      },
     );
   }
 
   final AuthenticationRepositoryInterface _repository;
+
+  void _handleInitialized(Option<User> userOption, Emitter emit) => emit(
+        userOption.fold(
+          () => state.copyWith(initialized: true),
+          (user) => state.copyWith(user: user, initialized: true),
+        ),
+      );
+
+  void _handleImageChanged(XFile imageFile, Emitter emit) => emit(
+        state.copyWith(
+          imageFile: some(imageFile),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handleNameChanged(String name, Emitter emit) => emit(
+        state.copyWith(
+          user: state.user.copyWith(name: Name(name)),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handleUsernameChanged(String username, Emitter emit) => emit(
+        state.copyWith(
+          user: state.user.copyWith(username: Name(username)),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handlePasswordChanged(String password, Emitter emit) => emit(
+        state.copyWith(
+          password: Password(password),
+          passwordConfirmator: PasswordConfirmator(
+            password: password,
+            confirmation: state.passwordToCompare,
+          ),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handlePasswordConfirmationChanged(String confirmation, Emitter emit) =>
+      emit(
+        state.copyWith(
+          passwordConfirmator: PasswordConfirmator(
+            password: state.password.value.fold((_) => '', id),
+            confirmation: confirmation,
+          ),
+          passwordToCompare: confirmation,
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handleEmailChanged(String email, Emitter emit) => emit(
+        state.copyWith(
+          user: state.user.copyWith(email: EmailAddress(email)),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handleBioChanged(String bio, Emitter emit) => emit(
+        state.copyWith(
+          user: state.user.copyWith(bio: EntityDescription(bio)),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handleTappedEULA(Emitter emit) => emit(
+        state.copyWith(
+          acceptedEULA: !state.acceptedEULA,
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  Future<void> _handleSubmitted(Emitter emit) async {
+    emit(
+      state.copyWith(
+        isSubmitting: true,
+        failureOrSuccessOption: none(),
+      ),
+    );
+    Either<Failure, Unit>? failureOrUnit;
+    final canRegister = state.user.isValid &&
+        state.password.isValid() &&
+        state.passwordConfirmator.isValid() &&
+        state.acceptedEULA &&
+        (state.imageFile.isSome());
+    if (canRegister) {
+      failureOrUnit = await _repository.register(
+        user: state.user,
+        password: state.password,
+        imageFile: state.imageFile.getOrElse(
+          () => XFile(''),
+        ),
+      );
+    } else {
+      failureOrUnit = left(const Failure.emptyFields());
+    }
+    emit(
+      state.copyWith(
+        isSubmitting: false,
+        showErrorMessages: true,
+        failureOrSuccessOption: optionOf(failureOrUnit),
+      ),
+    );
+  }
 }
