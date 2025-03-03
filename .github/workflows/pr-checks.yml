@@ -38,6 +38,9 @@ jobs:
       - name: Generate Localizations
         run: flutter gen-l10n
 
+      - name: Create .env file
+        run: echo "DUMMY_ENV=1" > .env
+
       - name: Run Linter
         run: flutter analyze
 
