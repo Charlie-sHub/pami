@@ -14,7 +14,7 @@ Future<void> mainCommon(String environment) async {
   runApp(
     Provider(
       create: (context) => environment,
-      child: const AppWidget(),
+      child: AppWidget(),
     ),
   );
 }
