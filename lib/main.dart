@@ -7,5 +7,5 @@ import 'package:pami/views/core/widgets/app_widget.dart';
 void main() {
   // await dotenv.load();
   configureDependencies(Environment.dev);
-  runApp(const AppWidget());
+  runApp(AppWidget());
 }

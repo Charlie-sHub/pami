@@ -2,7 +2,6 @@ include: package:very_good_analysis/analysis_options.yaml
 
 linter:
   rules:
-    # Additional rules for stricter enforcement
     - always_use_package_imports
     - avoid_print
     - avoid_function_literals_in_foreach_calls
@@ -31,7 +30,14 @@ analyzer:
     - "**/*.freezed.dart"
     - "lib/generated/**"
     - "lib/injection.config.dart"
-    - "test"
+    - "**/generated_plugin_registrant.dart" # Flutter plugin files
+    - "**/firebase_options.dart" # Firebase config
+    - "build/**"
+    - ".dart_tool/**"
+    - ".idea/**"
+    - ".vscode/**"
+    - "ios/**"
+    - "android/**"
 
   errors:
     missing_return: error
@@ -52,4 +58,3 @@ coverage:
     - "**/*.g.dart"
     - "**/freezed.dart"
     - "**/config.dart"
-
