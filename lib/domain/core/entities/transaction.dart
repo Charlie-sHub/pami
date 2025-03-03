@@ -9,7 +9,7 @@ part 'transaction.freezed.dart';
 
 /// Transaction entity
 @freezed
-class Transaction with _$Transaction {
+abstract class Transaction with _$Transaction {
   const Transaction._();
 
   /// Default constructor

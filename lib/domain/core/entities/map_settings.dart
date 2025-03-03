@@ -9,7 +9,7 @@ part 'map_settings.freezed.dart';
 
 /// MapSettings entity
 @freezed
-class MapSettings with _$MapSettings {
+abstract class MapSettings with _$MapSettings {
   const MapSettings._();
 
   /// Default constructor

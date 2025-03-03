@@ -9,7 +9,7 @@ part 'notification.freezed.dart';
 
 /// Notification entity
 @freezed
-class Notification with _$Notification {
+abstract class Notification with _$Notification {
   const Notification._();
 
   /// Default constructor

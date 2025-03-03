@@ -2,7 +2,7 @@ part of 'message_form_bloc.dart';
 
 /// Message form state
 @freezed
-class MessageFormState with _$MessageFormState {
+sealed class MessageFormState with _$MessageFormState {
   /// Default constructor
   const factory MessageFormState({
     required Message message,

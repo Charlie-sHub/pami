@@ -2,7 +2,7 @@ part of 'authentication_bloc.dart';
 
 /// Authentication event
 @freezed
-class AuthenticationEvent with _$AuthenticationEvent {
+sealed class AuthenticationEvent with _$AuthenticationEvent {
   /// Checks if the user is authenticated
   const factory AuthenticationEvent.authenticationCheckRequested() =
       _AuthenticationCheckRequested;

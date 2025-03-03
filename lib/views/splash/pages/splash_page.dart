@@ -22,13 +22,14 @@ class SplashPage extends StatelessWidget {
         ),
       );
 
-  void _listener(BuildContext context, AuthenticationState state) => state.when(
-        initial: () => null,
-        authenticated: (_) => context.router.replace(
-          const HomeRoute(),
-        ),
-        unAuthenticated: () => context.router.replace(
-          const LoginRoute(),
-        ),
-      );
+  void _listener(BuildContext context, AuthenticationState state) =>
+      switch (state) {
+        Initial() => null,
+        Authenticated() => context.router.replace(
+            const HomeRoute(),
+          ),
+        UnAuthenticated() => context.router.replace(
+            const LoginRoute(),
+          ),
+      };
 }

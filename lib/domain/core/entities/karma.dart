@@ -8,7 +8,7 @@ part 'karma.freezed.dart';
 
 /// Karma entity
 @freezed
-class Karma with _$Karma {
+abstract class Karma with _$Karma {
   const Karma._();
 
   /// Default constructor

@@ -18,35 +18,42 @@ class NotificationActorBloc
     this._repository,
   ) : super(const NotificationActorState.initial()) {
     on<NotificationActorEvent>(
-      (event, emit) => event.when(
-        deleteNotification: (notificationId) async {
-          emit(const NotificationActorState.actionInProgress());
-          final failureOrUnit = await _repository.deleteNotification(
+      (event, emit) => switch (event) {
+        _DeleteNotification(:final notificationId) => _handleDeleteNotification(
             notificationId,
-          );
-          emit(
-            failureOrUnit.fold(
-              NotificationActorState.deletionFailure,
-              (_) => const NotificationActorState.deletionSuccess(),
-            ),
-          );
-          return null;
-        },
-        markAsRead: (notificationId) async {
-          final failureOrUnit = await _repository.markAsRead(
+            emit,
+          ),
+        _MarkAsRead(:final notificationId) => _handleMarkAsRead(
             notificationId,
-          );
-          emit(
-            failureOrUnit.fold(
-              (failure) => state,
-              (_) => const NotificationActorState.readMarkSuccess(),
-            ),
-          );
-          return null;
-        },
-      ),
+            emit,
+          ),
+      },
     );
   }
 
   final NotificationRepositoryInterface _repository;
+
+  Future<void> _handleDeleteNotification(
+    UniqueId notificationId,
+    Emitter emit,
+  ) async {
+    emit(const NotificationActorState.actionInProgress());
+    final failureOrUnit = await _repository.deleteNotification(notificationId);
+    emit(
+      failureOrUnit.fold(
+        NotificationActorState.deletionFailure,
+        (_) => const NotificationActorState.deletionSuccess(),
+      ),
+    );
+  }
+
+  Future<void> _handleMarkAsRead(UniqueId notificationId, Emitter emit) async {
+    final failureOrUnit = await _repository.markAsRead(notificationId);
+    emit(
+      failureOrUnit.fold(
+        (failure) => state, // Keep previous state on failure
+        (_) => const NotificationActorState.readMarkSuccess(),
+      ),
+    );
+  }
 }
