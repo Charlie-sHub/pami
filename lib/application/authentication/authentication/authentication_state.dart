@@ -2,14 +2,14 @@ part of 'authentication_bloc.dart';
 
 /// Authentication state
 @freezed
-class AuthenticationState with _$AuthenticationState {
+sealed class AuthenticationState with _$AuthenticationState {
   /// Initial state
-  const factory AuthenticationState.initial() = _Initial;
+  const factory AuthenticationState.initial() = Initial;
 
   /// Authenticated state
   const factory AuthenticationState.authenticated(User currentUser) =
-      _Authenticated;
+      Authenticated;
 
   /// Unauthenticated state
-  const factory AuthenticationState.unAuthenticated() = _UnAuthenticated;
+  const factory AuthenticationState.unAuthenticated() = UnAuthenticated;
 }

@@ -2,7 +2,7 @@ part of 'transaction_listener_bloc.dart';
 
 /// Transaction listener event
 @freezed
-class TransactionListenerEvent with _$TransactionListenerEvent {
+sealed class TransactionListenerEvent with _$TransactionListenerEvent {
   /// Start watching a shout-out for transaction updates
   const factory TransactionListenerEvent.listenShoutOutStarted(
     UniqueId shoutOutId,

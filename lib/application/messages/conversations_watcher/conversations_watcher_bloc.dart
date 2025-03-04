@@ -22,36 +22,50 @@ class ConversationsWatcherBloc
     this._repository,
   ) : super(const ConversationsWatcherState.initial()) {
     on<ConversationsWatcherEvent>(
-      (event, emit) => event.when(
-        watchStarted: (shoutOutId) async {
-          emit(const ConversationsWatcherState.loadInProgress());
-          await _streamSubscription?.cancel();
-          _streamSubscription = _repository
-              .watchConversations(
-                shoutOutId,
-              )
-              .listen(
-                (failureOrConversations) => add(
-                  ConversationsWatcherEvent.conversationsReceived(
-                    failureOrConversations,
-                  ),
-                ),
-              );
-          return null;
-        },
-        conversationsReceived: (result) => emit(
-          result.fold(
-            ConversationsWatcherState.loadFailure,
-            ConversationsWatcherState.loadSuccess,
+      (event, emit) => switch (event) {
+        _WatchStarted(:final shoutOutId) => _handleWatchStarted(
+            shoutOutId,
+            emit,
           ),
-        ),
-      ),
+        _ConversationsReceived(:final failureOrConversations) =>
+          _handleConversationsReceived(
+            failureOrConversations,
+            emit,
+          ),
+      },
     );
   }
 
   final MessagesRepositoryInterface _repository;
 
   StreamSubscription<Either<Failure, List<Conversation>>>? _streamSubscription;
+
+  Future<void> _handleWatchStarted(UniqueId shoutOutId, Emitter emit) async {
+    emit(const ConversationsWatcherState.loadInProgress());
+    await _streamSubscription?.cancel();
+    _streamSubscription = _repository
+        .watchConversations(
+          shoutOutId,
+        )
+        .listen(
+          (failureOrConversations) => add(
+            ConversationsWatcherEvent.conversationsReceived(
+              failureOrConversations,
+            ),
+          ),
+        );
+  }
+
+  void _handleConversationsReceived(
+    Either<Failure, List<Conversation>> result,
+    Emitter emit,
+  ) =>
+      emit(
+        result.fold(
+          ConversationsWatcherState.loadFailure,
+          ConversationsWatcherState.loadSuccess,
+        ),
+      );
 
   @override
   Future<void> close() async {

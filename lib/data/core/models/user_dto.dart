@@ -14,7 +14,7 @@ part 'user_dto.g.dart';
 
 /// User DTO
 @freezed
-class UserDto with _$UserDto {
+abstract class UserDto with _$UserDto {
   const UserDto._();
 
   /// Default constructor

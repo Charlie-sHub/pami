@@ -2,7 +2,7 @@ part of 'registration_form_bloc.dart';
 
 /// Registration form event
 @freezed
-class RegistrationFormEvent with _$RegistrationFormEvent {
+sealed class RegistrationFormEvent with _$RegistrationFormEvent {
   /// Initialized event
   const factory RegistrationFormEvent.initialized(
     Option<User> userOption,

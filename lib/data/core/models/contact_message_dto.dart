@@ -11,7 +11,7 @@ part 'contact_message_dto.g.dart';
 
 /// Contact Message DTO
 @freezed
-class ContactMessageDto with _$ContactMessageDto {
+abstract class ContactMessageDto with _$ContactMessageDto {
   const ContactMessageDto._();
 
   /// Default constructor

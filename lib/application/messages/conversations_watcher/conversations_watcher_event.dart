@@ -2,7 +2,7 @@ part of 'conversations_watcher_bloc.dart';
 
 /// Conversations watcher event
 @freezed
-class ConversationsWatcherEvent with _$ConversationsWatcherEvent {
+sealed class ConversationsWatcherEvent with _$ConversationsWatcherEvent {
   /// Watch started event
   const factory ConversationsWatcherEvent.watchStarted(
     UniqueId shoutOutId,

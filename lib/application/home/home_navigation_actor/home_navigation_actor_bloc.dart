@@ -13,18 +13,19 @@ class HomeNavigationActorBloc
   /// Default constructor
   HomeNavigationActorBloc() : super(const HomeNavigationActorState()) {
     on<HomeNavigationActorEvent>(
-      (event, emit) => event.when(
-        tabSelected: (index) {
-          var newIndex = index;
-          if (newIndex < 0 || newIndex > 4) {
-            newIndex = 0;
-          }
-          emit(
-            state.copyWith(currentIndex: newIndex),
-          );
-          return null;
-        },
-      ),
+      (event, emit) => switch (event) {
+        _TabSelected(:final index) => _handleTabSelected(index, emit),
+      },
+    );
+  }
+
+  void _handleTabSelected(int index, Emitter emit) {
+    var newIndex = index;
+    if (newIndex < 0 || newIndex > 4) {
+      newIndex = 0;
+    }
+    emit(
+      state.copyWith(currentIndex: newIndex),
     );
   }
 }

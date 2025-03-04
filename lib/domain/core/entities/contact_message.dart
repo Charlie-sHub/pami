@@ -10,7 +10,7 @@ part 'contact_message.freezed.dart';
 
 /// Contact Message entity
 @freezed
-class ContactMessage with _$ContactMessage {
+abstract class ContactMessage with _$ContactMessage {
   const ContactMessage._();
 
   /// Default constructor

@@ -2,7 +2,7 @@ part of 'map_settings_form_bloc.dart';
 
 /// Map settings event
 @freezed
-class MapSettingsFormEvent with _$MapSettingsFormEvent {
+sealed class MapSettingsFormEvent with _$MapSettingsFormEvent {
   /// Radius changed event
   const factory MapSettingsFormEvent.radiusChanged(
     double radius,

@@ -2,7 +2,7 @@ part of 'registration_form_bloc.dart';
 
 /// Registration form state
 @freezed
-class RegistrationFormState with _$RegistrationFormState {
+abstract class RegistrationFormState with _$RegistrationFormState {
   /// Default constructor
   const factory RegistrationFormState({
     required User user,

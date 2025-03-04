@@ -2,7 +2,7 @@ part of 'map_watcher_bloc.dart';
 
 /// Map watcher event
 @freezed
-class MapWatcherEvent with _$MapWatcherEvent {
+sealed class MapWatcherEvent with _$MapWatcherEvent {
   /// Watch started event
   const factory MapWatcherEvent.watchStarted(
     MapSettings settings,

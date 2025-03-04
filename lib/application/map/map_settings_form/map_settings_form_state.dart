@@ -2,7 +2,7 @@ part of 'map_settings_form_bloc.dart';
 
 /// Map settings state
 @freezed
-class MapSettingsFormState with _$MapSettingsFormState {
+sealed class MapSettingsFormState with _$MapSettingsFormState {
   /// Default constructor
   const factory MapSettingsFormState({
     required MapSettings settings,

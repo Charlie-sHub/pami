@@ -10,7 +10,7 @@ part 'conversation_dto.g.dart';
 
 /// Conversation DTO
 @freezed
-class ConversationDto with _$ConversationDto {
+abstract class ConversationDto with _$ConversationDto {
   const ConversationDto._();
 
   /// Default constructor

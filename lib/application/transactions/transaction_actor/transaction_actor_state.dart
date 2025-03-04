@@ -2,20 +2,20 @@ part of 'transaction_actor_bloc.dart';
 
 /// Transaction actor state
 @freezed
-class TransactionActorState with _$TransactionActorState {
+sealed class TransactionActorState with _$TransactionActorState {
   /// Initial state
-  const factory TransactionActorState.initial() = _Initial;
+  const factory TransactionActorState.initial() = Initial;
 
   /// Transaction creation in progress
-  const factory TransactionActorState.actionInProgress() = _ActionInProgress;
+  const factory TransactionActorState.actionInProgress() = ActionInProgress;
 
   /// Transaction creation successful
   const factory TransactionActorState.transactionSuccess(
     UniqueId shoutOutId,
-  ) = _TransactionSuccess;
+  ) = TransactionSuccess;
 
   /// Transaction creation failed
   const factory TransactionActorState.transactionFailure(
     Failure failure,
-  ) = _TransactionFailure;
+  ) = TransactionFailure;
 }

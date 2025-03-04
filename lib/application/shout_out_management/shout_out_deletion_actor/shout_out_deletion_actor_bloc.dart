@@ -18,23 +18,27 @@ class ShoutOutDeletionActorBloc
     this._repository,
   ) : super(const ShoutOutDeletionActorState.initial()) {
     on<ShoutOutDeletionActorEvent>(
-      (event, emit) => event.when(
-        deleteRequested: (shoutOutId) async {
-          emit(const ShoutOutDeletionActorState.actionInProgress());
-          final failureOrSuccess = await _repository.deleteShoutOut(
+      (event, emit) => switch (event) {
+        _DeleteRequested(:final shoutOutId) => _handleDeleteRequested(
             shoutOutId,
-          );
-          emit(
-            failureOrSuccess.fold(
-              ShoutOutDeletionActorState.deletionFailure,
-              (_) => const ShoutOutDeletionActorState.deletionSuccess(),
-            ),
-          );
-          return null;
-        },
-      ),
+            emit,
+          ),
+      },
     );
   }
 
   final ShoutOutManagementRepositoryInterface _repository;
+
+  Future<void> _handleDeleteRequested(UniqueId shoutOutId, Emitter emit) async {
+    emit(const ShoutOutDeletionActorState.actionInProgress());
+    final failureOrSuccess = await _repository.deleteShoutOut(
+      shoutOutId,
+    );
+    emit(
+      failureOrSuccess.fold(
+        ShoutOutDeletionActorState.deletionFailure,
+        (_) => const ShoutOutDeletionActorState.deletionSuccess(),
+      ),
+    );
+  }
 }

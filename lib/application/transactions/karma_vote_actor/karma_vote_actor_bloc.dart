@@ -18,24 +18,34 @@ class KarmaVoteActorBloc
     this._repository,
   ) : super(const KarmaVoteActorState.initial()) {
     on<KarmaVoteActorEvent>(
-      (event, emit) => event.when(
-        voteSubmitted: (shoutOutId, isPositive) async {
-          emit(const KarmaVoteActorState.actionInProgress());
-          final failureOrSuccess = await _repository.submitKarmaVote(
-            shoutOutId: shoutOutId,
-            vote: isPositive,
-          );
-          emit(
-            failureOrSuccess.fold(
-              KarmaVoteActorState.voteFailure,
-              (_) => const KarmaVoteActorState.voteSuccess(),
-            ),
-          );
-          return null;
-        },
-      ),
+      (event, emit) => switch (event) {
+        _VoteSubmitted(:final shoutOutId, :final isPositive) =>
+          _handleVoteSubmitted(
+            shoutOutId,
+            isPositive,
+            emit,
+          ),
+      },
     );
   }
 
   final TransactionRepositoryInterface _repository;
+
+  Future<void> _handleVoteSubmitted(
+    UniqueId shoutOutId,
+    bool isPositive,
+    Emitter emit,
+  ) async {
+    emit(const KarmaVoteActorState.actionInProgress());
+    final failureOrSuccess = await _repository.submitKarmaVote(
+      shoutOutId: shoutOutId,
+      vote: isPositive,
+    );
+    emit(
+      failureOrSuccess.fold(
+        KarmaVoteActorState.voteFailure,
+        (_) => const KarmaVoteActorState.voteSuccess(),
+      ),
+    );
+  }
 }

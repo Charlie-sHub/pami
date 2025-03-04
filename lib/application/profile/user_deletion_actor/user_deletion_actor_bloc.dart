@@ -17,21 +17,22 @@ class UserDeletionActorBloc
     this._repository,
   ) : super(const UserDeletionActorState.initial()) {
     on<UserDeletionActorEvent>(
-      (event, emit) => event.when(
-        deleteRequested: () async {
-          emit(const UserDeletionActorState.actionInProgress());
-          final failureOrSuccess = await _repository.deleteUser();
-          emit(
-            failureOrSuccess.fold(
-              UserDeletionActorState.deletionFailure,
-              (_) => const UserDeletionActorState.deletionSuccess(),
-            ),
-          );
-          return null;
-        },
-      ),
+      (event, emit) => switch (event) {
+        _DeleteRequested() => _handleDeleteRequested(emit),
+      },
     );
   }
 
   final ProfileRepositoryInterface _repository;
+
+  Future<void> _handleDeleteRequested(Emitter emit) async {
+    emit(const UserDeletionActorState.actionInProgress());
+    final failureOrSuccess = await _repository.deleteUser();
+    emit(
+      failureOrSuccess.fold(
+        UserDeletionActorState.deletionFailure,
+        (_) => const UserDeletionActorState.deletionSuccess(),
+      ),
+    );
+  }
 }

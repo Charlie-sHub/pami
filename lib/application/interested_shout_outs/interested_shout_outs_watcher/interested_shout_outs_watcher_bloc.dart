@@ -21,32 +21,43 @@ class InterestedShoutOutsWatcherBloc extends Bloc<
     this._repository,
   ) : super(const InterestedShoutOutsWatcherState.initial()) {
     on<InterestedShoutOutsWatcherEvent>(
-      (event, emit) => event.when(
-        watchStarted: () async {
-          emit(const InterestedShoutOutsWatcherState.actionInProgress());
-          await _streamSubscription?.cancel();
-          _streamSubscription = _repository.watchInterestedShoutOuts().listen(
-                (failureOrShoutOuts) => add(
-                  InterestedShoutOutsWatcherEvent.shoutOutsReceived(
-                    failureOrShoutOuts,
-                  ),
-                ),
-              );
-          return null;
-        },
-        shoutOutsReceived: (result) => emit(
-          result.fold(
-            InterestedShoutOutsWatcherState.loadFailure,
-            InterestedShoutOutsWatcherState.loadSuccess,
+      (event, emit) => switch (event) {
+        _WatchStarted() => _handleWatchStarted(emit),
+        _ShoutOutsReceived(:final failureOrShoutOuts) =>
+          _handleShoutOutsReceived(
+            failureOrShoutOuts,
+            emit,
           ),
-        ),
-      ),
+      },
     );
   }
 
   final InterestedShoutOutsRepositoryInterface _repository;
 
   StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
+
+  Future<void> _handleWatchStarted(Emitter emit) async {
+    emit(const InterestedShoutOutsWatcherState.actionInProgress());
+    await _streamSubscription?.cancel();
+    _streamSubscription = _repository.watchInterestedShoutOuts().listen(
+          (failureOrShoutOuts) => add(
+            InterestedShoutOutsWatcherEvent.shoutOutsReceived(
+              failureOrShoutOuts,
+            ),
+          ),
+        );
+  }
+
+  void _handleShoutOutsReceived(
+    Either<Failure, Set<ShoutOut>> result,
+    Emitter emit,
+  ) =>
+      emit(
+        result.fold(
+          InterestedShoutOutsWatcherState.loadFailure,
+          InterestedShoutOutsWatcherState.loadSuccess,
+        ),
+      );
 
   @override
   Future<void> close() async {

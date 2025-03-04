@@ -2,7 +2,7 @@ part of 'shout_out_creation_form_bloc.dart';
 
 /// Shout out creation form state
 @freezed
-class ShoutOutCreationFormState with _$ShoutOutCreationFormState {
+abstract class ShoutOutCreationFormState with _$ShoutOutCreationFormState {
   /// Default constructor
   const factory ShoutOutCreationFormState({
     required ShoutOut shoutOut,

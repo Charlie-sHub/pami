@@ -2,7 +2,7 @@ part of 'profile_editing_form_bloc.dart';
 
 /// Profile Editing form events
 @freezed
-class ProfileEditingFormEvent with _$ProfileEditingFormEvent {
+sealed class ProfileEditingFormEvent with _$ProfileEditingFormEvent {
   /// Initialized event
   const factory ProfileEditingFormEvent.initialized() = _Initialized;
 
@@ -28,7 +28,7 @@ class ProfileEditingFormEvent with _$ProfileEditingFormEvent {
 
   /// Email address changed event
   const factory ProfileEditingFormEvent.emailAddressChanged(
-    String emailAddress,
+    String email,
   ) = _EmailAddressChanged;
 
   /// Submit pressed event

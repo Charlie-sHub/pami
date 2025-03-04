@@ -24,66 +24,86 @@ class ShoutOutCreationFormBloc
     this._repository,
   ) : super(ShoutOutCreationFormState.initial()) {
     on<ShoutOutCreationFormEvent>(
-      (event, emit) => event.when(
-        initialized: (type) => emit(
-          state.copyWith(
-            shoutOut: state.shoutOut.copyWith(type: type),
+      (event, emit) => switch (event) {
+        _Initialized(:final type) => _handleInitialized(type, emit),
+        _TitleChanged(:final title) => _handleTitleChanged(title, emit),
+        _PictureChanged(:final imageFile) => _handlePictureChanged(
+            imageFile,
+            emit,
           ),
-        ),
-        titleChanged: (title) => emit(
-          state.copyWith(
-            shoutOut: state.shoutOut.copyWith(title: Name(title)),
+        _DescriptionChanged(:final description) => _handleDescriptionChanged(
+            description,
+            emit,
           ),
-        ),
-        pictureChanged: (imageFile) => emit(
-          state.copyWith(
-            imageFile: some(imageFile),
+        _CategoriesChanged(:final categories) => _handleCategoriesChanged(
+            categories,
+            emit,
           ),
-        ),
-        descriptionChanged: (description) => emit(
-          state.copyWith(
-            shoutOut: state.shoutOut.copyWith(
-              description: EntityDescription(description),
-            ),
-          ),
-        ),
-        categoriesChanged: (categories) => emit(
-          state.copyWith(
-            shoutOut: state.shoutOut.copyWith(categories: categories),
-          ),
-        ),
-        submitted: () async {
-          emit(
-            state.copyWith(
-              isSubmitting: true,
-              failureOrSuccessOption: none(),
-            ),
-          );
-          Either<Failure, Unit>? failureOrUnit;
-          if (state.shoutOut.isValid && state.imageFile.isSome()) {
-            final imageFile = state.imageFile.fold(
-              () => null,
-              (file) => file,
-            );
-            failureOrUnit = await _repository.createShoutOut(
-              shoutOut: state.shoutOut,
-              imageFile: imageFile!,
-            );
-          } else {
-            failureOrUnit = left(const Failure.emptyFields());
-          }
-          emit(
-            state.copyWith(
-              isSubmitting: false,
-              showErrorMessages: true,
-              failureOrSuccessOption: optionOf(failureOrUnit),
-            ),
-          );
-          return null;
-        },
-      ),
+        _Submitted() => _handleSubmitted(emit),
+      },
     );
   }
 
   final ShoutOutManagementRepositoryInterface _repository;
+
+  void _handleInitialized(ShoutOutType type, Emitter emit) => emit(
+        state.copyWith(
+          shoutOut: state.shoutOut.copyWith(type: type),
+        ),
+      );
+
+  void _handleTitleChanged(String title, Emitter emit) => emit(
+        state.copyWith(
+          shoutOut: state.shoutOut.copyWith(title: Name(title)),
+        ),
+      );
+
+  void _handlePictureChanged(XFile imageFile, Emitter emit) => emit(
+        state.copyWith(
+          imageFile: some(imageFile),
+        ),
+      );
+
+  void _handleDescriptionChanged(String description, Emitter emit) => emit(
+        state.copyWith(
+          shoutOut: state.shoutOut.copyWith(
+            description: EntityDescription(description),
+          ),
+        ),
+      );
+
+  void _handleCategoriesChanged(Set<Category> categories, Emitter emit) => emit(
+        state.copyWith(
+          shoutOut: state.shoutOut.copyWith(categories: categories),
+        ),
+      );
+
+  Future<void> _handleSubmitted(Emitter emit) async {
+    emit(
+      state.copyWith(
+        isSubmitting: true,
+        failureOrSuccessOption: none(),
+      ),
+    );
+    Either<Failure, Unit> failureOrUnit;
+    if (state.shoutOut.isValid && state.imageFile.isSome()) {
+      final imageFile = state.imageFile.fold(
+        () => null,
+        (file) => file,
+      );
+      failureOrUnit = await _repository.createShoutOut(
+        shoutOut: state.shoutOut,
+        imageFile: imageFile!,
+      );
+    } else {
+      failureOrUnit = left(const Failure.emptyFields());
+    }
+    emit(
+      state.copyWith(
+        isSubmitting: false,
+        showErrorMessages: true,
+        failureOrSuccessOption: optionOf(failureOrUnit),
+      ),
+    );
+  }
 }
