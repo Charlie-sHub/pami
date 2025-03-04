@@ -100,6 +100,29 @@ void main() {
       );
 
       test(
+        'should return a Failure.invalidPassword when the input '
+        'is longer than the max length',
+        () {
+          // Arrange
+          final tooLongString = 'a' * (Password.maxLength + 1);
+          final password = Password(tooLongString);
+
+          // Act
+          final result = password.value;
+
+          // Assert
+          expect(
+            result,
+            left(
+              Failure<String>.invalidPassword(
+                failedValue: tooLongString,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
         'should return a Failure.invalidPassword '
         'when the input is too short',
         () {

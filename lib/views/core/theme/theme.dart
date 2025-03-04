@@ -35,4 +35,11 @@ final ThemeData appTheme = ThemeData(
       ),
     ),
   ),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(12),
+      ),
+    ),
+  ),
 );
