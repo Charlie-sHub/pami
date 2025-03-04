@@ -2,20 +2,20 @@ part of 'notifications_watcher_bloc.dart';
 
 /// Notification watcher state
 @freezed
-class NotificationsWatcherState with _$NotificationsWatcherState {
+sealed class NotificationsWatcherState with _$NotificationsWatcherState {
   /// Initial state
-  const factory NotificationsWatcherState.initial() = _Initial;
+  const factory NotificationsWatcherState.initial() = Initial;
 
   /// Action in progress state
-  const factory NotificationsWatcherState.loadInProgress() = _LoadInProgress;
+  const factory NotificationsWatcherState.loadInProgress() = LoadInProgress;
 
   /// Load success state
   const factory NotificationsWatcherState.loadSuccess(
     List<Notification> notifications,
-  ) = _LoadSuccess;
+  ) = LoadSuccess;
 
   /// Load failure state
   const factory NotificationsWatcherState.loadFailure(
     Failure failure,
-  ) = _LoadFailure;
+  ) = LoadFailure;
 }

@@ -2,20 +2,20 @@ part of 'conversations_watcher_bloc.dart';
 
 /// Conversations watcher state
 @freezed
-class ConversationsWatcherState with _$ConversationsWatcherState {
+sealed class ConversationsWatcherState with _$ConversationsWatcherState {
   /// Initial state
-  const factory ConversationsWatcherState.initial() = _Initial;
+  const factory ConversationsWatcherState.initial() = Initial;
 
   /// Action in progress state
-  const factory ConversationsWatcherState.loadInProgress() = _LoadInProgress;
+  const factory ConversationsWatcherState.loadInProgress() = LoadInProgress;
 
   /// Action success state
   const factory ConversationsWatcherState.loadSuccess(
     List<Conversation> conversations,
-  ) = _LoadSuccess;
+  ) = LoadSuccess;
 
   /// Action failure state
   const factory ConversationsWatcherState.loadFailure(
     Failure failure,
-  ) = _LoadFailure;
+  ) = LoadFailure;
 }

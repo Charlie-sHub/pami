@@ -21,30 +21,37 @@ class MapWatcherBloc extends Bloc<MapWatcherEvent, MapWatcherState> {
     this._repository,
   ) : super(const MapWatcherState.initial()) {
     on<MapWatcherEvent>(
-      (event, emit) => event.when(
-        watchStarted: (settings) async {
-          emit(const MapWatcherState.actionInProgress());
-          await _streamSubscription?.cancel();
-          _streamSubscription = _repository.watchShoutOuts(settings).listen(
-                (failureOrShoutOuts) => add(
-                  MapWatcherEvent.resultsReceived(failureOrShoutOuts),
-                ),
-              );
-          return null;
-        },
-        resultsReceived: (result) => emit(
-          result.fold(
-            MapWatcherState.loadFailure,
-            MapWatcherState.loadSuccess,
-          ),
-        ),
-      ),
+      (event, emit) => switch (event) {
+        _WatchStarted(:final settings) => _handleWatchStarted(settings, emit),
+        _ResultsReceived(:final result) => _handleResultsReceived(result, emit),
+      },
     );
   }
 
   final MapRepositoryInterface _repository;
 
   StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
+
+  Future<void> _handleWatchStarted(MapSettings settings, Emitter emit) async {
+    emit(const MapWatcherState.actionInProgress());
+    await _streamSubscription?.cancel();
+    _streamSubscription = _repository.watchShoutOuts(settings).listen(
+          (failureOrShoutOuts) => add(
+            MapWatcherEvent.resultsReceived(failureOrShoutOuts),
+          ),
+        );
+  }
+
+  void _handleResultsReceived(
+    Either<Failure, Set<ShoutOut>> result,
+    Emitter emit,
+  ) =>
+      emit(
+        result.fold(
+          MapWatcherState.loadFailure,
+          MapWatcherState.loadSuccess,
+        ),
+      );
 
   @override
   Future<void> close() async {

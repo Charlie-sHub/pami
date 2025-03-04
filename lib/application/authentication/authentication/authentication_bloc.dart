@@ -17,25 +17,27 @@ class AuthenticationBloc
     this._repository,
   ) : super(const AuthenticationState.initial()) {
     on<AuthenticationEvent>(
-      (event, emit) => event.when(
-        authenticationCheckRequested: () async {
-          final userOption = await _repository.getLoggedInUser();
-          emit(
-            userOption.fold(
-              () => const AuthenticationState.unAuthenticated(),
-              AuthenticationState.authenticated,
-            ),
-          );
-          return null;
-        },
-        loggedOut: () async {
-          await _repository.logOut();
-          emit(const AuthenticationState.unAuthenticated());
-          return null;
-        },
-      ),
+      (event, emit) => switch (event) {
+        _AuthenticationCheckRequested() => _handleAuthenticationCheck(emit),
+        _LoggedOut() => _handleLoggedOut(emit),
+      },
     );
   }
 
   final AuthenticationRepositoryInterface _repository;
+
+  Future<void> _handleAuthenticationCheck(Emitter emit) async {
+    final userOption = await _repository.getLoggedInUser();
+    emit(
+      userOption.fold(
+        () => const AuthenticationState.unAuthenticated(),
+        AuthenticationState.authenticated,
+      ),
+    );
+  }
+
+  Future<void> _handleLoggedOut(Emitter emit) async {
+    await _repository.logOut();
+    emit(const AuthenticationState.unAuthenticated());
+  }
 }

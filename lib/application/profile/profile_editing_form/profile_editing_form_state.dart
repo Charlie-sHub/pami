@@ -2,7 +2,7 @@ part of 'profile_editing_form_bloc.dart';
 
 /// Profile Editing form state
 @freezed
-class ProfileEditingFormState with _$ProfileEditingFormState {
+abstract class ProfileEditingFormState with _$ProfileEditingFormState {
   /// Default constructor
   const factory ProfileEditingFormState({
     required Option<User> userOption,

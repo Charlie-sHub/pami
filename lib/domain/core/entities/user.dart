@@ -13,7 +13,7 @@ part 'user.freezed.dart';
 
 /// User entity
 @freezed
-class User with _$User {
+abstract class User with _$User {
   const User._();
 
   /// Default constructor

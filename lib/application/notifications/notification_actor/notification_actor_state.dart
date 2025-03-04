@@ -2,21 +2,21 @@ part of 'notification_actor_bloc.dart';
 
 /// Notification actor state
 @freezed
-class NotificationActorState with _$NotificationActorState {
+sealed class NotificationActorState with _$NotificationActorState {
   /// Initial state
-  const factory NotificationActorState.initial() = _Initial;
+  const factory NotificationActorState.initial() = Initial;
 
   /// Action in progress state
-  const factory NotificationActorState.actionInProgress() = _ActionInProgress;
+  const factory NotificationActorState.actionInProgress() = ActionInProgress;
 
   /// Read success state
-  const factory NotificationActorState.readMarkSuccess() = _ReadMarkSuccess;
+  const factory NotificationActorState.readMarkSuccess() = ReadMarkSuccess;
 
   /// Deletion success state
-  const factory NotificationActorState.deletionSuccess() = _DeletionSuccess;
+  const factory NotificationActorState.deletionSuccess() = DeletionSuccess;
 
   /// Deletion failure state
   const factory NotificationActorState.deletionFailure(
     Failure failure,
-  ) = _DeletionFailure;
+  ) = DeletionFailure;
 }

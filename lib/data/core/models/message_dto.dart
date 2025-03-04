@@ -10,7 +10,7 @@ part 'message_dto.g.dart';
 
 /// Message DTO
 @freezed
-class MessageDto with _$MessageDto {
+abstract class MessageDto with _$MessageDto {
   const MessageDto._();
 
   /// Default constructor

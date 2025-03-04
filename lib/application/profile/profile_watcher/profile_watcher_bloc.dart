@@ -18,21 +18,22 @@ class ProfileWatcherBloc
     this._repository,
   ) : super(const ProfileWatcherState.initial()) {
     on<ProfileWatcherEvent>(
-      (event, emit) => event.when(
-        fetchProfile: () async {
-          emit(const ProfileWatcherState.loadInProgress());
-          final result = await _repository.getCurrentUser();
-          emit(
-            result.fold(
-              ProfileWatcherState.loadFailure,
-              ProfileWatcherState.loadSuccess,
-            ),
-          );
-          return null;
-        },
-      ),
+      (event, emit) => switch (event) {
+        _FetchProfile() => _handleFetchProfile(emit),
+      },
     );
   }
 
   final ProfileRepositoryInterface _repository;
+
+  Future<void> _handleFetchProfile(Emitter emit) async {
+    emit(const ProfileWatcherState.loadInProgress());
+    final result = await _repository.getCurrentUser();
+    emit(
+      result.fold(
+        ProfileWatcherState.loadFailure,
+        ProfileWatcherState.loadSuccess,
+      ),
+    );
+  }
 }

@@ -2,7 +2,7 @@ part of 'message_form_bloc.dart';
 
 /// Message form event
 @freezed
-class MessageFormEvent with _$MessageFormEvent {
+sealed class MessageFormEvent with _$MessageFormEvent {
   /// Message changed event
   const factory MessageFormEvent.messageChanged(
     String message,

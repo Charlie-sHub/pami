@@ -16,7 +16,7 @@ part 'shout_out.freezed.dart';
 
 /// ShoutOut entity
 @freezed
-class ShoutOut with _$ShoutOut {
+abstract class ShoutOut with _$ShoutOut {
   const ShoutOut._();
 
   /// Default constructor

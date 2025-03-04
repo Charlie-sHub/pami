@@ -9,7 +9,7 @@ part 'karma_dto.g.dart';
 
 /// Karma DTO
 @freezed
-class KarmaDto with _$KarmaDto {
+abstract class KarmaDto with _$KarmaDto {
   const KarmaDto._();
 
   /// Default constructor

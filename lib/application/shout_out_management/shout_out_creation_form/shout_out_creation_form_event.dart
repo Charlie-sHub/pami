@@ -2,7 +2,7 @@ part of 'shout_out_creation_form_bloc.dart';
 
 /// Shout out creation form event
 @freezed
-class ShoutOutCreationFormEvent with _$ShoutOutCreationFormEvent {
+sealed class ShoutOutCreationFormEvent with _$ShoutOutCreationFormEvent {
   /// Initialized event
   const factory ShoutOutCreationFormEvent.initialized(
     ShoutOutType type,
@@ -25,7 +25,7 @@ class ShoutOutCreationFormEvent with _$ShoutOutCreationFormEvent {
 
   /// Categories added event
   const factory ShoutOutCreationFormEvent.categoriesChanged(
-    Set<Category> category,
+    Set<Category> categories,
   ) = _CategoriesChanged;
 
   /// Submitted event

@@ -22,40 +22,53 @@ class TransactionListenerBloc
     this._repository,
   ) : super(const TransactionListenerState.initial()) {
     on<TransactionListenerEvent>(
-      (event, emit) => event.when(
-        listenShoutOutStarted: (shoutOutId) async {
-          emit(const TransactionListenerState.loadInProgress());
-          await _shoutOutSubscription?.cancel();
-          _shoutOutSubscription = _repository
-              .watchShoutOutForTransaction(
-                shoutOutId,
-              )
-              .listen(
-                (failureOrTransaction) => add(
-                  TransactionListenerEvent.shoutOutUpdated(
-                    failureOrTransaction,
-                  ),
-                ),
-              );
-
-          return null;
-        },
-        shoutOutUpdated: (result) => emit(
-          result.fold(
-            TransactionListenerState.loadFailure,
-            TransactionListenerState.loadSuccess,
+      (event, emit) => switch (event) {
+        _ListenShoutOutStarted(:final shoutOutId) =>
+          _handleListenShoutOutStarted(shoutOutId, emit),
+        _ShoutOutUpdated(:final failureOrTransaction) => _handleShoutOutUpdated(
+            failureOrTransaction,
+            emit,
           ),
-        ),
-      ),
+      },
     );
   }
 
   final TransactionRepositoryInterface _repository;
   StreamSubscription<Either<Failure, Transaction>>? _shoutOutSubscription;
 
+  Future<void> _handleListenShoutOutStarted(
+    UniqueId shoutOutId,
+    Emitter emit,
+  ) async {
+    emit(const TransactionListenerState.loadInProgress());
+    await _shoutOutSubscription?.cancel();
+    _shoutOutSubscription = _repository
+        .watchShoutOutForTransaction(
+          shoutOutId,
+        )
+        .listen(
+          (failureOrTransaction) => add(
+            TransactionListenerEvent.shoutOutUpdated(
+              failureOrTransaction,
+            ),
+          ),
+        );
+  }
+
+  void _handleShoutOutUpdated(
+    Either<Failure, Transaction> result,
+    Emitter emit,
+  ) =>
+      emit(
+        result.fold(
+          TransactionListenerState.loadFailure,
+          TransactionListenerState.loadSuccess,
+        ),
+      );
+
   @override
-  Future<void> close() {
-    _shoutOutSubscription?.cancel();
+  Future<void> close() async {
+    await _shoutOutSubscription?.cancel();
     return super.close();
   }
 }

@@ -4,7 +4,7 @@ part 'failure.freezed.dart';
 
 /// [Failure] class that represents a failure in a value object
 @freezed
-class Failure<T> with _$Failure<T> {
+sealed class Failure<T> with _$Failure<T> {
   // --- Value Failures (Validation Errors) ---
   /// [Failure] indicating an invalid date
   const factory Failure.invalidDate({

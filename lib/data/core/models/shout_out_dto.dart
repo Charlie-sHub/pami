@@ -19,7 +19,7 @@ part 'shout_out_dto.g.dart';
 
 /// ShoutOut DTO
 @freezed
-class ShoutOutDto with _$ShoutOutDto {
+abstract class ShoutOutDto with _$ShoutOutDto {
   const ShoutOutDto._();
 
   /// Default constructor

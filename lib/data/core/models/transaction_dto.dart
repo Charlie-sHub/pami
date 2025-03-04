@@ -10,7 +10,7 @@ part 'transaction_dto.g.dart';
 
 /// Transaction DTO
 @freezed
-class TransactionDto with _$TransactionDto {
+abstract class TransactionDto with _$TransactionDto {
   const TransactionDto._();
 
   /// Default constructor

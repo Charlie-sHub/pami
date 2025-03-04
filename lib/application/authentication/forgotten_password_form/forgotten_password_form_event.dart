@@ -2,7 +2,7 @@ part of 'forgotten_password_form_bloc.dart';
 
 /// Forgotten password form event
 @freezed
-class ForgottenPasswordFormEvent with _$ForgottenPasswordFormEvent {
+sealed class ForgottenPasswordFormEvent with _$ForgottenPasswordFormEvent {
   /// Email changed event
   const factory ForgottenPasswordFormEvent.emailChanged(String email) =
       _EmailChanged;
