@@ -114,7 +114,8 @@ void main() {
           expect(
             result,
             left(
-              Failure<String>.invalidPassword(
+              Failure<String>.stringExceedsLength(
+                maxLength: Password.maxLength,
                 failedValue: tooLongString,
               ),
             ),

@@ -11,6 +11,7 @@ import 'package:pami/views/authentication/widgets/login_form/login_form.dart';
 import 'package:pami/views/core/routes/router.gr.dart';
 
 /// Login page widget
+@RoutePage()
 class LoginPage extends StatelessWidget {
   /// Default constructor
   const LoginPage({super.key});
@@ -19,35 +20,37 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          body: BlocProvider.value(
-            value: getIt<LoginFormBloc>(),
-            child: BlocConsumer<LoginFormBloc, LoginFormState>(
-              listenWhen: (previous, current) =>
-                  previous.failureOrSuccessOption !=
-                      current.failureOrSuccessOption ||
-                  previous.isSubmitting != current.isSubmitting ||
-                  current.thirdPartyUserOption.isSome(),
-              listener: (context, state) => state.thirdPartyUserOption.fold(
-                () => state.failureOrSuccessOption.fold(
-                  () {},
-                  (either) => either.fold(
-                    (failure) => _onFailure(failure, context),
-                    (_) => _onSuccess(context),
-                  ),
-                ),
-                (thirdPartyUser) => context.router.push(
-                  RegistrationRoute(
-                    userOption: some(thirdPartyUser),
-                  ),
-                ),
-              ),
-              buildWhen: (previous, current) =>
-                  previous.showErrorMessages != current.showErrorMessages,
-              builder: (context, state) => const LoginForm(),
+          body: BlocProvider(
+            create: (_) => getIt<LoginFormBloc>(),
+            child: BlocListener<LoginFormBloc, LoginFormState>(
+              listenWhen: _listenWhen,
+              listener: _listener,
+              child: const LoginForm(),
             ),
           ),
         ),
       );
+
+  void _listener(BuildContext context, LoginFormState state) =>
+      state.thirdPartyUserOption.fold(
+        () => state.failureOrSuccessOption.fold(
+          () {},
+          (either) => either.fold(
+            (failure) => _onFailure(failure, context),
+            (_) => _onSuccess(context),
+          ),
+        ),
+        (thirdPartyUser) => context.router.push(
+          RegistrationRoute(
+            userOption: some(thirdPartyUser),
+          ),
+        ),
+      );
+
+  bool _listenWhen(LoginFormState previous, LoginFormState current) =>
+      previous.failureOrSuccessOption != current.failureOrSuccessOption ||
+      previous.isSubmitting != current.isSubmitting ||
+      current.thirdPartyUserOption.isSome();
 
   Future _onFailure(Failure failure, BuildContext context) {
     final message = switch (failure) {

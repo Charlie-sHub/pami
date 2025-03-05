@@ -68,8 +68,6 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         email: state.email,
         password: state.password,
       );
-    } else {
-      failureOrUnit = left(const Failure.emptyFields());
     }
     emit(
       state.copyWith(

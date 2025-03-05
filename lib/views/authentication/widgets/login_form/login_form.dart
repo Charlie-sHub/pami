@@ -17,74 +17,78 @@ class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 40,
-            vertical: 100,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'PAMI',
-                style: AppTextStyles.displayLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 50),
-              Form(
-                autovalidateMode:
-                    context.read<LoginFormBloc>().state.showErrorMessages
-                        ? AutovalidateMode.always
-                        : AutovalidateMode.disabled,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    EmailTextField(
-                      validator: (_) => _emailValidator(context),
-                      eventToAdd: (String value) =>
-                          context.read<LoginFormBloc>().add(
-                                LoginFormEvent.emailChanged(value),
-                              ),
-                    ),
-                    const SizedBox(height: 15),
-                    PasswordTextField(
-                      eventToAdd: (String value) =>
-                          context.read<LoginFormBloc>().add(
-                                LoginFormEvent.passwordChanged(value),
-                              ),
-                      validator: (_) => _passwordValidator(context),
-                    ),
-                    const SizedBox(height: 10),
-                    const LoginButton(),
-                    const LoginTroubleButton(),
+  Widget build(BuildContext context) =>
+      BlocBuilder<LoginFormBloc, LoginFormState>(
+        buildWhen: _buildWhen,
+        builder: (context, state) {
+          final bloc = context.read<LoginFormBloc>();
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 40,
+              vertical: 200,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'PAMI',
+                  style: AppTextStyles.displayLarge,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 50),
+                Form(
+                  autovalidateMode: state.showErrorMessages
+                      ? AutovalidateMode.always
+                      : AutovalidateMode.disabled,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      EmailTextField(
+                        validator: (_) => _emailValidator(context),
+                        eventToAdd: (String value) => bloc.add(
+                          LoginFormEvent.emailChanged(value),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      PasswordTextField(
+                        eventToAdd: (String value) => bloc.add(
+                          LoginFormEvent.passwordChanged(value),
+                        ),
+                        validator: (_) => _passwordValidator(context),
+                      ),
+                      const SizedBox(height: 10),
+                      const LoginButton(),
+                      const LoginTroubleButton(),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    LoginGoogleButton(),
+                    LoginAppleButton(),
                   ],
                 ),
-              ),
-              const SizedBox(height: 10),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  LoginGoogleButton(),
-                  LoginAppleButton(),
-                ],
-              ),
-              const SizedBox(height: 60),
-              const RegisterButton(),
-            ],
-          ),
-        ),
+                const SizedBox(height: 60),
+                const RegisterButton(),
+              ],
+            ),
+          );
+        },
       );
+
+
+
+  bool _buildWhen(LoginFormState previous, LoginFormState current) =>
+      previous.showErrorMessages != current.showErrorMessages;
 
   String _passwordValidator(BuildContext context) {
     final passwordValue = context.read<LoginFormBloc>().state.password.value;
     return passwordValue.fold(
       (failure) => switch (failure) {
         EmptyString() => 'Empty password',
-        MultiLineString() => 'Passwords cannot be multiline',
-        StringExceedsLength() => 'Password exceeds length',
-        InvalidPassword() => 'Invalid password',
         _ => 'Unknown error',
       },
       (_) => '',

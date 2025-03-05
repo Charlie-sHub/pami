@@ -8,7 +8,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/authentication/authentication_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/views/core/routes/router.dart';
 import 'package:pami/views/core/routes/router.gr.dart';
 import 'package:pami/views/splash/pages/splash_page.dart';
 import 'package:pami/views/splash/widgets/pami_loading_animation.dart';
@@ -22,14 +21,12 @@ import 'splash_page_test.mocks.dart';
 void main() {
   late MockAuthenticationBloc mockBloc;
   late MockStackRouter mockRouter;
-  late AppRouter appRouter;
   late StreamController<AuthenticationState> streamController;
 
   setUp(
     () {
       mockBloc = MockAuthenticationBloc();
       mockRouter = MockStackRouter();
-      appRouter = AppRouter();
       streamController = StreamController<AuthenticationState>.broadcast();
 
       // Common mock behavior
@@ -45,14 +42,12 @@ void main() {
     },
   );
 
-  Widget buildWidget() => MaterialApp.router(
-        routerDelegate: appRouter.delegate(),
-        routeInformationParser: appRouter.defaultRouteParser(),
-        builder: (context, child) => BlocProvider<AuthenticationBloc>.value(
-          value: mockBloc,
-          child: StackRouterScope(
-            controller: mockRouter,
-            stateHash: 0,
+  Widget buildWidget() => MaterialApp(
+        builder: (context, child) => StackRouterScope(
+          controller: mockRouter,
+          stateHash: 0,
+          child: BlocProvider<AuthenticationBloc>.value(
+            value: mockBloc,
             child: const SplashPage(),
           ),
         ),
