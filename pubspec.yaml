@@ -11,7 +11,7 @@ environment:
 
 dependencies:
   animated_bottom_navigation_bar: ^1.4.0
-  auth_buttons: ^3.0.3
+  another_flushbar: ^1.12.30
   auto_route: ^10.0.1
   bloc: ^9.0.0
   cached_network_image: ^3.4.1
@@ -33,6 +33,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_speed_dial: ^7.0.0
+  font_awesome_flutter: ^10.8.0
   freezed_annotation: ^3.0.0
   geoflutterfire_plus: ^0.0.32
   geolocator: ^13.0.2

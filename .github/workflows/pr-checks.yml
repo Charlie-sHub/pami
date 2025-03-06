@@ -58,7 +58,11 @@ jobs:
         with:
           path: "./coverage/lcov.info"
           min_coverage: 80
-          exclude: "**/*.g.dart **/*.freezed.dart **/*.config.dart **/*.mocks.dart"
+          exclude: "**/*.g.dart 
+          **/*.freezed.dart 
+          **/*.config.dart 
+          **/*.mocks.dart 
+          **/development_*.dart"
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
