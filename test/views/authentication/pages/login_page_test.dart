@@ -36,11 +36,7 @@ void main() {
       mockAuthBloc = MockAuthenticationBloc();
       mockRouter = MockStackRouter();
       streamController = StreamController<LoginFormState>.broadcast();
-
-      // Setup getIt for dependency injection
       getIt.registerFactory<LoginFormBloc>(() => mockBloc);
-
-      // Common mock behavior
       provideDummy<LoginFormState>(LoginFormState.initial());
       when(mockBloc.stream).thenAnswer((_) => streamController.stream);
       when(mockBloc.state).thenReturn(LoginFormState.initial());
@@ -78,10 +74,10 @@ void main() {
   );
 
   group(
-    'listener tests',
+    'Listener tests',
     () {
       testWidgets(
-        'navigates to HomeRoute on successful login',
+        'Navigates to HomeRoute on successful login',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
@@ -106,7 +102,7 @@ void main() {
       );
 
       testWidgets(
-        'shows error Flushbar on invalid credentials',
+        'Shows error Flushbar on invalid credentials',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
@@ -126,7 +122,7 @@ void main() {
       );
 
       testWidgets(
-        'shows error Flushbar on unregistered user',
+        'Shows error Flushbar on unregistered user',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
@@ -146,7 +142,7 @@ void main() {
       );
 
       testWidgets(
-        'shows error Flushbar on unexpected error',
+        'Shows error Flushbar on unexpected error',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
@@ -170,7 +166,7 @@ void main() {
       );
 
       testWidgets(
-        'navigates to RegistrationRoute with third party user',
+        'Navigates to RegistrationRoute with third party user',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
@@ -194,11 +190,8 @@ void main() {
   group(
     'BlocListener behavior tests',
     () {
-      // Instead of testing the private _listenWhen method directly,
-      // we test the BlocListener's behavior in various state transitions
-
       testWidgets(
-        'listener triggers when failureOrSuccessOption changes',
+        'Listener triggers when failureOrSuccessOption changes',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
@@ -219,7 +212,7 @@ void main() {
       );
 
       testWidgets(
-        'listener triggers when isSubmitting changes to false with success',
+        'Listener triggers when isSubmitting changes to false with success',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial().copyWith(
@@ -243,7 +236,7 @@ void main() {
       );
 
       testWidgets(
-        'listener triggers when thirdPartyUserOption becomes some',
+        'Listener triggers when thirdPartyUserOption becomes some',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
@@ -265,7 +258,7 @@ void main() {
       );
 
       testWidgets(
-        'listener does not trigger for irrelevant state changes',
+        'Listener does not trigger for irrelevant state changes',
         (tester) async {
           // Arrange
           final initialState = LoginFormState.initial();
