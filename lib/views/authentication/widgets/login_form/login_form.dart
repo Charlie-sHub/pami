@@ -23,6 +23,7 @@ class LoginForm extends StatelessWidget {
         builder: (context, state) {
           final bloc = context.read<LoginFormBloc>();
           return SingleChildScrollView(
+            key: const Key('singleChildScrollView'),
             padding: const EdgeInsets.symmetric(
               horizontal: 40,
               vertical: 200,
@@ -45,17 +46,19 @@ class LoginForm extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       EmailTextField(
-                        validator: (_) => _emailValidator(context),
+                        key: const Key('emailField'),
+                        validator: (_) => _emailValidator(state),
                         eventToAdd: (String value) => bloc.add(
                           LoginFormEvent.emailChanged(value),
                         ),
                       ),
                       const SizedBox(height: 15),
                       PasswordTextField(
+                        key: const Key('passwordField'),
                         eventToAdd: (String value) => bloc.add(
                           LoginFormEvent.passwordChanged(value),
                         ),
-                        validator: (_) => _passwordValidator(context),
+                        validator: (_) => _passwordValidator(state),
                       ),
                       const SizedBox(height: 10),
                       const LoginButton(),
@@ -79,13 +82,11 @@ class LoginForm extends StatelessWidget {
         },
       );
 
-
-
   bool _buildWhen(LoginFormState previous, LoginFormState current) =>
       previous.showErrorMessages != current.showErrorMessages;
 
-  String _passwordValidator(BuildContext context) {
-    final passwordValue = context.read<LoginFormBloc>().state.password.value;
+  String _passwordValidator(LoginFormState state) {
+    final passwordValue = state.password.value;
     return passwordValue.fold(
       (failure) => switch (failure) {
         EmptyString() => 'Empty password',
@@ -95,8 +96,8 @@ class LoginForm extends StatelessWidget {
     );
   }
 
-  String _emailValidator(BuildContext context) {
-    final emailValue = context.read<LoginFormBloc>().state.email.value;
+  String _emailValidator(LoginFormState state) {
+    final emailValue = state.email.value;
     return emailValue.fold(
       (failure) => switch (failure) {
         InvalidEmail() => 'Invalid email',
