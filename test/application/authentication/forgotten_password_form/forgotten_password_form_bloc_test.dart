@@ -115,7 +115,7 @@ void main() {
 
       blocTest<ForgottenPasswordFormBloc, ForgottenPasswordFormState>(
         'emits [showErrorMessages: true, failureOrSuccessOption: '
-        'some(left(Failure.emptyFields()))] when email is invalid',
+        'none()] when email is invalid',
         seed: () => ForgottenPasswordFormState.initial().copyWith(
           email: EmailAddress(invalidEmail),
         ),
@@ -131,9 +131,7 @@ void main() {
           ),
           forgottenPasswordFormBloc.state.copyWith(
             showErrorMessages: true,
-            failureOrSuccessOption: some(
-              left(const Failure.emptyFields()),
-            ),
+            failureOrSuccessOption: none(),
           ),
         ],
         verify: (_) => verifyNever(
