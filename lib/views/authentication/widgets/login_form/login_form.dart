@@ -46,7 +46,6 @@ class LoginForm extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       EmailTextField(
-                        key: const Key('emailField'),
                         validator: (_) => _emailValidator(state),
                         eventToAdd: (String value) => bloc.add(
                           LoginFormEvent.emailChanged(value),
@@ -54,7 +53,6 @@ class LoginForm extends StatelessWidget {
                       ),
                       const SizedBox(height: 15),
                       PasswordTextField(
-                        key: const Key('passwordField'),
                         eventToAdd: (String value) => bloc.add(
                           LoginFormEvent.passwordChanged(value),
                         ),
@@ -82,28 +80,24 @@ class LoginForm extends StatelessWidget {
         },
       );
 
-  bool _buildWhen(LoginFormState previous, LoginFormState current) =>
-      previous.showErrorMessages != current.showErrorMessages;
+  bool _buildWhen(_, LoginFormState current) =>
+      current.showErrorMessages ||
+      current.email.isValid() ||
+      !current.email.isValid();
 
-  String _passwordValidator(LoginFormState state) {
-    final passwordValue = state.password.value;
-    return passwordValue.fold(
-      (failure) => switch (failure) {
-        EmptyString() => 'Empty password',
-        _ => 'Unknown error',
-      },
-      (_) => '',
-    );
-  }
+  String _passwordValidator(LoginFormState state) => state.password.value.fold(
+        (failure) => switch (failure) {
+          EmptyString() => 'Empty password',
+          _ => 'Unknown error',
+        },
+        (_) => '',
+      );
 
-  String _emailValidator(LoginFormState state) {
-    final emailValue = state.email.value;
-    return emailValue.fold(
-      (failure) => switch (failure) {
-        InvalidEmail() => 'Invalid email',
-        _ => 'Unknown error',
-      },
-      (_) => '',
-    );
-  }
+  String _emailValidator(LoginFormState state) => state.email.value.fold(
+        (failure) => switch (failure) {
+          InvalidEmail() => 'Invalid email',
+          _ => 'Unknown error',
+        },
+        (_) => '',
+      );
 }

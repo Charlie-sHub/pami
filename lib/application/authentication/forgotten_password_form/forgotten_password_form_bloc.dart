@@ -42,19 +42,15 @@ class ForgottenPasswordFormBloc
         failureOrSuccessOption: none(),
       ),
     );
-
-    Either<Failure, Unit> failureOrUnit;
+    Either<Failure, Unit>? failureOrUnit;
     if (state.email.isValid()) {
       failureOrUnit = await _repository.resetPassword(state.email);
-    } else {
-      failureOrUnit = left(const Failure.emptyFields());
     }
-
     emit(
       state.copyWith(
         isSubmitting: false,
         showErrorMessages: true,
-        failureOrSuccessOption: some(failureOrUnit),
+        failureOrSuccessOption: optionOf(failureOrUnit),
       ),
     );
   }
