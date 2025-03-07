@@ -52,16 +52,14 @@ class LoginPage extends StatelessWidget {
       previous.isSubmitting != current.isSubmitting ||
       current.thirdPartyUserOption.isSome();
 
-  Future _onFailure(Failure failure, BuildContext context) {
+  void _onFailure(Failure failure, BuildContext context) {
     final message = switch (failure) {
       CancelledByUser() => 'Cancelled',
       InvalidCredentials() => 'Invalid credentials',
       UnregisteredUser() => 'Unregistered user',
-      UnexpectedError() => 'Unexpected error',
       _ => 'Unexpected error',
     };
-
-    return FlushbarHelper.createError(
+    FlushbarHelper.createError(
       duration: const Duration(seconds: 2),
       message: message,
     ).show(context);

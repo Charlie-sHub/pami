@@ -35,7 +35,7 @@ void main() {
       mockBloc = MockLoginFormBloc();
       mockAuthBloc = MockAuthenticationBloc();
       mockRouter = MockStackRouter();
-      streamController = StreamController<LoginFormState>.broadcast();
+      streamController = StreamController.broadcast();
       getIt.registerFactory<LoginFormBloc>(() => mockBloc);
       provideDummy<LoginFormState>(LoginFormState.initial());
       when(mockBloc.stream).thenAnswer((_) => streamController.stream);
@@ -74,7 +74,7 @@ void main() {
   );
 
   group(
-    'Listener tests',
+    'Listener behavior tests',
     () {
       testWidgets(
         'Navigates to HomeRoute on successful login',
@@ -184,78 +184,6 @@ void main() {
           verify(mockRouter.push(argThat(isA<RegistrationRoute>()))).called(1);
         },
       );
-    },
-  );
-
-  group(
-    'BlocListener behavior tests',
-    () {
-      testWidgets(
-        'Listener triggers when failureOrSuccessOption changes',
-        (tester) async {
-          // Arrange
-          final initialState = LoginFormState.initial();
-          final newState = initialState.copyWith(
-            failureOrSuccessOption: some(right(unit)),
-          );
-
-          // Act
-          await tester.pumpWidget(buildWidget());
-          streamController.add(initialState);
-          await tester.pump();
-          streamController.add(newState);
-          await tester.pumpAndSettle();
-
-          // Assert
-          verify(mockRouter.replace(const HomeRoute())).called(1);
-        },
-      );
-
-      testWidgets(
-        'Listener triggers when isSubmitting changes to false with success',
-        (tester) async {
-          // Arrange
-          final initialState = LoginFormState.initial().copyWith(
-            isSubmitting: true,
-          );
-          final newState = initialState.copyWith(
-            isSubmitting: false,
-            failureOrSuccessOption: some(right(unit)),
-          );
-
-          // Act
-          await tester.pumpWidget(buildWidget());
-          streamController.add(initialState);
-          await tester.pump();
-          streamController.add(newState);
-          await tester.pumpAndSettle();
-
-          // Assert
-          verify(mockRouter.replace(const HomeRoute())).called(1);
-        },
-      );
-
-      testWidgets(
-        'Listener triggers when thirdPartyUserOption becomes some',
-        (tester) async {
-          // Arrange
-          final initialState = LoginFormState.initial();
-          final userOption = some(getValidUser());
-          final newState = initialState.copyWith(
-            thirdPartyUserOption: userOption,
-          );
-
-          // Act
-          await tester.pumpWidget(buildWidget());
-          streamController.add(initialState);
-          await tester.pump();
-          streamController.add(newState);
-          await tester.pump();
-
-          // Assert
-          verify(mockRouter.push(argThat(isA<RegistrationRoute>()))).called(1);
-        },
-      );
 
       testWidgets(
         'Listener does not trigger for irrelevant state changes',
@@ -263,7 +191,6 @@ void main() {
           // Arrange
           final initialState = LoginFormState.initial();
           final newState = initialState.copyWith(
-            // Change something that shouldn't trigger the listener
             email: EmailAddress('new@example.com'),
           );
 
@@ -274,7 +201,7 @@ void main() {
           streamController.add(newState);
           await tester.pump();
 
-          // Assert - verify no navigation happened
+          // Assert
           verifyNever(mockRouter.replace(any));
           verifyNever(mockRouter.push(any));
         },
