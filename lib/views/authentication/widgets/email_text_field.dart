@@ -30,7 +30,7 @@ class EmailTextField extends StatelessWidget {
         decoration: const InputDecoration(
           labelText: 'Email Address',
           prefixIcon: Icon(
-            Icons.email,
+            Icons.email
           ),
           filled: true,
         ),

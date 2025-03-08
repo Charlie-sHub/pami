@@ -10,9 +10,9 @@ import 'package:pami/domain/authentication/authentication_repository_interface.d
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
+import 'package:pami/domain/core/validation/objects/field_confirmator.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
-import 'package:pami/domain/core/validation/objects/password_confirmator.dart';
 
 import 'registration_form_bloc_test.mocks.dart';
 
@@ -130,6 +130,27 @@ void main() {
       );
 
       blocTest<RegistrationFormBloc, RegistrationFormState>(
+        'emits state with updated email confirmation when '
+        'EmailConfirmationChanged is added',
+        build: () => registrationFormBloc,
+        act: (bloc) => bloc.add(
+          const RegistrationFormEvent.emailConfirmationChanged(email),
+        ),
+        expect: () => [
+          registrationFormBloc.state.copyWith(
+            emailConfirmator: FieldConfirmator(
+              field: registrationFormBloc.state.user.email.value.fold(
+                (failure) => '',
+                id,
+              ),
+              confirmation: email,
+            ),
+            failureOrSuccessOption: none(),
+          ),
+        ],
+      );
+
+      blocTest<RegistrationFormBloc, RegistrationFormState>(
         'emits state with updated bio when BioChanged is added',
         build: () => registrationFormBloc,
         act: (bloc) => bloc.add(const RegistrationFormEvent.bioChanged(bio)),
@@ -152,8 +173,8 @@ void main() {
         expect: () => [
           registrationFormBloc.state.copyWith(
             password: Password(password),
-            passwordConfirmator: PasswordConfirmator(
-              password: password,
+            passwordConfirmator: FieldConfirmator(
+              field: password,
               confirmation: registrationFormBloc.state.passwordToCompare,
             ),
             failureOrSuccessOption: none(),
@@ -170,8 +191,8 @@ void main() {
         ),
         expect: () => [
           registrationFormBloc.state.copyWith(
-            passwordConfirmator: PasswordConfirmator(
-              password: registrationFormBloc.state.password.value.fold(
+            passwordConfirmator: FieldConfirmator(
+              field: registrationFormBloc.state.password.value.fold(
                 (failure) => '',
                 id,
               ),
@@ -212,9 +233,13 @@ void main() {
         build: () => registrationFormBloc,
         seed: () => RegistrationFormState.initial().copyWith(
           user: validUser,
+          emailConfirmator: FieldConfirmator(
+            field: email,
+            confirmation: email,
+          ),
           password: Password(password),
-          passwordConfirmator: PasswordConfirmator(
-            password: password,
+          passwordConfirmator: FieldConfirmator(
+            field: password,
             confirmation: password,
           ),
           acceptedEULA: true,
@@ -263,9 +288,7 @@ void main() {
           registrationFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: true,
-            failureOrSuccessOption: some(
-              left(const Failure.emptyFields()),
-            ),
+            failureOrSuccessOption: none(),
           ),
         ],
         verify: (_) => verifyNever(
@@ -294,9 +317,13 @@ void main() {
         build: () => registrationFormBloc,
         seed: () => RegistrationFormState.initial().copyWith(
           user: validUser,
+          emailConfirmator: FieldConfirmator(
+            field: email,
+            confirmation: email,
+          ),
           password: Password(password),
-          passwordConfirmator: PasswordConfirmator(
-            password: password,
+          passwordConfirmator: FieldConfirmator(
+            field: password,
             confirmation: password,
           ),
           acceptedEULA: true,

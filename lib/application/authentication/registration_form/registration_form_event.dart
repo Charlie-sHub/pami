@@ -38,6 +38,11 @@ sealed class RegistrationFormEvent with _$RegistrationFormEvent {
     String email,
   ) = _EmailAddressChanged;
 
+  /// Email confirmation changed event
+  const factory RegistrationFormEvent.emailConfirmationChanged(
+    String emailConfirmation,
+  ) = _EmailConfirmationChanged;
+
   /// Bio changed event
   const factory RegistrationFormEvent.bioChanged(
     String bio,

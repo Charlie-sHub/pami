@@ -6,9 +6,11 @@ abstract class RegistrationFormState with _$RegistrationFormState {
   /// Default constructor
   const factory RegistrationFormState({
     required User user,
+    required FieldConfirmator emailConfirmator,
+    required String emailToCompare,
     required Option<XFile> imageFile,
     required Password password,
-    required PasswordConfirmator passwordConfirmator,
+    required FieldConfirmator passwordConfirmator,
     required String passwordToCompare,
     required bool showErrorMessages,
     required bool isSubmitting,
@@ -20,10 +22,15 @@ abstract class RegistrationFormState with _$RegistrationFormState {
   /// Empty constructor
   factory RegistrationFormState.initial() => RegistrationFormState(
         user: User.empty(),
+        emailConfirmator: FieldConfirmator(
+          field: '',
+          confirmation: '',
+        ),
+        emailToCompare: '',
         imageFile: none(),
         password: Password(''),
-        passwordConfirmator: PasswordConfirmator(
-          password: '',
+        passwordConfirmator: FieldConfirmator(
+          field: '',
           confirmation: '',
         ),
         passwordToCompare: '',

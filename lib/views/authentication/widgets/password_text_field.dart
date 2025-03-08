@@ -19,7 +19,8 @@ class PasswordTextField extends StatelessWidget {
   final Validator<String?> validator;
 
   @override
-  Widget build(BuildContext context) => TextFormField(
+  Widget build(BuildContext context) =>
+      TextFormField(
         maxLength: Password.maxLength,
         autocorrect: false,
         obscureText: true,
@@ -29,7 +30,7 @@ class PasswordTextField extends StatelessWidget {
           labelText: 'Password',
           counterText: '',
           prefixIcon: Icon(
-            Icons.lock,
+              Icons.lock
           ),
           filled: true,
         ),

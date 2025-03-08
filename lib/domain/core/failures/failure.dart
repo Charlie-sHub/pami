@@ -94,6 +94,12 @@ sealed class Failure<T> with _$Failure<T> {
   /// [Failure] indicating a cancelled by user error
   const factory Failure.cancelledByUser() = CancelledByUser<T>;
 
+  /// [Failure] indicating an email already in use error
+  const factory Failure.emailAlreadyInUse() = EmailAlreadyInUse<T>;
+
+  /// [Failure] indicating a username already in use error
+  const factory Failure.usernameAlreadyInUse() = UsernameAlreadyInUse<T>;
+
   /// [Failure] indicating a server error
   const factory Failure.serverError({
     required String errorString,
