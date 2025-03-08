@@ -8,9 +8,9 @@ import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
+import 'package:pami/domain/core/validation/objects/field_confirmator.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
-import 'package:pami/domain/core/validation/objects/password_confirmator.dart';
 
 part 'registration_form_bloc.freezed.dart';
 part 'registration_form_event.dart';
@@ -43,6 +43,11 @@ class RegistrationFormBloc
             emit,
           ),
         _EmailAddressChanged(:final email) => _handleEmailChanged(email, emit),
+        _EmailConfirmationChanged(:final emailConfirmation) =>
+          _handleEmailConfirmationChanged(
+            emailConfirmation,
+            emit,
+          ),
         _BioChanged(:final bio) => _handleBioChanged(bio, emit),
         _TappedEULA() => _handleTappedEULA(emit),
         _Submitted() => _handleSubmitted(emit),
@@ -83,8 +88,8 @@ class RegistrationFormBloc
   void _handlePasswordChanged(String password, Emitter emit) => emit(
         state.copyWith(
           password: Password(password),
-          passwordConfirmator: PasswordConfirmator(
-            password: password,
+          passwordConfirmator: FieldConfirmator(
+            field: password,
             confirmation: state.passwordToCompare,
           ),
           failureOrSuccessOption: none(),
@@ -94,8 +99,8 @@ class RegistrationFormBloc
   void _handlePasswordConfirmationChanged(String confirmation, Emitter emit) =>
       emit(
         state.copyWith(
-          passwordConfirmator: PasswordConfirmator(
-            password: state.password.value.fold((_) => '', id),
+          passwordConfirmator: FieldConfirmator(
+            field: state.password.value.fold((_) => '', id),
             confirmation: confirmation,
           ),
           passwordToCompare: confirmation,
@@ -106,6 +111,22 @@ class RegistrationFormBloc
   void _handleEmailChanged(String email, Emitter emit) => emit(
         state.copyWith(
           user: state.user.copyWith(email: EmailAddress(email)),
+          emailConfirmator: FieldConfirmator(
+            field: email,
+            confirmation: state.emailToCompare,
+          ),
+          failureOrSuccessOption: none(),
+        ),
+      );
+
+  void _handleEmailConfirmationChanged(String confirmation, Emitter emit) =>
+      emit(
+        state.copyWith(
+          emailConfirmator: FieldConfirmator(
+            field: state.user.email.value.fold((_) => '', id),
+            confirmation: confirmation,
+          ),
+          emailToCompare: confirmation,
           failureOrSuccessOption: none(),
         ),
       );
@@ -133,10 +154,10 @@ class RegistrationFormBloc
     );
     Either<Failure, Unit>? failureOrUnit;
     final canRegister = state.user.isValid &&
-        state.password.isValid() &&
-        state.passwordConfirmator.isValid() &&
-        state.acceptedEULA &&
-        (state.imageFile.isSome());
+            state.password.isValid() &&
+            state.passwordConfirmator.isValid() &&
+            state.emailConfirmator.isValid() ||
+        state.acceptedEULA && state.imageFile.isSome();
     if (canRegister) {
       failureOrUnit = await _repository.register(
         user: state.user,
@@ -145,8 +166,6 @@ class RegistrationFormBloc
           () => XFile(''),
         ),
       );
-    } else {
-      failureOrUnit = left(const Failure.emptyFields());
     }
     emit(
       state.copyWith(
