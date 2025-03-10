@@ -208,7 +208,7 @@ void main() {
           streamController.add(invalidState);
           await tester.pumpAndSettle();
 
-          // Assert - Look for the text directly
+          // Assert
           expect(find.text('Invalid email'), findsOneWidget);
         },
       );
