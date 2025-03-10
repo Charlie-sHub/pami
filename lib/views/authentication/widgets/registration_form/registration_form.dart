@@ -40,9 +40,10 @@ class RegistrationForm extends StatelessWidget {
               horizontal: 40,
               vertical: 20,
             ),
-            child: Form(autovalidateMode: state.showErrorMessages
-                ? AutovalidateMode.always
-                : AutovalidateMode.disabled,
+            child: Form(
+              autovalidateMode: state.showErrorMessages
+                  ? AutovalidateMode.always
+                  : AutovalidateMode.disabled,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -134,6 +135,10 @@ class RegistrationForm extends StatelessWidget {
       !current.user.name.isValid() ||
       current.user.email.isValid() ||
       !current.user.email.isValid() ||
+      current.emailConfirmator.isValid() ||
+      !current.emailConfirmator.isValid() ||
+      current.passwordConfirmator.isValid() ||
+      !current.passwordConfirmator.isValid() ||
       previous.acceptedEULA != current.acceptedEULA ||
       current.imageFile.fold(
         () => false,

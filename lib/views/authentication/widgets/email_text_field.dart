@@ -22,16 +22,15 @@ class EmailTextField extends StatelessWidget {
   final String? initialValue;
 
   @override
-  Widget build(BuildContext context) => TextFormField(
+  Widget build(BuildContext context) =>
+      TextFormField(
         onChanged: (value) => eventToAdd(value.trim()),
         initialValue: initialValue,
         validator: validator,
         autocorrect: false,
         decoration: const InputDecoration(
           labelText: 'Email Address',
-          prefixIcon: Icon(
-            Icons.email
-          ),
+          prefixIcon: Icon(Icons.email),
           filled: true,
         ),
       );
