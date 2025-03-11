@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,22 +15,13 @@ import 'email_text_field_test.mocks.dart';
 ])
 void main() {
   late MockRegistrationFormBloc mockBloc;
-  late StreamController<RegistrationFormState> streamController;
 
   setUp(
-    () {
-      mockBloc = MockRegistrationFormBloc();
-      streamController = StreamController.broadcast();
-      when(mockBloc.stream).thenAnswer((_) => streamController.stream);
-      when(mockBloc.state).thenReturn(RegistrationFormState.initial());
-    },
+    () => mockBloc = MockRegistrationFormBloc(),
   );
 
   tearDown(
-    () async {
-      await streamController.close();
-      await mockBloc.close();
-    },
+    () async => mockBloc.close(),
   );
 
   Widget buildWidget({
@@ -88,6 +77,8 @@ void main() {
     (tester) async {
       // Arrange
       const email = 'test@example.com';
+
+      // Act
       await tester.pumpWidget(
         buildWidget(
           eventToAdd: (email) => mockBloc.add(
@@ -96,8 +87,6 @@ void main() {
           validator: (_) => null,
         ),
       );
-
-      // Act
       await tester.enterText(find.byType(TextFormField), email);
       await tester.pump();
 
@@ -115,6 +104,8 @@ void main() {
     (tester) async {
       // Arrange
       const initialEmail = 'initial@example.com';
+
+      // Act
       await tester.pumpWidget(
         buildWidget(
           eventToAdd: (_) {},
@@ -122,8 +113,6 @@ void main() {
           initialValue: initialEmail,
         ),
       );
-
-      // Act
       final emailField = tester.widget<TextFormField>(
         find.byType(TextFormField),
       );
@@ -138,6 +127,7 @@ void main() {
     (tester) async {
       // Arrange
       const errorText = 'Invalid email';
+      when(mockBloc.state).thenReturn(RegistrationFormState.initial());
 
       // Act
       await tester.pumpWidget(
@@ -145,10 +135,9 @@ void main() {
           eventToAdd: (email) => mockBloc.add(
             RegistrationFormEvent.emailAddressChanged(email),
           ),
-          validator: (email) => emailValidator(mockBloc.state),
+          validator: (_) => emailValidator(mockBloc.state),
         ),
       );
-      streamController.add(RegistrationFormState.initial());
       await tester.pumpAndSettle();
 
       // Assert
