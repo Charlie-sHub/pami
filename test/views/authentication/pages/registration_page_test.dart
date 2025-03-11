@@ -36,14 +36,8 @@ void main() {
       mockRouter = MockStackRouter();
       mockAuthBloc = MockAuthenticationBloc();
       streamController = StreamController<RegistrationFormState>.broadcast();
-
-      // Register the mock bloc with getIt for dependency injection
-      getIt
-        ..registerFactory<RegistrationFormBloc>(() => mockBloc)
-        ..registerFactory<AuthenticationBloc>(() => mockAuthBloc);
-
+      getIt.registerFactory<RegistrationFormBloc>(() => mockBloc);
       provideDummy<RegistrationFormState>(RegistrationFormState.initial());
-
       when(mockBloc.stream).thenAnswer((_) => streamController.stream);
       when(mockBloc.state).thenReturn(RegistrationFormState.initial());
       when(mockAuthBloc.stream).thenAnswer((_) => const Stream.empty());
@@ -90,8 +84,7 @@ void main() {
         'Navigates to TutorialRoute on successful registration',
         (tester) async {
           // Arrange
-          final initialState = RegistrationFormState.initial();
-          final successState = initialState.copyWith(
+          final successState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(right(unit)),
           );
 
@@ -114,8 +107,7 @@ void main() {
         'Shows error Flushbar on Server Error',
         (tester) async {
           // Arrange
-          final initialState = RegistrationFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
               left(const Failure.serverError(errorString: 'test error')),
             ),
@@ -135,8 +127,7 @@ void main() {
         'Shows error Flushbar on Email Already in Use',
         (tester) async {
           // Arrange
-          final initialState = RegistrationFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
               left(const Failure.emailAlreadyInUse()),
             ),
@@ -156,8 +147,7 @@ void main() {
         'Shows error Flushbar on Username Already in Use',
         (tester) async {
           // Arrange
-          final initialState = RegistrationFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
               left(const Failure.usernameAlreadyInUse()),
             ),
@@ -177,8 +167,7 @@ void main() {
         'Shows error Flushbar on Empty fields',
         (tester) async {
           // Arrange
-          final initialState = RegistrationFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(left(const Failure.emptyFields())),
           );
 
@@ -196,8 +185,7 @@ void main() {
         'Shows generic error Flushbar on unexpected error',
         (tester) async {
           // Arrange
-          final initialState = RegistrationFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
               left(const Failure.unexpectedError(errorMessage: 'test error')),
             ),
@@ -217,8 +205,7 @@ void main() {
         'Listener does not trigger for irrelevant state changes',
         (tester) async {
           // Arrange
-          final initialState = RegistrationFormState.initial();
-          final newState = initialState.copyWith(
+          final newState = RegistrationFormState.initial().copyWith(
             isSubmitting: true,
           );
 
