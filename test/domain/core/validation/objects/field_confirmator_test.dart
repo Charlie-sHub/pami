@@ -1,26 +1,26 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/domain/core/failures/failure.dart';
-import 'package:pami/domain/core/validation/objects/password_confirmator.dart';
+import 'package:pami/domain/core/validation/objects/field_confirmator.dart';
 
 void main() {
   group(
     'Testing on success',
     () {
       test(
-        'should return a PasswordConfirmator with the input value '
+        'should return a FieldConfirmator with the input value '
         'when the password and confirmation match',
         () {
           // Arrange
-          const validPassword = 'password123';
+          const password = 'password123';
           const validConfirmation = 'password123';
-          final validPasswordConfirmator = PasswordConfirmator(
-            password: validPassword,
+          final validFieldConfirmator = FieldConfirmator(
+            field: password,
             confirmation: validConfirmation,
           );
 
           // Act
-          final result = validPasswordConfirmator.value;
+          final result = validFieldConfirmator.value;
 
           // Assert
           expect(result, right(validConfirmation));
@@ -39,13 +39,13 @@ void main() {
           // Arrange
           const validPassword = 'password123';
           const mismatchedConfirmation = 'differentPassword';
-          final mismatchedPasswordConfirmator = PasswordConfirmator(
-            password: validPassword,
+          final mismatchedFieldConfirmator = FieldConfirmator(
+            field: validPassword,
             confirmation: mismatchedConfirmation,
           );
 
           // Act
-          final result = mismatchedPasswordConfirmator.value;
+          final result = mismatchedFieldConfirmator.value;
 
           // Assert
           expect(
@@ -65,13 +65,13 @@ void main() {
           // Arrange
           const emptyPassword = '';
           const emptyConfirmation = '';
-          final emptyPasswordConfirmator = PasswordConfirmator(
-            password: emptyPassword,
+          final emptyFieldConfirmator = FieldConfirmator(
+            field: emptyPassword,
             confirmation: emptyConfirmation,
           );
 
           // Act
-          final result = emptyPasswordConfirmator.value;
+          final result = emptyFieldConfirmator.value;
 
           // Assert
           expect(
@@ -92,8 +92,8 @@ void main() {
           // Arrange
           const emptyPassword = '';
           const emptyConfirmation = '';
-          final emptyConfirmationConfirmator = PasswordConfirmator(
-            password: emptyPassword,
+          final emptyConfirmationConfirmator = FieldConfirmator(
+            field: emptyPassword,
             confirmation: emptyConfirmation,
           );
 

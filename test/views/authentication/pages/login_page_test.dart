@@ -80,8 +80,7 @@ void main() {
         'Navigates to HomeRoute on successful login',
         (tester) async {
           // Arrange
-          final initialState = LoginFormState.initial();
-          final successState = initialState.copyWith(
+          final successState = LoginFormState.initial().copyWith(
             failureOrSuccessOption: some(right(unit)),
             isSubmitting: false,
           );
@@ -105,8 +104,7 @@ void main() {
         'Shows error Flushbar on invalid credentials',
         (tester) async {
           // Arrange
-          final initialState = LoginFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = LoginFormState.initial().copyWith(
             failureOrSuccessOption: some(left(const InvalidCredentials())),
             isSubmitting: false,
           );
@@ -125,8 +123,7 @@ void main() {
         'Shows error Flushbar on unregistered user',
         (tester) async {
           // Arrange
-          final initialState = LoginFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = LoginFormState.initial().copyWith(
             failureOrSuccessOption: some(left(const UnregisteredUser())),
             isSubmitting: false,
           );
@@ -145,8 +142,7 @@ void main() {
         'Shows error Flushbar on unexpected error',
         (tester) async {
           // Arrange
-          final initialState = LoginFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = LoginFormState.initial().copyWith(
             failureOrSuccessOption: some(
               left(
                 const Failure.unexpectedError(errorMessage: 'test error'),
@@ -169,9 +165,8 @@ void main() {
         'Navigates to RegistrationRoute with third party user',
         (tester) async {
           // Arrange
-          final initialState = LoginFormState.initial();
           final userOption = some(getValidUser());
-          final thirdPartyUserState = initialState.copyWith(
+          final thirdPartyUserState = LoginFormState.initial().copyWith(
             thirdPartyUserOption: userOption,
           );
 

@@ -30,10 +30,7 @@ void main() {
       mockBloc = MockForgottenPasswordFormBloc();
       mockRouter = MockStackRouter();
       streamController = StreamController.broadcast();
-
-      // Register the mock bloc with getIt for dependency injection
       getIt.registerFactory<ForgottenPasswordFormBloc>(() => mockBloc);
-
       provideDummy<ForgottenPasswordFormState>(
         ForgottenPasswordFormState.initial(),
       );
@@ -79,8 +76,7 @@ void main() {
         'Shows success Flushbar on successful password reset request',
         (tester) async {
           // Arrange
-          final initialState = ForgottenPasswordFormState.initial();
-          final successState = initialState.copyWith(
+          final successState = ForgottenPasswordFormState.initial().copyWith(
             failureOrSuccessOption: some(right(unit)),
           );
 
@@ -101,8 +97,7 @@ void main() {
         'Shows error Flushbar on empty fields',
         (tester) async {
           // Arrange
-          final initialState = ForgottenPasswordFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = ForgottenPasswordFormState.initial().copyWith(
             failureOrSuccessOption: some(left(const EmptyFields())),
           );
 
@@ -120,8 +115,7 @@ void main() {
         'Shows error Flushbar with server error message',
         (tester) async {
           // Arrange
-          final initialState = ForgottenPasswordFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = ForgottenPasswordFormState.initial().copyWith(
             failureOrSuccessOption: some(
               left(const ServerError(errorString: 'Server unavailable')),
             ),
@@ -141,8 +135,7 @@ void main() {
         'Shows generic error Flushbar on unexpected error',
         (tester) async {
           // Arrange
-          final initialState = ForgottenPasswordFormState.initial();
-          final failureState = initialState.copyWith(
+          final failureState = ForgottenPasswordFormState.initial().copyWith(
             failureOrSuccessOption: some(
               left(const Failure.unexpectedError(errorMessage: 'test error')),
             ),
@@ -162,8 +155,7 @@ void main() {
         'Listener does not trigger for irrelevant state changes',
         (tester) async {
           // Arrange
-          final initialState = ForgottenPasswordFormState.initial();
-          final newState = initialState.copyWith(
+          final newState = ForgottenPasswordFormState.initial().copyWith(
             email: EmailAddress('new@example.com'),
             isSubmitting: true,
           );
