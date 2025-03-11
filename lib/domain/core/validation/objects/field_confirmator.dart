@@ -4,18 +4,18 @@ import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:pami/domain/core/validation/validators/validate_same_string.dart';
 import 'package:pami/domain/core/validation/validators/validate_string_not_empty.dart';
 
-/// A value object representing a password.
-class PasswordConfirmator extends ValueObject<String> {
-  const PasswordConfirmator._(this.value);
+/// A value object representing a Field.
+class FieldConfirmator extends ValueObject<String> {
+  const FieldConfirmator._(this.value);
 
-  /// Creates a new [PasswordConfirmator]
-  factory PasswordConfirmator({
-    required String password,
+  /// Creates a new [FieldConfirmator]
+  factory FieldConfirmator({
+    required String field,
     required String confirmation,
   }) =>
-      PasswordConfirmator._(
+      FieldConfirmator._(
         validateSameString(
-          password,
+          field,
           confirmation,
         ).flatMap(validateStringNotEmpty),
       );

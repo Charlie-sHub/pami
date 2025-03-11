@@ -66,9 +66,9 @@ class LoginPage extends StatelessWidget {
   }
 
   void _onSuccess(BuildContext context) {
-    context.router.replace(const HomeRoute());
     context.read<AuthenticationBloc>().add(
           const AuthenticationEvent.authenticationCheckRequested(),
         );
+    context.router.replace(const HomeRoute());
   }
 }
