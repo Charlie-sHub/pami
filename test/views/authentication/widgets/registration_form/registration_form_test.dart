@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -34,25 +32,17 @@ import 'registration_form_test.mocks.dart';
 void main() {
   late MockRegistrationFormBloc mockBloc;
   late MockStackRouter mockRouter;
-  late StreamController<RegistrationFormState> streamController;
 
   setUp(() {
     mockBloc = MockRegistrationFormBloc();
     mockRouter = MockStackRouter();
-    streamController = StreamController<RegistrationFormState>.broadcast();
-
-    // Setup getIt for dependency injection
     getIt.registerFactory<RegistrationFormBloc>(() => mockBloc);
-
-    // Common mock behavior
-    when(mockBloc.stream).thenAnswer((_) => streamController.stream);
     when(mockBloc.state).thenReturn(RegistrationFormState.initial());
     when(mockRouter.push(any)).thenAnswer((_) async => null);
     when(mockRouter.replace(any)).thenAnswer((_) async => null);
   });
 
   tearDown(() async {
-    await streamController.close();
     await mockBloc.close();
     await getIt.reset();
   });
@@ -132,6 +122,7 @@ void main() {
       // Act
       await tester.pump();
       await tester.pumpWidget(buildWidget());
+
       // Assert
       expect(find.text('Invalid email'), findsNothing);
       expect(find.text('Empty password'), findsNothing);
@@ -196,6 +187,7 @@ void main() {
               password: Password('invalid-password'),
             ),
           );
+
           // Act
           await tester.pumpWidget(buildWidget());
           await tester.pump();

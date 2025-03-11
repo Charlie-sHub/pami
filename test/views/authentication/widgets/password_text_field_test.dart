@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,22 +16,13 @@ import 'password_text_field_test.mocks.dart';
 ])
 void main() {
   late MockRegistrationFormBloc mockBloc;
-  late StreamController<RegistrationFormState> streamController;
 
   setUp(
-    () {
-      mockBloc = MockRegistrationFormBloc();
-      streamController = StreamController.broadcast();
-      when(mockBloc.stream).thenAnswer((_) => streamController.stream);
-      when(mockBloc.state).thenReturn(RegistrationFormState.initial());
-    },
+    () => mockBloc = MockRegistrationFormBloc(),
   );
 
   tearDown(
-    () async {
-      await streamController.close();
-      await mockBloc.close();
-    },
+    () async => mockBloc.close(),
   );
 
   Widget buildWidget({
@@ -115,10 +104,9 @@ void main() {
     (tester) async {
       // Arrange
       const errorText = 'Invalid password';
-      when(mockBloc.state).thenAnswer(
-        (_) => RegistrationFormState.initial().copyWith(
-          showErrorMessages: true,
-          password: Password('short'),
+      when(mockBloc.state).thenReturn(
+        RegistrationFormState.initial().copyWith(
+          password: Password('invalidPassword'),
         ),
       );
 

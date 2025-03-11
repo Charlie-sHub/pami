@@ -1,49 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
+import 'package:pami/views/authentication/widgets/registration_form/username_text_field.dart';
 
-/// Username text field widget
-class UsernameTextField extends StatelessWidget {
-  /// Default constructor
-  const UsernameTextField({
-    this.initialValue,
-    super.key,
-  });
+import 'username_text_field_test.mocks.dart';
 
-  /// The initial value of the text field
-  final String? initialValue;
+@GenerateNiceMocks([
+  MockSpec<RegistrationFormBloc>(),
+])
+void main() {
+  late MockRegistrationFormBloc mockBloc;
 
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.read<RegistrationFormBloc>();
-    return TextFormField(
-      maxLength: Name.maxLength,
-      initialValue: initialValue,
-      onChanged: (value) =>
-          bloc.add(
-            RegistrationFormEvent.usernameChanged(value.trim()),
+  setUp(
+    () {
+      mockBloc = MockRegistrationFormBloc();
+      when(mockBloc.state).thenReturn(RegistrationFormState.initial());
+    },
+  );
+
+  tearDown(() async => mockBloc.close());
+
+  Widget buildWidget({String? initialValue}) => MaterialApp(
+        home: Scaffold(
+          body: BlocProvider<RegistrationFormBloc>.value(
+            value: mockBloc,
+            child: Form(
+              autovalidateMode: AutovalidateMode.always,
+              child: UsernameTextField(
+                initialValue: initialValue,
+              ),
+            ),
           ),
-      validator: (_) => _validator(bloc.state),
-      autocorrect: false,
-      decoration: const InputDecoration(
-        labelText: 'Username',
-        prefixIcon: Icon(Icons.account_box),
-      ),
-    );
-  }
-
-  String _validator(RegistrationFormState state) =>
-      state.user.username.value.fold(
-            (failure) =>
-        switch (failure) {
-          EmptyString() => 'Empty username',
-          MultiLineString() => 'Multi-line string',
-          StringExceedsLength() => 'String exceeds length',
-          InvalidName() => 'Invalid username',
-          _ => 'Unknown error',
-        },
-            (_) => '',
+        ),
       );
+
+  testWidgets(
+    'renders correctly',
+    (tester) async {
+      // Act
+      await tester.pumpWidget(buildWidget());
+
+      // Assert
+      expect(find.byType(TextFormField), findsOneWidget);
+      expect(find.text('Username'), findsOneWidget);
+      expect(find.byIcon(Icons.account_box), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'triggers usernameChanged event on change',
+    (tester) async {
+      // Arrange
+      const username = 'John_Doe';
+
+      // Act
+      await tester.pumpWidget(buildWidget());
+      await tester.enterText(find.byType(TextFormField), username);
+      await tester.pump();
+
+      // Assert
+      verify(
+        mockBloc.add(const RegistrationFormEvent.usernameChanged(username)),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'sets initial value',
+    (tester) async {
+      // Arrange
+      const initialUsername = 'Initial_username';
+
+      // Act
+      await tester.pumpWidget(buildWidget(initialValue: initialUsername));
+      final usernameField = tester.widget<TextFormField>(
+        find.byType(TextFormField),
+      );
+
+      // Assert
+      expect(usernameField.initialValue, equals(initialUsername));
+    },
+  );
+
+  testWidgets(
+    'displays validation error',
+    (tester) async {
+      // Arrange
+      const errorText = 'Empty username';
+      final invalidState = RegistrationFormState.initial().copyWith(
+        user: getValidUser().copyWith(username: Name('')),
+      );
+      when(mockBloc.state).thenAnswer((_) => invalidState);
+
+      // Act
+      await tester.pumpWidget(buildWidget());
+      await tester.pumpAndSettle();
+
+      // Assert
+      expect(find.text(errorText), findsOneWidget);
+    },
+  );
 }
