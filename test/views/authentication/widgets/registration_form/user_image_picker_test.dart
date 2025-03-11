@@ -16,18 +16,17 @@ void main() {
   late MockRegistrationFormBloc mockBloc;
 
   setUp(
-        () {
+    () {
       mockBloc = MockRegistrationFormBloc();
       when(mockBloc.state).thenReturn(RegistrationFormState.initial());
     },
   );
 
   tearDown(
-        () async => mockBloc.close(),
+    () async => mockBloc.close(),
   );
 
-  Widget buildWidget({required Option<XFile> imageFileOption}) =>
-      MaterialApp(
+  Widget buildWidget({required Option<XFile> imageFileOption}) => MaterialApp(
         home: Scaffold(
           body: BlocProvider<RegistrationFormBloc>.value(
             value: mockBloc,
@@ -40,7 +39,7 @@ void main() {
 
   testWidgets(
     'renders CameraButton when no image is selected',
-        (tester) async {
+    (tester) async {
       // Arrange
       const imageFileOption = None<XFile>();
 
@@ -56,7 +55,7 @@ void main() {
 
   testWidgets(
     'renders TextButton with CircleAvatar when image is selected',
-        (tester) async {
+    (tester) async {
       // Arrange
       final imageFile = XFile('path/to/image.jpg');
       final imageFileOption = Some(imageFile);
@@ -73,8 +72,9 @@ void main() {
   );
 
   testWidgets(
-    'triggers imageChanged event when TextButton is tapped and image is selected',
-        (tester) async {
+    'triggers imageChanged event when TextButton is tapped '
+    'and image is selected',
+    (tester) async {
       // Arrange
       final imageFile = XFile('path/to/image.jpg');
       final imageFileOption = Some(imageFile);
@@ -92,14 +92,14 @@ void main() {
       await tester.tap(find.byType(TextButton));
       await tester.pump();
       await tester.binding.runAsync(
-            () async {
+        () async {
           await tester.pumpWidget(
             MaterialApp(
               home: Material(
                 child: Builder(
                   builder: (context) {
                     WidgetsBinding.instance.addPostFrameCallback(
-                          (_) => Navigator.of(context).pop(newImageFile),
+                      (_) => Navigator.of(context).pop(newImageFile),
                     );
                     return const Placeholder();
                   },
@@ -120,7 +120,7 @@ void main() {
 
   testWidgets(
     'does not trigger event when TextButton is tapped and no image is selected',
-        (tester) async {
+    (tester) async {
       // Arrange
       final imageFile = XFile('path/to/image.jpg');
       final imageFileOption = Some(imageFile);
@@ -139,14 +139,14 @@ void main() {
 
       // Simulate no file selection
       await tester.binding.runAsync(
-            () async {
+        () async {
           await tester.pumpWidget(
             MaterialApp(
               home: Material(
                 child: Builder(
                   builder: (context) {
                     WidgetsBinding.instance.addPostFrameCallback(
-                          (_) => Navigator.of(context).pop(),
+                      (_) => Navigator.of(context).pop(),
                     );
                     return const Placeholder();
                   },
