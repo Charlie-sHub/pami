@@ -119,7 +119,7 @@ void main() {
           validator: (_) => passwordValidator(mockBloc.state),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text(errorText), findsOneWidget);

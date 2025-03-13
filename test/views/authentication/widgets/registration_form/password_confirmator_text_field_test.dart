@@ -94,7 +94,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text(errorText), findsOneWidget);
@@ -117,7 +117,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text(errorText), findsOneWidget);
