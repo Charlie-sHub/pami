@@ -84,7 +84,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Invalid email'), findsOneWidget);
@@ -102,7 +102,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Empty password'), findsOneWidget);
