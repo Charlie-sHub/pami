@@ -15,6 +15,7 @@ dependencies:
   auto_route: ^10.0.1
   bloc: ^9.0.0
   cached_network_image: ^3.4.1
+  carousel_slider: ^5.0.0
   cloud_firestore: ^5.6.5
   cloud_functions: ^5.3.4
   cupertino_icons: ^1.0.8

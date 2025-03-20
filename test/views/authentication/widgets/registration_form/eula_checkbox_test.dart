@@ -75,7 +75,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Please check the EULA'), findsOneWidget);
@@ -94,7 +94,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Please check the EULA'), findsNothing);
@@ -113,7 +113,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Please check the EULA'), findsNothing);
