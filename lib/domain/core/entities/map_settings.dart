@@ -21,7 +21,7 @@ abstract class MapSettings with _$MapSettings {
 
   /// Empty constructor
   factory MapSettings.empty() => MapSettings(
-        radius: MapRadius(0),
+        radius: MapRadius(1),
         type: ShoutOutType.offer,
         categories: {},
       );
