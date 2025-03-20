@@ -88,7 +88,7 @@ void main() {
           // Act
           await tester.pumpWidget(buildWidget());
           streamController.add(successState);
-          await tester.pumpAndSettle();
+          await tester.pump();
 
           // Assert
           verify(mockRouter.replace(const HomeRoute())).called(1);

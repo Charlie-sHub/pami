@@ -20,7 +20,6 @@ class AppTextStyles {
   /// Style for body text
   static const TextStyle bodyLarge = TextStyle(
     fontSize: 16,
-    color: AppColors.onBackground,
   );
 
   /// Smaller style for body text
