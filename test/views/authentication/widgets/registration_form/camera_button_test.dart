@@ -134,7 +134,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Please select an image'), findsOneWidget);
@@ -154,7 +154,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Please select an image'), findsNothing);
@@ -174,7 +174,7 @@ void main() {
 
       // Act
       await tester.pumpWidget(buildWidget());
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Assert
       expect(find.text('Please select an image'), findsNothing);

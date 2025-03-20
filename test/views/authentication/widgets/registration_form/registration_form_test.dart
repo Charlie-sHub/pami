@@ -69,7 +69,6 @@ void main() {
         find.byType(SingleChildScrollView),
         const Offset(0, -500),
       );
-      await tester.pumpAndSettle();
 
       // Assert
       expect(find.text('PAMI'), findsOneWidget);
@@ -120,7 +119,6 @@ void main() {
       );
 
       // Act
-      await tester.pump();
       await tester.pumpWidget(buildWidget());
 
       // Assert
