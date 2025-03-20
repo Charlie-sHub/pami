@@ -2,11 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
+import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
+import 'package:pami/domain/core/validation/objects/latitude.dart';
+import 'package:pami/domain/core/validation/objects/longitude.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
@@ -36,20 +39,31 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
     final shoutOuts = {
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 1'),
-        description: EntityDescription('Description 1'),
+        title: Name('Burger and fries'),
+        description: EntityDescription('Just some burger and fries'),
+        coordinates: Coordinates(
+          latitude: Latitude(43.26070),
+          longitude: Longitude(-2.94972),
+        ),
       ),
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 2'),
-        description: EntityDescription('Description 2'),
-        isOpen: false,
+        title: Name('Ticket to the movies'),
+        description: EntityDescription("I like movies but i can't now"),
+        coordinates: Coordinates(
+          latitude: Latitude(43.26522),
+          longitude: Longitude(-2.94872),
+        ),
       ),
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 3'),
-        description: EntityDescription('Description 3'),
+        title: Name('Need help with something'),
+        description: EntityDescription('I need help with the thing'),
         type: ShoutOutType.request,
+        coordinates: Coordinates(
+          latitude: Latitude(43.26056),
+          longitude: Longitude(-2.95429),
+        ),
       ),
     };
 
@@ -58,4 +72,14 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
     );
     return Stream.value(right(shoutOuts));
   }
+
+  @override
+  Future<Either<Failure, Coordinates>> getCurrentLocation() async => right(
+        getValidCoordinates(),
+      );
+
+  @override
+  Stream<Either<Failure, Coordinates>> getUserLocationStream() => Stream.value(
+        right(getValidCoordinates()),
+      );
 }
