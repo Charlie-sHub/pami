@@ -30,14 +30,14 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.1.0
   flutter_dotenv: ^5.2.1
-  flutter_local_notifications: ^18.0.1
+  flutter_local_notifications: ^19.0.0
   flutter_localizations:
     sdk: flutter
   flutter_speed_dial: ^7.0.0
   font_awesome_flutter: ^10.8.0
   freezed_annotation: ^3.0.0
   geoflutterfire_plus: ^0.0.32
-  geolocator: ^13.0.2
+  geolocator: ^13.0.3
   get_it: ^8.0.3
   google_maps_flutter: ^2.10.1
   google_sign_in: ^6.3.0
@@ -63,7 +63,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  freezed: ^3.0.3
+  freezed: ^3.0.4
   google_sign_in_mocks: ^0.3.0
   injectable_generator: ^2.7.0
   json_serializable: ^6.9.4

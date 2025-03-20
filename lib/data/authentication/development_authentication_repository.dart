@@ -26,8 +26,7 @@ class DevelopmentAuthenticationRepository
     _logger.d('Fetching logged-in user...');
     final user = getValidUser();
     _logger.d('Returning mock user: ${user.id}');
-    // return some(user);
-    return none();
+    return some(user);
   }
 
   @override
