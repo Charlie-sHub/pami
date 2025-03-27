@@ -16,4 +16,8 @@ sealed class MapControllerEvent with _$MapControllerEvent {
   const factory MapControllerEvent.userLocationUpdated({
     required Either<Failure, Coordinates> result,
   }) = _UserLocationUpdated;
+
+  /// Requests location permission
+  const factory MapControllerEvent.locationPermissionRequested() =
+      _LocationPermissionRequested;
 }
