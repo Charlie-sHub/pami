@@ -51,4 +51,10 @@ class DevelopmentInterestedShoutOutsRepository
     );
     return Stream.value(right(shoutOuts));
   }
+
+  @override
+  Future<Either<Failure, Unit>> addInterestedShoutOut(
+    UniqueId shoutOutId,
+  ) async =>
+      right(unit);
 }
