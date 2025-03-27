@@ -7,11 +7,13 @@ sealed class MapControllerState with _$MapControllerState {
   const factory MapControllerState({
     required Coordinates coordinates,
     required double zoom,
+    required bool locationPermissionGranted,
   }) = _MapControllerState;
 
   /// Initial state
   factory MapControllerState.initial() => MapControllerState(
         coordinates: Coordinates.empty(),
-        zoom: 15,
+        zoom: 10,
+        locationPermissionGranted: false,
       );
 }

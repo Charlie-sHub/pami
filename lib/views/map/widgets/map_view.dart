@@ -21,7 +21,10 @@ class MapView extends StatelessWidget {
             create: (context) => getIt<MapSettingsFormBloc>(),
           ),
           BlocProvider(
-            create: (context) => getIt<MapControllerBloc>(),
+            create: (context) => getIt<MapControllerBloc>()
+              ..add(
+                const MapControllerEvent.locationPermissionRequested(),
+              ),
           ),
           BlocProvider(
             create: (context) => getIt<MapWatcherBloc>()
@@ -38,7 +41,7 @@ class MapView extends StatelessWidget {
               return Stack(
                 children: [
                   MapWidget(
-                    markers: switch (state) {
+                    shoutOuts: switch (state) {
                       LoadSuccess(:final shoutOuts) => shoutOuts,
                       _ => {},
                     },
@@ -58,7 +61,7 @@ class MapView extends StatelessWidget {
                     _ => const SizedBox.shrink(),
                   },
                   const Positioned(
-                    top: space,
+                    bottom: space * 3,
                     right: space,
                     child: MapSettingsButton(),
                   ),

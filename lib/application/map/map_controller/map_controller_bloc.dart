@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'map_controller_bloc.freezed.dart';
 part 'map_controller_event.dart';
@@ -30,6 +31,9 @@ class MapControllerBloc extends Bloc<MapControllerEvent, MapControllerState> {
           ),
         _UserLocationUpdated(:final result) => _handleUserLocationUpdated(
             result,
+            emit,
+          ),
+        _LocationPermissionRequested() => _handleLocationPermissionRequested(
             emit,
           ),
       },
@@ -83,6 +87,19 @@ class MapControllerBloc extends Bloc<MapControllerEvent, MapControllerState> {
         ),
       ),
     );
+  }
+
+  Future<void> _handleLocationPermissionRequested(Emitter emit) async {
+    final status = await Permission.location.request();
+    final granted = status.isGranted;
+
+    emit(
+      state.copyWith(locationPermissionGranted: granted),
+    );
+
+    if (granted) {
+      add(const MapControllerEvent.initialized());
+    }
   }
 
   @override
