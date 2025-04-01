@@ -8,7 +8,7 @@ import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 import 'package:pami/injection.dart';
-import 'package:pami/views/map/widgets/shout_out_pop_up_card.dart';
+import 'package:pami/views/map/widgets/shout_out_modal.dart';
 
 /// Google map widget
 class MapWidget extends StatelessWidget {
@@ -29,12 +29,11 @@ class MapWidget extends StatelessWidget {
           myLocationEnabled: true,
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
-          markers: shoutOuts
-              .map(
-                (shoutOut) => _mapShoutOutToMarker(shoutOut, context),
-              )
-              .toSet(),
-          onCameraMove: (position) => _onCameraMoved(context, position),
+          markers: _mapToMarker(shoutOuts, context),
+          onCameraMove: (position) => _onMoved(
+            context.read<MapControllerBloc>(),
+            position,
+          ),
           initialCameraPosition: CameraPosition(
             target: LatLng(
               state.coordinates.latitude.getOrCrash(),
@@ -46,44 +45,47 @@ class MapWidget extends StatelessWidget {
         ),
       );
 
-  Marker _mapShoutOutToMarker(
-    ShoutOut shoutOut,
-    BuildContext context,
-  ) =>
-      Marker(
-        icon: BitmapDescriptor.defaultMarkerWithHue(
-          BitmapDescriptor.hueViolet,
-        ),
-        markerId: MarkerId(shoutOut.id.toString()),
-        position: LatLng(
-          shoutOut.coordinates.latitude.getOrCrash(),
-          shoutOut.coordinates.longitude.getOrCrash(),
-        ),
-        infoWindow: InfoWindow(
-          title: shoutOut.title.getOrCrash(),
-          snippet: shoutOut.description.getOrCrash(),
-        ),
-        onTap: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true, // Full-screen modal feel
-            backgroundColor: Colors.transparent,
-            builder: (_) => BlocProvider(
-              create: (context) => getIt<InterestedShoutOutsActorBloc>(),
-              child: ShoutOutPopupCard(shoutOut: shoutOut),
-            ),
-          );
-        },
-      );
-
-  void _onCameraMoved(BuildContext context, CameraPosition position) =>
-      context.read<MapControllerBloc>().add(
-            MapControllerEvent.cameraPositionChanged(
-              coordinates: Coordinates(
-                latitude: Latitude(position.target.latitude),
-                longitude: Longitude(position.target.longitude),
+  Set<Marker> _mapToMarker(Set<ShoutOut> shoutOuts, BuildContext context) {
+    final markers = <Marker>{};
+    for (final shoutOut in shoutOuts) {
+      markers.add(
+        Marker(
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueGreen,
+          ),
+          markerId: MarkerId(shoutOut.id.toString()),
+          position: LatLng(
+            shoutOut.coordinates.latitude.getOrCrash(),
+            shoutOut.coordinates.longitude.getOrCrash(),
+          ),
+          infoWindow: InfoWindow(
+            title: shoutOut.title.getOrCrash(),
+            snippet: shoutOut.description.getOrCrash(),
+          ),
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              useRootNavigator: true,
+              builder: (_) => BlocProvider(
+                create: (context) => getIt<InterestedShoutOutsActorBloc>(),
+                child: ShoutOutModal(shoutOut: shoutOut),
               ),
-              zoom: position.zoom,
-            ),
-          );
+            );
+          },
+        ),
+      );
+    }
+    return markers;
+  }
+
+  void _onMoved(MapControllerBloc bloc, CameraPosition position) => bloc.add(
+        MapControllerEvent.cameraPositionChanged(
+          coordinates: Coordinates(
+            latitude: Latitude(position.target.latitude),
+            longitude: Longitude(position.target.longitude),
+          ),
+          zoom: position.zoom,
+        ),
+      );
 }
