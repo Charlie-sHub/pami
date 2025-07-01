@@ -34,7 +34,7 @@ abstract class Message with _$Message {
   Option<Failure<dynamic>> get failureOption => Either.map2(
         content.failureOrUnit,
         dateCreated.failureOrUnit,
-        (_, __) => unit,
+        (_, _) => unit,
       ).fold(
         some,
         (_) => none(),

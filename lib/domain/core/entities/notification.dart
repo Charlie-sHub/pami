@@ -34,7 +34,7 @@ abstract class Notification with _$Notification {
   Option<Failure<dynamic>> get failureOption => Either.map2(
         description.failureOrUnit,
         dateCreated.failureOrUnit,
-        (_, __) => unit,
+        (_, _) => unit,
       ).fold(
         some,
         (_) => none(),

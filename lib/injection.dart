@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pami/injection.config.dart';
 
 /// Instance of [GetIt]
-final getIt = GetIt.instance;
+final GetIt getIt = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'init',
