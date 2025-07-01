@@ -11,7 +11,9 @@ linter:
     - prefer_const_declarations
     - prefer_expression_function_bodies
     - unnecessary_this
+    - unnecessary_underscores
     - use_super_parameters
+    - use_null_aware_elements
     - avoid_redundant_argument_values
     - omit_local_variable_types
     - sort_constructors_first

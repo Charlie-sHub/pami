@@ -36,7 +36,7 @@ abstract class Conversation with _$Conversation {
   Option<Failure<dynamic>> get failureOption => Either.map2(
         lastMessage.failureOrUnit,
         dateCreated.failureOrUnit,
-        (_, __) => unit,
+        (_, _) => unit,
       ).fold(
         some,
         (_) => none(),

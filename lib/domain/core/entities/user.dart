@@ -33,21 +33,22 @@ abstract class User with _$User {
 
   /// Empty constructor
   factory User.empty() => User(
-        id: UniqueId(),
-        email: EmailAddress(''),
-        name: Name(''),
-        username: Name(''),
-        bio: EntityDescription(''),
-        avatar: Url(''),
-        isVerified: false,
-        karma: KarmaPercentage(0),
-        interestedShoutOutIds: {},
-        lastLogin: PastDate(DateTime.now()),
-        dateCreated: PastDate(DateTime.now()),
-      );
+    id: UniqueId(),
+    email: EmailAddress(''),
+    name: Name(''),
+    username: Name(''),
+    bio: EntityDescription(''),
+    avatar: Url(''),
+    isVerified: false,
+    karma: KarmaPercentage(0),
+    interestedShoutOutIds: {},
+    lastLogin: PastDate(DateTime.now()),
+    dateCreated: PastDate(DateTime.now()),
+  );
 
   /// Gets an [Option] of [Failure] of any of its fields
-  Option<Failure<dynamic>> get failureOption => Either.map8(
+  Option<Failure<dynamic>> get failureOption =>
+      Either.map8(
         email.failureOrUnit,
         name.failureOrUnit,
         username.failureOrUnit,
@@ -56,17 +57,7 @@ abstract class User with _$User {
         karma.failureOrUnit,
         lastLogin.failureOrUnit,
         dateCreated.failureOrUnit,
-        (
-          _,
-          __,
-          ___,
-          ____,
-          _____,
-          ______,
-          _______,
-          ________,
-        ) =>
-            unit,
+        (_, _, _, _, _, _, _, _) => unit,
       ).fold(
         some,
         (_) => none(),
@@ -74,9 +65,9 @@ abstract class User with _$User {
 
   /// Gets an [Either] of [Failure] or [Unit] based on the [failureOption]
   Either<Failure<dynamic>, Unit> get failureOrUnit => failureOption.fold(
-        () => right(unit),
-        left,
-      );
+    () => right(unit),
+    left,
+  );
 
   /// Checks if the [User] is valid
   /// That  is if the [failureOption] is [None]

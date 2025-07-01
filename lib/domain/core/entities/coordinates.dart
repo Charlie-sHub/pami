@@ -27,7 +27,7 @@ abstract class Coordinates with _$Coordinates {
   Option<Failure<dynamic>> get failureOption => Either.map2(
         latitude.failureOrUnit,
         longitude.failureOrUnit,
-        (_, __) => unit,
+        (_, _) => unit,
       ).fold(
         some,
         (_) => none(),
