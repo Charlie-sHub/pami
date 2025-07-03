@@ -151,7 +151,7 @@ void main() {
           ),
           shoutOutCreationFormBloc.state.copyWith(
             isSubmitting: false,
-            showErrorMessages: true,
+            showErrorMessages: false,
             failureOrSuccessOption: some(right(unit)),
           ),
         ],
@@ -195,7 +195,7 @@ void main() {
           ),
           shoutOutCreationFormBloc.state.copyWith(
             isSubmitting: false,
-            showErrorMessages: true,
+            showErrorMessages: false,
             failureOrSuccessOption: some(left(failure)),
           ),
         ],
