@@ -116,10 +116,10 @@ void main() {
 
       blocTest<ProfileEditingFormBloc, ProfileEditingFormState>(
         'emits [userOption: some(user.copyWith(email: '
-        'EmailAddress(email)))] when emailAddressChanged is added',
+        'EmailAddress(email)))] when emailChanged is added',
         build: () => profileEditingFormBloc,
         act: (bloc) => bloc.add(
-          const ProfileEditingFormEvent.emailAddressChanged('new@email.com'),
+          const ProfileEditingFormEvent.emailChanged('new@email.com'),
         ),
         expect: () => [
           profileEditingFormBloc.state.copyWith(

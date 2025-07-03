@@ -5,7 +5,9 @@ import 'package:pami/domain/authentication/authentication_repository_interface.d
 import 'package:pami/domain/core/entities/user.dart';
 
 part 'authentication_bloc.freezed.dart';
+
 part 'authentication_event.dart';
+
 part 'authentication_state.dart';
 
 /// Authentication bloc
@@ -16,17 +18,13 @@ class AuthenticationBloc
   AuthenticationBloc(
     this._repository,
   ) : super(const AuthenticationState.initial()) {
-    on<AuthenticationEvent>(
-      (event, emit) => switch (event) {
-        _AuthenticationCheckRequested() => _handleAuthenticationCheck(emit),
-        _LoggedOut() => _handleLoggedOut(emit),
-      },
-    );
+    on<_AuthenticationCheckRequested>(_onAuthenticationCheckRequested);
+    on<_LoggedOut>(_onLoggedOut);
   }
 
   final AuthenticationRepositoryInterface _repository;
 
-  Future<void> _handleAuthenticationCheck(Emitter emit) async {
+  Future<void> _onAuthenticationCheckRequested(_, Emitter emit) async {
     final userOption = await _repository.getLoggedInUser();
     emit(
       userOption.fold(
@@ -36,7 +34,7 @@ class AuthenticationBloc
     );
   }
 
-  Future<void> _handleLoggedOut(Emitter emit) async {
+  Future<void> _onLoggedOut(_, Emitter emit) async {
     await _repository.logOut();
     emit(const AuthenticationState.unAuthenticated());
   }

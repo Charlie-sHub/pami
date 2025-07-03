@@ -12,7 +12,9 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/shout_out_management/shout_out_management_repository_interface.dart';
 
 part 'shout_out_creation_form_bloc.freezed.dart';
+
 part 'shout_out_creation_form_event.dart';
+
 part 'shout_out_creation_form_state.dart';
 
 /// Shout out creation form bloc
@@ -23,70 +25,59 @@ class ShoutOutCreationFormBloc
   ShoutOutCreationFormBloc(
     this._repository,
   ) : super(ShoutOutCreationFormState.initial()) {
-    on<ShoutOutCreationFormEvent>(
-      (event, emit) => switch (event) {
-        _Initialized(:final type) => _handleInitialized(type, emit),
-        _TitleChanged(:final title) => _handleTitleChanged(title, emit),
-        _PictureChanged(:final imageFile) => _handlePictureChanged(
-            imageFile,
-            emit,
-          ),
-        _DescriptionChanged(:final description) => _handleDescriptionChanged(
-            description,
-            emit,
-          ),
-        _CategoriesChanged(:final categories) => _handleCategoriesChanged(
-            categories,
-            emit,
-          ),
-        _Submitted() => _handleSubmitted(emit),
-      },
-    );
+    on<_Initialized>(_onInitialized);
+    on<_TitleChanged>(_onTitleChanged);
+    on<_PictureChanged>(_onPictureChanged);
+    on<_DescriptionChanged>(_onDescriptionChanged);
+    on<_CategoriesChanged>(_onCategoriesChanged);
+    on<_Submitted>(_onSubmitted);
   }
 
   final ShoutOutManagementRepositoryInterface _repository;
 
-  void _handleInitialized(ShoutOutType type, Emitter emit) => emit(
-        state.copyWith(
-          shoutOut: state.shoutOut.copyWith(type: type),
-        ),
-      );
+  void _onInitialized(_Initialized event, Emitter emit) => emit(
+    state.copyWith(
+      shoutOut: state.shoutOut.copyWith(type: event.type),
+    ),
+  );
 
-  void _handleTitleChanged(String title, Emitter emit) => emit(
-        state.copyWith(
-          shoutOut: state.shoutOut.copyWith(title: Name(title)),
-        ),
-      );
+  void _onTitleChanged(_TitleChanged event, Emitter emit) => emit(
+    state.copyWith(
+      shoutOut: state.shoutOut.copyWith(title: Name(event.title)),
+    ),
+  );
 
-  void _handlePictureChanged(XFile imageFile, Emitter emit) => emit(
-        state.copyWith(
-          imageFile: some(imageFile),
-        ),
-      );
+  void _onPictureChanged(_PictureChanged event, Emitter emit) => emit(
+    state.copyWith(
+      imageFile: some(event.imageFile),
+    ),
+  );
 
-  void _handleDescriptionChanged(String description, Emitter emit) => emit(
-        state.copyWith(
-          shoutOut: state.shoutOut.copyWith(
-            description: EntityDescription(description),
-          ),
-        ),
-      );
+  void _onDescriptionChanged(_DescriptionChanged event, Emitter emit) => emit(
+    state.copyWith(
+      shoutOut: state.shoutOut.copyWith(
+        description: EntityDescription(event.description),
+      ),
+    ),
+  );
 
-  void _handleCategoriesChanged(Set<Category> categories, Emitter emit) => emit(
-        state.copyWith(
-          shoutOut: state.shoutOut.copyWith(categories: categories),
-        ),
-      );
+  void _onCategoriesChanged(_CategoriesChanged event, Emitter emit) => emit(
+    state.copyWith(
+      shoutOut: state.shoutOut.copyWith(categories: event.categories),
+    ),
+  );
 
-  Future<void> _handleSubmitted(Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,
         failureOrSuccessOption: none(),
       ),
     );
+
     Either<Failure, Unit> failureOrUnit;
-    if (state.shoutOut.isValid && state.imageFile.isSome()) {
+    final canSubmit = state.shoutOut.isValid && state.imageFile.isSome();
+    if (canSubmit) {
       final imageFile = state.imageFile.fold(
         () => null,
         (file) => file,
@@ -98,10 +89,11 @@ class ShoutOutCreationFormBloc
     } else {
       failureOrUnit = left(const Failure.emptyFields());
     }
+
     emit(
       state.copyWith(
         isSubmitting: false,
-        showErrorMessages: true,
+        showErrorMessages: !canSubmit,
         failureOrSuccessOption: optionOf(failureOrUnit),
       ),
     );

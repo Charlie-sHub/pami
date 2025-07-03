@@ -26,30 +26,29 @@ class RegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Registration'),
+    onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+    child: Scaffold(
+      appBar: AppBar(
+        title: const Text('Registration'),
+      ),
+      body: BlocProvider(
+        create: (_) => getIt<RegistrationFormBloc>()
+          ..add(
+            RegistrationFormEvent.initialized(userOption),
           ),
-          body: BlocProvider(
-            create: (_) => getIt<RegistrationFormBloc>()
-              ..add(
-                RegistrationFormEvent.initialized(userOption),
-              ),
-            child: BlocListener<RegistrationFormBloc, RegistrationFormState>(
-              listenWhen: _listenWhen,
-              listener: _listener,
-              child: RegistrationForm(userOption: userOption),
-            ),
-          ),
+        child: BlocListener<RegistrationFormBloc, RegistrationFormState>(
+          listenWhen: _listenWhen,
+          listener: _listener,
+          child: RegistrationForm(userOption: userOption),
         ),
-      );
+      ),
+    ),
+  );
 
   bool _listenWhen(
     RegistrationFormState previous,
     RegistrationFormState current,
-  ) =>
-      previous.failureOrSuccessOption != current.failureOrSuccessOption;
+  ) => previous.failureOrSuccessOption != current.failureOrSuccessOption;
 
   void _listener(BuildContext context, RegistrationFormState state) =>
       state.failureOrSuccessOption.fold(
@@ -78,6 +77,6 @@ class RegistrationPage extends StatelessWidget {
     context.read<AuthenticationBloc>().add(
       const AuthenticationEvent.authenticationCheckRequested(),
     );
-    context.router.replace(const TutorialRoute());
+    context.router.replaceAll([const TutorialRoute()]);
   }
 }

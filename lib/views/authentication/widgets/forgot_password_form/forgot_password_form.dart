@@ -56,12 +56,12 @@ class ForgotPasswordForm extends StatelessWidget {
       current.email.isValid() ||
       !current.email.isValid();
 
-  String _emailValidator(ForgottenPasswordFormState state) =>
+  String? _emailValidator(ForgottenPasswordFormState state) =>
       state.email.value.fold(
         (failure) => switch (failure) {
           InvalidEmail() => 'Invalid email',
           _ => 'Unknown error',
         },
-        (_) => '',
+        (_) => null,
       );
 }

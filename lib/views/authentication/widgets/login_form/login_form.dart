@@ -85,19 +85,19 @@ class LoginForm extends StatelessWidget {
       current.email.isValid() ||
       !current.email.isValid();
 
-  String _passwordValidator(LoginFormState state) => state.password.value.fold(
+  String? _passwordValidator(LoginFormState state) => state.password.value.fold(
         (failure) => switch (failure) {
           EmptyString() => 'Empty password',
           _ => 'Unknown error',
         },
-        (_) => '',
+        (_) => null,
       );
 
-  String _emailValidator(LoginFormState state) => state.email.value.fold(
+  String? _emailValidator(LoginFormState state) => state.email.value.fold(
         (failure) => switch (failure) {
           InvalidEmail() => 'Invalid email',
           _ => 'Unknown error',
         },
-        (_) => '',
+        (_) => null,
       );
 }

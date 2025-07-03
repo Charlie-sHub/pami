@@ -9,7 +9,7 @@ sealed class ConversationsWatcherEvent with _$ConversationsWatcherEvent {
   ) = _WatchStarted;
 
   /// Conversations received event
-  const factory ConversationsWatcherEvent.conversationsReceived(
-    Either<Failure, List<Conversation>> failureOrConversations,
-  ) = _ConversationsReceived;
+  const factory ConversationsWatcherEvent.resultsReceived(
+    Either<Failure, List<Conversation>> result,
+  ) = _ResultsReceived;
 }

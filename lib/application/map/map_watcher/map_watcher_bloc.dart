@@ -10,7 +10,9 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
 
 part 'map_watcher_bloc.freezed.dart';
+
 part 'map_watcher_event.dart';
+
 part 'map_watcher_state.dart';
 
 /// Map watcher bloc
@@ -20,38 +22,32 @@ class MapWatcherBloc extends Bloc<MapWatcherEvent, MapWatcherState> {
   MapWatcherBloc(
     this._repository,
   ) : super(const MapWatcherState.initial()) {
-    on<MapWatcherEvent>(
-      (event, emit) => switch (event) {
-        _WatchStarted(:final settings) => _handleWatchStarted(settings, emit),
-        _ResultsReceived(:final result) => _handleResultsReceived(result, emit),
-      },
-    );
+    on<_WatchStarted>(_onWatchStarted);
+    on<_ResultsReceived>(_onResultsReceived);
   }
 
   final MapRepositoryInterface _repository;
 
   StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
 
-  Future<void> _handleWatchStarted(MapSettings settings, Emitter emit) async {
+  Future<void> _onWatchStarted(_WatchStarted event, Emitter emit) async {
     emit(const MapWatcherState.actionInProgress());
     await _streamSubscription?.cancel();
-    _streamSubscription = _repository.watchShoutOuts(settings).listen(
+    _streamSubscription = _repository
+        .watchShoutOuts(event.settings)
+        .listen(
           (failureOrShoutOuts) => add(
             MapWatcherEvent.resultsReceived(failureOrShoutOuts),
           ),
         );
   }
 
-  void _handleResultsReceived(
-    Either<Failure, Set<ShoutOut>> result,
-    Emitter emit,
-  ) =>
-      emit(
-        result.fold(
-          MapWatcherState.loadFailure,
-          MapWatcherState.loadSuccess,
-        ),
-      );
+  void _onResultsReceived(_ResultsReceived event, Emitter emit) => emit(
+    event.result.fold(
+      MapWatcherState.loadFailure,
+      MapWatcherState.loadSuccess,
+    ),
+  );
 
   @override
   Future<void> close() async {

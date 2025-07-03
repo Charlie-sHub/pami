@@ -58,11 +58,11 @@ void main() {
       );
 
       blocTest<NotificationsWatcherBloc, NotificationsWatcherState>(
-        'emits [loadSuccess] when notificationsReceived is '
+        'emits [loadSuccess] when resultsReceived is '
         'added and result is Right',
         build: () => notificationsWatcherBloc,
         act: (bloc) => bloc.add(
-          NotificationsWatcherEvent.notificationsReceived(
+          NotificationsWatcherEvent.resultsReceived(
             right(validNotifications),
           ),
         ),
@@ -100,11 +100,11 @@ void main() {
       );
 
       blocTest<NotificationsWatcherBloc, NotificationsWatcherState>(
-        'emits [loadFailure] when notificationsReceived is '
+        'emits [loadFailure] when resultsReceived is '
         'added and result is Left',
         build: () => notificationsWatcherBloc,
         act: (bloc) => bloc.add(
-          NotificationsWatcherEvent.notificationsReceived(left(failure)),
+          NotificationsWatcherEvent.resultsReceived(left(failure)),
         ),
         expect: () => [
           const NotificationsWatcherState.loadFailure(failure),

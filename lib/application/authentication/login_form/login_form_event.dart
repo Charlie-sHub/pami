@@ -18,4 +18,7 @@ sealed class LoginFormEvent with _$LoginFormEvent {
 
   /// Logged in via Apple
   const factory LoginFormEvent.loggedInApple() = _LoggedInApple;
+
+  /// Reset third party user
+  const factory LoginFormEvent.resetThirdPartyUser() = _ResetThirdPartyUser;
 }

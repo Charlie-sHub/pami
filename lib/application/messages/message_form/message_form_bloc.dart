@@ -8,7 +8,9 @@ import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/messages/messages_repository_interface.dart';
 
 part 'message_form_bloc.freezed.dart';
+
 part 'message_form_event.dart';
+
 part 'message_form_state.dart';
 
 /// Message form bloc
@@ -18,30 +20,25 @@ class MessageFormBloc extends Bloc<MessageFormEvent, MessageFormState> {
   MessageFormBloc(
     this._repository,
   ) : super(MessageFormState.initial()) {
-    on<MessageFormEvent>(
-      (event, emit) => switch (event) {
-        _MessageChanged(:final message) => _handleMessageChanged(
-            message,
-            emit,
-          ),
-        _Submitted() => _handleSubmitted(emit),
-      },
-    );
+    on<_MessageChanged>(_onMessageChanged);
+    on<_Submitted>(_onSubmitted);
   }
 
   final MessagesRepositoryInterface _repository;
 
-  Future<void> _handleMessageChanged(String message, Emitter emit) async =>
-      emit(
-        state.copyWith(
-          message: state.message.copyWith(
-            content: MessageContent(message),
-          ),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  Future<void> _onMessageChanged(
+    _MessageChanged event,
+    Emitter emit,
+  ) async => emit(
+    state.copyWith(
+      message: state.message.copyWith(
+        content: MessageContent(event.message),
+      ),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  Future<void> _handleSubmitted(Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,
@@ -59,7 +56,7 @@ class MessageFormBloc extends Bloc<MessageFormEvent, MessageFormState> {
     emit(
       state.copyWith(
         isSubmitting: false,
-        showErrorMessages: true,
+        showErrorMessages: !state.message.isValid,
         failureOrSuccessOption: some(failureOrUnit),
       ),
     );

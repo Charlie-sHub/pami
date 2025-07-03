@@ -13,7 +13,9 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
 part 'registration_form_bloc.freezed.dart';
+
 part 'registration_form_event.dart';
+
 part 'registration_form_state.dart';
 
 /// Registration form bloc
@@ -24,142 +26,131 @@ class RegistrationFormBloc
   RegistrationFormBloc(
     this._repository,
   ) : super(RegistrationFormState.initial()) {
-    on<RegistrationFormEvent>(
-      (event, emit) => switch (event) {
-        _Initialized(:final userOption) => _handleInitialized(userOption, emit),
-        _ImageChanged(:final imageFile) => _handleImageChanged(imageFile, emit),
-        _NameChanged(:final name) => _handleNameChanged(name, emit),
-        _UsernameChanged(:final username) => _handleUsernameChanged(
-            username,
-            emit,
-          ),
-        _PasswordChanged(:final password) => _handlePasswordChanged(
-            password,
-            emit,
-          ),
-        _PasswordConfirmationChanged(:final passwordConfirmation) =>
-          _handlePasswordConfirmationChanged(
-            passwordConfirmation,
-            emit,
-          ),
-        _EmailAddressChanged(:final email) => _handleEmailChanged(email, emit),
-        _EmailConfirmationChanged(:final emailConfirmation) =>
-          _handleEmailConfirmationChanged(
-            emailConfirmation,
-            emit,
-          ),
-        _BioChanged(:final bio) => _handleBioChanged(bio, emit),
-        _TappedEULA() => _handleTappedEULA(emit),
-        _Submitted() => _handleSubmitted(emit),
-      },
-    );
+    on<_Initialized>(_onInitialized);
+    on<_ImageChanged>(_onImageChanged);
+    on<_NameChanged>(_onNameChanged);
+    on<_UsernameChanged>(_onUsernameChanged);
+    on<_PasswordChanged>(_onPasswordChanged);
+    on<_PasswordConfirmationChanged>(_onPasswordConfirmationChanged);
+    on<_EmailAddressChanged>(_onEmailChanged);
+    on<_EmailConfirmationChanged>(_onEmailConfirmationChanged);
+    on<_BioChanged>(_onBioChanged);
+    on<_TappedEULA>(_onTappedEULA);
+    on<_Submitted>(_onSubmitted);
   }
 
   final AuthenticationRepositoryInterface _repository;
 
-  void _handleInitialized(Option<User> userOption, Emitter emit) => emit(
-        userOption.fold(
-          () => state.copyWith(initialized: true),
-          (user) => state.copyWith(user: user, initialized: true),
-        ),
-      );
+  void _onInitialized(_Initialized event, Emitter emit) => emit(
+    event.userOption.fold(
+      () => state.copyWith(initialized: true),
+      (user) => state.copyWith(user: user, initialized: true),
+    ),
+  );
 
-  void _handleImageChanged(XFile imageFile, Emitter emit) => emit(
-        state.copyWith(
-          imageFile: some(imageFile),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onImageChanged(_ImageChanged event, Emitter emit) => emit(
+    state.copyWith(
+      imageFile: some(event.imageFile),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleNameChanged(String name, Emitter emit) => emit(
-        state.copyWith(
-          user: state.user.copyWith(name: Name(name)),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onNameChanged(_NameChanged event, Emitter emit) => emit(
+    state.copyWith(
+      user: state.user.copyWith(name: Name(event.name)),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleUsernameChanged(String username, Emitter emit) => emit(
-        state.copyWith(
-          user: state.user.copyWith(username: Name(username)),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onUsernameChanged(_UsernameChanged event, Emitter emit) => emit(
+    state.copyWith(
+      user: state.user.copyWith(username: Name(event.username)),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handlePasswordChanged(String password, Emitter emit) => emit(
-        state.copyWith(
-          password: Password(password),
-          passwordConfirmator: FieldConfirmator(
-            field: password,
-            confirmation: state.passwordToCompare,
-          ),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onPasswordChanged(_PasswordChanged event, Emitter emit) => emit(
+    state.copyWith(
+      password: Password(event.password),
+      passwordConfirmator: FieldConfirmator(
+        field: event.password,
+        confirmation: state.passwordToCompare,
+      ),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handlePasswordConfirmationChanged(String confirmation, Emitter emit) =>
-      emit(
-        state.copyWith(
-          passwordConfirmator: FieldConfirmator(
-            field: state.password.value.fold((_) => '', id),
-            confirmation: confirmation,
-          ),
-          passwordToCompare: confirmation,
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onPasswordConfirmationChanged(
+    _PasswordConfirmationChanged event,
+    Emitter emit,
+  ) => emit(
+    state.copyWith(
+      passwordConfirmator: FieldConfirmator(
+        field: state.password.value.fold((_) => '', id),
+        confirmation: event.passwordConfirmation,
+      ),
+      passwordToCompare: event.passwordConfirmation,
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleEmailChanged(String email, Emitter emit) => emit(
-        state.copyWith(
-          user: state.user.copyWith(email: EmailAddress(email)),
-          emailConfirmator: FieldConfirmator(
-            field: email,
-            confirmation: state.emailToCompare,
-          ),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onEmailChanged(_EmailAddressChanged event, Emitter emit) => emit(
+    state.copyWith(
+      user: state.user.copyWith(email: EmailAddress(event.email)),
+      emailConfirmator: FieldConfirmator(
+        field: event.email,
+        confirmation: state.emailToCompare,
+      ),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleEmailConfirmationChanged(String confirmation, Emitter emit) =>
-      emit(
-        state.copyWith(
-          emailConfirmator: FieldConfirmator(
-            field: state.user.email.value.fold((_) => '', id),
-            confirmation: confirmation,
-          ),
-          emailToCompare: confirmation,
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onEmailConfirmationChanged(
+    _EmailConfirmationChanged event,
+    Emitter emit,
+  ) => emit(
+    state.copyWith(
+      emailConfirmator: FieldConfirmator(
+        field: state.user.email.value.fold((_) => '', id),
+        confirmation: event.emailConfirmation,
+      ),
+      emailToCompare: event.emailConfirmation,
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleBioChanged(String bio, Emitter emit) => emit(
-        state.copyWith(
-          user: state.user.copyWith(bio: EntityDescription(bio)),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onBioChanged(_BioChanged event, Emitter emit) => emit(
+    state.copyWith(
+      user: state.user.copyWith(bio: EntityDescription(event.bio)),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleTappedEULA(Emitter emit) => emit(
-        state.copyWith(
-          acceptedEULA: !state.acceptedEULA,
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onTappedEULA(_, Emitter emit) => emit(
+    state.copyWith(
+      acceptedEULA: !state.acceptedEULA,
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  Future<void> _handleSubmitted(Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,
         failureOrSuccessOption: none(),
       ),
     );
-    Either<Failure, Unit>? failureOrUnit;
-    final canRegister = state.user.isValid &&
+
+    Either<Failure, Unit>? result;
+    final canRegister =
+        state.user.isValid &&
             state.password.isValid() &&
             state.passwordConfirmator.isValid() &&
             state.emailConfirmator.isValid() ||
         state.acceptedEULA && state.imageFile.isSome();
+
     if (canRegister) {
-      failureOrUnit = await _repository.register(
+      result = await _repository.register(
         user: state.user,
         password: state.password,
         imageFile: state.imageFile.getOrElse(
@@ -167,11 +158,12 @@ class RegistrationFormBloc
         ),
       );
     }
+
     emit(
       state.copyWith(
         isSubmitting: false,
-        showErrorMessages: true,
-        failureOrSuccessOption: optionOf(failureOrUnit),
+        showErrorMessages: !canRegister,
+        failureOrSuccessOption: optionOf(result),
       ),
     );
   }

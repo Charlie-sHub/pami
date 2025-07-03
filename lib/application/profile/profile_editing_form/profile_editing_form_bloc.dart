@@ -11,7 +11,9 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
 part 'profile_editing_form_bloc.freezed.dart';
+
 part 'profile_editing_form_event.dart';
+
 part 'profile_editing_form_state.dart';
 
 /// ProfileEditing form bloc
@@ -22,23 +24,13 @@ class ProfileEditingFormBloc
   ProfileEditingFormBloc(
     this._repository,
   ) : super(ProfileEditingFormState.initial()) {
-    on<ProfileEditingFormEvent>(
-      (event, emit) => switch (event) {
-        _Initialized() => _handleInitialized(emit),
-        _ImageChanged(:final imageFile) => _handleImageChanged(imageFile, emit),
-        _NameChanged(:final name) => _handleNameChanged(name, emit),
-        _UsernameChanged(:final username) => _handleUsernameChanged(
-            username,
-            emit,
-          ),
-        _EmailAddressChanged(:final email) => _handleEmailAddressChanged(
-            email,
-            emit,
-          ),
-        _BioChanged(:final bio) => _handleBioChanged(bio, emit),
-        _Submitted() => _handleSubmitted(emit),
-      },
-    );
+    on<_Initialized>(_onInitialized);
+    on<_ImageChanged>(_onImageChanged);
+    on<_NameChanged>(_onNameChanged);
+    on<_UsernameChanged>(_onUsernameChanged);
+    on<_EmailChanged>(_onEmailChanged);
+    on<_BioChanged>(_onBioChanged);
+    on<_Submitted>(_onSubmitted);
   }
 
   final ProfileRepositoryInterface _repository;
@@ -46,7 +38,7 @@ class ProfileEditingFormBloc
   /// Gets the user
   User get user => state.userOption.getOrElse(User.empty);
 
-  Future<void> _handleInitialized(Emitter emit) async {
+  Future<void> _onInitialized(_, Emitter emit) async {
     final failureOrUnit = await _repository.getCurrentUser();
     emit(
       failureOrUnit.fold(
@@ -63,76 +55,79 @@ class ProfileEditingFormBloc
     );
   }
 
-  void _handleImageChanged(XFile imageFile, Emitter emit) => emit(
-        state.copyWith(
-          imageFile: some(imageFile),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onImageChanged(_ImageChanged event, Emitter emit) => emit(
+    state.copyWith(
+      imageFile: some(event.imageFile),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleNameChanged(String name, Emitter emit) => emit(
-        state.copyWith(
-          userOption: some(
-            user.copyWith(
-              name: Name(name),
-            ),
-          ),
-          failureOrSuccessOption: none(),
+  void _onNameChanged(_NameChanged event, Emitter emit) => emit(
+    state.copyWith(
+      userOption: some(
+        user.copyWith(
+          name: Name(event.name),
         ),
-      );
+      ),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleUsernameChanged(String username, Emitter emit) => emit(
-        state.copyWith(
-          userOption: some(
-            user.copyWith(
-              username: Name(username),
-            ),
-          ),
-          failureOrSuccessOption: none(),
+  void _onUsernameChanged(_UsernameChanged event, Emitter emit) => emit(
+    state.copyWith(
+      userOption: some(
+        user.copyWith(
+          username: Name(event.username),
         ),
-      );
+      ),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleEmailAddressChanged(String email, Emitter emit) => emit(
-        state.copyWith(
-          userOption: some(
-            user.copyWith(
-              email: EmailAddress(email),
-            ),
-          ),
-          failureOrSuccessOption: none(),
+  void _onEmailChanged(_EmailChanged event, Emitter emit) => emit(
+    state.copyWith(
+      userOption: some(
+        user.copyWith(
+          email: EmailAddress(event.email),
         ),
-      );
+      ),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handleBioChanged(String bio, Emitter emit) => emit(
-        state.copyWith(
-          userOption: some(
-            user.copyWith(
-              bio: EntityDescription(bio),
-            ),
-          ),
-          failureOrSuccessOption: none(),
+  void _onBioChanged(_BioChanged event, Emitter emit) => emit(
+    state.copyWith(
+      userOption: some(
+        user.copyWith(
+          bio: EntityDescription(event.bio),
         ),
-      );
+      ),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  Future<void> _handleSubmitted(Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,
         failureOrSuccessOption: none(),
       ),
     );
+
     Either<Failure, Unit> failureOrUnit;
-    final canSubmit =
-        user.isValid && (state.imageFile.isSome() || user.avatar.isValid());
+    final hasValidImage = state.imageFile.isSome() || user.avatar.isValid();
+    final canSubmit = user.isValid && hasValidImage;
+
     if (canSubmit) {
       failureOrUnit = await _repository.updateUserProfile(user);
     } else {
       failureOrUnit = left(const Failure.emptyFields());
     }
+
     emit(
       state.copyWith(
         isSubmitting: false,
-        showErrorMessages: true,
+        showErrorMessages: !canSubmit,
         failureOrSuccessOption: optionOf(failureOrUnit),
       ),
     );

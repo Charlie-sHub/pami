@@ -6,7 +6,9 @@ import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/shout_out_management/shout_out_management_repository_interface.dart';
 
 part 'shout_out_deletion_actor_bloc.freezed.dart';
+
 part 'shout_out_deletion_actor_event.dart';
+
 part 'shout_out_deletion_actor_state.dart';
 
 /// Bloc for deleting a shout out.
@@ -17,23 +19,14 @@ class ShoutOutDeletionActorBloc
   ShoutOutDeletionActorBloc(
     this._repository,
   ) : super(const ShoutOutDeletionActorState.initial()) {
-    on<ShoutOutDeletionActorEvent>(
-      (event, emit) => switch (event) {
-        _DeleteRequested(:final shoutOutId) => _handleDeleteRequested(
-            shoutOutId,
-            emit,
-          ),
-      },
-    );
+    on<_DeleteRequested>(_onDeleteRequested);
   }
 
   final ShoutOutManagementRepositoryInterface _repository;
 
-  Future<void> _handleDeleteRequested(UniqueId shoutOutId, Emitter emit) async {
+  Future<void> _onDeleteRequested(_DeleteRequested event, Emitter emit) async {
     emit(const ShoutOutDeletionActorState.actionInProgress());
-    final failureOrSuccess = await _repository.deleteShoutOut(
-      shoutOutId,
-    );
+    final failureOrSuccess = await _repository.deleteShoutOut(event.shoutOutId);
     emit(
       failureOrSuccess.fold(
         ShoutOutDeletionActorState.deletionFailure,

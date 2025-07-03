@@ -6,7 +6,9 @@ import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/transactions/transaction_repository_interface.dart';
 
 part 'karma_vote_actor_bloc.freezed.dart';
+
 part 'karma_vote_actor_event.dart';
+
 part 'karma_vote_actor_state.dart';
 
 /// Bloc for deleting submitting a karma vote
@@ -17,29 +19,16 @@ class KarmaVoteActorBloc
   KarmaVoteActorBloc(
     this._repository,
   ) : super(const KarmaVoteActorState.initial()) {
-    on<KarmaVoteActorEvent>(
-      (event, emit) => switch (event) {
-        _VoteSubmitted(:final shoutOutId, :final isPositive) =>
-          _handleVoteSubmitted(
-            shoutOutId,
-            isPositive,
-            emit,
-          ),
-      },
-    );
+    on<_VoteSubmitted>(_onVoteSubmitted);
   }
 
   final TransactionRepositoryInterface _repository;
 
-  Future<void> _handleVoteSubmitted(
-    UniqueId shoutOutId,
-    bool isPositive,
-    Emitter emit,
-  ) async {
+  Future<void> _onVoteSubmitted(_VoteSubmitted event, Emitter emit) async {
     emit(const KarmaVoteActorState.actionInProgress());
     final failureOrSuccess = await _repository.submitKarmaVote(
-      shoutOutId: shoutOutId,
-      vote: isPositive,
+      shoutOutId: event.shoutOutId,
+      vote: event.isPositive,
     );
     emit(
       failureOrSuccess.fold(

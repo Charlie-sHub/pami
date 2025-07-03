@@ -56,11 +56,11 @@ void main() {
       );
 
       blocTest<MyShoutOutsWatcherBloc, MyShoutOutsWatcherState>(
-        'emits [loadSuccess] when shoutOutsReceived '
+        'emits [loadSuccess] when resultsReceived '
         'is added and result is Right',
         build: () => myShoutOutsWatcherBloc,
         act: (bloc) => bloc.add(
-          MyShoutOutsWatcherEvent.shoutOutsReceived(right(validShoutOuts)),
+          MyShoutOutsWatcherEvent.resultsReceived(right(validShoutOuts)),
         ),
         expect: () => [
           MyShoutOutsWatcherState.loadSuccess(validShoutOuts),
@@ -96,11 +96,11 @@ void main() {
       );
 
       blocTest<MyShoutOutsWatcherBloc, MyShoutOutsWatcherState>(
-        'emits [loadFailure] when shoutOutsReceived '
+        'emits [loadFailure] when resultsReceived '
         'is added and result is Left',
         build: () => myShoutOutsWatcherBloc,
         act: (bloc) => bloc.add(
-          MyShoutOutsWatcherEvent.shoutOutsReceived(left(failure)),
+          MyShoutOutsWatcherEvent.resultsReceived(left(failure)),
         ),
         expect: () => [
           const MyShoutOutsWatcherState.loadFailure(failure),

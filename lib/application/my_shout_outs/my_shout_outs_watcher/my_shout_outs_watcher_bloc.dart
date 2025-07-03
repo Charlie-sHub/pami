@@ -9,7 +9,9 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/my_shout_outs/my_shout_outs_repository_interface.dart';
 
 part 'my_shout_outs_watcher_bloc.freezed.dart';
+
 part 'my_shout_outs_watcher_event.dart';
+
 part 'my_shout_outs_watcher_state.dart';
 
 /// My shout outs watcher bloc
@@ -20,42 +22,32 @@ class MyShoutOutsWatcherBloc
   MyShoutOutsWatcherBloc(
     this._repository,
   ) : super(const MyShoutOutsWatcherState.initial()) {
-    on<MyShoutOutsWatcherEvent>(
-      (event, emit) => switch (event) {
-        _WatchStarted() => _handleWatchStarted(emit),
-        _ShoutOutsReceived(:final failureOrShoutOuts) =>
-          _handleShoutOutsReceived(
-            failureOrShoutOuts,
-            emit,
-          ),
-      },
-    );
+    on<_WatchStarted>(_onWatchStarted);
+    on<_ResultsReceived>(_onResultsReceived);
   }
 
   final MyShoutOutsRepositoryInterface _repository;
   StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
 
-  Future<void> _handleShoutOutsReceived(
-    Either<Failure, Set<ShoutOut>> failureOrShoutOuts,
-    Emitter emit,
-  ) async {
-    emit(
-      failureOrShoutOuts.fold(
-        MyShoutOutsWatcherState.loadFailure,
-        MyShoutOutsWatcherState.loadSuccess,
+  Future<void> _onWatchStarted(_, Emitter emit) async {
+    emit(const MyShoutOutsWatcherState.actionInProgress());
+    await _streamSubscription?.cancel();
+    _streamSubscription = _repository.watchMyShoutOuts().listen(
+      (failureOrShoutOuts) => add(
+        MyShoutOutsWatcherEvent.resultsReceived(failureOrShoutOuts),
       ),
     );
   }
 
-  Future<void> _handleWatchStarted(Emitter emit) async {
-    emit(const MyShoutOutsWatcherState.actionInProgress());
-    await _streamSubscription?.cancel();
-    _streamSubscription = _repository.watchMyShoutOuts().listen(
-          (failureOrShoutOuts) => add(
-            MyShoutOutsWatcherEvent.shoutOutsReceived(failureOrShoutOuts),
-          ),
-        );
-  }
+  Future<void> _onResultsReceived(
+    _ResultsReceived event,
+    Emitter emit,
+  ) async => emit(
+    event.result.fold(
+      MyShoutOutsWatcherState.loadFailure,
+      MyShoutOutsWatcherState.loadSuccess,
+    ),
+  );
 
   @override
   Future<void> close() async {
