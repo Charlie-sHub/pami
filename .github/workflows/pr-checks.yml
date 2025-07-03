@@ -29,8 +29,18 @@ jobs:
         with:
           channel: stable
 
+      - name: Remove stale generated files
+        run: |
+          find . -type f \( -name "*.g.dart" -o -name "*.freezed.dart" -o -name "*.mocks.dart" \) -delete
+
+      - name: Flutter clean
+        run: flutter clean
+
       - name: Install Dependencies
         run: flutter pub get
+
+      - name: Clean runner
+        run: flutter pub run build_runner clean
 
       - name: Run Build Runner
         run: flutter pub run build_runner build --delete-conflicting-outputs

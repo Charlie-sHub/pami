@@ -54,15 +54,15 @@ void main() {
   );
 
   Widget buildWidget({Option<User>? userOption}) => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: BlocProvider<AuthenticationBloc>.value(
-            value: mockAuthBloc,
-            child: RegistrationPage(userOption: userOption ?? none()),
-          ),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: BlocProvider<AuthenticationBloc>.value(
+        value: mockAuthBloc,
+        child: RegistrationPage(userOption: userOption ?? none()),
+      ),
+    ),
+  );
 
   testWidgets(
     'displays RegistrationForm and AppBar with correct title',
@@ -94,7 +94,7 @@ void main() {
           await tester.pump();
 
           // Assert
-          verify(mockRouter.replace(const TutorialRoute())).called(1);
+          verify(mockRouter.replaceAll([const TutorialRoute()])).called(1);
           verify(
             mockAuthBloc.add(
               const AuthenticationEvent.authenticationCheckRequested(),

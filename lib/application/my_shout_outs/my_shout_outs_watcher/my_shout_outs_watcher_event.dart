@@ -7,7 +7,7 @@ sealed class MyShoutOutsWatcherEvent with _$MyShoutOutsWatcherEvent {
   const factory MyShoutOutsWatcherEvent.watchStarted() = _WatchStarted;
 
   /// Shout outs received event
-  const factory MyShoutOutsWatcherEvent.shoutOutsReceived(
-    Either<Failure, Set<ShoutOut>> failureOrShoutOuts,
-  ) = _ShoutOutsReceived;
+  const factory MyShoutOutsWatcherEvent.resultsReceived(
+    Either<Failure, Set<ShoutOut>> result,
+  ) = _ResultsReceived;
 }

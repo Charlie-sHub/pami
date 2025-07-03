@@ -10,7 +10,9 @@ import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/transactions/transaction_repository_interface.dart';
 
 part 'transaction_listener_bloc.freezed.dart';
+
 part 'transaction_listener_event.dart';
+
 part 'transaction_listener_state.dart';
 
 /// Bloc for listening to shout-out updates
@@ -21,31 +23,21 @@ class TransactionListenerBloc
   TransactionListenerBloc(
     this._repository,
   ) : super(const TransactionListenerState.initial()) {
-    on<TransactionListenerEvent>(
-      (event, emit) => switch (event) {
-        _ListenShoutOutStarted(:final shoutOutId) =>
-          _handleListenShoutOutStarted(shoutOutId, emit),
-        _ShoutOutUpdated(:final failureOrTransaction) => _handleShoutOutUpdated(
-            failureOrTransaction,
-            emit,
-          ),
-      },
-    );
+    on<_ListenShoutOutStarted>(_onListenShoutOutStarted);
+    on<_ShoutOutUpdated>(_onShoutOutUpdated);
   }
 
   final TransactionRepositoryInterface _repository;
   StreamSubscription<Either<Failure, Transaction>>? _shoutOutSubscription;
 
-  Future<void> _handleListenShoutOutStarted(
-    UniqueId shoutOutId,
+  Future<void> _onListenShoutOutStarted(
+    _ListenShoutOutStarted event,
     Emitter emit,
   ) async {
     emit(const TransactionListenerState.loadInProgress());
     await _shoutOutSubscription?.cancel();
     _shoutOutSubscription = _repository
-        .watchShoutOutForTransaction(
-          shoutOutId,
-        )
+        .watchShoutOutForTransaction(event.shoutOutId)
         .listen(
           (failureOrTransaction) => add(
             TransactionListenerEvent.shoutOutUpdated(
@@ -55,16 +47,12 @@ class TransactionListenerBloc
         );
   }
 
-  void _handleShoutOutUpdated(
-    Either<Failure, Transaction> result,
-    Emitter emit,
-  ) =>
-      emit(
-        result.fold(
-          TransactionListenerState.loadFailure,
-          TransactionListenerState.loadSuccess,
-        ),
-      );
+  void _onShoutOutUpdated(_ShoutOutUpdated event, Emitter emit) => emit(
+    event.result.fold(
+      TransactionListenerState.loadFailure,
+      TransactionListenerState.loadSuccess,
+    ),
+  );
 
   @override
   Future<void> close() async {

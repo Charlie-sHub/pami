@@ -7,7 +7,9 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 
 part 'forgotten_password_form_bloc.freezed.dart';
+
 part 'forgotten_password_form_event.dart';
+
 part 'forgotten_password_form_state.dart';
 
 /// Forgotten password form bloc
@@ -18,38 +20,36 @@ class ForgottenPasswordFormBloc
   ForgottenPasswordFormBloc(
     this._repository,
   ) : super(ForgottenPasswordFormState.initial()) {
-    on<ForgottenPasswordFormEvent>(
-      (event, emit) => switch (event) {
-        _EmailChanged(:final email) => _handleEmailChanged(email, emit),
-        _Submitted() => _handleSubmitted(emit),
-      },
-    );
+    on<_EmailChanged>(_onEmailChanged);
+    on<_Submitted>(_onSubmitted);
   }
 
   final AuthenticationRepositoryInterface _repository;
 
-  void _handleEmailChanged(String email, Emitter emit) => emit(
-        state.copyWith(
-          email: EmailAddress(email),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onEmailChanged(_EmailChanged event, Emitter emit) => emit(
+    state.copyWith(
+      email: EmailAddress(event.email),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  Future<void> _handleSubmitted(Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,
         failureOrSuccessOption: none(),
       ),
     );
+
     Either<Failure, Unit>? failureOrUnit;
     if (state.email.isValid()) {
       failureOrUnit = await _repository.resetPassword(state.email);
     }
+
     emit(
       state.copyWith(
         isSubmitting: false,
-        showErrorMessages: true,
+        showErrorMessages: !state.email.isValid(),
         failureOrSuccessOption: optionOf(failureOrUnit),
       ),
     );

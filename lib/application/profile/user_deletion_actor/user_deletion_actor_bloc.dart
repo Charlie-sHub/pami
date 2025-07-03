@@ -5,7 +5,9 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
 part 'user_deletion_actor_bloc.freezed.dart';
+
 part 'user_deletion_actor_event.dart';
+
 part 'user_deletion_actor_state.dart';
 
 /// Bloc for deleting a User.
@@ -16,16 +18,12 @@ class UserDeletionActorBloc
   UserDeletionActorBloc(
     this._repository,
   ) : super(const UserDeletionActorState.initial()) {
-    on<UserDeletionActorEvent>(
-      (event, emit) => switch (event) {
-        _DeleteRequested() => _handleDeleteRequested(emit),
-      },
-    );
+    on<_DeleteRequested>(_onDeleteRequested);
   }
 
   final ProfileRepositoryInterface _repository;
 
-  Future<void> _handleDeleteRequested(Emitter emit) async {
+  Future<void> _onDeleteRequested(_, Emitter emit) async {
     emit(const UserDeletionActorState.actionInProgress());
     final failureOrSuccess = await _repository.deleteUser();
     emit(

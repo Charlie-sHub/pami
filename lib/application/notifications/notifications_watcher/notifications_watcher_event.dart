@@ -7,7 +7,7 @@ sealed class NotificationsWatcherEvent with _$NotificationsWatcherEvent {
   const factory NotificationsWatcherEvent.watchStarted() = _WatchStarted;
 
   /// Notifications received event
-  const factory NotificationsWatcherEvent.notificationsReceived(
-    Either<Failure, List<Notification>> failureOrNotifications,
-  ) = _NotificationsReceived;
+  const factory NotificationsWatcherEvent.resultsReceived(
+    Either<Failure, List<Notification>> result,
+  ) = _ResultsReceived;
 }

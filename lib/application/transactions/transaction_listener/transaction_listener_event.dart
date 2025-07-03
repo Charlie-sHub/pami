@@ -10,6 +10,6 @@ sealed class TransactionListenerEvent with _$TransactionListenerEvent {
 
   /// Shout-out updated event (includes transaction data)
   const factory TransactionListenerEvent.shoutOutUpdated(
-    Either<Failure, Transaction> failureOrTransaction,
+    Either<Failure, Transaction> result,
   ) = _ShoutOutUpdated;
 }

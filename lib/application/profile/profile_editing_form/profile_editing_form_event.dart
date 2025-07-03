@@ -27,9 +27,9 @@ sealed class ProfileEditingFormEvent with _$ProfileEditingFormEvent {
   ) = _BioChanged;
 
   /// Email address changed event
-  const factory ProfileEditingFormEvent.emailAddressChanged(
+  const factory ProfileEditingFormEvent.emailChanged(
     String email,
-  ) = _EmailAddressChanged;
+  ) = _EmailChanged;
 
   /// Submit pressed event
   const factory ProfileEditingFormEvent.submitted() = _Submitted;

@@ -18,18 +18,18 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scaffold(
-          body: BlocProvider(
-            create: (_) => getIt<LoginFormBloc>(),
-            child: BlocListener<LoginFormBloc, LoginFormState>(
-              listenWhen: _listenWhen,
-              listener: _listener,
-              child: const LoginForm(),
-            ),
-          ),
+    onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+    child: Scaffold(
+      body: BlocProvider(
+        create: (_) => getIt<LoginFormBloc>(),
+        child: BlocListener<LoginFormBloc, LoginFormState>(
+          listenWhen: _listenWhen,
+          listener: _listener,
+          child: const LoginForm(),
         ),
-      );
+      ),
+    ),
+  );
 
   void _listener(BuildContext context, LoginFormState state) =>
       state.thirdPartyUserOption.fold(
@@ -40,11 +40,16 @@ class LoginPage extends StatelessWidget {
             (_) => _onSuccess(context),
           ),
         ),
-        (thirdPartyUser) => context.router.push(
-          RegistrationRoute(
-            userOption: some(thirdPartyUser),
-          ),
-        ),
+        (thirdPartyUser) {
+          context.read<LoginFormBloc>().add(
+            const LoginFormEvent.resetThirdPartyUser(),
+          );
+          context.router.push(
+            RegistrationRoute(
+              userOption: some(thirdPartyUser),
+            ),
+          );
+        },
       );
 
   bool _listenWhen(LoginFormState previous, LoginFormState current) =>
@@ -67,8 +72,8 @@ class LoginPage extends StatelessWidget {
 
   void _onSuccess(BuildContext context) {
     context.read<AuthenticationBloc>().add(
-          const AuthenticationEvent.authenticationCheckRequested(),
-        );
+      const AuthenticationEvent.authenticationCheckRequested(),
+    );
     context.router.replace(const HomeRoute());
   }
 }

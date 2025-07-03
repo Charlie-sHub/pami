@@ -145,22 +145,22 @@ class RegistrationForm extends StatelessWidget {
         (_) => true,
       );
 
-  String _passwordValidator(RegistrationFormState state) =>
+  String? _passwordValidator(RegistrationFormState state) =>
       state.password.value.fold(
         (failure) => switch (failure) {
           EmptyString() => 'Empty password',
           InvalidPassword() => 'Invalid password',
           _ => 'Unknown error',
         },
-        (_) => '',
+        (_) => null,
       );
 
-  String _emailValidator(RegistrationFormState state) =>
+  String? _emailValidator(RegistrationFormState state) =>
       state.user.email.value.fold(
         (failure) => switch (failure) {
           InvalidEmail() => 'Invalid email',
           _ => 'Unknown error',
         },
-        (_) => '',
+        (_) => null,
       );
 }

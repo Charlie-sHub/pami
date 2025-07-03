@@ -9,7 +9,9 @@ import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
 part 'login_form_bloc.freezed.dart';
+
 part 'login_form_event.dart';
+
 part 'login_form_state.dart';
 
 /// Login form bloc
@@ -19,64 +21,67 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   LoginFormBloc(
     this._repository,
   ) : super(LoginFormState.initial()) {
-    on<LoginFormEvent>(
-      (event, emit) => switch (event) {
-        _EmailChanged(:final email) => _handleEmailChanged(email, emit),
-        _PasswordChanged(:final password) => _handlePasswordChanged(
-            password,
-            emit,
-          ),
-        _LoggedIn() => _handleLoggedIn(emit),
-        _LoggedInGoogle() => _performActionOnThirdPartyLogin(
-            forwardedCall: _repository.logInGoogle,
-            emit: emit,
-          ),
-        _LoggedInApple() => _performActionOnThirdPartyLogin(
-            forwardedCall: _repository.logInApple,
-            emit: emit,
-          ),
-      },
-    );
+    on<_EmailChanged>(_onEmailChanged);
+    on<_PasswordChanged>(_onPasswordChanged);
+    on<_LoggedIn>(_onLoggedIn);
+    on<_LoggedInGoogle>(_onLoggedInGoogle);
+    on<_LoggedInApple>(_onLoggedInApple);
+    on<_ResetThirdPartyUser>(_onResetThirdPartyUser);
   }
 
   final AuthenticationRepositoryInterface _repository;
 
-  void _handleEmailChanged(String emailString, Emitter emit) => emit(
-        state.copyWith(
-          email: EmailAddress(emailString),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onEmailChanged(_EmailChanged event, Emitter emit) => emit(
+    state.copyWith(
+      email: EmailAddress(event.email),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  void _handlePasswordChanged(String passwordString, Emitter emit) => emit(
-        state.copyWith(
-          password: Password(passwordString),
-          failureOrSuccessOption: none(),
-        ),
-      );
+  void _onPasswordChanged(_PasswordChanged event, Emitter emit) => emit(
+    state.copyWith(
+      password: Password(event.password),
+      failureOrSuccessOption: none(),
+    ),
+  );
 
-  Future<void> _handleLoggedIn(Emitter emit) async {
+  Future<void> _onLoggedIn(_, Emitter emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,
         failureOrSuccessOption: none(),
       ),
     );
+
     Either<Failure, Unit>? failureOrUnit;
-    if (state.email.isValid() && state.password.isValid()) {
+    final canSubmit = state.email.isValid() && state.password.isValid();
+    if (canSubmit) {
       failureOrUnit = await _repository.logIn(
         email: state.email,
         password: state.password,
       );
     }
+
     emit(
       state.copyWith(
         isSubmitting: false,
-        showErrorMessages: true,
+        showErrorMessages: !canSubmit,
         failureOrSuccessOption: optionOf(failureOrUnit),
       ),
     );
   }
+
+  Future<void> _onLoggedInGoogle(_, Emitter emit) async =>
+      _performActionOnThirdPartyLogin(
+        forwardedCall: _repository.logInGoogle,
+        emit: emit,
+      );
+
+  Future<void> _onLoggedInApple(_, Emitter emit) async =>
+      _performActionOnThirdPartyLogin(
+        forwardedCall: _repository.logInApple,
+        emit: emit,
+      );
 
   Future<void> _performActionOnThirdPartyLogin({
     required Future<Either<Failure, Option<User>>> Function() forwardedCall,
@@ -105,4 +110,10 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       ),
     );
   }
+
+  void _onResetThirdPartyUser(_, Emitter emit) => emit(
+    state.copyWith(
+      thirdPartyUserOption: none(),
+    ),
+  );
 }

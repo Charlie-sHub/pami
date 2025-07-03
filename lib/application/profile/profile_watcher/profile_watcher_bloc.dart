@@ -6,7 +6,9 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
 part 'profile_watcher_bloc.freezed.dart';
+
 part 'profile_watcher_event.dart';
+
 part 'profile_watcher_state.dart';
 
 /// Profile outs watcher bloc
@@ -17,16 +19,12 @@ class ProfileWatcherBloc
   ProfileWatcherBloc(
     this._repository,
   ) : super(const ProfileWatcherState.initial()) {
-    on<ProfileWatcherEvent>(
-      (event, emit) => switch (event) {
-        _FetchProfile() => _handleFetchProfile(emit),
-      },
-    );
+    on<_FetchProfile>(_onFetchProfile);
   }
 
   final ProfileRepositoryInterface _repository;
 
-  Future<void> _handleFetchProfile(Emitter emit) async {
+  Future<void> _onFetchProfile(_, Emitter emit) async {
     emit(const ProfileWatcherState.loadInProgress());
     final result = await _repository.getCurrentUser();
     emit(

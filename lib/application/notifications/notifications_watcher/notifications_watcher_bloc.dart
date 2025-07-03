@@ -22,43 +22,29 @@ class NotificationsWatcherBloc
   NotificationsWatcherBloc(
     this._repository,
   ) : super(const NotificationsWatcherState.initial()) {
-    on<NotificationsWatcherEvent>(
-      (event, emit) => switch (event) {
-        _WatchStarted() => _handleWatchStarted(emit),
-        _NotificationsReceived(:final failureOrNotifications) =>
-          _handleNotificationsReceived(
-            failureOrNotifications,
-            emit,
-          ),
-      },
-    );
+    on<_WatchStarted>(_onWatchStarted);
+    on<_ResultsReceived>(_onResultsReceived);
   }
 
   final NotificationRepositoryInterface _repository;
   StreamSubscription<Either<Failure, List<Notification>>>? _streamSubscription;
 
-  Future<void> _handleWatchStarted(Emitter emit) async {
+  Future<void> _onWatchStarted(_, Emitter emit) async {
     emit(const NotificationsWatcherState.loadInProgress());
     await _streamSubscription?.cancel();
     _streamSubscription = _repository.watchNotifications().listen(
-          (failureOrNotifications) => add(
-            NotificationsWatcherEvent.notificationsReceived(
-              failureOrNotifications,
-            ),
-          ),
-        );
+      (failureOrNotifications) => add(
+        NotificationsWatcherEvent.resultsReceived(failureOrNotifications),
+      ),
+    );
   }
 
-  void _handleNotificationsReceived(
-    Either<Failure, List<Notification>> result,
-    Emitter emit,
-  ) =>
-      emit(
-        result.fold(
-          NotificationsWatcherState.loadFailure,
-          NotificationsWatcherState.loadSuccess,
-        ),
-      );
+  void _onResultsReceived(_ResultsReceived event, Emitter emit) => emit(
+    event.result.fold(
+      NotificationsWatcherState.loadFailure,
+      NotificationsWatcherState.loadSuccess,
+    ),
+  );
 
   @override
   Future<void> close() async {

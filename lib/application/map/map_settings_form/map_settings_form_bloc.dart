@@ -7,7 +7,9 @@ import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/map_radius.dart';
 
 part 'map_settings_form_bloc.freezed.dart';
+
 part 'map_settings_form_event.dart';
+
 part 'map_settings_form_state.dart';
 
 /// Map settings bloc
@@ -16,44 +18,37 @@ class MapSettingsFormBloc
     extends Bloc<MapSettingsFormEvent, MapSettingsFormState> {
   /// Default constructor
   MapSettingsFormBloc() : super(MapSettingsFormState.initial()) {
-    on<MapSettingsFormEvent>(
-      (event, emit) => switch (event) {
-        _RadiusChanged(:final radius) => _handleRadiusChanged(radius, emit),
-        _TypeChanged(:final type) => _handleTypeChanged(type, emit),
-        _CategoriesChanged(:final categories) => _handleCategoriesChanged(
-            categories,
-            emit,
-          ),
-        _ResetSettings() => _handleResetSettings(emit),
-      },
-    );
+    on<_RadiusChanged>(_onRadiusChanged);
+    on<_TypeChanged>(_onTypeChanged);
+    on<_CategoriesChanged>(_onCategoriesChanged);
+    on<_ResetSettings>(_onResetSettings);
   }
 
-  void _handleRadiusChanged(double radius, Emitter emit) => emit(
-        state.copyWith(
-          settings: state.settings.copyWith(
-            radius: MapRadius(radius),
-          ),
-        ),
-      );
+  void _onRadiusChanged(_RadiusChanged event, Emitter emit) => emit(
+    state.copyWith(
+      settings: state.settings.copyWith(
+        radius: MapRadius(event.radius),
+      ),
+    ),
+  );
 
-  void _handleTypeChanged(ShoutOutType type, Emitter emit) => emit(
-        state.copyWith(
-          settings: state.settings.copyWith(
-            type: type,
-          ),
-        ),
-      );
+  void _onTypeChanged(_TypeChanged event, Emitter emit) => emit(
+    state.copyWith(
+      settings: state.settings.copyWith(
+        type: event.type,
+      ),
+    ),
+  );
 
-  void _handleCategoriesChanged(Set<Category> categories, Emitter emit) => emit(
-        state.copyWith(
-          settings: state.settings.copyWith(
-            categories: categories,
-          ),
-        ),
-      );
+  void _onCategoriesChanged(_CategoriesChanged event, Emitter emit) => emit(
+    state.copyWith(
+      settings: state.settings.copyWith(
+        categories: event.categories,
+      ),
+    ),
+  );
 
-  void _handleResetSettings(Emitter emit) => emit(
-        MapSettingsFormState.initial(),
-      );
+  void _onResetSettings(_, Emitter emit) => emit(
+    MapSettingsFormState.initial(),
+  );
 }

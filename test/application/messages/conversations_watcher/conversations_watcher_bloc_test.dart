@@ -60,11 +60,11 @@ void main() {
       );
 
       blocTest<ConversationsWatcherBloc, ConversationsWatcherState>(
-        'emits [loadSuccess] when conversationsReceived '
+        'emits [loadSuccess] when resultsReceived '
         'is added and result is Right',
         build: () => conversationsWatcherBloc,
         act: (bloc) => bloc.add(
-          ConversationsWatcherEvent.conversationsReceived(
+          ConversationsWatcherEvent.resultsReceived(
             right(validConversations),
           ),
         ),
@@ -102,11 +102,11 @@ void main() {
       );
 
       blocTest<ConversationsWatcherBloc, ConversationsWatcherState>(
-        'emits [loadFailure] when conversationsReceived '
+        'emits [loadFailure] when resultsReceived '
         'is added and result is Left',
         build: () => conversationsWatcherBloc,
         act: (bloc) => bloc.add(
-          ConversationsWatcherEvent.conversationsReceived(left(failure)),
+          ConversationsWatcherEvent.resultsReceived(left(failure)),
         ),
         expect: () => [
           const ConversationsWatcherState.loadFailure(failure),
