@@ -19,22 +19,15 @@ class InterestedShoutOutsActorBloc
   InterestedShoutOutsActorBloc(
     this._repository,
   ) : super(const InterestedShoutOutsActorState.initial()) {
-    on<InterestedShoutOutsActorEvent>(
-      (event, emit) => switch (event) {
-        _AddToInterested(:final shoutOutId) => _handleAddToInterested(
-            shoutOutId,
-            emit,
-          ),
-      },
-    );
+    on<_AddToInterested>(_onAddToInterested);
   }
 
   final InterestedShoutOutsRepositoryInterface _repository;
 
-  Future<void> _handleAddToInterested(UniqueId shoutOutId, Emitter emit) async {
+  Future<void> _onAddToInterested(_AddToInterested event, Emitter emit) async {
     emit(const InterestedShoutOutsActorState.actionInProgress());
     final failureOrSuccess = await _repository.addInterestedShoutOut(
-      shoutOutId,
+      event.shoutOutId,
     );
     emit(
       failureOrSuccess.fold(

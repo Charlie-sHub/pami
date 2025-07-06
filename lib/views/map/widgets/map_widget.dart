@@ -29,7 +29,11 @@ class MapWidget extends StatelessWidget {
           myLocationEnabled: true,
           mapToolbarEnabled: false,
           zoomControlsEnabled: false,
-          markers: _mapToMarker(shoutOuts, context),
+          markers: _mapToMarker(
+            shoutOuts,
+            state.bitmapIcons,
+            context,
+          ),
           onCameraMove: (position) => _onMoved(
             context.read<MapControllerBloc>(),
             position,
@@ -45,47 +49,49 @@ class MapWidget extends StatelessWidget {
         ),
       );
 
-  Set<Marker> _mapToMarker(Set<ShoutOut> shoutOuts, BuildContext context) {
-    final markers = <Marker>{};
-    for (final shoutOut in shoutOuts) {
-      markers.add(
-        Marker(
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueGreen,
-          ),
-          markerId: MarkerId(shoutOut.id.toString()),
-          position: LatLng(
-            shoutOut.coordinates.latitude.getOrCrash(),
-            shoutOut.coordinates.longitude.getOrCrash(),
-          ),
-          infoWindow: InfoWindow(
-            title: shoutOut.title.getOrCrash(),
-            snippet: shoutOut.description.getOrCrash(),
-          ),
-          onTap: () {
-            showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              useRootNavigator: true,
-              builder: (_) => BlocProvider(
-                create: (context) => getIt<InterestedShoutOutsActorBloc>(),
-                child: ShoutOutModal(shoutOut: shoutOut),
-              ),
-            );
-          },
+  Set<Marker> _mapToMarker(
+    Set<ShoutOut> shoutOuts,
+    Map<String, BitmapDescriptor> bitmapIcons,
+    BuildContext context,
+  ) {
+    final markers = shoutOuts.map(
+      (shoutOut) => Marker(
+        icon:
+            bitmapIcons[shoutOut.categories.first.name] ??
+            BitmapDescriptor.defaultMarker,
+        markerId: MarkerId(shoutOut.id.toString()),
+        position: LatLng(
+          shoutOut.coordinates.latitude.getOrCrash(),
+          shoutOut.coordinates.longitude.getOrCrash(),
         ),
-      );
-    }
-    return markers;
+        infoWindow: InfoWindow(
+          title: shoutOut.title.getOrCrash(),
+          snippet: shoutOut.description.getOrCrash(),
+        ),
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Colors.transparent,
+            useRootNavigator: true,
+            builder: (_) => BlocProvider(
+              create: (context) => getIt<InterestedShoutOutsActorBloc>(),
+              child: ShoutOutModal(shoutOut: shoutOut),
+            ),
+          );
+        },
+      ),
+    );
+
+    return markers.toSet();
   }
 
   void _onMoved(MapControllerBloc bloc, CameraPosition position) => bloc.add(
-        MapControllerEvent.cameraPositionChanged(
-          coordinates: Coordinates(
-            latitude: Latitude(position.target.latitude),
-            longitude: Longitude(position.target.longitude),
-          ),
-          zoom: position.zoom,
-        ),
-      );
+    MapControllerEvent.cameraPositionChanged(
+      coordinates: Coordinates(
+        latitude: Latitude(position.target.latitude),
+        longitude: Longitude(position.target.longitude),
+      ),
+      zoom: position.zoom,
+    ),
+  );
 }

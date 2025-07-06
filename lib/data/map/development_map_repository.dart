@@ -6,6 +6,7 @@ import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
@@ -49,6 +50,7 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
       getValidShoutOut().copyWith(
         id: UniqueId(),
         title: Name('Ticket to the movies'),
+        categories: {Category.entertainment},
         description: EntityDescription("I like movies but i can't now"),
         coordinates: Coordinates(
           latitude: Latitude(43.26522),
@@ -58,6 +60,7 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
       getValidShoutOut().copyWith(
         id: UniqueId(),
         title: Name('Need help with something'),
+        categories: {Category.volunteering},
         description: EntityDescription('I need help with the thing'),
         type: ShoutOutType.request,
         coordinates: Coordinates(
