@@ -47,6 +47,7 @@ void main() {
           MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               type: validType,
+              radius: MapRadius(validRadius),
             ),
           ),
         ],
@@ -63,6 +64,7 @@ void main() {
           MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               categories: validCategories,
+              radius: MapRadius(validRadius),
             ),
           ),
         ],

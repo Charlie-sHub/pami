@@ -76,5 +76,5 @@ enum Category {
   music,
 
   /// Offers or requests related to sports equipment or gear.
-  sports
+  sports,
 }
