@@ -24,7 +24,7 @@ class MapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<MapControllerBloc, MapControllerState>(
-        builder: (context, state) => GoogleMap(
+        builder: (context, state) => state.initialized ? GoogleMap(
           mapType: MapType.hybrid,
           myLocationEnabled: true,
           mapToolbarEnabled: false,
@@ -46,44 +46,42 @@ class MapWidget extends StatelessWidget {
             zoom: state.zoom,
             tilt: 45,
           ),
-        ),
+        ) : const CircularProgressIndicator(),
       );
 
   Set<Marker> _mapToMarker(
     Set<ShoutOut> shoutOuts,
-    Map<String, BitmapDescriptor> bitmapIcons,
+    Map<String, BitmapDescriptor> icons,
     BuildContext context,
-  ) {
-    final markers = shoutOuts.map(
-      (shoutOut) => Marker(
-        icon:
-            bitmapIcons[shoutOut.categories.first.name] ??
-            BitmapDescriptor.defaultMarker,
-        markerId: MarkerId(shoutOut.id.toString()),
-        position: LatLng(
-          shoutOut.coordinates.latitude.getOrCrash(),
-          shoutOut.coordinates.longitude.getOrCrash(),
+  ) => shoutOuts
+      .map(
+        (shoutOut) => Marker(
+          icon:
+              icons[shoutOut.categories.first.name] ??
+              BitmapDescriptor.defaultMarker,
+          markerId: MarkerId(shoutOut.id.toString()),
+          position: LatLng(
+            shoutOut.coordinates.latitude.getOrCrash(),
+            shoutOut.coordinates.longitude.getOrCrash(),
+          ),
+          infoWindow: InfoWindow(
+            title: shoutOut.title.getOrCrash(),
+            snippet: shoutOut.description.getOrCrash(),
+          ),
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              useRootNavigator: true,
+              builder: (_) => BlocProvider(
+                create: (context) => getIt<InterestedShoutOutsActorBloc>(),
+                child: ShoutOutModal(shoutOut: shoutOut),
+              ),
+            );
+          },
         ),
-        infoWindow: InfoWindow(
-          title: shoutOut.title.getOrCrash(),
-          snippet: shoutOut.description.getOrCrash(),
-        ),
-        onTap: () {
-          showModalBottomSheet(
-            context: context,
-            backgroundColor: Colors.transparent,
-            useRootNavigator: true,
-            builder: (_) => BlocProvider(
-              create: (context) => getIt<InterestedShoutOutsActorBloc>(),
-              child: ShoutOutModal(shoutOut: shoutOut),
-            ),
-          );
-        },
-      ),
-    );
-
-    return markers.toSet();
-  }
+      )
+      .toSet();
 
   void _onMoved(MapControllerBloc bloc, CameraPosition position) => bloc.add(
     MapControllerEvent.cameraPositionChanged(

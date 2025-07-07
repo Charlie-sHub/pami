@@ -51,14 +51,13 @@ class MapControllerBloc extends Bloc<MapControllerEvent, MapControllerState> {
     ).then(Map.fromEntries);
     final bitmapIcons = await bitmapIconsFuture;
 
-    // TODO: Fix why the coords are always 0 0 to start with
-
     emit(
       initialLocation.fold(
         (_) => state,
         (coordinates) => state.copyWith(
           coordinates: coordinates,
           bitmapIcons: bitmapIcons,
+          initialized: true,
         ),
       ),
     );
