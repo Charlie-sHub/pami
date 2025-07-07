@@ -37,7 +37,7 @@ class MapView extends StatelessWidget {
           listener: _listener,
           child: BlocBuilder<MapWatcherBloc, MapWatcherState>(
             builder: (builderContext, state) {
-              const space = 20.0;
+              const space = kBottomNavigationBarHeight;
               return Stack(
                 children: [
                   MapWidget(
@@ -61,8 +61,8 @@ class MapView extends StatelessWidget {
                     _ => const SizedBox.shrink(),
                   },
                   const Positioned(
-                    bottom: space * 3,
-                    right: space,
+                    bottom: space * 1.6,
+                    right: 10,
                     child: MapSettingsButton(),
                   ),
                 ],

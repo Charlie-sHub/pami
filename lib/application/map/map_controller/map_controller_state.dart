@@ -9,13 +9,15 @@ sealed class MapControllerState with _$MapControllerState {
     required double zoom,
     required bool locationPermissionGranted,
     required Map<String, BitmapDescriptor> bitmapIcons,
+    required bool initialized,
   }) = _MapControllerState;
 
   /// Initial state
   factory MapControllerState.initial() => MapControllerState(
     coordinates: Coordinates.empty(),
-    zoom: 10,
+    zoom: 15,
     locationPermissionGranted: false,
     bitmapIcons: const {},
+    initialized: false,
   );
 }

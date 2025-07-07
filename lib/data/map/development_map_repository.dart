@@ -68,21 +68,75 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
           longitude: Longitude(-2.95429),
         ),
       ),
+      getValidShoutOut().copyWith(
+        id: UniqueId(),
+        title: Name('Translator please'),
+        categories: {Category.language},
+        description: EntityDescription('I need help with the thing'),
+        type: ShoutOutType.request,
+        coordinates: Coordinates(
+          latitude: Latitude(43.256242943324054),
+          longitude: Longitude(-2.9457108499359053),
+        ),
+      ),
+      getValidShoutOut().copyWith(
+        id: UniqueId(),
+        title: Name('I feel sick'),
+        categories: {Category.health},
+        description: EntityDescription('I need help with the thing'),
+        type: ShoutOutType.request,
+        coordinates: Coordinates(
+          latitude: Latitude(43.26298585489555),
+          longitude: Longitude(-2.9437796594606183),
+        ),
+      ),
+      getValidShoutOut().copyWith(
+        id: UniqueId(),
+        title: Name('I can help you with your garden'),
+        categories: {Category.gardening},
+        description: EntityDescription('I need help with the thing'),
+        type: ShoutOutType.offer,
+        coordinates: Coordinates(
+          latitude: Latitude(43.25514900544644),
+          longitude: Longitude(-2.9519335748716444),
+        ),
+      ),
+      getValidShoutOut().copyWith(
+        id: UniqueId(),
+        title: Name('City tour'),
+        categories: {Category.travel},
+        description: EntityDescription('I need help with the thing'),
+        type: ShoutOutType.offer,
+        coordinates: Coordinates(
+          latitude: Latitude(43.26302226333568),
+          longitude: Longitude(-2.934839775248905),
+        ),
+      ),
     };
 
     _logger.d(
       'Returning mock shout outs: ${shoutOuts.map((shoutOut) => shoutOut.id)}',
     );
-    return Stream.value(right(shoutOuts));
+
+    // Leaving the radius check out of this dummy data repository
+    final filteredShoutOuts = shoutOuts.where(
+      (shoutOut) =>
+          settings.categories.containsAll(shoutOut.categories) &&
+          settings.type == shoutOut.type,
+    );
+
+    return Stream.value(
+      right(filteredShoutOuts.toSet()),
+    );
   }
 
   @override
   Future<Either<Failure, Coordinates>> getCurrentLocation() async => right(
-        getValidCoordinates(),
-      );
+    getValidCoordinates(),
+  );
 
   @override
   Stream<Either<Failure, Coordinates>> getUserLocationStream() => Stream.value(
-        right(getValidCoordinates()),
-      );
+    right(getValidCoordinates()),
+  );
 }
