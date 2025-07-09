@@ -29,7 +29,7 @@ class InterestedShoutOutsWatcherBloc
 
   final InterestedShoutOutsRepositoryInterface _repository;
 
-  StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
+  StreamSubscription<Either<Failure, List<ShoutOut>>>? _streamSubscription;
 
   Future<void> _onWatchStarted(_, Emitter emit) async {
     emit(const InterestedShoutOutsWatcherState.actionInProgress());

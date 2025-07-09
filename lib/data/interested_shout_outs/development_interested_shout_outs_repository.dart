@@ -23,10 +23,10 @@ class DevelopmentInterestedShoutOutsRepository
   final Logger _logger;
 
   @override
-  Stream<Either<Failure, Set<ShoutOut>>> watchInterestedShoutOuts() {
+  Stream<Either<Failure, List<ShoutOut>>> watchInterestedShoutOuts() {
     _logger.d('Watching interested shout outs...');
 
-    final shoutOuts = {
+    final shoutOuts = [
       getValidShoutOut().copyWith(
         id: UniqueId(),
         title: Name('Shout Out 1'),
@@ -44,7 +44,7 @@ class DevelopmentInterestedShoutOutsRepository
         description: EntityDescription('Description 3'),
         type: ShoutOutType.request,
       ),
-    };
+    ];
 
     _logger.d(
       'Returning mock shout outs: ${shoutOuts.map((shoutOut) => shoutOut.id)}',
