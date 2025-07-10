@@ -28,6 +28,7 @@ void main() {
 
   setUp(
     () {
+      TestWidgetsFlutterBinding.ensureInitialized();
       mockNavigationBloc = MockHomeNavigationActorBloc();
       mockNotificationsBloc = MockNotificationsWatcherBloc();
       getIt
