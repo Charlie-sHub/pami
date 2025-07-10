@@ -8,6 +8,7 @@ import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 import 'package:pami/injection.dart';
+import 'package:pami/views/core/misc/bitmap_icon_loader.dart';
 import 'package:pami/views/map/widgets/shout_out_modal.dart';
 
 /// Google map widget
@@ -24,72 +25,90 @@ class MapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<MapControllerBloc, MapControllerState>(
-        builder: (context, state) => state.initialized ? GoogleMap(
-          mapType: MapType.hybrid,
-          myLocationEnabled: true,
-          mapToolbarEnabled: false,
-          zoomControlsEnabled: false,
-          markers: _mapToMarker(
-            shoutOuts,
-            state.bitmapIcons,
-            context,
-          ),
-          onCameraMove: (position) => _onMoved(
-            context.read<MapControllerBloc>(),
-            position,
-          ),
-          initialCameraPosition: CameraPosition(
-            target: LatLng(
-              state.coordinates.latitude.getOrCrash(),
-              state.coordinates.longitude.getOrCrash(),
-            ),
-            zoom: state.zoom,
-            tilt: 45,
-          ),
-        ) : const CircularProgressIndicator(),
+        builder: (context, state) {
+          if (!state.initialized) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return FutureBuilder<Map<String, BitmapDescriptor>>(
+              future: getIt<BitmapIconLoader>().loadAll(),
+              builder: (_, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  return GoogleMap(
+                    mapType: MapType.hybrid,
+                    myLocationEnabled: true,
+                    mapToolbarEnabled: false,
+                    zoomControlsEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        state.coordinates.latitude.getOrCrash(),
+                        state.coordinates.longitude.getOrCrash(),
+                      ),
+                      zoom: state.zoom,
+                      tilt: 45,
+                    ),
+                    markers: _mapToMarker(
+                      shoutOuts,
+                      snapshot.data!,
+                      context,
+                    ),
+                    onCameraMove: (position) => _onMoved(
+                      context.read<MapControllerBloc>(),
+                      position,
+                    ),
+                  );
+                }
+              },
+            );
+          }
+        },
       );
 
   Set<Marker> _mapToMarker(
     Set<ShoutOut> shoutOuts,
     Map<String, BitmapDescriptor> icons,
     BuildContext context,
-  ) => shoutOuts
-      .map(
-        (shoutOut) => Marker(
-          icon:
-              icons[shoutOut.categories.first.name] ??
-              BitmapDescriptor.defaultMarker,
-          markerId: MarkerId(shoutOut.id.toString()),
-          position: LatLng(
-            shoutOut.coordinates.latitude.getOrCrash(),
-            shoutOut.coordinates.longitude.getOrCrash(),
-          ),
-          infoWindow: InfoWindow(
-            title: shoutOut.title.getOrCrash(),
-            snippet: shoutOut.description.getOrCrash(),
-          ),
-          onTap: () {
-            showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              useRootNavigator: true,
-              builder: (_) => BlocProvider(
-                create: (context) => getIt<InterestedShoutOutsActorBloc>(),
-                child: ShoutOutModal(shoutOut: shoutOut),
-              ),
-            );
-          },
+  ) => shoutOuts.map(
+    (shout) {
+      final key = shout.categories.first.name;
+      return Marker(
+        markerId: MarkerId(shout.id.toString()),
+        position: LatLng(
+          shout.coordinates.latitude.getOrCrash(),
+          shout.coordinates.longitude.getOrCrash(),
         ),
-      )
-      .toSet();
+        icon: icons[key] ?? BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(
+          title: shout.title.getOrCrash(),
+          snippet: shout.description.getOrCrash(),
+        ),
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Colors.transparent,
+            useRootNavigator: true,
+            builder: (_) => BlocProvider(
+              create: (ctx) => getIt<InterestedShoutOutsActorBloc>(),
+              child: ShoutOutModal(shoutOut: shout),
+            ),
+          );
+        },
+      );
+    },
+  ).toSet();
 
-  void _onMoved(MapControllerBloc bloc, CameraPosition position) => bloc.add(
-    MapControllerEvent.cameraPositionChanged(
-      coordinates: Coordinates(
-        latitude: Latitude(position.target.latitude),
-        longitude: Longitude(position.target.longitude),
+  void _onMoved(MapControllerBloc bloc, CameraPosition position) {
+    bloc.add(
+      MapControllerEvent.cameraPositionChanged(
+        coordinates: Coordinates(
+          latitude: Latitude(position.target.latitude),
+          longitude: Longitude(position.target.longitude),
+        ),
+        zoom: position.zoom,
       ),
-      zoom: position.zoom,
-    ),
-  );
+    );
+  }
 }

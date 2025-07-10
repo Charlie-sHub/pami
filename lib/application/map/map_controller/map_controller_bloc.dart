@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/painting.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/failures/failure.dart';
-import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -36,27 +34,12 @@ class MapControllerBloc extends Bloc<MapControllerEvent, MapControllerState> {
 
   Future<void> _onInitialized(_, Emitter<MapControllerState> emit) async {
     final initialLocation = await _repository.getCurrentLocation();
-    final bitmapIconsFuture = Future.wait(
-      Category.values.map(
-        (category) async {
-          final asset = 'assets/images/markers/${category.name}.png';
-          final icon = await BitmapDescriptor.asset(
-            ImageConfiguration.empty,
-            imagePixelRatio: 5,
-            asset,
-          );
-          return MapEntry(category.name, icon);
-        },
-      ),
-    ).then(Map.fromEntries);
-    final bitmapIcons = await bitmapIconsFuture;
 
     emit(
       initialLocation.fold(
         (_) => state,
         (coordinates) => state.copyWith(
           coordinates: coordinates,
-          bitmapIcons: bitmapIcons,
           initialized: true,
         ),
       ),

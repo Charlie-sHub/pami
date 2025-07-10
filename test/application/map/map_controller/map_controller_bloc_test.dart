@@ -26,8 +26,11 @@ void main() {
 
   setUp(
     () {
+      TestWidgetsFlutterBinding.ensureInitialized();
       mockMapRepository = MockMapRepositoryInterface();
-      mapControllerBloc = MapControllerBloc(mockMapRepository);
+      mapControllerBloc = MapControllerBloc(
+        mockMapRepository
+      );
     },
   );
 
@@ -53,6 +56,7 @@ void main() {
         expect: () => [
           MapControllerState.initial().copyWith(
             coordinates: validCoordinates,
+            initialized: true,
           ),
         ],
       );
@@ -76,9 +80,11 @@ void main() {
         expect: () => [
           MapControllerState.initial().copyWith(
             coordinates: validCoordinates,
+            initialized: true,
           ),
           MapControllerState.initial().copyWith(
             coordinates: newCoordinates,
+            initialized: true,
           ),
         ],
       );
@@ -151,6 +157,7 @@ void main() {
         expect: () => [
           MapControllerState.initial().copyWith(
             coordinates: validCoordinates,
+            initialized: true,
           ),
         ],
       );
