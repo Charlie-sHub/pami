@@ -10,6 +10,9 @@ sealed class MapSettingsFormState with _$MapSettingsFormState {
 
   /// Empty constructor
   factory MapSettingsFormState.initial() => MapSettingsFormState(
-        settings: MapSettings.empty(),
+        settings: MapSettings.empty().copyWith(
+          radius: MapRadius(10),
+          categories: Category.values.toSet(),
+        ),
       );
 }
