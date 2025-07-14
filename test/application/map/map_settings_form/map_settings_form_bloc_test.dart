@@ -47,6 +47,7 @@ void main() {
             settings: MapSettings.empty().copyWith(
               type: validType,
               radius: MapRadius(validRadius),
+              categories: Category.values.toSet(),
             ),
           ),
         ],
