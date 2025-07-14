@@ -3,6 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/home/home_navigation_actor/home_navigation_actor_bloc.dart';
+import 'package:pami/application/map/map_controller/map_controller_bloc.dart';
+import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.dart';
+import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
 import 'package:pami/application/notifications/notifications_watcher/notifications_watcher_bloc.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/home/misc/navigation_indexes.dart';
@@ -21,25 +24,52 @@ import 'home_page_test.mocks.dart';
 @GenerateNiceMocks([
   MockSpec<HomeNavigationActorBloc>(),
   MockSpec<NotificationsWatcherBloc>(),
+  MockSpec<MapSettingsFormBloc>(),
+  MockSpec<MapWatcherBloc>(),
+  MockSpec<MapControllerBloc>(),
 ])
 void main() {
   late MockHomeNavigationActorBloc mockNavigationBloc;
   late MockNotificationsWatcherBloc mockNotificationsBloc;
+  late MockMapSettingsFormBloc mockMapSettingsFormBloc;
+  late MockMapWatcherBloc mockMapWatcherBloc;
+  late MockMapControllerBloc mockMapControllerBloc;
 
   setUp(
     () {
       TestWidgetsFlutterBinding.ensureInitialized();
       mockNavigationBloc = MockHomeNavigationActorBloc();
       mockNotificationsBloc = MockNotificationsWatcherBloc();
+      mockMapSettingsFormBloc = MockMapSettingsFormBloc();
+      mockMapWatcherBloc = MockMapWatcherBloc();
+      mockMapControllerBloc = MockMapControllerBloc();
       getIt
         ..registerFactory<HomeNavigationActorBloc>(
           () => mockNavigationBloc,
         )
         ..registerFactory<NotificationsWatcherBloc>(
           () => mockNotificationsBloc,
+        )
+        ..registerFactory<MapSettingsFormBloc>(
+          () => mockMapSettingsFormBloc,
+        )
+        ..registerFactory<MapWatcherBloc>(
+          () => mockMapWatcherBloc,
+        )
+        ..registerFactory<MapControllerBloc>(
+          () => mockMapControllerBloc,
         );
       provideDummy<NotificationsWatcherState>(
         const NotificationsWatcherState.initial(),
+      );
+      provideDummy<MapSettingsFormState>(
+        MapSettingsFormState.initial(),
+      );
+      provideDummy<MapWatcherState>(
+        const MapWatcherState.initial(),
+      );
+      provideDummy<MapControllerState>(
+        MapControllerState.initial(),
       );
     },
   );
@@ -52,8 +82,8 @@ void main() {
   );
 
   Widget buildWidget() => const MaterialApp(
-        home: HomePage(),
-      );
+    home: HomePage(),
+  );
 
   testWidgets(
     'HomePage renders correctly',
