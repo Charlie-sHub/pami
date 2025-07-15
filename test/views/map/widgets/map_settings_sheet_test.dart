@@ -1,92 +1,143 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
-import 'package:pami/domain/core/validation/objects/map_radius.dart';
+import 'package:pami/views/map/widgets/map_settings_sheet.dart';
 
-/// Map settings sheet widget
-class MapSettingsSheet extends StatelessWidget {
-  /// Default constructor
-  const MapSettingsSheet({super.key});
+import 'map_settings_sheet_test.mocks.dart';
 
-  @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<MapSettingsFormBloc, MapSettingsFormState>(
-        builder: (context, state) {
-          final bloc = context.read<MapSettingsFormBloc>();
-          final settings = state.settings;
+@GenerateNiceMocks([
+  MockSpec<MapSettingsFormBloc>(),
+])
+void main() {
+  late MockMapSettingsFormBloc mockMapSettingsFormBloc;
 
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Radius: ${settings.radius} km'),
-                Slider(
-                  value: settings.radius.getOrCrash(),
-                  divisions: MapRadius.limit.toInt() - 1,
-                  min: 1,
-                  max: MapRadius.limit,
-                  onChanged: (value) => bloc.add(
-                    MapSettingsFormEvent.radiusChanged(value),
-                  ),
-                ),
-                const Text('Type'),
-                DropdownButton<ShoutOutType>(
-                  value: settings.type,
-                  onChanged: (value) {
-                    if (value != null) {
-                      bloc.add(MapSettingsFormEvent.typeChanged(value));
-                    }
-                  },
-                  items: ShoutOutType.values
-                      .map(
-                        (type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type.name),
-                        ),
-                      )
-                      .toList(),
-                ),
-                const Text('Categories'),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Wrap(
-                    spacing: 8,
-                    children: Category.values.map(
-                      (category) {
-                        final isSelected = settings.categories.contains(
-                          category,
-                        );
-                        return ChoiceChip(
-                          label: Text(category.name),
-                          selected: isSelected,
-                          onSelected: (_) {
-                            final updatedCategories = isSelected
-                                ? settings.categories.difference({category})
-                                : settings.categories.union({category});
-                            bloc.add(
-                              MapSettingsFormEvent.categoriesChanged(
-                                updatedCategories,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ).toList(),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => bloc.add(
-                    const MapSettingsFormEvent.resetSettings(),
-                  ),
-                  child: const Text('Reset'),
-                ),
-              ],
-            ),
-          );
-        },
+  final initialState = MapSettingsFormState.initial();
+
+  setUp(
+    () {
+      mockMapSettingsFormBloc = MockMapSettingsFormBloc();
+      provideDummy<MapSettingsFormState>(initialState);
+      when(mockMapSettingsFormBloc.state).thenReturn(
+        initialState,
       );
+      when(
+        mockMapSettingsFormBloc.stream,
+      ).thenAnswer((_) => Stream.value(initialState));
+    },
+  );
+
+  tearDown(
+    () => mockMapSettingsFormBloc.close(),
+  );
+
+  Widget buildWidget() => MaterialApp(
+    home: Scaffold(
+      body: BlocProvider<MapSettingsFormBloc>.value(
+        value: mockMapSettingsFormBloc,
+        child: const MapSettingsSheet(),
+      ),
+    ),
+  );
+
+  testWidgets(
+    'renders main interactive elements based on initial bloc state',
+    (tester) async {
+      // Act
+      await tester.pumpWidget(buildWidget());
+
+      // Assert
+      expect(find.byType(Slider), findsOneWidget);
+      expect(find.byType(DropdownButton<ShoutOutType>), findsOneWidget);
+      expect(find.byType(ChoiceChip), findsAtLeastNWidgets(1));
+      expect(find.widgetWithText(TextButton, 'Reset'), findsOneWidget);
+      expect(find.text('Radius: 10.0 km'), findsOneWidget);
+      expect(
+        find.widgetWithText(ChoiceChip, Category.food.name),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets(
+    'adds radiusChanged event to bloc when Slider is changed',
+    (tester) async {
+      // Act
+      await tester.pumpWidget(buildWidget());
+      await tester.drag(find.byType(Slider), const Offset(50, 0));
+      await tester.pump();
+
+      // Assert
+      verify(
+        mockMapSettingsFormBloc.add(
+          const MapSettingsFormEvent.radiusChanged(11),
+        ),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'adds typeChanged event to bloc when DropdownButton is changed',
+    (tester) async {
+      // Act
+      await tester.pumpWidget(buildWidget());
+      await tester.tap(find.byType(DropdownButton<ShoutOutType>));
+      await tester.pumpAndSettle();
+      final itemToSelect = ShoutOutType.values.firstWhere(
+        (type) => type != initialState.settings.type,
+      );
+      await tester.tap(find.text(itemToSelect.name).last);
+      await tester.pumpAndSettle();
+
+      // Assert
+      verify(
+        mockMapSettingsFormBloc.add(
+          MapSettingsFormEvent.typeChanged(itemToSelect),
+        ),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'adds categoriesChanged event to bloc when a ChoiceChip is tapped',
+    (tester) async {
+      // Arrange
+      const categoryToTap = Category.hygiene;
+      final currentCategories = initialState.settings.categories;
+      final expectedCategories = Set<Category>.from(currentCategories)
+        ..remove(categoryToTap);
+
+      // Act
+      await tester.pumpWidget(buildWidget());
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(ChoiceChip, categoryToTap.name));
+      await tester.pump();
+
+      // Assert
+      verify(
+        mockMapSettingsFormBloc.add(
+          MapSettingsFormEvent.categoriesChanged(expectedCategories),
+        ),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'adds resetSettings event to bloc when Reset button is tapped',
+    (tester) async {
+      // Act
+      await tester.pumpWidget(buildWidget());
+      await tester.tap(find.widgetWithText(TextButton, 'Reset'));
+      await tester.pump();
+
+      // Assert
+      verify(
+        mockMapSettingsFormBloc.add(const MapSettingsFormEvent.resetSettings()),
+      ).called(1);
+    },
+  );
 }
