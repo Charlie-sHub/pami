@@ -69,7 +69,7 @@ void main() {
       // Act
       await tester.pumpWidget(buildWidget());
       await tester.drag(find.byType(Slider), const Offset(50, 0));
-      await tester.pump();
+
 
       // Assert
       verify(
@@ -91,7 +91,6 @@ void main() {
         (type) => type != initialState.settings.type,
       );
       await tester.tap(find.text(itemToSelect.name).last);
-      await tester.pumpAndSettle();
 
       // Assert
       verify(
@@ -115,7 +114,6 @@ void main() {
       await tester.pumpWidget(buildWidget());
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(ChoiceChip, categoryToTap.name));
-      await tester.pump();
 
       // Assert
       verify(
@@ -132,7 +130,6 @@ void main() {
       // Act
       await tester.pumpWidget(buildWidget());
       await tester.tap(find.widgetWithText(TextButton, 'Reset'));
-      await tester.pump();
 
       // Assert
       verify(

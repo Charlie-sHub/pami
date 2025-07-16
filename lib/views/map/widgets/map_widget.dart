@@ -24,18 +24,18 @@ class MapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<MapControllerBloc, MapControllerState>(
-        builder: (context, state) {
-          if (!state.initialized) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+      FutureBuilder<Map<String, BitmapDescriptor>>(
+        future: getIt<BitmapIconLoader>().loadAll(),
+        builder: (_, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(child: CircularProgressIndicator());
           } else {
-            return FutureBuilder<Map<String, BitmapDescriptor>>(
-              future: getIt<BitmapIconLoader>().loadAll(),
-              builder: (_, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const Center(child: CircularProgressIndicator());
+            return BlocBuilder<MapControllerBloc, MapControllerState>(
+              builder: (context, state) {
+                if (!state.initialized) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 } else {
                   return GoogleMap(
                     mapType: MapType.hybrid,
@@ -73,14 +73,19 @@ class MapWidget extends StatelessWidget {
     BuildContext context,
   ) => shoutOuts.map(
     (shout) {
-      final key = shout.categories.first.name;
+      String? categoryKey;
+      if (shout.categories.isNotEmpty) {
+        categoryKey = shout.categories.first.name;
+      }
       return Marker(
         markerId: MarkerId(shout.id.toString()),
         position: LatLng(
           shout.coordinates.latitude.getOrCrash(),
           shout.coordinates.longitude.getOrCrash(),
         ),
-        icon: icons[key] ?? BitmapDescriptor.defaultMarker,
+        icon: (categoryKey != null && icons.containsKey(categoryKey))
+            ? icons[categoryKey]!
+            : BitmapDescriptor.defaultMarker,
         infoWindow: InfoWindow(
           title: shout.title.getOrCrash(),
           snippet: shout.description.getOrCrash(),
