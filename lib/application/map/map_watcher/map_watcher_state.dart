@@ -11,8 +11,11 @@ sealed class MapWatcherState with _$MapWatcherState {
 
   /// Load success state
   const factory MapWatcherState.loadSuccess(
-      Set<ShoutOut> shoutOuts,) = LoadSuccess;
+    Set<ShoutOut> shoutOuts,
+  ) = LoadSuccess;
 
   /// Load failure state
-  const factory MapWatcherState.loadFailure(Failure failure,) = LoadFailure;
+  const factory MapWatcherState.loadFailure(
+    Failure failure,
+  ) = LoadFailure;
 }
