@@ -28,8 +28,6 @@ void main() {
       mockBloc = MockAuthenticationBloc();
       mockRouter = MockStackRouter();
       streamController = StreamController<AuthenticationState>.broadcast();
-
-      // Common mock behavior
       provideDummy<AuthenticationState>(const AuthenticationState.initial());
       when(mockBloc.stream).thenAnswer((_) => streamController.stream);
     },

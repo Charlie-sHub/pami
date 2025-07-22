@@ -14,9 +14,7 @@ void main() {
   const validCategories = {Category.food, Category.volunteering};
 
   setUp(
-    () {
-      mapSettingsFormBloc = MapSettingsFormBloc();
-    },
+    () => mapSettingsFormBloc = MapSettingsFormBloc(),
   );
 
   group(
@@ -32,6 +30,7 @@ void main() {
           MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               radius: MapRadius(validRadius),
+              categories: Category.values.toSet(),
             ),
           ),
         ],
@@ -47,6 +46,8 @@ void main() {
           MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               type: validType,
+              radius: MapRadius(validRadius),
+              categories: Category.values.toSet(),
             ),
           ),
         ],
@@ -63,6 +64,7 @@ void main() {
           MapSettingsFormState.initial().copyWith(
             settings: MapSettings.empty().copyWith(
               categories: validCategories,
+              radius: MapRadius(validRadius),
             ),
           ),
         ],

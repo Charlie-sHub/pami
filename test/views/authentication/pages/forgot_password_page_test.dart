@@ -34,7 +34,6 @@ void main() {
       provideDummy<ForgottenPasswordFormState>(
         ForgottenPasswordFormState.initial(),
       );
-
       when(mockBloc.stream).thenAnswer((_) => streamController.stream);
       when(mockBloc.state).thenReturn(ForgottenPasswordFormState.initial());
     },

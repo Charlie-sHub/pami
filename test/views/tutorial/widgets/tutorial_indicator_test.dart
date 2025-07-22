@@ -16,8 +16,6 @@ void main() {
 
   setUp(() => mockController = MockCarouselSliderController());
 
-  /// Builds a widget for testing, with the given index simulating
-  /// the calls to setState and rebuilding the TutorialPage with a new index
   Widget buildWidget(int index) => MaterialApp(
         home: Scaffold(
           body: TutorialIndicator(
