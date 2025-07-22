@@ -5,6 +5,8 @@ part 'failure.freezed.dart';
 /// [Failure] class that represents a failure in a value object
 @freezed
 sealed class Failure<T> with _$Failure<T> {
+  const Failure._();
+
   // --- Value Failures (Validation Errors) ---
   /// [Failure] indicating an invalid date
   const factory Failure.invalidDate({
@@ -115,4 +117,38 @@ sealed class Failure<T> with _$Failure<T> {
   const factory Failure.unexpectedError({
     required String errorMessage,
   }) = UnexpectedError<T>;
+
+  /// Returns a string representation of the failure
+  String get message =>
+      switch (this) {
+        InvalidDate(:final failedValue) => 'Invalid date: $failedValue',
+        InvalidEmail(:final failedValue) => 'Invalid email: $failedValue',
+        InvalidPassword() => 'Invalid password format.',
+        InvalidName(:final failedValue) => 'Invalid name: $failedValue',
+        EmptyString() => 'This field cannot be empty.',
+        MultiLineString() => 'This field must be a single line.',
+        StringMismatch(:final failedValue) => 'Invalid format: $failedValue',
+        NumOutOfBounds(:final failedValue) =>
+        'Value is out of bounds: $failedValue',
+        InvalidCoordinates(:final failedValue) =>
+        'Invalid coordinate: $failedValue',
+        EmptySet() => 'Selection cannot be empty.',
+        EmptyList() => 'List cannot be empty.',
+        StringExceedsLength(:final maxLength) =>
+        'Text exceeds maximum length of $maxLength characters.',
+        CollectionExceedsLength(:final maxLength) =>
+        'Collection exceeds maximum length of $maxLength items.',
+        InvalidUrl(:final failedValue) => 'Invalid URL: $failedValue',
+        EmptyFields() => 'Some required fields are empty.',
+        NotFoundError() => 'Requested item not found.',
+        InvalidCredentials() => 'Invalid credentials. Please try again.',
+        UnregisteredUser() => 'User not registered.',
+        CancelledByUser() => 'Action cancelled by the user.',
+        EmailAlreadyInUse() => 'Email is already in use.',
+        UsernameAlreadyInUse() => 'Username is already taken.',
+        ServerError(:final errorString) => 'Server error: $errorString',
+        CacheError(:final errorString) => 'Cache error: $errorString',
+        UnexpectedError(:final errorMessage) =>
+        'An unexpected error occurred: $errorMessage',
+      };
 }

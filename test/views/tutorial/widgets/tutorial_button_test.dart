@@ -17,19 +17,21 @@ void main() {
   setUp(
     () {
       mockRouter = MockStackRouter();
-      when(mockRouter.replace(any)).thenAnswer((_) async => null);
+      when(mockRouter.replace(any)).thenAnswer(
+        (_) async => null,
+      );
     },
   );
 
   Widget buildWidget({bool isLast = false}) => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: Scaffold(
-            body: TutorialButton(isLast: isLast),
-          ),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: Scaffold(
+        body: TutorialButton(isLast: isLast),
+      ),
+    ),
+  );
 
   testWidgets(
     'TutorialButton renders Skip Tutorial text when isLast is false',

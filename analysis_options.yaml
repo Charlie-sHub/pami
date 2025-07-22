@@ -32,14 +32,15 @@ analyzer:
     - "**/*.freezed.dart"
     - "lib/generated/**"
     - "lib/injection.config.dart"
-    - "**/generated_plugin_registrant.dart" # Flutter plugin files
-    - "**/firebase_options.dart" # Firebase config
+    - "**/generated_plugin_registrant.dart"
+    - "**/firebase_options.dart"
     - "build/**"
     - ".dart_tool/**"
     - ".idea/**"
     - ".vscode/**"
     - "ios/**"
     - "android/**"
+    - "gen/**"
 
   errors:
     missing_return: error
@@ -58,5 +59,6 @@ analyzer:
 coverage:
   ignore:
     - "**/*.g.dart"
+    - "**/*.gr.dart"
     - "**/freezed.dart"
     - "**/config.dart"

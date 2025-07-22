@@ -5,12 +5,19 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def dotenv = new Properties()
+def dotenvFile = rootProject.file('../.env')
+if (dotenvFile.exists()) {
+    dotenv.load(new FileInputStream(dotenvFile))
+}
+
 android {
     namespace = "com.pami.app.pami"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -28,6 +35,8 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = dotenv.getProperty("GOOGLE_MAPS_API_KEY", "default_key_if_missing")
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -41,4 +50,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 }

@@ -63,8 +63,8 @@ Conversation getValidConversation() => Conversation(
 
 /// Returns a valid [Coordinates] entity for development purposes.
 Coordinates getValidCoordinates() => Coordinates(
-      latitude: Latitude(0),
-      longitude: Longitude(0),
+      latitude: Latitude(43.26091324415964),
+      longitude: Longitude(-2.9471570388382364),
     );
 
 /// Returns a valid [Karma] entity for development purposes.
@@ -80,7 +80,7 @@ Karma getValidKarma() => Karma(
 MapSettings getValidMapSettings() => MapSettings(
       radius: MapRadius(0),
       type: ShoutOutType.request,
-      categories: {Category.financial},
+      categories: {Category.food},
     );
 
 /// Returns a valid [Message] entity for development purposes.
@@ -112,7 +112,7 @@ ShoutOut getValidShoutOut() {
     description: EntityDescription('test'),
     coordinates: getValidCoordinates(),
     duration: Minutes(0),
-    categories: {Category.financial},
+    categories: {Category.food},
     imageUrls: {Url('https://www.test.test')},
     isOpen: true,
     dateCreated: PastDate(DateTime.now()),

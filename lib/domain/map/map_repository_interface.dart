@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
@@ -9,4 +10,10 @@ abstract class MapRepositoryInterface {
   Stream<Either<Failure, Set<ShoutOut>>> watchShoutOuts(
     MapSettings settings,
   );
+
+  /// Get current location (one-time request)
+  Future<Either<Failure, Coordinates>> getCurrentLocation();
+
+  /// Stream user’s live location
+  Stream<Either<Failure, Coordinates>> getUserLocationStream();
 }
