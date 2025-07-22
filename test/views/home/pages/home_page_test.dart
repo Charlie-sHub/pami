@@ -8,6 +8,7 @@ import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.da
 import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
 import 'package:pami/application/notifications/notifications_watcher/notifications_watcher_bloc.dart';
 import 'package:pami/injection.dart';
+import 'package:pami/views/core/misc/bitmap_icon_loader.dart';
 import 'package:pami/views/home/misc/navigation_indexes.dart';
 import 'package:pami/views/home/pages/home_page.dart';
 import 'package:pami/views/home/widgets/create_shout_out_floating_button.dart';
@@ -27,6 +28,7 @@ import 'home_page_test.mocks.dart';
   MockSpec<MapSettingsFormBloc>(),
   MockSpec<MapWatcherBloc>(),
   MockSpec<MapControllerBloc>(),
+  MockSpec<BitmapIconLoader>(),
 ])
 void main() {
   late MockHomeNavigationActorBloc mockNavigationBloc;
@@ -34,6 +36,7 @@ void main() {
   late MockMapSettingsFormBloc mockMapSettingsFormBloc;
   late MockMapWatcherBloc mockMapWatcherBloc;
   late MockMapControllerBloc mockMapControllerBloc;
+  late MockBitmapIconLoader mockBitmapIconLoader;
 
   setUp(
     () {
@@ -43,6 +46,7 @@ void main() {
       mockMapSettingsFormBloc = MockMapSettingsFormBloc();
       mockMapWatcherBloc = MockMapWatcherBloc();
       mockMapControllerBloc = MockMapControllerBloc();
+      mockBitmapIconLoader = MockBitmapIconLoader();
       getIt
         ..registerFactory<HomeNavigationActorBloc>(
           () => mockNavigationBloc,
@@ -58,6 +62,9 @@ void main() {
         )
         ..registerFactory<MapControllerBloc>(
           () => mockMapControllerBloc,
+        )
+        ..registerFactory<BitmapIconLoader>(
+          () => mockBitmapIconLoader,
         );
       provideDummy<NotificationsWatcherState>(
         const NotificationsWatcherState.initial(),

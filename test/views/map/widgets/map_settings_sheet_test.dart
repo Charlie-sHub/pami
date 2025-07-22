@@ -22,12 +22,6 @@ void main() {
     () {
       mockMapSettingsFormBloc = MockMapSettingsFormBloc();
       provideDummy<MapSettingsFormState>(initialState);
-      when(mockMapSettingsFormBloc.state).thenReturn(
-        initialState,
-      );
-      when(
-        mockMapSettingsFormBloc.stream,
-      ).thenAnswer((_) => Stream.value(initialState));
     },
   );
 
