@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart'; // Ensure this path is correct
+import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/views/core/theme/colors.dart';
-import 'package:pami/views/map/widgets/error_card.dart'; // Update with the correct path
+import 'package:pami/views/map/widgets/error_card.dart';
 
 void main() {
   Widget buildWidget({required Failure failure}) => MaterialApp(

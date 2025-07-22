@@ -53,19 +53,6 @@ void main() {
       provideDummy<MapSettingsFormState>(initialMapSettingsFormState);
       provideDummy<MapControllerState>(initialMapControllerState);
       provideDummy<MapWatcherState>(initialMapWatcherState);
-
-      when(mockMapSettingsFormBloc.stream).thenAnswer(
-        (_) => Stream.value(initialMapSettingsFormState),
-      );
-      when(mockMapControllerBloc.stream).thenAnswer(
-        (_) => Stream.value(initialMapControllerState),
-      );
-      when(mockMapWatcherBloc.stream).thenAnswer(
-        (_) => Stream.value(initialMapWatcherState),
-      );
-      when(mockBitmapIconLoader.loadAll()).thenAnswer(
-        (_) async => {},
-      );
     },
   );
 

@@ -62,30 +62,12 @@ void main() {
       provideDummy<InterestedShoutOutsActorState>(
         const InterestedShoutOutsActorState.initial(),
       );
-
-      when(mockMapControllerBloc.state).thenReturn(
-        initialMapControllerState,
-      );
-      when(mockMapControllerBloc.stream).thenAnswer(
-        (_) => Stream.value(initialMapControllerState),
-      );
-      when(
-        mockBitmapIconLoader.loadAll(),
-      ).thenAnswer((_) async => defaultBitmapIcons);
-      when(mockInterestedShoutOutsActorBloc.state).thenReturn(
-        const InterestedShoutOutsActorState.initial(),
-      );
-      when(mockInterestedShoutOutsActorBloc.stream).thenAnswer(
-        (_) => Stream.value(
-          const InterestedShoutOutsActorState.initial(),
-        ),
-      );
     },
   );
 
   tearDown(() async => getIt.reset());
 
-  Widget buildTestableWidget({required Set<ShoutOut> shoutOuts}) =>
+  Widget buildWidget({required Set<ShoutOut> shoutOuts}) =>
       BlocProvider<MapControllerBloc>.value(
         value: mockMapControllerBloc,
         child: MaterialApp(
@@ -108,7 +90,7 @@ void main() {
           );
 
           // Act
-          await tester.pumpWidget(buildTestableWidget(shoutOuts: const {}));
+          await tester.pumpWidget(buildWidget(shoutOuts: const {}));
 
           // Assert
           expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -133,7 +115,7 @@ void main() {
           );
 
           // Act
-          await tester.pumpWidget(buildTestableWidget(shoutOuts: const {}));
+          await tester.pumpWidget(buildWidget(shoutOuts: const {}));
           await tester.pump();
 
           // Assert
@@ -160,7 +142,7 @@ void main() {
           );
 
           // Act
-          await tester.pumpWidget(buildTestableWidget(shoutOuts: const {}));
+          await tester.pumpWidget(buildWidget(shoutOuts: const {}));
           await tester.pumpAndSettle();
 
           // Assert
@@ -189,7 +171,7 @@ void main() {
           );
 
           // Act
-          await tester.pumpWidget(buildTestableWidget(shoutOuts: const {}));
+          await tester.pumpWidget(buildWidget(shoutOuts: const {}));
           await tester.pump();
 
           // Assert
@@ -235,7 +217,7 @@ void main() {
         (tester) async {
           // Act
           await tester.pumpWidget(
-            buildTestableWidget(shoutOuts: {shoutOut1}),
+            buildWidget(shoutOuts: {shoutOut1}),
           );
           await tester.pumpAndSettle();
 
@@ -269,7 +251,7 @@ void main() {
         (tester) async {
           // Act
           await tester.pumpWidget(
-            buildTestableWidget(shoutOuts: {shoutOut2}),
+            buildWidget(shoutOuts: {shoutOut2}),
           );
           await tester.pumpAndSettle();
 
@@ -286,7 +268,7 @@ void main() {
         (tester) async {
           // Act
           await tester.pumpWidget(
-            buildTestableWidget(shoutOuts: {shoutOut1}),
+            buildWidget(shoutOuts: {shoutOut1}),
           );
           await tester.pumpAndSettle();
 
@@ -344,7 +326,7 @@ void main() {
           );
 
           // Act
-          await tester.pumpWidget(buildTestableWidget(shoutOuts: const {}));
+          await tester.pumpWidget(buildWidget(shoutOuts: const {}));
           await tester.pumpAndSettle();
 
           final googleMap = tester.widget<GoogleMap>(find.byType(GoogleMap));

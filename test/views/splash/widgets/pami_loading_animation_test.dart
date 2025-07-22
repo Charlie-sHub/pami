@@ -4,6 +4,7 @@ import 'package:pami/views/splash/widgets/pami_loading_animation.dart';
 
 void main() {
   const letters = ['P', 'A', 'M', 'I'];
+
   Widget buildWidget() => const MaterialApp(
         home: Scaffold(
           body: PamiLoadingAnimation(),

@@ -31,12 +31,29 @@ class ShoutOutModalImageSlider extends StatelessWidget {
           items: imageUrls.map(_mapUrls).toList(),
         );
 
-  ClipRRect _mapUrls(Url url) => ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.network(
-          url.getOrCrash(),
-          fit: BoxFit.cover,
-          width: double.infinity,
+  ClipRRect _mapUrls(Url url) => url.value.fold(
+    (_) => ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: double.infinity,
+        height: 150,
+        color: Colors.grey[300],
+        child: const Center(
+          child: Icon(
+            Icons.broken_image,
+            color: Colors.grey,
+            size: 50,
+          ),
         ),
-      );
+      ),
+    ),
+    (validUrl) => ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.network(
+        validUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+      ),
+    ),
+  );
 }

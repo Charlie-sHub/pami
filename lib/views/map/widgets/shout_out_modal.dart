@@ -43,7 +43,7 @@ class ShoutOutModal extends StatelessWidget {
                     const Icon(Icons.access_time, color: AppColors.primary),
                     const SizedBox(width: 5),
                     Text(
-                      '${shoutOut.duration.getOrCrash()} min',
+                      '${shoutOut.duration.getOrCrash().toInt()} min',
                       style: AppTextStyles.bodyMedium,
                     ),
                   ],
