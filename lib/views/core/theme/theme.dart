@@ -16,6 +16,14 @@ final ThemeData appTheme = ThemeData(
     onError: AppColors.onError,
   ),
   useMaterial3: true,
+  cardTheme: CardThemeData(
+    elevation: 3,
+    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    clipBehavior: Clip.antiAlias,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+    ),
+  ),
   textTheme: const TextTheme(
     displayLarge: AppTextStyles.displayLarge,
     headlineMedium: AppTextStyles.headlineMedium,
@@ -34,6 +42,22 @@ final ThemeData appTheme = ThemeData(
         borderRadius: BorderRadius.circular(12),
       ),
     ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      shape: const StadiumBorder(),
+      minimumSize: const Size(88, 40),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+    ),
+  ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(
+      shape: const CircleBorder(),
+      visualDensity: VisualDensity.compact,
+    ),
+  ),
+  listTileTheme: const ListTileThemeData(
+    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
   ),
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(
