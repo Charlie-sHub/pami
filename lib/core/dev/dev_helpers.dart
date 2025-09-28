@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:pami/domain/core/entities/contact_message.dart';
 import 'package:pami/domain/core/entities/conversation.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
@@ -107,6 +108,7 @@ ShoutOut getValidShoutOut() {
   return ShoutOut(
     id: id,
     creatorId: UniqueId(),
+    creatorUser: some(getValidUser()),
     type: ShoutOutType.offer,
     title: Name('test'),
     description: EntityDescription('test'),

@@ -50,13 +50,13 @@ class ForgotPasswordPage extends StatelessWidget {
         ),
       );
 
-  void _onFailure(Failure failure, BuildContext context) {
+  Future<void> _onFailure(Failure failure, BuildContext context) async {
     final message = switch (failure) {
       ServerError(:final errorString) => errorString,
       EmptyFields() => 'Empty Email Field',
       _ => 'Unexpected error',
     };
-    FlushbarHelper.createError(
+    await FlushbarHelper.createError(
       duration: const Duration(seconds: 2),
       message: message,
     ).show(context);
