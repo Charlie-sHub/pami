@@ -10,6 +10,7 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/interested_shout_outs/interested_shout_outs_repository_interface.dart';
 
+// coverage:ignore-files
 /// Simple repository to work in dev, does nothing except return success
 @LazySingleton(
   as: InterestedShoutOutsRepositoryInterface,

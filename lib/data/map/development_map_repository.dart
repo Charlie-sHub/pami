@@ -15,6 +15,7 @@ import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
 
+// coverage:ignore-files
 /// Simple repository to work in dev, does nothing except return success
 @LazySingleton(
   as: MapRepositoryInterface,

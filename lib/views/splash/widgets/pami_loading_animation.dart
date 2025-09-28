@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 /// Animated PAMI loading indicator for splash screen
@@ -20,7 +22,8 @@ class _PamiLoadingAnimationState extends State<PamiLoadingAnimation>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
-    )..repeat();
+    );
+     unawaited(_controller.repeat());
   }
 
   @override

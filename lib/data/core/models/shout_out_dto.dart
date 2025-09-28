@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pami/data/core/misc/server_date_string_converter.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
@@ -62,6 +63,7 @@ abstract class ShoutOutDto with _$ShoutOutDto {
   ShoutOut toDomain() => ShoutOut(
         id: UniqueId.fromUniqueString(id),
         creatorId: UniqueId.fromUniqueString(creatorId),
+        creatorUser: dartz.none(),
         type: type,
         title: Name(title),
         description: EntityDescription(description),

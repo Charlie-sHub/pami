@@ -6,6 +6,7 @@ import 'package:pami/domain/core/entities/settings.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/settings/settings_repository_interface.dart';
 
+// coverage:ignore-files
 /// Simple repository to work in dev, does nothing except return success
 @LazySingleton(
   as: SettingsRepositoryInterface,

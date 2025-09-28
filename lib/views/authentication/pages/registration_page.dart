@@ -59,7 +59,7 @@ class RegistrationPage extends StatelessWidget {
         ),
       );
 
-  void _onFailure(Failure failure, BuildContext context) {
+  Future<void> _onFailure(Failure failure, BuildContext context) async {
     final message = switch (failure) {
       ServerError() => 'Server error',
       EmailAlreadyInUse() => 'The email is already in use',
@@ -67,16 +67,16 @@ class RegistrationPage extends StatelessWidget {
       EmptyFields() => 'Some fields are empty',
       _ => 'Unexpected error',
     };
-    FlushbarHelper.createError(
+    await FlushbarHelper.createError(
       duration: const Duration(seconds: 2),
       message: message,
     ).show(context);
   }
 
-  void _onSuccess(BuildContext context) {
+  Future<void> _onSuccess(BuildContext context) async {
     context.read<AuthenticationBloc>().add(
       const AuthenticationEvent.authenticationCheckRequested(),
     );
-    context.router.replaceAll([const TutorialRoute()]);
+    await context.router.replaceAll([const TutorialRoute()]);
   }
 }

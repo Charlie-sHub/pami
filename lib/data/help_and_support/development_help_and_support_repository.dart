@@ -5,6 +5,7 @@ import 'package:pami/domain/core/entities/contact_message.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/help_and_support/help_and_support_repository_interface.dart';
 
+// coverage:ignore-files
 /// Simple repository to work in dev, does nothing except return success
 @LazySingleton(
   as: HelpAndSupportRepositoryInterface,
