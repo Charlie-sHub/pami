@@ -30,19 +30,31 @@ class DevelopmentInterestedShoutOutsRepository
     final shoutOuts = [
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 1'),
-        description: EntityDescription('Description 1'),
+        title: Name('Giving a ticket'),
+        description: EntityDescription(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+          'sed do eiusmod tempor incididunt ut labore et dolore magna '
+          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+        ),
       ),
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 2'),
-        description: EntityDescription('Description 2'),
+        title: Name('Burgers'),
+        description: EntityDescription(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+          'sed do eiusmod tempor incididunt ut labore et dolore magna '
+          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+        ),
         isOpen: false,
       ),
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 3'),
-        description: EntityDescription('Description 3'),
+        title: Name('Requesting help'),
+        description: EntityDescription(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+          'sed do eiusmod tempor incididunt ut labore et dolore magna '
+          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+        ),
         type: ShoutOutType.request,
       ),
     ];
@@ -56,6 +68,5 @@ class DevelopmentInterestedShoutOutsRepository
   @override
   Future<Either<Failure, Unit>> addInterestedShoutOut(
     UniqueId shoutOutId,
-  ) async =>
-      right(unit);
+  ) async => right(unit);
 }
