@@ -10,4 +10,15 @@ abstract class InterestedShoutOutsRepositoryInterface {
 
   /// Adds a shout out to the list of interested shout outs
   Future<Either<Failure, Unit>> addInterestedShoutOut(UniqueId shoutOutId);
+
+  /// Dismisses a shout out from the list of interested shout outs
+  Future<Either<Failure, Unit>> dismissInterestedShoutOut(UniqueId shoutOutId);
+
+  /// Dismisses a shout out from the list of interested shout outs
+  Future<Either<Failure, Unit>> confirmScan({
+    required UniqueId shoutOutId,
+    required UniqueId scannerUserId,
+    // Raw payload is optional may be useful for server-side verification/telemetry later
+    required Option<String> rawPayload,
+  });
 }

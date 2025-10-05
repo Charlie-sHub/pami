@@ -88,4 +88,151 @@ void main() {
       );
     },
   );
+
+  group(
+    'Testing dismiss from interested',
+    () {
+      blocTest<InterestedShoutOutsActorBloc, InterestedShoutOutsActorState>(
+        'emits [actionInProgress, dismissalSuccess] when '
+        'dismissInterestedShoutOut returns Right',
+        setUp: () {
+          when(mockRepository.dismissInterestedShoutOut(shoutOutId)).thenAnswer(
+            (_) async => const Right(unit),
+          );
+        },
+        build: () => interestedShoutOutsActorBloc,
+        act: (bloc) => bloc.add(
+          InterestedShoutOutsActorEvent.dismissFromInterested(
+            shoutOutId: shoutOutId,
+          ),
+        ),
+        expect: () => [
+          const InterestedShoutOutsActorState.actionInProgress(),
+          const InterestedShoutOutsActorState.dismissalSuccess(),
+        ],
+        verify: (_) => verify(
+          mockRepository.dismissInterestedShoutOut(shoutOutId),
+        ).called(1),
+      );
+
+      blocTest<InterestedShoutOutsActorBloc, InterestedShoutOutsActorState>(
+        'emits [actionInProgress, dismissalFailure] '
+        'when dismissInterestedShoutOut returns Left',
+        setUp: () {
+          when(mockRepository.dismissInterestedShoutOut(shoutOutId)).thenAnswer(
+            (_) async => const Left(failure),
+          );
+        },
+        build: () => interestedShoutOutsActorBloc,
+        act: (bloc) => bloc.add(
+          InterestedShoutOutsActorEvent.dismissFromInterested(
+            shoutOutId: shoutOutId,
+          ),
+        ),
+        expect: () => [
+          const InterestedShoutOutsActorState.actionInProgress(),
+          const InterestedShoutOutsActorState.dismissalFailure(failure),
+        ],
+        verify: (_) => verify(
+          mockRepository.dismissInterestedShoutOut(shoutOutId),
+        ).called(1),
+      );
+    },
+  );
+
+  group(
+    'Testing scan confirmation',
+    () {
+      blocTest<InterestedShoutOutsActorBloc, InterestedShoutOutsActorState>(
+        'emits [actionInProgress, scanSuccess] '
+        'when payload matches and repo returns Right',
+        setUp: () {
+          when(
+            mockRepository.confirmScan(
+              shoutOutId: anyNamed('shoutOutId'),
+              scannerUserId: anyNamed('scannerUserId'),
+              rawPayload: anyNamed('rawPayload'),
+            ),
+          ).thenAnswer((_) async => const Right(unit));
+        },
+        build: () => interestedShoutOutsActorBloc,
+        act: (bloc) => bloc.add(
+          InterestedShoutOutsActorEvent.scanCompleted(
+            shoutOutId: shoutOutId,
+            payload: shoutOutId.getOrCrash(),
+          ),
+        ),
+        expect: () => [
+          const InterestedShoutOutsActorState.actionInProgress(),
+          const InterestedShoutOutsActorState.scanSuccess(),
+        ],
+        verify: (_) => verify(
+          mockRepository.confirmScan(
+            shoutOutId: shoutOutId,
+            scannerUserId: anyNamed('scannerUserId'),
+            rawPayload: anyNamed('rawPayload'),
+          ),
+        ).called(1),
+      );
+
+      blocTest<InterestedShoutOutsActorBloc, InterestedShoutOutsActorState>(
+        'emits [actionInProgress, scanFailure(invalidQr)] '
+        'when payload does not match',
+        build: () => interestedShoutOutsActorBloc,
+        act: (bloc) => bloc.add(
+          InterestedShoutOutsActorEvent.scanCompleted(
+            shoutOutId: UniqueId.fromUniqueString(
+              '11111111-1111-1111-1111-111111111111',
+            ),
+            payload: 'wrong-payload',
+          ),
+        ),
+        expect: () => [
+          const InterestedShoutOutsActorState.actionInProgress(),
+          const InterestedShoutOutsActorState.scanFailure(
+            Failure.invalidQr(failedValue: 'wrong-payload'),
+          ),
+        ],
+        verify: (_) => verifyNever(
+          mockRepository.confirmScan(
+            shoutOutId: anyNamed('shoutOutId'),
+            scannerUserId: anyNamed('scannerUserId'),
+            rawPayload: anyNamed('rawPayload'),
+          ),
+        ),
+      );
+
+      blocTest<InterestedShoutOutsActorBloc, InterestedShoutOutsActorState>(
+        'emits [actionInProgress, scanFailure(serverError)] '
+        'when repo returns Left',
+        setUp: () {
+          when(
+            mockRepository.confirmScan(
+              shoutOutId: anyNamed('shoutOutId'),
+              scannerUserId: anyNamed('scannerUserId'),
+              rawPayload: anyNamed('rawPayload'),
+            ),
+          ).thenAnswer((_) async => const Left(failure));
+        },
+        build: () => interestedShoutOutsActorBloc,
+        act: (bloc) => bloc.add(
+          InterestedShoutOutsActorEvent.scanCompleted(
+            shoutOutId: shoutOutId,
+            payload: shoutOutId.getOrCrash(),
+          ),
+        ),
+        expect: () => [
+          const InterestedShoutOutsActorState.actionInProgress(),
+          const InterestedShoutOutsActorState.scanFailure(failure),
+        ],
+        verify: (_) => verify(
+          mockRepository.confirmScan(
+            shoutOutId: shoutOutId,
+            scannerUserId: anyNamed('scannerUserId'),
+            rawPayload: anyNamed('rawPayload'),
+          ),
+        ).called(1),
+      );
+    },
+  );
 }
