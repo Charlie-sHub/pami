@@ -30,24 +30,32 @@ class ShoutOutHeaderImage extends StatelessWidget {
           LayoutBuilder(
             builder: (context, constraints) {
               final sliderHeight = constraints.maxHeight;
-              return CarouselSlider.builder(
-                itemCount: imageUrls.length,
-                itemBuilder: (context, index, _) => SizedBox.expand(
-                  child: Image.network(
-                    imageUrls[index].getOrCrash(),
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                options: CarouselOptions(
-                  height: sliderHeight,
-                  viewportFraction: 1,
-                  enableInfiniteScroll: imageUrls.length > 1,
-                  autoPlay: imageUrls.length > 1,
-                ),
-              );
+              return imageUrls.isEmpty
+                  ? const Center(
+                      child: Icon(
+                        Icons.image_not_supported,
+                        size: 80,
+                        color: Colors.grey,
+                      ),
+                    )
+                  : CarouselSlider.builder(
+                      itemCount: imageUrls.length,
+                      itemBuilder: (context, index, _) => SizedBox.expand(
+                        child: Image.network(
+                          imageUrls[index].getOrCrash(),
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => Container(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      options: CarouselOptions(
+                        height: sliderHeight,
+                        viewportFraction: 1,
+                        enableInfiniteScroll: imageUrls.length > 1,
+                        autoPlay: imageUrls.length > 1,
+                      ),
+                    );
             },
           )
         else

@@ -1,13 +1,15 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:pami/domain/core/entities/user.dart';
 
-/// Shows network avatar or initials fallback.
+/// Shows a user's avatar from the network, or falls back to initials or an icon.
+///
+/// Receives a [User] and extracts avatar and name safely from value objects.
+/// If the avatar URL is not present, shows initials from the user's name, or an icon if no name.
 class UserAvatar extends StatelessWidget {
   /// Default constructor
   const UserAvatar({
     required this.size,
-    required this.userOption,
+    required this.user,
     super.key,
   });
 
@@ -15,18 +17,18 @@ class UserAvatar extends StatelessWidget {
   final double size;
 
   /// User to display
-  final Option<User> userOption;
+  final User user;
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = userOption.fold<String?>(
-      () => null,
-      (user) => user.avatar.getOrCrash(),
+    final imageUrl = user.avatar.value.fold(
+      (_) => null,
+      (value) => value.isEmpty ? null : value,
     );
 
-    final displayName = userOption.fold(
-      () => null,
-      (user) => user.name.getOrCrash(),
+    final displayName = user.name.value.fold(
+      (_) => null,
+      (value) => value.isEmpty ? null : value,
     );
 
     final initials = displayName != null ? _initials(displayName) : '?';
@@ -37,16 +39,16 @@ class UserAvatar extends StatelessWidget {
       backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
           ? NetworkImage(imageUrl)
           : null,
-      child: (imageUrl == null || imageUrl.isEmpty)
-          ? displayName == null
-                ? const Icon(Icons.error, color: Colors.red)
-                : Text(
+      child: imageUrl == null
+          ? (displayName != null
+                ? Text(
                     initials,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.black87,
                       fontWeight: FontWeight.w600,
                     ),
                   )
+                : const Icon(Icons.person_outline))
           : null,
     );
   }

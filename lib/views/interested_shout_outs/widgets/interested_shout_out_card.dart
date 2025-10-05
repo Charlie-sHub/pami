@@ -1,8 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/interested_shout_outs/interested_shout_outs_actor/interested_shout_outs_actor_bloc.dart';
 import 'package:pami/application/transactions/karma_vote_actor/karma_vote_actor_bloc.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
+import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/interested_shout_outs/widgets/button_column.dart';
 import 'package:pami/views/interested_shout_outs/widgets/shout_out_header_image.dart';
@@ -59,9 +61,12 @@ class InterestedShoutOutCard extends StatelessWidget {
                       () => const SizedBox.shrink(),
                       (user) => Column(
                         children: [
-                          UserAvatar(
-                            userOption: shoutOut.creatorUser,
-                            size: 80,
+                          shoutOut.creatorUser.fold(
+                            () => const SizedBox.shrink(),
+                            (user) => UserAvatar(
+                              user: user,
+                              size: 80,
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Text(
