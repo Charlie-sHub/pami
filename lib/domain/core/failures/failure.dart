@@ -80,6 +80,11 @@ sealed class Failure<T> with _$Failure<T> {
     required String failedValue,
   }) = InvalidUrl<T>;
 
+  /// [Failure] indicating an invalid QR code
+  const factory Failure.invalidQr({
+    required String failedValue,
+  }) = InvalidQr<T>;
+
   /// [Failure] indicating empty fields of a form
   const factory Failure.emptyFields() = EmptyFields<T>;
 
@@ -139,6 +144,7 @@ sealed class Failure<T> with _$Failure<T> {
         CollectionExceedsLength(:final maxLength) =>
         'Collection exceeds maximum length of $maxLength items.',
         InvalidUrl(:final failedValue) => 'Invalid URL: $failedValue',
+        InvalidQr(:final failedValue) => 'Invalid QR code: $failedValue',
         EmptyFields() => 'Some required fields are empty.',
         NotFoundError() => 'Requested item not found.',
         InvalidCredentials() => 'Invalid credentials. Please try again.',

@@ -9,6 +9,7 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
+// coverage:ignore-files
 /// Simple repository to work in dev, does nothing except return success
 @LazySingleton(
   as: AuthenticationRepositoryInterface,

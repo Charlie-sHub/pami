@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
+import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
@@ -23,6 +24,7 @@ abstract class ShoutOut with _$ShoutOut {
   const factory ShoutOut({
     required UniqueId id,
     required UniqueId creatorId,
+    required Option<User> creatorUser,
     required ShoutOutType type,
     required Name title,
     required EntityDescription description,
@@ -41,6 +43,7 @@ abstract class ShoutOut with _$ShoutOut {
     return ShoutOut(
       id: id,
       creatorId: UniqueId.fromUniqueString(''),
+      creatorUser: none(),
       type: ShoutOutType.request,
       title: Name(''),
       description: EntityDescription(''),
@@ -58,18 +61,26 @@ abstract class ShoutOut with _$ShoutOut {
   }
 
   /// Gets an [Option] of [Failure] of any of its fields
-  Option<Failure<dynamic>> get failureOption =>
-      Either.map5(
-        title.failureOrUnit,
-        description.failureOrUnit,
-        coordinates.failureOrUnit,
-        duration.failureOrUnit,
-        dateCreated.failureOrUnit,
-        (_, _, _, _, _) => unit,
-      ).fold(
-        some,
-        (_) => none(),
-      );
+  Option<Failure<dynamic>> get failureOption {
+    Either<Failure<dynamic>, Unit> asDyn<L>(Either<Failure<L>, Unit> either) =>
+        either.leftMap(
+          (l) => l as Failure<dynamic>,
+        );
+
+    final either = asDyn(title.failureOrUnit)
+        .andThen(asDyn(description.failureOrUnit))
+        .andThen(asDyn(coordinates.failureOrUnit))
+        .andThen(asDyn(duration.failureOrUnit))
+        .andThen(asDyn(dateCreated.failureOrUnit))
+        .andThen(
+          creatorUser.fold(
+            () => right<Failure<dynamic>, Unit>(unit),
+            (user) => asDyn(user.failureOrUnit),
+          ),
+        );
+
+    return either.fold(some, (_) => none());
+  }
 
   /// Gets an [Either] of [Failure] or [Unit] based on the [failureOption]
   Either<Failure<dynamic>, Unit> get failureOrUnit => failureOption.fold(

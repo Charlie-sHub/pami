@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/home/home_navigation_actor/home_navigation_actor_bloc.dart';
+import 'package:pami/application/interested_shout_outs/interested_shout_outs_watcher/interested_shout_outs_watcher_bloc.dart';
 import 'package:pami/application/map/map_controller/map_controller_bloc.dart';
 import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.dart';
 import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
@@ -29,6 +30,7 @@ import 'home_page_test.mocks.dart';
   MockSpec<MapWatcherBloc>(),
   MockSpec<MapControllerBloc>(),
   MockSpec<BitmapIconLoader>(),
+  MockSpec<InterestedShoutOutsWatcherBloc>(),
 ])
 void main() {
   late MockHomeNavigationActorBloc mockNavigationBloc;
@@ -37,6 +39,7 @@ void main() {
   late MockMapWatcherBloc mockMapWatcherBloc;
   late MockMapControllerBloc mockMapControllerBloc;
   late MockBitmapIconLoader mockBitmapIconLoader;
+  late MockInterestedShoutOutsWatcherBloc mockInterestedShoutOutsWatcherBloc;
 
   setUp(
     () {
@@ -47,6 +50,7 @@ void main() {
       mockMapWatcherBloc = MockMapWatcherBloc();
       mockMapControllerBloc = MockMapControllerBloc();
       mockBitmapIconLoader = MockBitmapIconLoader();
+      mockInterestedShoutOutsWatcherBloc = MockInterestedShoutOutsWatcherBloc();
       getIt
         ..registerFactory<HomeNavigationActorBloc>(
           () => mockNavigationBloc,
@@ -65,6 +69,9 @@ void main() {
         )
         ..registerFactory<BitmapIconLoader>(
           () => mockBitmapIconLoader,
+        )
+        ..registerFactory<InterestedShoutOutsWatcherBloc>(
+          () => mockInterestedShoutOutsWatcherBloc,
         );
       provideDummy<NotificationsWatcherState>(
         const NotificationsWatcherState.initial(),
@@ -77,6 +84,9 @@ void main() {
       );
       provideDummy<MapControllerState>(
         MapControllerState.initial(),
+      );
+      provideDummy<InterestedShoutOutsWatcherState>(
+        const InterestedShoutOutsWatcherState.initial(),
       );
     },
   );

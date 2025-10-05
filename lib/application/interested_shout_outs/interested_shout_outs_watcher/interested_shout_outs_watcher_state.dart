@@ -9,13 +9,15 @@ sealed class InterestedShoutOutsWatcherState
 
   /// Action in progress state
   const factory InterestedShoutOutsWatcherState.actionInProgress() =
-  ActionInProgress;
+      ActionInProgress;
 
   /// Load success state
   const factory InterestedShoutOutsWatcherState.loadSuccess(
-      Set<ShoutOut> shoutOuts,) = LoadSuccess;
+    List<ShoutOut> shoutOuts,
+  ) = LoadSuccess;
 
   /// Load failure state
   const factory InterestedShoutOutsWatcherState.loadFailure(
-      Failure failure,) = LoadFailure;
+    Failure failure,
+  ) = LoadFailure;
 }

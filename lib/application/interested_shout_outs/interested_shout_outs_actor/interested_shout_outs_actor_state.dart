@@ -19,4 +19,21 @@ sealed class InterestedShoutOutsActorState
   const factory InterestedShoutOutsActorState.additionFailure(
     Failure failure,
   ) = AdditionFailure;
+
+  /// Addition success state
+  const factory InterestedShoutOutsActorState.dismissalSuccess() =
+      DismissalSuccess;
+
+  /// Dismissal failure state
+  const factory InterestedShoutOutsActorState.dismissalFailure(
+    Failure failure,
+  ) = DismissalFailure;
+
+  /// Addition success state
+  const factory InterestedShoutOutsActorState.scanSuccess() = ScanSuccess;
+
+  /// Scan failure state
+  const factory InterestedShoutOutsActorState.scanFailure(
+    Failure failure,
+  ) = ScanFailure;
 }

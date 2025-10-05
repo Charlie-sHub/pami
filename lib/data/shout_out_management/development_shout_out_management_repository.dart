@@ -7,6 +7,7 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/shout_out_management/shout_out_management_repository_interface.dart';
 
+// coverage:ignore-files
 /// Simple repository to work in dev, does nothing except return success
 @LazySingleton(
   as: ShoutOutManagementRepositoryInterface,

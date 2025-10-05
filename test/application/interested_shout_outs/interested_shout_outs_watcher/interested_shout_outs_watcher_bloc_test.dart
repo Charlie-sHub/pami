@@ -15,7 +15,7 @@ void main() {
   late MockInterestedShoutOutsRepositoryInterface mockRepository;
   late InterestedShoutOutsWatcherBloc interestedShoutOutsWatcherBloc;
 
-  final validShoutOuts = <ShoutOut>{ShoutOut.empty()};
+  final validShoutOuts = <ShoutOut>[ShoutOut.empty()];
   const failure = Failure.serverError(errorString: 'error');
 
   setUp(
