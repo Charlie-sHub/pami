@@ -8,4 +8,15 @@ sealed class InterestedShoutOutsActorEvent
   const factory InterestedShoutOutsActorEvent.addToInterested({
     required UniqueId shoutOutId,
   }) = _AddToInterested;
+
+  /// Dismiss to interested event
+  const factory InterestedShoutOutsActorEvent.dismissFromInterested({
+    required UniqueId shoutOutId,
+  }) = _DismissFromInterested;
+
+  /// Scan completed event
+  const factory InterestedShoutOutsActorEvent.scanCompleted({
+    required UniqueId shoutOutId,
+    required String payload,
+  }) = _ScanCompleted;
 }

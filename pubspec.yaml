@@ -42,9 +42,10 @@ dependencies:
   google_maps_flutter: ^2.13.1
   google_sign_in: ^7.2.0
   image_picker: ^1.2.0
-  injectable: ^2.5.1
+  injectable: ^2.5.2
   json_annotation: ^4.9.0
   logger: ^2.6.1
+  mobile_scanner: ^7.1.2
   path: ^1.9.1
   path_provider: ^2.1.5
   percent_indicator: ^4.2.5

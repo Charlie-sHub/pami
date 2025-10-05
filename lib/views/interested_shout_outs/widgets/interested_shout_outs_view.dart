@@ -15,32 +15,32 @@ class InterestedShoutOutsView extends StatelessWidget {
       ..add(
         const InterestedShoutOutsWatcherEvent.watchStarted(),
       ),
-    child:
-        BlocBuilder<
-          InterestedShoutOutsWatcherBloc,
-          InterestedShoutOutsWatcherState
-        >(
-          builder: (context, state) => switch (state) {
-            Initial() || ActionInProgress() => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            LoadSuccess(:final shoutOuts) =>
-              shoutOuts.isEmpty
-                  ? const Center(
-                      child: Text('No interested shout-outs yet.'),
-                    )
-                  : ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: shoutOuts.length,
-                      itemBuilder: (context, index) {
-                        final shout = shoutOuts.elementAt(index);
-                        return InterestedShoutOutCard(shoutOut: shout);
-                      },
-                    ),
-            LoadFailure(:final failure) => Center(
-              child: Text('Error loading shout-outs: $failure'),
-            ),
-          },
-        ),
+    child: SafeArea(
+      child: BlocBuilder<
+        InterestedShoutOutsWatcherBloc,
+        InterestedShoutOutsWatcherState
+      >(
+        builder: (context, state) => switch (state) {
+          Initial() || ActionInProgress() => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          LoadSuccess(:final shoutOuts) =>
+            shoutOuts.isEmpty
+                ? const Center(
+                    child: Text('No interested shout-outs yet.'),
+                  )
+                : ListView.builder(
+                    itemCount: shoutOuts.length,
+                    itemBuilder: (context, index) {
+                      final shout = shoutOuts.elementAt(index);
+                      return InterestedShoutOutCard(shoutOut: shout);
+                    },
+                  ),
+          LoadFailure(:final failure) => Center(
+            child: Text('Error loading shout-outs: $failure'),
+          ),
+        },
+      ),
+    ),
   );
 }

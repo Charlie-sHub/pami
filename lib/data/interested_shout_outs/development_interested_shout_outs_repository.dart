@@ -69,4 +69,16 @@ class DevelopmentInterestedShoutOutsRepository
   Future<Either<Failure, Unit>> addInterestedShoutOut(
     UniqueId shoutOutId,
   ) async => right(unit);
+
+  @override
+  Future<Either<Failure, Unit>> dismissInterestedShoutOut(
+    UniqueId shoutOutId,
+  ) async => right(unit);
+
+  @override
+  Future<Either<Failure, Unit>> confirmScan({
+    required UniqueId shoutOutId,
+    required UniqueId scannerUserId,
+    required Option<String> rawPayload,
+  }) async => right(unit);
 }

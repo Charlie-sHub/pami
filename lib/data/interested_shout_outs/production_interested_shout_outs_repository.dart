@@ -13,6 +13,10 @@
 // 3) Hydrate by copying each ShoutOut with creatorUser: some(user) when found.
 // 4) Keep the API streaming-friendly; avoid N+1 reads and excessive rebuilds.
 // 5) Staleness of user profile during a session is acceptable for MVP.
+// 6) Dismissal (unmark interested) and Scan Confirmation are handled here so that
+//    watchers get a consistent view (single source of truth for side-effects).
+// 7) Scan confirmation MUST NOT remove the shout-out from the interested list;
+//    removal happens only after the user votes (thumbs up/down).
 //
 // Efficient Fetching & Hydration (Read Path)
 // ------------------------------------------
@@ -38,6 +42,28 @@
 //     - Wait until users are fetched in batches, then emit a single hydrated list.
 //     - This keeps UI/BLoC simple and avoids double renders. Use placeholders only
 //       if your UI shows items before the repository response arrives.
+//     - If a shout-out is scan-confirmed but awaiting vote, it should still be
+//       present in the interested list (UI flips to voting mode). Only after a
+//       successful vote submission should it be dismissed from the list.
+
+// Write Path (MVP semantics)
+// --------------------------
+//  * Dismiss (Unmark Interested):
+//    - Remove current user’s interested reference for shoutOutId.
+//    - Optionally decrement an interestedCount on ShoutOut (if modelled).
+//    - Notify watchers so Interested list updates.
+//
+//  * Scan Confirmation (match payload to shoutOutId):
+//    - Create a handshake/confirmation record (e.g., handshakes/{id}) with
+//      {shoutOutId, scannerUserId, creatorId, timestamp, version, rawPayload?}.
+//    - Do NOT remove from the current user’s interested list yet.
+//    - Emit watcher updates so the UI can render the card in "awaiting vote" mode.
+//
+//  * Vote Submission (👍/👎) — handled by Transactions/Karma repo or here if unified:
+//    - Persist the vote (e.g., transactions/karmaVotes) and any aggregates.
+//    - After successful vote, dismiss the shout-out from the interested list for
+//      the voter. This is the moment we remove it from their list.
+//    - Idempotent operations recommended (repeat submits are no-ops).
 //
 // Streaming Implementation Tips
 // -----------------------------
@@ -87,6 +113,8 @@
 // --------------------
 // - Dev repo can fabricate creatorUser inline (always hydrated) to simplify UI work.
 // - Prod repo follows the batching + cache flow above for efficiency.
+// - Dev repo: may fabricate scan confirmation and set an in-memory flag that
+//   flips cards into voting mode without removing them until a vote is submitted.
 //
 // Testing Pointers
 // ----------------
@@ -94,6 +122,10 @@
 // - Unit test: subset already cached → only missing IDs are fetched; still a single emission returned.
 // - Unit test: failure path → returns with none() for missing users but does not fail the whole list.
 // - Widget test: InterestedShoutOutsTab renders the hydrated list from the single emission.
+// - Unit test: scan confirmation leaves the item in the interested list but sets
+//   an "awaiting vote" flag/state so UI toggles buttons.
+// - Unit test: after vote success, the item is removed from the interested list
+//   (dismissed) and watchers emit the updated list.
 //
 // Performance Tips
 // ----------------
