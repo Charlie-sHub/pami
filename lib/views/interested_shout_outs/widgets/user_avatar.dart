@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pami/domain/core/entities/user.dart';
 
-/// Shows a user's avatar from the network, or falls back to initials or an icon.
-///
-/// Receives a [User] and extracts avatar and name safely from value objects.
-/// If the avatar URL is not present, shows initials from the user's name, or an icon if no name.
+/// Shows a user's avatar from the network
+/// falls back to initials or an icon
 class UserAvatar extends StatelessWidget {
   /// Default constructor
   const UserAvatar({
