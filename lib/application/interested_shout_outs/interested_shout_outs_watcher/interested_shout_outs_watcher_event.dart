@@ -9,6 +9,6 @@ sealed class InterestedShoutOutsWatcherEvent
 
   /// Shout outs received event
   const factory InterestedShoutOutsWatcherEvent.resultsReceived(
-    Either<Failure, Set<ShoutOut>> result,
+    Either<Failure, List<ShoutOut>> result,
   ) = _ResultsReceived;
 }

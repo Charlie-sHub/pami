@@ -33,21 +33,24 @@ class ShoutOutModalButtonRow extends StatelessWidget {
               ElevatedButton(
                 onPressed: () =>
                     context.read<InterestedShoutOutsActorBloc>().add(
-                          InterestedShoutOutsActorEvent.addToInterested(
-                            shoutOutId: shoutOutId,
-                          ),
-                        ),
+                      InterestedShoutOutsActorEvent.addToInterested(
+                        shoutOutId: shoutOutId,
+                      ),
+                    ),
                 child: const Text('Add to Interested'),
               ),
           ],
         ),
       );
 
-  void _listener(BuildContext context, InterestedShoutOutsActorState state) {
+  Future<void> _listener(
+    BuildContext context,
+    InterestedShoutOutsActorState state,
+  ) async {
     if (state is AdditionSuccess) {
       context.router.pop();
     } else if (state is AdditionFailure) {
-      FlushbarHelper.createError(
+      await FlushbarHelper.createError(
         duration: const Duration(seconds: 2),
         message: 'Error: ${state.failure}',
       ).show(context);

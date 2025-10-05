@@ -6,8 +6,19 @@ import 'package:pami/domain/core/validation/objects/unique_id.dart';
 /// Interface for the interested shout outs repository
 abstract class InterestedShoutOutsRepositoryInterface {
   /// Fetches the interested shout outs
-  Stream<Either<Failure, Set<ShoutOut>>> watchInterestedShoutOuts();
+  Stream<Either<Failure, List<ShoutOut>>> watchInterestedShoutOuts();
 
   /// Adds a shout out to the list of interested shout outs
   Future<Either<Failure, Unit>> addInterestedShoutOut(UniqueId shoutOutId);
+
+  /// Dismisses a shout out from the list of interested shout outs
+  Future<Either<Failure, Unit>> dismissInterestedShoutOut(UniqueId shoutOutId);
+
+  /// Dismisses a shout out from the list of interested shout outs
+  Future<Either<Failure, Unit>> confirmScan({
+    required UniqueId shoutOutId,
+    required UniqueId scannerUserId,
+    // Raw payload is optional may be useful for server-side verification/telemetry later
+    required Option<String> rawPayload,
+  });
 }

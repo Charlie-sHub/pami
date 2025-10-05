@@ -8,6 +8,7 @@ import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/notifications/notifications_repository_interface.dart';
 
+// coverage:ignore-files
 /// Simple repository to work in dev, does nothing except return success
 @LazySingleton(
   as: NotificationRepositoryInterface,

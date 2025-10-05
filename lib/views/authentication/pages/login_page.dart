@@ -40,11 +40,11 @@ class LoginPage extends StatelessWidget {
             (_) => _onSuccess(context),
           ),
         ),
-        (thirdPartyUser) {
+        (thirdPartyUser) async {
           context.read<LoginFormBloc>().add(
             const LoginFormEvent.resetThirdPartyUser(),
           );
-          context.router.push(
+          await context.router.push(
             RegistrationRoute(
               userOption: some(thirdPartyUser),
             ),
@@ -57,23 +57,23 @@ class LoginPage extends StatelessWidget {
       previous.isSubmitting != current.isSubmitting ||
       current.thirdPartyUserOption.isSome();
 
-  void _onFailure(Failure failure, BuildContext context) {
+  Future<void> _onFailure(Failure failure, BuildContext context) async {
     final message = switch (failure) {
       CancelledByUser() => 'Cancelled',
       InvalidCredentials() => 'Invalid credentials',
       UnregisteredUser() => 'Unregistered user',
       _ => 'Unexpected error',
     };
-    FlushbarHelper.createError(
+    await FlushbarHelper.createError(
       duration: const Duration(seconds: 2),
       message: message,
     ).show(context);
   }
 
-  void _onSuccess(BuildContext context) {
+  Future<void> _onSuccess(BuildContext context) async {
     context.read<AuthenticationBloc>().add(
       const AuthenticationEvent.authenticationCheckRequested(),
     );
-    context.router.replace(const HomeRoute());
+    await context.router.replace(const HomeRoute());
   }
 }
