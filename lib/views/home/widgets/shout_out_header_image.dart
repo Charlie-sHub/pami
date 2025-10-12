@@ -1,8 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pami/application/interested_shout_outs/interested_shout_outs_actor/interested_shout_outs_actor_bloc.dart';
-import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 
 /// Image carousel and dismiss icon button
@@ -10,15 +7,15 @@ class ShoutOutHeaderImage extends StatelessWidget {
   /// Default constructor
   const ShoutOutHeaderImage({
     required this.imageUrls,
-    required this.id,
+    required this.onDismiss,
     super.key,
   });
 
   /// List of image URLs to display
   final List<Url> imageUrls;
 
-  /// Dismiss action
-  final UniqueId id;
+  /// Callback invoked when the dismiss icon is tapped.
+  final VoidCallback onDismiss;
 
   @override
   Widget build(BuildContext context) => AspectRatio(
@@ -64,9 +61,7 @@ class ShoutOutHeaderImage extends StatelessWidget {
           top: -4,
           right: -4,
           child: IconButton(
-            onPressed: () => context.read<InterestedShoutOutsActorBloc>().add(
-              InterestedShoutOutsActorEvent.addToInterested(shoutOutId: id),
-            ),
+            onPressed: onDismiss,
             icon: const Icon(Icons.close),
             tooltip: 'Not interested',
             style: IconButton.styleFrom(

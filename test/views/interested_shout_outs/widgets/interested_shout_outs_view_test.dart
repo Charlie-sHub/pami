@@ -13,7 +13,7 @@ import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 import 'package:pami/injection.dart';
-import 'package:pami/views/interested_shout_outs/widgets/interested_shout_out_card.dart';
+import 'package:pami/views/home/widgets/shout_out_card.dart';
 import 'package:pami/views/interested_shout_outs/widgets/interested_shout_outs_view.dart';
 
 import 'interested_shout_outs_view_test.mocks.dart';
@@ -137,7 +137,7 @@ void main() {
 
       // Assert
       expect(find.text('No interested shout-outs yet.'), findsOneWidget);
-      expect(find.byType(InterestedShoutOutCard), findsNothing);
+      expect(find.byType(ShoutOutCard), findsNothing);
     },
   );
 
@@ -156,7 +156,7 @@ void main() {
 
       // Assert
       expect(
-        find.byType(InterestedShoutOutCard),
+        find.byType(ShoutOutCard),
         findsNWidgets(shoutOuts.length),
       );
     },
