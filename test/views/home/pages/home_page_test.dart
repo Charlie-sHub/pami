@@ -7,6 +7,7 @@ import 'package:pami/application/interested_shout_outs/interested_shout_outs_wat
 import 'package:pami/application/map/map_controller/map_controller_bloc.dart';
 import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.dart';
 import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
+import 'package:pami/application/my_shout_outs/my_shout_outs_watcher/my_shout_outs_watcher_bloc.dart';
 import 'package:pami/application/notifications/notifications_watcher/notifications_watcher_bloc.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/core/misc/bitmap_icon_loader.dart';
@@ -31,6 +32,7 @@ import 'home_page_test.mocks.dart';
   MockSpec<MapControllerBloc>(),
   MockSpec<BitmapIconLoader>(),
   MockSpec<InterestedShoutOutsWatcherBloc>(),
+  MockSpec<MyShoutOutsWatcherBloc>(),
 ])
 void main() {
   late MockHomeNavigationActorBloc mockNavigationBloc;
@@ -40,6 +42,7 @@ void main() {
   late MockMapControllerBloc mockMapControllerBloc;
   late MockBitmapIconLoader mockBitmapIconLoader;
   late MockInterestedShoutOutsWatcherBloc mockInterestedShoutOutsWatcherBloc;
+  late MockMyShoutOutsWatcherBloc mockMyShoutOutsWatcherBloc;
 
   setUp(
     () {
@@ -51,6 +54,7 @@ void main() {
       mockMapControllerBloc = MockMapControllerBloc();
       mockBitmapIconLoader = MockBitmapIconLoader();
       mockInterestedShoutOutsWatcherBloc = MockInterestedShoutOutsWatcherBloc();
+      mockMyShoutOutsWatcherBloc = MockMyShoutOutsWatcherBloc();
       getIt
         ..registerFactory<HomeNavigationActorBloc>(
           () => mockNavigationBloc,
@@ -72,6 +76,9 @@ void main() {
         )
         ..registerFactory<InterestedShoutOutsWatcherBloc>(
           () => mockInterestedShoutOutsWatcherBloc,
+        )
+        ..registerFactory<MyShoutOutsWatcherBloc>(
+          () => mockMyShoutOutsWatcherBloc,
         );
       provideDummy<NotificationsWatcherState>(
         const NotificationsWatcherState.initial(),
@@ -88,12 +95,16 @@ void main() {
       provideDummy<InterestedShoutOutsWatcherState>(
         const InterestedShoutOutsWatcherState.initial(),
       );
+      provideDummy<MyShoutOutsWatcherState>(
+        const MyShoutOutsWatcherState.initial(),
+      );
     },
   );
 
   tearDown(
     () async {
       await mockNavigationBloc.close();
+      await mockMyShoutOutsWatcherBloc.close();
       await getIt.reset();
     },
   );
