@@ -30,20 +30,35 @@ class DevelopmentMyShoutOutsRepository
     final shoutOuts = {
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 1'),
-        description: EntityDescription('Description 1'),
+        title: Name('Lesson'),
+        description: EntityDescription(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+          'sed do eiusmod tempor incididunt ut labore et dolore magna '
+          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+        ),
+        creatorUser: none(),
       ),
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 2'),
-        description: EntityDescription('Description 2'),
+        title: Name('Cables'),
+        description: EntityDescription(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+          'sed do eiusmod tempor incididunt ut labore et dolore magna '
+          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+        ),
         isOpen: false,
+        creatorUser: none(),
       ),
       getValidShoutOut().copyWith(
         id: UniqueId(),
-        title: Name('Shout Out 3'),
-        description: EntityDescription('Description 3'),
+        title: Name('Stuff'),
+        description: EntityDescription(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
+          'sed do eiusmod tempor incididunt ut labore et dolore magna '
+          'aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
+        ),
         type: ShoutOutType.request,
+        creatorUser: none(),
       ),
     };
 

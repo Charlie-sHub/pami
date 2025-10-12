@@ -4,7 +4,7 @@ part of 'shout_out_deletion_actor_bloc.dart';
 @freezed
 sealed class ShoutOutDeletionActorEvent with _$ShoutOutDeletionActorEvent {
   /// Delete Requested  event
-  const factory ShoutOutDeletionActorEvent.deleteRequested(
-    UniqueId shoutOutId,
-  ) = _DeleteRequested;
+  const factory ShoutOutDeletionActorEvent.deleteRequested({
+    required UniqueId shoutOutId,
+  }) = _DeleteRequested;
 }
