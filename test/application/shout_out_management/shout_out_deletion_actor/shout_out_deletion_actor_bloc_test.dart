@@ -35,7 +35,7 @@ void main() {
     },
     build: () => shoutOutDeletionActorBloc,
     act: (bloc) => bloc.add(
-      ShoutOutDeletionActorEvent.deleteRequested(validShoutOutId),
+      ShoutOutDeletionActorEvent.deleteRequested(shoutOutId: validShoutOutId),
     ),
     expect: () => [
       const ShoutOutDeletionActorState.actionInProgress(),
@@ -56,7 +56,7 @@ void main() {
     },
     build: () => shoutOutDeletionActorBloc,
     act: (bloc) => bloc.add(
-      ShoutOutDeletionActorEvent.deleteRequested(validShoutOutId),
+      ShoutOutDeletionActorEvent.deleteRequested(shoutOutId: validShoutOutId),
     ),
     expect: () => [
       const ShoutOutDeletionActorState.actionInProgress(),
