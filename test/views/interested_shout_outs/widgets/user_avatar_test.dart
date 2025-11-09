@@ -5,7 +5,7 @@ import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
-import 'package:pami/views/interested_shout_outs/widgets/user_avatar.dart';
+import 'package:pami/views/core/widgets/user_avatar.dart';
 
 void main() {
   final user = getValidUser().copyWith(

@@ -46,6 +46,11 @@ class DevelopmentTransactionRepository
     final transactions = [
       getValidTransaction(),
       getValidTransaction().copyWith(id: UniqueId()),
+      getValidTransaction().copyWith(id: UniqueId()),
+      getValidTransaction().copyWith(id: UniqueId()),
+      getValidTransaction().copyWith(id: UniqueId()),
+      getValidTransaction().copyWith(id: UniqueId()),
+      getValidTransaction().copyWith(id: UniqueId()),
     ];
     _logger.d(
       'Returning mock transactions: ${transactions.map(

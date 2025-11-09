@@ -4,6 +4,9 @@ import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/validation/objects/entity_description.dart';
+import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
+import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
@@ -30,7 +33,17 @@ class DevelopmentProfileRepository implements ProfileRepositoryInterface {
   @override
   Future<Either<Failure, User>> getCurrentUser() async {
     _logger.d('Getting current user profile...');
-    final user = getValidUser();
+    final user = getValidUser().copyWith(
+      name: Name('John'),
+      username: Name('johnny_xx'),
+      bio: EntityDescription(
+        'Lorem ipsum dolor sit amet, consectetur '
+        'adipiscing elit, sed do eiusmod tempor incididunt ut labore et '
+        'dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
+      ),
+      karma: KarmaPercentage(76),
+      isVerified: true,
+    );
     _logger.d('Returning mock user: ${user.id}');
     return right(user);
   }
