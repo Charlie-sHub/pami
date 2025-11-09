@@ -12,11 +12,11 @@ import 'package:pami/application/transactions/karma_vote_actor/karma_vote_actor_
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
+import 'package:pami/views/core/widgets/user_avatar.dart';
 import 'package:pami/views/home/widgets/shout_out_card.dart';
 import 'package:pami/views/home/widgets/shout_out_header_image.dart';
 import 'package:pami/views/interested_shout_outs/widgets/button_column.dart';
 import 'package:pami/views/interested_shout_outs/widgets/creator_actions_row.dart';
-import 'package:pami/views/interested_shout_outs/widgets/user_avatar.dart';
 import 'package:pami/views/my_shout_outs/widgets/qr_expandable.dart';
 
 import 'shout_out_card_test.mocks.dart';

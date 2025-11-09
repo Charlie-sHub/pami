@@ -10,9 +10,9 @@ import 'package:pami/application/interested_shout_outs/interested_shout_outs_act
 import 'package:pami/application/transactions/karma_vote_actor/karma_vote_actor_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
+import 'package:pami/views/core/widgets/user_avatar.dart';
 import 'package:pami/views/interested_shout_outs/widgets/button_column.dart';
 import 'package:pami/views/interested_shout_outs/widgets/creator_actions_row.dart';
-import 'package:pami/views/interested_shout_outs/widgets/user_avatar.dart';
 
 import 'creator_actions_row_test.mocks.dart';
 
