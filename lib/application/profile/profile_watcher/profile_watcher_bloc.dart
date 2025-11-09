@@ -11,7 +11,7 @@ part 'profile_watcher_event.dart';
 
 part 'profile_watcher_state.dart';
 
-/// Profile outs watcher bloc
+/// Profile watcher bloc
 @injectable
 class ProfileWatcherBloc
     extends Bloc<ProfileWatcherEvent, ProfileWatcherState> {
