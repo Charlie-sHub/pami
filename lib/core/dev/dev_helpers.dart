@@ -34,7 +34,7 @@ User getValidUser() => User(
   email: EmailAddress('test@test.test'),
   name: Name('test'),
   username: Name('@name'),
-  bio: EntityDescription('test'),
+  bio: EntityDescription('test bio'),
   avatar: Url('https://picsum.photos/200'),
   isVerified: false,
   karma: KarmaPercentage(0),
