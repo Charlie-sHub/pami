@@ -4,35 +4,6 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 
 void main() {
-  late Latitude validLatitudeObject;
-  late Latitude limitLatitudeObject;
-  late Latitude zeroLatitudeObject;
-  late Latitude negativeLatitudeObject;
-  late Latitude negativeLimitLatitudeObject;
-  late Latitude overLimitLatitudeObject;
-  late Latitude underNegativeLimitLatitudeObject;
-
-  setUp(
-    () {
-      // Arrange
-      const validLatitude = 45.0;
-      const limitLatitude = Latitude.limit;
-      const zeroLatitude = 0.0;
-      const negativeLatitude = -45.0;
-      const negativeLimitLatitude = -Latitude.limit;
-      const overLimitLatitude = Latitude.limit + 0.1;
-      const underNegativeLimitLatitude = -Latitude.limit - 0.1;
-
-      validLatitudeObject = Latitude(validLatitude);
-      limitLatitudeObject = Latitude(limitLatitude);
-      zeroLatitudeObject = Latitude(zeroLatitude);
-      negativeLatitudeObject = Latitude(negativeLatitude);
-      negativeLimitLatitudeObject = Latitude(negativeLimitLatitude);
-      overLimitLatitudeObject = Latitude(overLimitLatitude);
-      underNegativeLimitLatitudeObject = Latitude(underNegativeLimitLatitude);
-    },
-  );
-
   group(
     'Testing on success',
     () {
@@ -40,6 +11,10 @@ void main() {
         'should return a Latitude with the input value '
         'when the input is valid',
         () {
+          // Arrange
+          const validLatitude = 45.0;
+          final validLatitudeObject = Latitude(validLatitude);
+
           // Act
           final result = validLatitudeObject.value;
 
@@ -52,6 +27,10 @@ void main() {
         'should return a Latitude with the input value '
         'when the input is at the limit',
         () {
+          // Arrange
+          const limitLatitude = Latitude.limit;
+          final limitLatitudeObject = Latitude(limitLatitude);
+
           // Act
           final result = limitLatitudeObject.value;
 
@@ -63,6 +42,10 @@ void main() {
       test(
         'should return a Latitude with the input value when the input is 0',
         () {
+          // Arrange
+          const zeroLatitude = 0.0;
+          final zeroLatitudeObject = Latitude(zeroLatitude);
+
           // Act
           final result = zeroLatitudeObject.value;
 
@@ -75,6 +58,10 @@ void main() {
         'should return a Latitude with the input value '
         'when the input is negative',
         () {
+          // Arrange
+          const negativeLatitude = -45.0;
+          final negativeLatitudeObject = Latitude(negativeLatitude);
+
           // Act
           final result = negativeLatitudeObject.value;
 
@@ -87,6 +74,10 @@ void main() {
         'should return a Latitude with the input value '
         'when the input is at the negative limit',
         () {
+          // Arrange
+          const negativeLimitLatitude = -Latitude.limit;
+          final negativeLimitLatitudeObject = Latitude(negativeLimitLatitude);
+
           // Act
           final result = negativeLimitLatitudeObject.value;
 
@@ -104,6 +95,10 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the positive limit',
         () {
+          // Arrange
+          const overLimitLatitude = Latitude.limit + 0.1;
+          final overLimitLatitudeObject = Latitude(overLimitLatitude);
+
           // Act
           final result = overLimitLatitudeObject.value;
 
@@ -123,6 +118,11 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the negative limit',
         () {
+          // Arrange
+          const underNegativeLimitLatitude = -Latitude.limit - 0.1;
+          final underNegativeLimitLatitudeObject =
+              Latitude(underNegativeLimitLatitude);
+
           // Act
           final result = underNegativeLimitLatitudeObject.value;
 

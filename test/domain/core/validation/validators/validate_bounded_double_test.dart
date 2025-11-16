@@ -10,7 +10,7 @@ void main() {
     'Testing on success',
     () {
       test(
-        'should return the input integer when it is within the bounds',
+        'should return the input double when it is within the bounds',
         () {
           // Arrange
           const double input = 50;
@@ -24,7 +24,7 @@ void main() {
       );
 
       test(
-        'should return the input integer when it is equal to the min',
+        'should return the input double when it is equal to the min',
         () {
           // Arrange
           const double input = 0;
@@ -38,7 +38,7 @@ void main() {
       );
 
       test(
-        'should return the input integer when it is equal to the max',
+        'should return the input double when it is equal to the max',
         () {
           // Arrange
           const double input = 100;

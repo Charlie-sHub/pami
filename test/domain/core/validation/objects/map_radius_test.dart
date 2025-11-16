@@ -4,29 +4,6 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/map_radius.dart';
 
 void main() {
-  late MapRadius validMapRadius;
-  late MapRadius limitMapRadius;
-  late MapRadius zeroMapRadius;
-  late MapRadius overLimitMapRadius;
-  late MapRadius negativeMapRadius;
-
-  setUp(
-    () {
-      // Arrange
-      const validRadius = 10.0;
-      const limitRadius = MapRadius.limit;
-      const zeroRadius = 0.0;
-      const overLimitRadius = MapRadius.limit + 0.1;
-      const negativeRadius = -1.0;
-
-      validMapRadius = MapRadius(validRadius);
-      limitMapRadius = MapRadius(limitRadius);
-      zeroMapRadius = MapRadius(zeroRadius);
-      overLimitMapRadius = MapRadius(overLimitRadius);
-      negativeMapRadius = MapRadius(negativeRadius);
-    },
-  );
-
   group(
     'Testing on success',
     () {
@@ -34,6 +11,10 @@ void main() {
         'should return a Radius with the input value '
         'when the input is valid',
         () {
+          // Arrange
+          const validRadius = 10.0;
+          final validMapRadius = MapRadius(validRadius);
+
           // Act
           final result = validMapRadius.value;
 
@@ -46,6 +27,10 @@ void main() {
         'should return a Radius with the input value '
         'when the input is at the limit',
         () {
+          // Arrange
+          const limitRadius = MapRadius.limit;
+          final limitMapRadius = MapRadius(limitRadius);
+
           // Act
           final result = limitMapRadius.value;
 
@@ -58,6 +43,10 @@ void main() {
         'should return a Radius with the input value '
         'when the input is 0',
         () {
+          // Arrange
+          const zeroRadius = 0.0;
+          final zeroMapRadius = MapRadius(zeroRadius);
+
           // Act
           final result = zeroMapRadius.value;
 
@@ -75,6 +64,10 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the limit',
         () {
+          // Arrange
+          const overLimitRadius = MapRadius.limit + 0.1;
+          final overLimitMapRadius = MapRadius(overLimitRadius);
+
           // Act
           final result = overLimitMapRadius.value;
 
@@ -94,6 +87,10 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input is negative',
         () {
+          // Arrange
+          const negativeRadius = -1.0;
+          final negativeMapRadius = MapRadius(negativeRadius);
+
           // Act
           final result = negativeMapRadius.value;
 
@@ -101,7 +98,9 @@ void main() {
           expect(
             result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: -1),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: -1,
+              ),
             ),
           );
         },

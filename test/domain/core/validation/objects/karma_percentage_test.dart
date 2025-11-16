@@ -4,29 +4,6 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
 
 void main() {
-  late KarmaPercentage validKarma;
-  late KarmaPercentage limitKarma;
-  late KarmaPercentage zeroKarma;
-  late KarmaPercentage overLimitKarma;
-  late KarmaPercentage negativeKarma;
-
-  setUp(
-    () {
-      // Arrange
-      const validKarmaPercentage = 50.0;
-      const limitKarmaPercentage = KarmaPercentage.limit;
-      const zeroKarmaPercentage = 0.0;
-      const overLimitKarmaPercentage = KarmaPercentage.limit + 0.1;
-      const negativeKarmaPercentage = -1.0;
-
-      validKarma = KarmaPercentage(validKarmaPercentage);
-      limitKarma = KarmaPercentage(limitKarmaPercentage);
-      zeroKarma = KarmaPercentage(zeroKarmaPercentage);
-      overLimitKarma = KarmaPercentage(overLimitKarmaPercentage);
-      negativeKarma = KarmaPercentage(negativeKarmaPercentage);
-    },
-  );
-
   group(
     'Testing on success',
     () {
@@ -34,6 +11,10 @@ void main() {
         'should return a KarmaPercentage with the input value '
         'when the input is valid',
         () {
+          // Arrange
+          const validKarmaPercentage = 50.0;
+          final validKarma = KarmaPercentage(validKarmaPercentage);
+
           // Act
           final result = validKarma.value;
 
@@ -46,6 +27,10 @@ void main() {
         'should return a KarmaPercentage with the input value '
         'when the input is at the limit',
         () {
+          // Arrange
+          const limitKarmaPercentage = KarmaPercentage.limit;
+          final limitKarma = KarmaPercentage(limitKarmaPercentage);
+
           // Act
           final result = limitKarma.value;
 
@@ -58,6 +43,10 @@ void main() {
         'should return a KarmaPercentage with the input value '
         'when the input is 0',
         () {
+          // Arrange
+          const zeroKarmaPercentage = 0.0;
+          final zeroKarma = KarmaPercentage(zeroKarmaPercentage);
+
           // Act
           final result = zeroKarma.value;
 
@@ -75,6 +64,10 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the limit',
         () {
+          // Arrange
+          const overLimitKarmaPercentage = KarmaPercentage.limit + 0.1;
+          final overLimitKarma = KarmaPercentage(overLimitKarmaPercentage);
+
           // Act
           final result = overLimitKarma.value;
 
@@ -94,6 +87,10 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input is negative',
         () {
+          // Arrange
+          const negativeKarmaPercentage = -1.0;
+          final negativeKarma = KarmaPercentage(negativeKarmaPercentage);
+
           // Act
           final result = negativeKarma.value;
 
@@ -101,7 +98,9 @@ void main() {
           expect(
             result,
             left(
-              const Failure<double>.doubleOutOfBounds(failedValue: -1),
+              const Failure<double>.doubleOutOfBounds(
+                failedValue: -1,
+              ),
             ),
           );
         },
@@ -115,6 +114,10 @@ void main() {
       test(
         'should return the correct percentage when the value is right',
         () {
+          // Arrange
+          const validKarmaPercentage = 50.0;
+          final validKarma = KarmaPercentage(validKarmaPercentage);
+
           // Act
           final result = validKarma.percentage;
 
@@ -126,6 +129,10 @@ void main() {
       test(
         'should return 0.0 when the value is left',
         () {
+          // Arrange
+          const overLimitKarmaPercentage = KarmaPercentage.limit + 0.1;
+          final overLimitKarma = KarmaPercentage(overLimitKarmaPercentage);
+
           // Act
           final result = overLimitKarma.percentage;
 
@@ -142,6 +149,10 @@ void main() {
       test(
         'should return the correct left percentage when the value is right',
         () {
+          // Arrange
+          const validKarmaPercentage = 50.0;
+          final validKarma = KarmaPercentage(validKarmaPercentage);
+
           // Act
           final result = validKarma.leftPercentage;
 
@@ -153,6 +164,10 @@ void main() {
       test(
         'should return 100.0 when the value is left',
         () {
+          // Arrange
+          const overLimitKarmaPercentage = KarmaPercentage.limit + 0.1;
+          final overLimitKarma = KarmaPercentage(overLimitKarmaPercentage);
+
           // Act
           final result = overLimitKarma.leftPercentage;
 

@@ -5,97 +5,40 @@ import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/validation/objects/category_set.dart';
 
 void main() {
-  late CategorySet validCategorySet;
-  late CategorySet emptyCategorySet;
-  late CategorySet fullCategorySet;
-  late CategorySet invalidCategorySet;
-
-  setUp(
-    () {
-      // Arrange
-      validCategorySet = CategorySet(
-        const {
-          Category.food,
-          Category.music,
-        },
-      );
-      emptyCategorySet = CategorySet(
-        const {},
-      );
-      fullCategorySet = CategorySet(
-        const {
-          Category.food,
-          Category.music,
-          Category.sports,
-          Category.travel,
-          Category.beauty,
-        },
-      );
-      invalidCategorySet = CategorySet(
-        const {
-          Category.food,
-          Category.music,
-          Category.sports,
-          Category.travel,
-          Category.beauty,
-          Category.misc,
-        },
-      );
-    },
-  );
-
   group(
-    'constructor',
+    'Testing on success',
     () {
       test(
         'should return a CategorySet with the input value '
-        'when the input is valid',
+            'when the input is valid',
         () {
           // Arrange
-          final validSet = validCategorySet.getOrCrash();
+          const input = {
+            Category.food,
+            Category.music,
+          };
+          final categorySet = CategorySet(input);
 
-          // Assert
-          expect(validCategorySet.value, right(validSet));
-        },
-      );
-
-      test(
-        'should return a Failure.collectionExceedsLength '
-        'when the input set exceeds the max length',
-        () {
           // Act
-          final result = invalidCategorySet.value;
+          final result = categorySet.value;
 
           // Assert
-          expect(
-            result,
-            left(
-              const Failure<Set<Category>>.collectionExceedsLength(
-                failedValue: {
-                  Category.food,
-                  Category.music,
-                  Category.sports,
-                  Category.travel,
-                  Category.beauty,
-                  Category.misc,
-                },
-                maxLength: 5,
-              ),
-            ),
-          );
+          expect(result, right(input));
         },
       );
-    },
-  );
 
-  group(
-    'failureOrUnit',
-    () {
       test(
         'should return unit when the value is right',
         () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+          };
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = validCategorySet.failureOrUnit;
+          final result = categorySet.failureOrUnit;
 
           // Assert
           expect(result, right(unit));
@@ -103,41 +46,17 @@ void main() {
       );
 
       test(
-        'should return a failure when the value is left',
-        () {
-          // Act
-          final result = invalidCategorySet.failureOrUnit;
-
-          // Assert
-          expect(
-            result,
-            left(
-              const Failure<Set<Category>>.collectionExceedsLength(
-                failedValue: {
-                  Category.food,
-                  Category.music,
-                  Category.sports,
-                  Category.travel,
-                  Category.beauty,
-                  Category.misc,
-                },
-                maxLength: 5,
-              ),
-            ),
-          );
-        },
-      );
-    },
-  );
-
-  group(
-    'length',
-    () {
-      test(
         'should return the correct length when the value is right',
         () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+          };
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = validCategorySet.length;
+          final result = categorySet.length;
 
           // Assert
           expect(result, 2);
@@ -145,26 +64,20 @@ void main() {
       );
 
       test(
-        'should return 0 when the value is left',
-        () {
-          // Act
-          final result = invalidCategorySet.length;
-
-          // Assert
-          expect(result, 0);
-        },
-      );
-    },
-  );
-
-  group(
-    'isFull',
-    () {
-      test(
         'should return true when the length is equal to maxLength',
         () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+            Category.sports,
+            Category.travel,
+            Category.beauty,
+          };
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = fullCategorySet.isFull;
+          final result = categorySet.isFull;
 
           // Assert
           expect(result, true);
@@ -174,35 +87,30 @@ void main() {
       test(
         'should return false when the length is less than maxLength',
         () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+          };
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = validCategorySet.isFull;
+          final result = categorySet.isFull;
 
           // Assert
           expect(result, false);
         },
       );
 
-      test(
-        'should return false when the length is greater than maxLength',
-        () {
-          // Act
-          final result = invalidCategorySet.isFull;
-
-          // Assert
-          expect(result, false);
-        },
-      );
-    },
-  );
-
-  group(
-    'isEmpty',
-    () {
       test(
         'should return true when the set is empty',
         () {
+          // Arrange
+          const input = <Category>{};
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = emptyCategorySet.isEmpty;
+          final result = categorySet.isEmpty;
 
           // Assert
           expect(result, true);
@@ -212,8 +120,15 @@ void main() {
       test(
         'should return false when the set is not empty',
         () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+          };
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = validCategorySet.isEmpty;
+          final result = categorySet.isEmpty;
 
           // Assert
           expect(result, false);
@@ -221,26 +136,17 @@ void main() {
       );
 
       test(
-        'should return true when the set is invalid',
-        () {
-          // Act
-          final result = invalidCategorySet.isEmpty;
-
-          // Assert
-          expect(result, true);
-        },
-      );
-    },
-  );
-
-  group(
-    'isNotEmpty',
-    () {
-      test(
         'should return true when the set is not empty',
         () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+          };
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = validCategorySet.isNotEmpty;
+          final result = categorySet.isNotEmpty;
 
           // Assert
           expect(result, true);
@@ -250,8 +156,136 @@ void main() {
       test(
         'should return false when the set is empty',
         () {
+          // Arrange
+          const input = <Category>{};
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = emptyCategorySet.isNotEmpty;
+          final result = categorySet.isNotEmpty;
+
+          // Assert
+          expect(result, false);
+        },
+      );
+    },
+  );
+
+  group(
+    'Testing on failure',
+    () {
+      test(
+        'should return a Failure.collectionExceedsLength '
+            'when the input set exceeds the max length',
+        () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+            Category.sports,
+            Category.travel,
+            Category.beauty,
+            Category.misc,
+          };
+          final categorySet = CategorySet(input);
+
+          // Act
+          final result = categorySet.value;
+
+          // Assert
+          expect(
+            result,
+            left<Failure<Set<Category>>, Set<Category>>(
+              const Failure.collectionExceedsLength(
+                failedValue: {
+                  Category.food,
+                  Category.music,
+                  Category.sports,
+                  Category.travel,
+                  Category.beauty,
+                  Category.misc,
+                },
+                maxLength: 5,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return a failure when the value is left',
+        () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+            Category.sports,
+            Category.travel,
+            Category.beauty,
+            Category.misc,
+          };
+          final categorySet = CategorySet(input);
+
+          // Act
+          final result = categorySet.failureOrUnit;
+
+          // Assert
+          expect(
+            result,
+            left<Failure<Set<Category>>, Unit>(
+              const Failure.collectionExceedsLength(
+                failedValue: {
+                  Category.food,
+                  Category.music,
+                  Category.sports,
+                  Category.travel,
+                  Category.beauty,
+                  Category.misc,
+                },
+                maxLength: 5,
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return 0 when the value is left',
+        () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+            Category.sports,
+            Category.travel,
+            Category.beauty,
+            Category.misc,
+          };
+          final categorySet = CategorySet(input);
+
+          // Act
+          final result = categorySet.length;
+
+          // Assert
+          expect(result, 0);
+        },
+      );
+
+      test(
+        'should return false when the length is greater than maxLength',
+        () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+            Category.sports,
+            Category.travel,
+            Category.beauty,
+            Category.misc,
+          };
+          final categorySet = CategorySet(input);
+
+          // Act
+          final result = categorySet.isFull;
 
           // Assert
           expect(result, false);
@@ -259,10 +293,43 @@ void main() {
       );
 
       test(
+        'should return true when the set is invalid',
+        () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+            Category.sports,
+            Category.travel,
+            Category.beauty,
+            Category.misc,
+          };
+          final categorySet = CategorySet(input);
+
+          // Act
+          final result = categorySet.isEmpty;
+
+          // Assert
+          expect(result, true);
+        },
+      );
+
+      test(
         'should return false when the set is invalid',
         () {
+          // Arrange
+          const input = {
+            Category.food,
+            Category.music,
+            Category.sports,
+            Category.travel,
+            Category.beauty,
+            Category.misc,
+          };
+          final categorySet = CategorySet(input);
+
           // Act
-          final result = invalidCategorySet.isNotEmpty;
+          final result = categorySet.isNotEmpty;
 
           // Assert
           expect(result, false);
