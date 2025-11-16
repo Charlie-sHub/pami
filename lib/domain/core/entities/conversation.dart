@@ -15,6 +15,7 @@ abstract class Conversation with _$Conversation {
   /// Default constructor
   const factory Conversation({
     required UniqueId id,
+    required UniqueId shoutOutId,
     required UniqueId shoutOutCreatorId,
     required UniqueId interestedId,
     required MessageContent lastMessage,
@@ -25,6 +26,7 @@ abstract class Conversation with _$Conversation {
   /// Empty constructor
   factory Conversation.empty() => Conversation(
         id: UniqueId(),
+        shoutOutId: UniqueId.fromUniqueString(''),
         shoutOutCreatorId: UniqueId.fromUniqueString(''),
         interestedId: UniqueId.fromUniqueString(''),
         lastMessage: MessageContent(''),

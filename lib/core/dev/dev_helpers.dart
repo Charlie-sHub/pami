@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:pami/domain/core/entities/contact_message.dart';
 import 'package:pami/domain/core/entities/conversation.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
-import 'package:pami/domain/core/entities/karma.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/entities/message.dart';
 import 'package:pami/domain/core/entities/notification.dart';
@@ -24,6 +23,7 @@ import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/core/validation/objects/minutes.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
+import 'package:pami/domain/core/validation/objects/positive_int.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -34,11 +34,13 @@ User getValidUser() => User(
   email: EmailAddress('test@test.test'),
   name: Name('test'),
   username: Name('@name'),
-  bio: EntityDescription('test'),
+  bio: EntityDescription('test bio'),
   avatar: Url('https://picsum.photos/200'),
   isVerified: false,
   karma: KarmaPercentage(0),
   interestedShoutOutIds: {UniqueId()},
+  positiveInteractionsCount: PositiveInt(1),
+  totalInteractionsCount: PositiveInt(2),
   lastLogin: PastDate(DateTime.now()),
   dateCreated: PastDate(DateTime.now()),
 );
@@ -55,6 +57,7 @@ ContactMessage getValidContactMessage() => ContactMessage(
 /// Returns a valid [Conversation] entity for development purposes.
 Conversation getValidConversation() => Conversation(
   id: UniqueId(),
+  shoutOutId: UniqueId(),
   shoutOutCreatorId: UniqueId(),
   interestedId: UniqueId(),
   lastMessage: MessageContent('Hello'),
@@ -66,15 +69,6 @@ Conversation getValidConversation() => Conversation(
 Coordinates getValidCoordinates() => Coordinates(
   latitude: Latitude(43.26091324415964),
   longitude: Longitude(-2.9471570388382364),
-);
-
-/// Returns a valid [Karma] entity for development purposes.
-Karma getValidKarma() => Karma(
-  id: UniqueId(),
-  giverId: UniqueId(),
-  transactionId: UniqueId(),
-  isPositive: true,
-  dateCreated: PastDate(DateTime.now()),
 );
 
 /// Returns a valid [MapSettings] entity for development purposes.
@@ -131,13 +125,25 @@ ShoutOut getValidShoutOut() {
 }
 
 /// Returns a valid [Transaction] entity for development purposes.
-Transaction getValidTransaction() => Transaction(
-  id: UniqueId(),
-  shoutOutCreatorId: UniqueId(),
-  interestedId: UniqueId(),
-  status: TransactionStatus.confirmed,
-  dateCreated: PastDate(DateTime.now()),
-);
+Transaction getValidTransaction() {
+  final shoutOutCreatorId = UniqueId();
+  final interestedId = UniqueId();
+  return Transaction(
+    id: UniqueId(),
+    shoutOutId: UniqueId(),
+    shoutOutCreatorId: shoutOutCreatorId,
+    interestedId: interestedId,
+    participants: {
+      'creatorId': shoutOutCreatorId,
+      'interestedId': interestedId,
+    },
+    status: TransactionStatus.confirmed,
+    shoutOutTitle: Name('test'),
+    shoutOutType: ShoutOutType.offer,
+    isPositiveForCreator: some(true),
+    dateCreated: PastDate(DateTime.now()),
+  );
+}
 
 /// Returns a valid [Settings] entity for development purposes.
 Settings getValidSettings() => const Settings(

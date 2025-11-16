@@ -6,9 +6,7 @@ import 'package:pami/injection.config.dart';
 final GetIt getIt = GetIt.instance;
 
 @InjectableInit(
-  initializerName: 'init',
   preferRelativeImports: true,
-  asExtension: true,
 )
 
 /// Configures the dependency injection container

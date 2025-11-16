@@ -16,6 +16,7 @@ abstract class ConversationDto with _$ConversationDto {
   /// Default constructor
   const factory ConversationDto({
     required String id,
+    required String shoutOutId,
     required String shoutOutCreatorId,
     required String interestedId,
     required String lastMessage,
@@ -27,6 +28,7 @@ abstract class ConversationDto with _$ConversationDto {
   factory ConversationDto.fromDomain(Conversation conversation) =>
       ConversationDto(
         id: conversation.id.getOrCrash(),
+        shoutOutId: conversation.shoutOutId.getOrCrash(),
         shoutOutCreatorId: conversation.shoutOutCreatorId.getOrCrash(),
         interestedId: conversation.interestedId.getOrCrash(),
         lastMessage: conversation.lastMessage.getOrCrash(),
@@ -41,6 +43,7 @@ abstract class ConversationDto with _$ConversationDto {
   /// Returns a [Conversation] from this DTO
   Conversation toDomain() => Conversation(
         id: UniqueId.fromUniqueString(id),
+        shoutOutId: UniqueId.fromUniqueString(shoutOutId),
         shoutOutCreatorId: UniqueId.fromUniqueString(shoutOutCreatorId),
         interestedId: UniqueId.fromUniqueString(interestedId),
         lastMessage: MessageContent(lastMessage),

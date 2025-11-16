@@ -9,6 +9,8 @@ import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.da
 import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
 import 'package:pami/application/my_shout_outs/my_shout_outs_watcher/my_shout_outs_watcher_bloc.dart';
 import 'package:pami/application/notifications/notifications_watcher/notifications_watcher_bloc.dart';
+import 'package:pami/application/profile/profile_watcher/profile_watcher_bloc.dart';
+import 'package:pami/application/transactions/transaction_history_watcher/transaction_history_watcher_bloc.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/core/misc/bitmap_icon_loader.dart';
 import 'package:pami/views/home/misc/navigation_indexes.dart';
@@ -33,6 +35,8 @@ import 'home_page_test.mocks.dart';
   MockSpec<BitmapIconLoader>(),
   MockSpec<InterestedShoutOutsWatcherBloc>(),
   MockSpec<MyShoutOutsWatcherBloc>(),
+  MockSpec<ProfileWatcherBloc>(),
+  MockSpec<TransactionHistoryWatcherBloc>(),
 ])
 void main() {
   late MockHomeNavigationActorBloc mockNavigationBloc;
@@ -43,6 +47,8 @@ void main() {
   late MockBitmapIconLoader mockBitmapIconLoader;
   late MockInterestedShoutOutsWatcherBloc mockInterestedShoutOutsWatcherBloc;
   late MockMyShoutOutsWatcherBloc mockMyShoutOutsWatcherBloc;
+  late MockProfileWatcherBloc mockProfileBloc;
+  late MockTransactionHistoryWatcherBloc mockTransactionBloc;
 
   setUp(
     () {
@@ -55,6 +61,9 @@ void main() {
       mockBitmapIconLoader = MockBitmapIconLoader();
       mockInterestedShoutOutsWatcherBloc = MockInterestedShoutOutsWatcherBloc();
       mockMyShoutOutsWatcherBloc = MockMyShoutOutsWatcherBloc();
+      mockProfileBloc = MockProfileWatcherBloc();
+      mockTransactionBloc = MockTransactionHistoryWatcherBloc();
+
       getIt
         ..registerFactory<HomeNavigationActorBloc>(
           () => mockNavigationBloc,
@@ -79,7 +88,15 @@ void main() {
         )
         ..registerFactory<MyShoutOutsWatcherBloc>(
           () => mockMyShoutOutsWatcherBloc,
+        )
+        ..registerFactory<TransactionHistoryWatcherBloc>(
+          () => mockTransactionBloc,
+        )
+        ..registerFactory<ProfileWatcherBloc>(
+          () => mockProfileBloc,
         );
+
+
       provideDummy<NotificationsWatcherState>(
         const NotificationsWatcherState.initial(),
       );
@@ -97,6 +114,12 @@ void main() {
       );
       provideDummy<MyShoutOutsWatcherState>(
         const MyShoutOutsWatcherState.initial(),
+      );
+      provideDummy<ProfileWatcherState>(
+        const ProfileWatcherState.initial(),
+      );
+      provideDummy<TransactionHistoryWatcherState>(
+        const TransactionHistoryWatcherState.initial(),
       );
     },
   );

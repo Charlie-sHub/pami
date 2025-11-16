@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
+import 'package:pami/views/core/widgets/user_avatar.dart';
 import 'package:pami/views/interested_shout_outs/widgets/button_column.dart';
-import 'package:pami/views/interested_shout_outs/widgets/user_avatar.dart';
 
 /// Extracted lower section used in Interested Shout-Outs list:
 /// shows creator info (avatar, name, username) and the action buttons.

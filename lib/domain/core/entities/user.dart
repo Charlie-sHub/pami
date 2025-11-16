@@ -6,6 +6,7 @@ import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
+import 'package:pami/domain/core/validation/objects/positive_int.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 
@@ -27,6 +28,8 @@ abstract class User with _$User {
     required bool isVerified,
     required KarmaPercentage karma,
     required Set<UniqueId> interestedShoutOutIds,
+    required PositiveInt positiveInteractionsCount,
+    required PositiveInt totalInteractionsCount,
     required PastDate lastLogin,
     required PastDate dateCreated,
   }) = _User;
@@ -42,22 +45,26 @@ abstract class User with _$User {
     isVerified: false,
     karma: KarmaPercentage(0),
     interestedShoutOutIds: {},
+    positiveInteractionsCount: PositiveInt(0),
+    totalInteractionsCount: PositiveInt(0),
     lastLogin: PastDate(DateTime.now()),
     dateCreated: PastDate(DateTime.now()),
   );
 
   /// Gets an [Option] of [Failure] of any of its fields
   Option<Failure<dynamic>> get failureOption =>
-      Either.map8(
+      Either.map10(
         email.failureOrUnit,
         name.failureOrUnit,
         username.failureOrUnit,
         bio.failureOrUnit,
         avatar.failureOrUnit,
         karma.failureOrUnit,
+        positiveInteractionsCount.failureOrUnit,
+        totalInteractionsCount.failureOrUnit,
         lastLogin.failureOrUnit,
         dateCreated.failureOrUnit,
-        (_, _, _, _, _, _, _, _) => unit,
+        (_, _, _, _, _, _, _, _, _, _) => unit,
       ).fold(
         some,
         (_) => none(),

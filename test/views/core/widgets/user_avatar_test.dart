@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/user.dart';
+import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
-import 'package:pami/views/interested_shout_outs/widgets/user_avatar.dart';
+import 'package:pami/views/core/widgets/user_avatar.dart';
 
 void main() {
+  const size = 72.0;
   final user = getValidUser().copyWith(
     avatar: Url(''),
     name: Name('John Doe'),
+    karma: KarmaPercentage(60),
   );
 
   Widget buildWidget({
@@ -28,7 +30,7 @@ void main() {
     'shows initials when avatar url is empty',
     (tester) async {
       // Act
-      await tester.pumpWidget(buildWidget(size: 80, user: user));
+      await tester.pumpWidget(buildWidget(size: size, user: user));
       await tester.pump();
 
       // Assert
@@ -44,7 +46,7 @@ void main() {
       final userNoName = user.copyWith(name: Name(''));
 
       // Act
-      await tester.pumpWidget(buildWidget(size: 64, user: userNoName));
+      await tester.pumpWidget(buildWidget(size: size, user: userNoName));
       await tester.pump();
 
       // Assert
@@ -53,17 +55,28 @@ void main() {
   );
 
   testWidgets(
-    'respects size (radius = size/2)',
+    'renders karma ring as CustomPaint',
     (tester) async {
-      // Arrange
-      const size = 72.0;
-
       // Act
       await tester.pumpWidget(buildWidget(size: size, user: user));
       await tester.pump();
 
       // Assert
-      final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
+      expect(find.byType(CustomPaint), findsWidgets);
+    },
+  );
+
+  testWidgets(
+    'respects size (radius = size/2)',
+    (tester) async {
+      // Act
+      await tester.pumpWidget(buildWidget(size: size, user: user));
+      await tester.pump();
+
+      // Assert
+      final avatar = tester.widget<CircleAvatar>(
+        find.byType(CircleAvatar).first,
+      );
       expect(avatar.radius, size / 2);
     },
   );
