@@ -6,10 +6,12 @@ import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
+import 'package:pami/domain/core/validation/objects/positive_int.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 
 part 'user_dto.freezed.dart';
+
 part 'user_dto.g.dart';
 
 /// User DTO
@@ -28,26 +30,30 @@ abstract class UserDto with _$UserDto {
     required bool isVerified,
     required double karma,
     required Set<String> interestedShoutOutIds,
+    required int positiveInteractionsCount,
+    required int totalInteractionsCount,
     @ServerDateStringConverter() required DateTime lastLogin,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _UserDto;
 
   /// Constructor from [User]
   factory UserDto.fromDomain(User user) => UserDto(
-        id: user.id.getOrCrash(),
-        email: user.email.getOrCrash(),
-        name: user.name.getOrCrash(),
-        username: user.username.getOrCrash(),
-        bio: user.bio.getOrCrash(),
-        avatar: user.avatar.getOrCrash(),
-        isVerified: user.isVerified,
-        karma: user.karma.getOrCrash(),
-        interestedShoutOutIds: user.interestedShoutOutIds
-            .map((uniqueId) => uniqueId.getOrCrash())
-            .toSet(),
-        lastLogin: user.lastLogin.getOrCrash(),
-        dateCreated: user.dateCreated.getOrCrash(),
-      );
+    id: user.id.getOrCrash(),
+    email: user.email.getOrCrash(),
+    name: user.name.getOrCrash(),
+    username: user.username.getOrCrash(),
+    bio: user.bio.getOrCrash(),
+    avatar: user.avatar.getOrCrash(),
+    isVerified: user.isVerified,
+    karma: user.karma.getOrCrash(),
+    interestedShoutOutIds: user.interestedShoutOutIds
+        .map((uniqueId) => uniqueId.getOrCrash())
+        .toSet(),
+    positiveInteractionsCount: user.positiveInteractionsCount.getOrCrash(),
+    totalInteractionsCount: user.totalInteractionsCount.getOrCrash(),
+    lastLogin: user.lastLogin.getOrCrash(),
+    dateCreated: user.dateCreated.getOrCrash(),
+  );
 
   /// Factory constructor from JSON [Map]
   factory UserDto.fromJson(Map<String, dynamic> json) =>
@@ -55,17 +61,20 @@ abstract class UserDto with _$UserDto {
 
   /// Returns a [User] from this DTO
   User toDomain() => User(
-        id: UniqueId.fromUniqueString(id),
-        email: EmailAddress(email),
-        name: Name(name),
-        username: Name(username),
-        bio: EntityDescription(bio),
-        avatar: Url(avatar),
-        isVerified: isVerified,
-        karma: KarmaPercentage(karma),
-        interestedShoutOutIds:
-            interestedShoutOutIds.map(UniqueId.fromUniqueString).toSet(),
-        lastLogin: PastDate(lastLogin),
-        dateCreated: PastDate(dateCreated),
-      );
+    id: UniqueId.fromUniqueString(id),
+    email: EmailAddress(email),
+    name: Name(name),
+    username: Name(username),
+    bio: EntityDescription(bio),
+    avatar: Url(avatar),
+    isVerified: isVerified,
+    karma: KarmaPercentage(karma),
+    interestedShoutOutIds: interestedShoutOutIds
+        .map(UniqueId.fromUniqueString)
+        .toSet(),
+    positiveInteractionsCount: PositiveInt(positiveInteractionsCount),
+    totalInteractionsCount: PositiveInt(totalInteractionsCount),
+    lastLogin: PastDate(lastLogin),
+    dateCreated: PastDate(dateCreated),
+  );
 }

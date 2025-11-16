@@ -46,7 +46,12 @@ sealed class Failure<T> with _$Failure<T> {
   /// [Failure] indicating a given double is out of bounds
   const factory Failure.doubleOutOfBounds({
     required double failedValue,
-  }) = NumOutOfBounds<T>;
+  }) = DoubleOutOfBounds<T>;
+
+  /// [Failure] indicating a given int is out of bounds
+  const factory Failure.intOutOfBounds({
+    required int failedValue,
+  }) = IntegerOutOfBounds<T>;
 
   /// [Failure] indicating invalid coordinates
   const factory Failure.invalidCoordinate({
@@ -133,8 +138,10 @@ sealed class Failure<T> with _$Failure<T> {
         EmptyString() => 'This field cannot be empty.',
         MultiLineString() => 'This field must be a single line.',
         StringMismatch(:final failedValue) => 'Invalid format: $failedValue',
-        NumOutOfBounds(:final failedValue) =>
-        'Value is out of bounds: $failedValue',
+        DoubleOutOfBounds(:final failedValue) =>
+        'double value is out of bounds: $failedValue',
+        IntegerOutOfBounds(:final failedValue) =>
+        'int value is out of bounds: $failedValue',
         InvalidCoordinates(:final failedValue) =>
         'Invalid coordinate: $failedValue',
         EmptySet() => 'Selection cannot be empty.',

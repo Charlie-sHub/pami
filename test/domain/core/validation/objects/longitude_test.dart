@@ -4,37 +4,6 @@ import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 
 void main() {
-  late Longitude validLongitudeObject;
-  late Longitude limitLongitudeObject;
-  late Longitude zeroLongitudeObject;
-  late Longitude negativeLongitudeObject;
-  late Longitude negativeLimitLongitudeObject;
-  late Longitude overLimitLongitudeObject;
-  late Longitude underNegativeLimitLongitudeObject;
-
-  setUp(
-    () {
-      // Arrange
-      const validLongitude = 90.0;
-      const limitLongitude = Longitude.limit;
-      const zeroLongitude = 0.0;
-      const negativeLongitude = -90.0;
-      const negativeLimitLongitude = -Longitude.limit;
-      const overLimitLongitude = Longitude.limit + 0.1;
-      const underNegativeLimitLongitude = -Longitude.limit - 0.1;
-
-      validLongitudeObject = Longitude(validLongitude);
-      limitLongitudeObject = Longitude(limitLongitude);
-      zeroLongitudeObject = Longitude(zeroLongitude);
-      negativeLongitudeObject = Longitude(negativeLongitude);
-      negativeLimitLongitudeObject = Longitude(negativeLimitLongitude);
-      overLimitLongitudeObject = Longitude(overLimitLongitude);
-      underNegativeLimitLongitudeObject = Longitude(
-        underNegativeLimitLongitude,
-      );
-    },
-  );
-
   group(
     'Testing on success',
     () {
@@ -42,6 +11,10 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is valid',
         () {
+          // Arrange
+          const validLongitude = 90.0;
+          final validLongitudeObject = Longitude(validLongitude);
+
           // Act
           final result = validLongitudeObject.value;
 
@@ -54,6 +27,10 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is at the positive limit',
         () {
+          // Arrange
+          const limitLongitude = Longitude.limit;
+          final limitLongitudeObject = Longitude(limitLongitude);
+
           // Act
           final result = limitLongitudeObject.value;
 
@@ -66,6 +43,10 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is 0',
         () {
+          // Arrange
+          const zeroLongitude = 0.0;
+          final zeroLongitudeObject = Longitude(zeroLongitude);
+
           // Act
           final result = zeroLongitudeObject.value;
 
@@ -78,6 +59,10 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is negative',
         () {
+          // Arrange
+          const negativeLongitude = -90.0;
+          final negativeLongitudeObject = Longitude(negativeLongitude);
+
           // Act
           final result = negativeLongitudeObject.value;
 
@@ -90,6 +75,11 @@ void main() {
         'should return a Longitude with the input value '
         'when the input is at the negative limit',
         () {
+          // Arrange
+          const negativeLimitLongitude = -Longitude.limit;
+          final negativeLimitLongitudeObject =
+              Longitude(negativeLimitLongitude);
+
           // Act
           final result = negativeLimitLongitudeObject.value;
 
@@ -107,6 +97,10 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the positive limit',
         () {
+          // Arrange
+          const overLimitLongitude = Longitude.limit + 0.1;
+          final overLimitLongitudeObject = Longitude(overLimitLongitude);
+
           // Act
           final result = overLimitLongitudeObject.value;
 
@@ -126,6 +120,11 @@ void main() {
         'should return a Failure.doubleOutOfBounds '
         'when the input exceeds the negative limit',
         () {
+          // Arrange
+          const underNegativeLimitLongitude = -Longitude.limit - 0.1;
+          final underNegativeLimitLongitudeObject =
+              Longitude(underNegativeLimitLongitude);
+
           // Act
           final result = underNegativeLimitLongitudeObject.value;
 

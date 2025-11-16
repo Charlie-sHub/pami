@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/transactions/transaction_history_watcher/transaction_history_watcher_bloc.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/injection.dart';
+import 'package:pami/views/profile/widgets/transaction_card.dart';
 
 /// Transaction History of the profile
 class TransactionHistory extends StatelessWidget {
@@ -40,11 +41,13 @@ class TransactionHistory extends StatelessWidget {
               LoadSuccess(:final transactions) =>
                 transactions.isEmpty
                     ? const Center(child: Text('No transactions yet.'))
-                    // TODO: Figure out how to best unify the information to
-                    //  show  the user regarding their transaction history
-                    : const Center(
-                        child: Text(
-                          'Transactions loaded (UI and logic pending).',
+                    : ListView.separated(
+                        itemCount: transactions.length,
+                        itemBuilder: (context, index) => TransactionCard(
+                          transaction: transactions[index],
+                        ),
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 8,
                         ),
                       ),
               LoadFailure(:final failure) => Center(
