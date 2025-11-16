@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pami/domain/core/entities/user.dart';
+import 'package:pami/views/core/routes/router.gr.dart';
 import 'package:pami/views/core/theme/text_styles.dart';
 import 'package:pami/views/core/widgets/user_avatar.dart';
 import 'package:pami/views/profile/widgets/transaction_history.dart';
@@ -22,80 +24,100 @@ class ProfileContent extends StatelessWidget {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 8,
-            left: 8,
-            right: 8,
-          ),
-          child: Column(
-            children: [
-              Center(
-                child: SizedBox(
-                  height: 140,
-                  width: 160,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      UserAvatar(user: user, size: 100),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Text(
-                          '$positive%',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Text(
-                          '$negative%',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+        Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 8,
+                right: 8,
               ),
-              const SizedBox(height: 12),
-              Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      user.name.getOrCrash(),
-                      style: AppTextStyles.headlineMedium,
+              child: Column(
+                children: [
+                  Center(
+                    child: SizedBox(
+                      height: 140,
+                      width: 160,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          UserAvatar(user: user, size: 100),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            child: Text(
+                              '$positive%',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: Colors.green,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Text(
+                              '$negative%',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    if (user.isVerified) ...[
-                      const SizedBox(width: 4),
-                      const Icon(Icons.verified, color: Colors.blue, size: 18),
-                    ],
-                  ],
+                  ),
+                  const SizedBox(height: 12),
+                  Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          user.name.getOrCrash(),
+                          style: AppTextStyles.headlineMedium,
+                        ),
+                        if (user.isVerified) ...[
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.verified,
+                            color: Colors.blue,
+                            size: 18,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Center(
+                    child: Text(
+                      '@${user.username.getOrCrash()}',
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Center(
+                    child: Text(
+                      user.bio.getOrCrash(),
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles.bodyLarge,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: IconButton(
+                icon: const Icon(Icons.edit, size: 20),
+                onPressed: () async => context.router.push(
+                  const ProfileManagementRoute(),
                 ),
               ),
-              const SizedBox(height: 4),
-              Center(
-                child: Text(
-                  '@${user.username.getOrCrash()}',
-                  style: AppTextStyles.bodyMedium.copyWith(color: Colors.grey),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Center(
-                child: Text(
-                  user.bio.getOrCrash(),
-                  softWrap: true,
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.bodyLarge,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         const SizedBox(height: 24),
         Expanded(

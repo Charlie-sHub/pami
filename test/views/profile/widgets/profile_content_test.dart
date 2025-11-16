@@ -88,4 +88,15 @@ void main() {
       expect(find.text('No transactions yet.'), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'shows edit profile button',
+    (tester) async {
+      // Act
+      await tester.pumpWidget(build(user));
+
+      // Assert
+      expect(find.byIcon(Icons.edit), findsOneWidget);
+    },
+  );
 }
