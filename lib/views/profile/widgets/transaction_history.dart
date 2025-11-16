@@ -25,11 +25,9 @@ class TransactionHistory extends StatelessWidget {
         >(
           builder: (context, state) => Container(
             height: 220,
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
               color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(12),
             ),
             child: switch (state) {
               Initial() => const Center(
@@ -47,7 +45,7 @@ class TransactionHistory extends StatelessWidget {
                           transaction: transactions[index],
                         ),
                         separatorBuilder: (context, index) => const SizedBox(
-                          height: 8,
+                          height: 2,
                         ),
                       ),
               LoadFailure(:final failure) => Center(
