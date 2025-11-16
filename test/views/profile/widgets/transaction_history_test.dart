@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/transactions/transaction_history_watcher/transaction_history_watcher_bloc.dart';
+import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/injection.dart';
@@ -89,6 +90,29 @@ void main() {
         find.text('Failed to load transactions: $failure'),
         findsOneWidget,
       );
+    },
+  );
+
+  testWidgets(
+    'shows a list of transaction cards when state is loadSuccess with data',
+    (tester) async {
+      // Arrange
+      final transaction = getValidTransaction();
+
+      when(mockBloc.state).thenReturn(
+        TransactionHistoryWatcherState.loadSuccess([transaction]),
+      );
+
+      await tester.pumpWidget(build());
+      await tester.pump();
+
+      final title = transaction.shoutOutTitle.value.fold(
+        (_) => '',
+        (value) => value,
+      );
+
+      // Assert
+      expect(find.text(title), findsOneWidget);
     },
   );
 }
