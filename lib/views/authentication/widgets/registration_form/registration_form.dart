@@ -64,7 +64,7 @@ class RegistrationForm extends StatelessWidget {
                         (email) => email,
                       ),
                     ),
-                    eventToAdd: (String value) => bloc.add(
+                    eventToAdd: (value) => bloc.add(
                       RegistrationFormEvent.emailAddressChanged(value),
                     ),
                     validator: (_) => _emailValidator(state),
@@ -73,7 +73,7 @@ class RegistrationForm extends StatelessWidget {
                   const EmailConfirmatorTextField(),
                   const SizedBox(height: 20),
                   PasswordTextField(
-                    eventToAdd: (String value) => bloc.add(
+                    eventToAdd: (value) => bloc.add(
                       RegistrationFormEvent.passwordChanged(value),
                     ),
                     validator: (_) => _passwordValidator(state),

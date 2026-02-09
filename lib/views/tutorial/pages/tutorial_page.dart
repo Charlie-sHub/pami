@@ -22,27 +22,27 @@ class _TutorialPageState extends State<TutorialPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: TutorialCarousel(
-                slides: tutorialSlides,
-                controller: _controller,
-                onPageChanged: (int index) => setState(
-                  () => _currentIndex = index,
-                ),
-              ),
+    body: Column(
+      children: [
+        Expanded(
+          child: TutorialCarousel(
+            slides: tutorialSlides,
+            controller: _controller,
+            onPageChanged: (index) => setState(
+              () => _currentIndex = index,
             ),
-            const SizedBox(height: 20),
-            TutorialIndicator(
-              slideCount: tutorialSlides.length,
-              currentIndex: _currentIndex,
-              controller: _controller,
-            ),
-            const SizedBox(height: 40),
-            TutorialButton(isLast: _currentIndex == tutorialSlides.length - 1),
-            const SizedBox(height: 20),
-          ],
+          ),
         ),
-      );
+        const SizedBox(height: 20),
+        TutorialIndicator(
+          slideCount: tutorialSlides.length,
+          currentIndex: _currentIndex,
+          controller: _controller,
+        ),
+        const SizedBox(height: 40),
+        TutorialButton(isLast: _currentIndex == tutorialSlides.length - 1),
+        const SizedBox(height: 20),
+      ],
+    ),
+  );
 }

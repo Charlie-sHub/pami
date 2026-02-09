@@ -47,13 +47,13 @@ class LoginForm extends StatelessWidget {
                     children: <Widget>[
                       EmailTextField(
                         validator: (_) => _emailValidator(state),
-                        eventToAdd: (String value) => bloc.add(
+                        eventToAdd: (value) => bloc.add(
                           LoginFormEvent.emailChanged(value),
                         ),
                       ),
                       const SizedBox(height: 15),
                       PasswordTextField(
-                        eventToAdd: (String value) => bloc.add(
+                        eventToAdd: (value) => bloc.add(
                           LoginFormEvent.passwordChanged(value),
                         ),
                         validator: (_) => _passwordValidator(state),
@@ -86,18 +86,18 @@ class LoginForm extends StatelessWidget {
       !current.email.isValid();
 
   String? _passwordValidator(LoginFormState state) => state.password.value.fold(
-        (failure) => switch (failure) {
-          EmptyString() => 'Empty password',
-          _ => 'Unknown error',
-        },
-        (_) => null,
-      );
+    (failure) => switch (failure) {
+      EmptyString() => 'Empty password',
+      _ => 'Unknown error',
+    },
+    (_) => null,
+  );
 
   String? _emailValidator(LoginFormState state) => state.email.value.fold(
-        (failure) => switch (failure) {
-          InvalidEmail() => 'Invalid email',
-          _ => 'Unknown error',
-        },
-        (_) => null,
-      );
+    (failure) => switch (failure) {
+      InvalidEmail() => 'Invalid email',
+      _ => 'Unknown error',
+    },
+    (_) => null,
+  );
 }

@@ -30,7 +30,7 @@ class ForgotPasswordForm extends StatelessWidget {
                 children: [
                   EmailTextField(
                     validator: (_) => _emailValidator(state),
-                    eventToAdd: (String value) => bloc.add(
+                    eventToAdd: (value) => bloc.add(
                       ForgottenPasswordFormEvent.emailChanged(value),
                     ),
                   ),
