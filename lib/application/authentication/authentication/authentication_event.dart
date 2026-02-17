@@ -7,6 +7,6 @@ sealed class AuthenticationEvent with _$AuthenticationEvent {
   const factory AuthenticationEvent.authenticationCheckRequested() =
       _AuthenticationCheckRequested;
 
-  /// Logs in the user
+  /// Logs out the user
   const factory AuthenticationEvent.loggedOut() = _LoggedOut;
 }
