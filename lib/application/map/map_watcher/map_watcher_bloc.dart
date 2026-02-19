@@ -30,7 +30,10 @@ class MapWatcherBloc extends Bloc<MapWatcherEvent, MapWatcherState> {
 
   StreamSubscription<Either<Failure, Set<ShoutOut>>>? _streamSubscription;
 
-  Future<void> _onWatchStarted(_WatchStarted event, Emitter emit) async {
+  Future<void> _onWatchStarted(
+    _WatchStarted event,
+    Emitter<MapWatcherState> emit,
+  ) async {
     emit(const MapWatcherState.actionInProgress());
     await _streamSubscription?.cancel();
     _streamSubscription = _repository
@@ -42,7 +45,10 @@ class MapWatcherBloc extends Bloc<MapWatcherEvent, MapWatcherState> {
         );
   }
 
-  void _onResultsReceived(_ResultsReceived event, Emitter emit) => emit(
+  void _onResultsReceived(
+    _ResultsReceived event,
+    Emitter<MapWatcherState> emit,
+  ) => emit(
     event.result.fold(
       MapWatcherState.loadFailure,
       MapWatcherState.loadSuccess,

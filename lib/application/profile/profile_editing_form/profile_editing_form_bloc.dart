@@ -38,7 +38,7 @@ class ProfileEditingFormBloc
   /// Gets the user
   User get user => state.userOption.getOrElse(User.empty);
 
-  Future<void> _onInitialized(_, Emitter emit) async {
+  Future<void> _onInitialized(_, Emitter<ProfileEditingFormState> emit) async {
     final failureOrUnit = await _repository.getCurrentUser();
     emit(
       failureOrUnit.fold(
@@ -55,14 +55,20 @@ class ProfileEditingFormBloc
     );
   }
 
-  void _onImageChanged(_ImageChanged event, Emitter emit) => emit(
+  void _onImageChanged(
+    _ImageChanged event,
+    Emitter<ProfileEditingFormState> emit,
+  ) => emit(
     state.copyWith(
       imageFile: some(event.imageFile),
       failureOrSuccessOption: none(),
     ),
   );
 
-  void _onNameChanged(_NameChanged event, Emitter emit) => emit(
+  void _onNameChanged(
+    _NameChanged event,
+    Emitter<ProfileEditingFormState> emit,
+  ) => emit(
     state.copyWith(
       userOption: some(
         user.copyWith(
@@ -73,7 +79,10 @@ class ProfileEditingFormBloc
     ),
   );
 
-  void _onUsernameChanged(_UsernameChanged event, Emitter emit) => emit(
+  void _onUsernameChanged(
+    _UsernameChanged event,
+    Emitter<ProfileEditingFormState> emit,
+  ) => emit(
     state.copyWith(
       userOption: some(
         user.copyWith(
@@ -84,7 +93,10 @@ class ProfileEditingFormBloc
     ),
   );
 
-  void _onEmailChanged(_EmailChanged event, Emitter emit) => emit(
+  void _onEmailChanged(
+    _EmailChanged event,
+    Emitter<ProfileEditingFormState> emit,
+  ) => emit(
     state.copyWith(
       userOption: some(
         user.copyWith(
@@ -95,7 +107,10 @@ class ProfileEditingFormBloc
     ),
   );
 
-  void _onBioChanged(_BioChanged event, Emitter emit) => emit(
+  void _onBioChanged(
+    _BioChanged event,
+    Emitter<ProfileEditingFormState> emit,
+  ) => emit(
     state.copyWith(
       userOption: some(
         user.copyWith(
@@ -106,7 +121,7 @@ class ProfileEditingFormBloc
     ),
   );
 
-  Future<void> _onSubmitted(_, Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter<ProfileEditingFormState> emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,

@@ -27,7 +27,7 @@ class NotificationActorBloc
 
   Future<void> _onDeleteNotification(
     _DeleteNotification event,
-    Emitter emit,
+    Emitter<NotificationActorState> emit,
   ) async {
     emit(const NotificationActorState.actionInProgress());
     final failureOrUnit = await _repository.deleteNotification(
@@ -41,7 +41,10 @@ class NotificationActorBloc
     );
   }
 
-  Future<void> _onMarkAsRead(_MarkAsRead event, Emitter emit) async {
+  Future<void> _onMarkAsRead(
+    _MarkAsRead event,
+    Emitter<NotificationActorState> emit,
+  ) async {
     final failureOrUnit = await _repository.markAsRead(event.notificationId);
     emit(
       failureOrUnit.fold(

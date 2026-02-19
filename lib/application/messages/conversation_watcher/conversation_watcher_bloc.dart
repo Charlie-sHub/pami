@@ -33,7 +33,7 @@ class ConversationWatcherBloc
 
   Future<void> _onWatchStarted(
     _WatchStarted event,
-    Emitter emit,
+    Emitter<ConversationWatcherState> emit,
   ) async {
     emit(const ConversationWatcherState.loadInProgress());
     await _streamSubscription?.cancel();
@@ -50,7 +50,10 @@ class ConversationWatcherBloc
         );
   }
 
-  void _onResultsReceived(_ResultsReceived event, Emitter emit) => emit(
+  void _onResultsReceived(
+    _ResultsReceived event,
+    Emitter<ConversationWatcherState> emit,
+  ) => emit(
     event.result.fold(
       ConversationWatcherState.loadFailure,
       ConversationWatcherState.loadSuccess,

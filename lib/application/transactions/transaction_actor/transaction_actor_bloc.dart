@@ -26,7 +26,7 @@ class TransactionActorBloc
 
   Future<void> _onTransactionCreated(
     _TransactionCreated event,
-    Emitter emit,
+    Emitter<TransactionActorState> emit,
   ) async {
     emit(const TransactionActorState.actionInProgress());
     final failureOrSuccess = await _repository.createTransaction(

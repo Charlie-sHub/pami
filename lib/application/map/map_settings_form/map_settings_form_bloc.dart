@@ -24,7 +24,10 @@ class MapSettingsFormBloc
     on<_ResetSettings>(_onResetSettings);
   }
 
-  void _onRadiusChanged(_RadiusChanged event, Emitter emit) => emit(
+  void _onRadiusChanged(
+    _RadiusChanged event,
+    Emitter<MapSettingsFormState> emit,
+  ) => emit(
     state.copyWith(
       settings: state.settings.copyWith(
         radius: MapRadius(event.radius),
@@ -32,15 +35,19 @@ class MapSettingsFormBloc
     ),
   );
 
-  void _onTypeChanged(_TypeChanged event, Emitter emit) => emit(
-    state.copyWith(
-      settings: state.settings.copyWith(
-        type: event.type,
-      ),
-    ),
-  );
+  void _onTypeChanged(_TypeChanged event, Emitter<MapSettingsFormState> emit) =>
+      emit(
+        state.copyWith(
+          settings: state.settings.copyWith(
+            type: event.type,
+          ),
+        ),
+      );
 
-  void _onCategoriesChanged(_CategoriesChanged event, Emitter emit) => emit(
+  void _onCategoriesChanged(
+    _CategoriesChanged event,
+    Emitter<MapSettingsFormState> emit,
+  ) => emit(
     state.copyWith(
       settings: state.settings.copyWith(
         categories: event.categories,
@@ -48,7 +55,7 @@ class MapSettingsFormBloc
     ),
   );
 
-  void _onResetSettings(_, Emitter emit) => emit(
+  void _onResetSettings(_, Emitter<MapSettingsFormState> emit) => emit(
     MapSettingsFormState.initial(),
   );
 }

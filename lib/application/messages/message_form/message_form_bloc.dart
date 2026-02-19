@@ -28,7 +28,7 @@ class MessageFormBloc extends Bloc<MessageFormEvent, MessageFormState> {
 
   Future<void> _onMessageChanged(
     _MessageChanged event,
-    Emitter emit,
+    Emitter<MessageFormState> emit,
   ) async => emit(
     state.copyWith(
       message: state.message.copyWith(
@@ -38,7 +38,7 @@ class MessageFormBloc extends Bloc<MessageFormEvent, MessageFormState> {
     ),
   );
 
-  Future<void> _onSubmitted(_, Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter<MessageFormState> emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,

@@ -41,35 +41,50 @@ class RegistrationFormBloc
 
   final AuthenticationRepositoryInterface _repository;
 
-  void _onInitialized(_Initialized event, Emitter emit) => emit(
+  void _onInitialized(
+    _Initialized event,
+    Emitter<RegistrationFormState> emit,
+  ) => emit(
     event.userOption.fold(
       () => state.copyWith(initialized: true),
       (user) => state.copyWith(user: user, initialized: true),
     ),
   );
 
-  void _onImageChanged(_ImageChanged event, Emitter emit) => emit(
+  void _onImageChanged(
+    _ImageChanged event,
+    Emitter<RegistrationFormState> emit,
+  ) => emit(
     state.copyWith(
       imageFile: some(event.imageFile),
       failureOrSuccessOption: none(),
     ),
   );
 
-  void _onNameChanged(_NameChanged event, Emitter emit) => emit(
+  void _onNameChanged(
+    _NameChanged event,
+    Emitter<RegistrationFormState> emit,
+  ) => emit(
     state.copyWith(
       user: state.user.copyWith(name: Name(event.name)),
       failureOrSuccessOption: none(),
     ),
   );
 
-  void _onUsernameChanged(_UsernameChanged event, Emitter emit) => emit(
+  void _onUsernameChanged(
+    _UsernameChanged event,
+    Emitter<RegistrationFormState> emit,
+  ) => emit(
     state.copyWith(
       user: state.user.copyWith(username: Name(event.username)),
       failureOrSuccessOption: none(),
     ),
   );
 
-  void _onPasswordChanged(_PasswordChanged event, Emitter emit) => emit(
+  void _onPasswordChanged(
+    _PasswordChanged event,
+    Emitter<RegistrationFormState> emit,
+  ) => emit(
     state.copyWith(
       password: Password(event.password),
       passwordConfirmator: FieldConfirmator(
@@ -82,7 +97,7 @@ class RegistrationFormBloc
 
   void _onPasswordConfirmationChanged(
     _PasswordConfirmationChanged event,
-    Emitter emit,
+    Emitter<RegistrationFormState> emit,
   ) => emit(
     state.copyWith(
       passwordConfirmator: FieldConfirmator(
@@ -94,7 +109,10 @@ class RegistrationFormBloc
     ),
   );
 
-  void _onEmailChanged(_EmailAddressChanged event, Emitter emit) => emit(
+  void _onEmailChanged(
+    _EmailAddressChanged event,
+    Emitter<RegistrationFormState> emit,
+  ) => emit(
     state.copyWith(
       user: state.user.copyWith(email: EmailAddress(event.email)),
       emailConfirmator: FieldConfirmator(
@@ -107,7 +125,7 @@ class RegistrationFormBloc
 
   void _onEmailConfirmationChanged(
     _EmailConfirmationChanged event,
-    Emitter emit,
+    Emitter<RegistrationFormState> emit,
   ) => emit(
     state.copyWith(
       emailConfirmator: FieldConfirmator(
@@ -119,21 +137,22 @@ class RegistrationFormBloc
     ),
   );
 
-  void _onBioChanged(_BioChanged event, Emitter emit) => emit(
-    state.copyWith(
-      user: state.user.copyWith(bio: EntityDescription(event.bio)),
-      failureOrSuccessOption: none(),
-    ),
-  );
+  void _onBioChanged(_BioChanged event, Emitter<RegistrationFormState> emit) =>
+      emit(
+        state.copyWith(
+          user: state.user.copyWith(bio: EntityDescription(event.bio)),
+          failureOrSuccessOption: none(),
+        ),
+      );
 
-  void _onTappedEULA(_, Emitter emit) => emit(
+  void _onTappedEULA(_, Emitter<RegistrationFormState> emit) => emit(
     state.copyWith(
       acceptedEULA: !state.acceptedEULA,
       failureOrSuccessOption: none(),
     ),
   );
 
-  Future<void> _onSubmitted(_, Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter<RegistrationFormState> emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,

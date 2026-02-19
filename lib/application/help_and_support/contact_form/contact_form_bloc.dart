@@ -28,16 +28,20 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
 
   final HelpAndSupportRepositoryInterface _repository;
 
-  void _onTypeChanged(_TypeChanged event, Emitter emit) => emit(
-    state.copyWith(
-      message: state.message.copyWith(
-        type: event.type,
-      ),
-      failureOrSuccessOption: none(),
-    ),
-  );
+  void _onTypeChanged(_TypeChanged event, Emitter<ContactFormState> emit) =>
+      emit(
+        state.copyWith(
+          message: state.message.copyWith(
+            type: event.type,
+          ),
+          failureOrSuccessOption: none(),
+        ),
+      );
 
-  void _onMessageChanged(_MessageChanged event, Emitter emit) => emit(
+  void _onMessageChanged(
+    _MessageChanged event,
+    Emitter<ContactFormState> emit,
+  ) => emit(
     state.copyWith(
       message: state.message.copyWith(
         content: MessageContent(event.message),
@@ -46,7 +50,7 @@ class ContactFormBloc extends Bloc<ContactFormEvent, ContactFormState> {
     ),
   );
 
-  Future<void> _onSubmitted(_, Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter<ContactFormState> emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,

@@ -13,9 +13,9 @@ abstract class ForgottenPasswordFormState with _$ForgottenPasswordFormState {
 
   /// Empty constructor
   factory ForgottenPasswordFormState.initial() => ForgottenPasswordFormState(
-        email: EmailAddress(''),
-        showErrorMessages: false,
-        isSubmitting: false,
-        failureOrSuccessOption: none(),
-      );
+    email: EmailAddress(''),
+    showErrorMessages: false,
+    isSubmitting: false,
+    failureOrSuccessOption: none(),
+  );
 }

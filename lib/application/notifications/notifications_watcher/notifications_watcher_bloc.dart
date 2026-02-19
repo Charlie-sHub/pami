@@ -29,7 +29,10 @@ class NotificationsWatcherBloc
   final NotificationRepositoryInterface _repository;
   StreamSubscription<Either<Failure, List<Notification>>>? _streamSubscription;
 
-  Future<void> _onWatchStarted(_, Emitter emit) async {
+  Future<void> _onWatchStarted(
+    _,
+    Emitter<NotificationsWatcherState> emit,
+  ) async {
     emit(const NotificationsWatcherState.loadInProgress());
     await _streamSubscription?.cancel();
     _streamSubscription = _repository.watchNotifications().listen(
@@ -39,7 +42,10 @@ class NotificationsWatcherBloc
     );
   }
 
-  void _onResultsReceived(_ResultsReceived event, Emitter emit) => emit(
+  void _onResultsReceived(
+    _ResultsReceived event,
+    Emitter<NotificationsWatcherState> emit,
+  ) => emit(
     event.result.fold(
       NotificationsWatcherState.loadFailure,
       NotificationsWatcherState.loadSuccess,

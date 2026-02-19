@@ -24,7 +24,7 @@ class ProfileWatcherBloc
 
   final ProfileRepositoryInterface _repository;
 
-  Future<void> _onFetchProfile(_, Emitter emit) async {
+  Future<void> _onFetchProfile(_, Emitter<ProfileWatcherState> emit) async {
     emit(const ProfileWatcherState.loadInProgress());
     final result = await _repository.getCurrentUser();
     emit(

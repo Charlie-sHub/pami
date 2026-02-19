@@ -23,7 +23,10 @@ class UserDeletionActorBloc
 
   final ProfileRepositoryInterface _repository;
 
-  Future<void> _onDeleteRequested(_, Emitter emit) async {
+  Future<void> _onDeleteRequested(
+    _,
+    Emitter<UserDeletionActorState> emit,
+  ) async {
     emit(const UserDeletionActorState.actionInProgress());
     final failureOrSuccess = await _repository.deleteUser();
     emit(

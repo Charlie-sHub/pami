@@ -32,7 +32,7 @@ class TransactionListenerBloc
 
   Future<void> _onListenShoutOutStarted(
     _ListenShoutOutStarted event,
-    Emitter emit,
+    Emitter<TransactionListenerState> emit,
   ) async {
     emit(const TransactionListenerState.loadInProgress());
     await _shoutOutSubscription?.cancel();
@@ -47,7 +47,10 @@ class TransactionListenerBloc
         );
   }
 
-  void _onShoutOutUpdated(_ShoutOutUpdated event, Emitter emit) => emit(
+  void _onShoutOutUpdated(
+    _ShoutOutUpdated event,
+    Emitter<TransactionListenerState> emit,
+  ) => emit(
     event.result.fold(
       TransactionListenerState.loadFailure,
       TransactionListenerState.loadSuccess,

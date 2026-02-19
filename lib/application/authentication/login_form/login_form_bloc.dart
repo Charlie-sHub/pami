@@ -9,9 +9,7 @@ import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
 part 'login_form_bloc.freezed.dart';
-
 part 'login_form_event.dart';
-
 part 'login_form_state.dart';
 
 /// Login form bloc
@@ -31,21 +29,25 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
 
   final AuthenticationRepositoryInterface _repository;
 
-  void _onEmailChanged(_EmailChanged event, Emitter emit) => emit(
-    state.copyWith(
-      email: EmailAddress(event.email),
-      failureOrSuccessOption: none(),
-    ),
-  );
+  void _onEmailChanged(_EmailChanged event, Emitter<LoginFormState> emit) =>
+      emit(
+        state.copyWith(
+          email: EmailAddress(event.email),
+          failureOrSuccessOption: none(),
+        ),
+      );
 
-  void _onPasswordChanged(_PasswordChanged event, Emitter emit) => emit(
+  void _onPasswordChanged(
+    _PasswordChanged event,
+    Emitter<LoginFormState> emit,
+  ) => emit(
     state.copyWith(
       password: Password(event.password),
       failureOrSuccessOption: none(),
     ),
   );
 
-  Future<void> _onLoggedIn(_, Emitter emit) async {
+  Future<void> _onLoggedIn(_, Emitter<LoginFormState> emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,
@@ -71,21 +73,22 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     );
   }
 
-  Future<void> _onLoggedInGoogle(_, Emitter emit) async =>
+  Future<void> _onLoggedInGoogle(_, Emitter<LoginFormState> emit) async =>
       _performActionOnThirdPartyLogin(
         forwardedCall: _repository.logInGoogle,
         emit: emit,
       );
 
-  Future<void> _onLoggedInApple(_, Emitter emit) async =>
+  Future<void> _onLoggedInApple(_, Emitter<LoginFormState> emit) async =>
       _performActionOnThirdPartyLogin(
         forwardedCall: _repository.logInApple,
         emit: emit,
       );
 
   Future<void> _performActionOnThirdPartyLogin({
-    required Future<Either<Failure, Option<User>>> Function() forwardedCall,
-    required Emitter emit,
+    required Future<Either<Failure<dynamic>, Option<User>>> Function()
+    forwardedCall,
+    required Emitter<LoginFormState> emit,
   }) async {
     emit(
       state.copyWith(
@@ -111,7 +114,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     );
   }
 
-  void _onResetThirdPartyUser(_, Emitter emit) => emit(
+  void _onResetThirdPartyUser(_, Emitter<LoginFormState> emit) => emit(
     state.copyWith(
       thirdPartyUserOption: none(),
     ),

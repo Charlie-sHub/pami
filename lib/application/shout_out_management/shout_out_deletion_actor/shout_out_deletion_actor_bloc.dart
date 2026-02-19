@@ -24,7 +24,10 @@ class ShoutOutDeletionActorBloc
 
   final ShoutOutManagementRepositoryInterface _repository;
 
-  Future<void> _onDeleteRequested(_DeleteRequested event, Emitter emit) async {
+  Future<void> _onDeleteRequested(
+    _DeleteRequested event,
+    Emitter<ShoutOutDeletionActorState> emit,
+  ) async {
     emit(const ShoutOutDeletionActorState.actionInProgress());
     final failureOrSuccess = await _repository.deleteShoutOut(event.shoutOutId);
     emit(

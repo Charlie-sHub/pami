@@ -53,15 +53,20 @@ class MapControllerBloc extends Bloc<MapControllerEvent, MapControllerState> {
     );
   }
 
-  void _onCameraPositionChanged(_CameraPositionChanged event, Emitter emit) =>
-      emit(
-        state.copyWith(
-          coordinates: event.coordinates,
-          zoom: event.zoom,
-        ),
-      );
+  void _onCameraPositionChanged(
+    _CameraPositionChanged event,
+    Emitter<MapControllerState> emit,
+  ) => emit(
+    state.copyWith(
+      coordinates: event.coordinates,
+      zoom: event.zoom,
+    ),
+  );
 
-  void _onUserLocationUpdated(_UserLocationUpdated event, Emitter emit) => emit(
+  void _onUserLocationUpdated(
+    _UserLocationUpdated event,
+    Emitter<MapControllerState> emit,
+  ) => emit(
     event.result.fold(
       (_) => state,
       (coordinates) => state.copyWith(
@@ -70,7 +75,10 @@ class MapControllerBloc extends Bloc<MapControllerEvent, MapControllerState> {
     ),
   );
 
-  Future<void> _onLocationPermissionRequested(_, Emitter emit) async {
+  Future<void> _onLocationPermissionRequested(
+    _,
+    Emitter<MapControllerState> emit,
+  ) async {
     final status = await Permission.location.request();
     final granted = status.isGranted;
 

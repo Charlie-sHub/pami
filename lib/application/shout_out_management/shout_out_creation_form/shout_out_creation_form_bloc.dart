@@ -35,25 +35,37 @@ class ShoutOutCreationFormBloc
 
   final ShoutOutManagementRepositoryInterface _repository;
 
-  void _onInitialized(_Initialized event, Emitter emit) => emit(
+  void _onInitialized(
+    _Initialized event,
+    Emitter<ShoutOutCreationFormState> emit,
+  ) => emit(
     state.copyWith(
       shoutOut: state.shoutOut.copyWith(type: event.type),
     ),
   );
 
-  void _onTitleChanged(_TitleChanged event, Emitter emit) => emit(
+  void _onTitleChanged(
+    _TitleChanged event,
+    Emitter<ShoutOutCreationFormState> emit,
+  ) => emit(
     state.copyWith(
       shoutOut: state.shoutOut.copyWith(title: Name(event.title)),
     ),
   );
 
-  void _onPictureChanged(_PictureChanged event, Emitter emit) => emit(
+  void _onPictureChanged(
+    _PictureChanged event,
+    Emitter<ShoutOutCreationFormState> emit,
+  ) => emit(
     state.copyWith(
       imageFile: some(event.imageFile),
     ),
   );
 
-  void _onDescriptionChanged(_DescriptionChanged event, Emitter emit) => emit(
+  void _onDescriptionChanged(
+    _DescriptionChanged event,
+    Emitter<ShoutOutCreationFormState> emit,
+  ) => emit(
     state.copyWith(
       shoutOut: state.shoutOut.copyWith(
         description: EntityDescription(event.description),
@@ -61,13 +73,16 @@ class ShoutOutCreationFormBloc
     ),
   );
 
-  void _onCategoriesChanged(_CategoriesChanged event, Emitter emit) => emit(
+  void _onCategoriesChanged(
+    _CategoriesChanged event,
+    Emitter<ShoutOutCreationFormState> emit,
+  ) => emit(
     state.copyWith(
       shoutOut: state.shoutOut.copyWith(categories: event.categories),
     ),
   );
 
-  Future<void> _onSubmitted(_, Emitter emit) async {
+  Future<void> _onSubmitted(_, Emitter<ShoutOutCreationFormState> emit) async {
     emit(
       state.copyWith(
         isSubmitting: true,

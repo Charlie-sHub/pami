@@ -27,7 +27,10 @@ class InterestedShoutOutsActorBloc
 
   final InterestedShoutOutsRepositoryInterface _repository;
 
-  Future<void> _onAddToInterested(_AddToInterested event, Emitter emit) async {
+  Future<void> _onAddToInterested(
+    _AddToInterested event,
+    Emitter<InterestedShoutOutsActorState> emit,
+  ) async {
     emit(const InterestedShoutOutsActorState.actionInProgress());
     final failureOrSuccess = await _repository.addInterestedShoutOut(
       event.shoutOutId,
@@ -42,7 +45,7 @@ class InterestedShoutOutsActorBloc
 
   Future<void> _onDismissFromInterested(
     _DismissFromInterested event,
-    Emitter emit,
+    Emitter<InterestedShoutOutsActorState> emit,
   ) async {
     emit(const InterestedShoutOutsActorState.actionInProgress());
     final failureOrSuccess = await _repository.dismissInterestedShoutOut(

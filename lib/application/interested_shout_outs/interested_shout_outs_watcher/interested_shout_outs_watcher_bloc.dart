@@ -31,7 +31,10 @@ class InterestedShoutOutsWatcherBloc
 
   StreamSubscription<Either<Failure, List<ShoutOut>>>? _streamSubscription;
 
-  Future<void> _onWatchStarted(_, Emitter emit) async {
+  Future<void> _onWatchStarted(
+    _,
+    Emitter<InterestedShoutOutsWatcherState> emit,
+  ) async {
     emit(const InterestedShoutOutsWatcherState.actionInProgress());
     await _streamSubscription?.cancel();
     _streamSubscription = _repository.watchInterestedShoutOuts().listen(
@@ -43,7 +46,10 @@ class InterestedShoutOutsWatcherBloc
     );
   }
 
-  void _onResultsReceived(_ResultsReceived event, Emitter emit) => emit(
+  void _onResultsReceived(
+    _ResultsReceived event,
+    Emitter<InterestedShoutOutsWatcherState> emit,
+  ) => emit(
     event.result.fold(
       InterestedShoutOutsWatcherState.loadFailure,
       InterestedShoutOutsWatcherState.loadSuccess,

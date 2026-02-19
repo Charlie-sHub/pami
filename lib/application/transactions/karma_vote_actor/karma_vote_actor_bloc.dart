@@ -24,7 +24,10 @@ class KarmaVoteActorBloc
 
   final TransactionRepositoryInterface _repository;
 
-  Future<void> _onVoteSubmitted(_VoteSubmitted event, Emitter emit) async {
+  Future<void> _onVoteSubmitted(
+    _VoteSubmitted event,
+    Emitter<KarmaVoteActorState> emit,
+  ) async {
     emit(const KarmaVoteActorState.actionInProgress());
     final failureOrSuccess = await _repository.submitKarmaVote(
       shoutOutId: event.shoutOutId,

@@ -17,7 +17,10 @@ class HomeNavigationActorBloc
     on<_TabSelected>(_onTabSelected);
   }
 
-  void _onTabSelected(_TabSelected event, Emitter emit) {
+  void _onTabSelected(
+    _TabSelected event,
+    Emitter<HomeNavigationActorState> emit,
+  ) {
     var newIndex = event.index;
     if (newIndex < 0 || newIndex > 4) {
       newIndex = 0;

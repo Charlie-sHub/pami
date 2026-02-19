@@ -31,7 +31,10 @@ class ConversationsWatcherBloc
 
   StreamSubscription<Either<Failure, List<Conversation>>>? _streamSubscription;
 
-  Future<void> _onWatchStarted(_WatchStarted event, Emitter emit) async {
+  Future<void> _onWatchStarted(
+    _WatchStarted event,
+    Emitter<ConversationsWatcherState> emit,
+  ) async {
     emit(const ConversationsWatcherState.loadInProgress());
     await _streamSubscription?.cancel();
     _streamSubscription = _repository
@@ -47,7 +50,10 @@ class ConversationsWatcherBloc
         );
   }
 
-  void _onResultsReceived(_ResultsReceived event, Emitter emit) => emit(
+  void _onResultsReceived(
+    _ResultsReceived event,
+    Emitter<ConversationsWatcherState> emit,
+  ) => emit(
     event.result.fold(
       ConversationsWatcherState.loadFailure,
       ConversationsWatcherState.loadSuccess,
