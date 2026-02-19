@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:pami/domain/core/validation/validators/validate_single_line_string.dart';
 import 'package:pami/domain/core/validation/validators/validate_string_not_empty.dart';
@@ -11,13 +11,13 @@ class Url extends ValueObject<String> {
 
   /// Creates a new [Url]
   factory Url(String input) => Url._(
-        validateStringNotEmpty(
-          input,
-        ).flatMap(validateSingleLineString).flatMap(validateUrl),
-      );
+    validateStringNotEmpty(
+      input,
+    ).flatMap(validateSingleLineString).flatMap(validateUrl),
+  );
 
   @override
-  final Either<Failure<String>, String> value;
+  final Either<ValueFailure<String>, String> value;
 
   @override
   List<Either> get props => [value];

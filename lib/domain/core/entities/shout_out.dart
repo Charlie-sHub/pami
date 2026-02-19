@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
@@ -60,12 +60,13 @@ abstract class ShoutOut with _$ShoutOut {
     );
   }
 
-  /// Gets an [Option] of [Failure] of any of its fields
-  Option<Failure<dynamic>> get failureOption {
-    Either<Failure<dynamic>, Unit> asDyn<L>(Either<Failure<L>, Unit> either) =>
-        either.leftMap(
-          (l) => l as Failure<dynamic>,
-        );
+  /// Gets an [Option] of [] of any of its fields
+  Option<ValueFailure<dynamic>> get failureOption {
+    Either<ValueFailure<dynamic>, Unit> asDyn<L>(
+      Either<ValueFailure<L>, Unit> either,
+    ) => either.leftMap(
+      (l) => l as ValueFailure<dynamic>,
+    );
 
     final either = asDyn(title.failureOrUnit)
         .andThen(asDyn(description.failureOrUnit))
@@ -74,7 +75,7 @@ abstract class ShoutOut with _$ShoutOut {
         .andThen(asDyn(dateCreated.failureOrUnit))
         .andThen(
           creatorUser.fold(
-            () => right<Failure<dynamic>, Unit>(unit),
+            () => right<ValueFailure<dynamic>, Unit>(unit),
             (user) => asDyn(user.failureOrUnit),
           ),
         );
@@ -82,8 +83,8 @@ abstract class ShoutOut with _$ShoutOut {
     return either.fold(some, (_) => none());
   }
 
-  /// Gets an [Either] of [Failure] or [Unit] based on the [failureOption]
-  Either<Failure<dynamic>, Unit> get failureOrUnit => failureOption.fold(
+  /// Gets an [Either] of [] or [Unit] based on the [failureOption]
+  Either<ValueFailure<dynamic>, Unit> get failureOrUnit => failureOption.fold(
     () => right(unit),
     left,
   );

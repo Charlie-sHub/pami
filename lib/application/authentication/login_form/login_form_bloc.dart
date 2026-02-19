@@ -4,12 +4,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/entities/user.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
 part 'login_form_bloc.freezed.dart';
+
 part 'login_form_event.dart';
+
 part 'login_form_state.dart';
 
 /// Login form bloc
@@ -86,8 +89,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       );
 
   Future<void> _performActionOnThirdPartyLogin({
-    required Future<Either<Failure<dynamic>, Option<User>>> Function()
-    forwardedCall,
+    required Future<Either<AppFailure, Option<User>>> Function() forwardedCall,
     required Emitter<LoginFormState> emit,
   }) async {
     emit(

@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 
+import 'package:pami/domain/core/failures/value_failure.dart';
+
 /// Validates that a collection does not exceed a given length
-Either<Failure<Set<T>>, Set<T>> validateMaxLengthSet<T>({
+Either<ValueFailure<Set<T>>, Set<T>> validateMaxLengthSet<T>({
   required Set<T> input,
   required int maxLength,
 }) {
@@ -10,7 +12,7 @@ Either<Failure<Set<T>>, Set<T>> validateMaxLengthSet<T>({
     return right(input);
   } else {
     return left(
-      Failure.collectionExceedsLength(
+      ValueFailure.collectionExceedsLength(
         failedValue: input,
         maxLength: maxLength,
       ),

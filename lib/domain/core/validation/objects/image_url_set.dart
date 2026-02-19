@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:pami/domain/core/validation/validators/validate_max_length_set.dart';
@@ -10,14 +11,14 @@ class ImageUrlSet extends ValueObject<Set<Url>> {
 
   /// Creates a new [ImageUrlSet]
   factory ImageUrlSet(Set<Url> input) => ImageUrlSet._(
-        validateMaxLengthSet(
-          input: input,
-          maxLength: maxLength,
-        ),
-      );
+    validateMaxLengthSet(
+      input: input,
+      maxLength: maxLength,
+    ),
+  );
 
   @override
-  final Either<Failure<Set<Url>>, Set<Url>> value;
+  final Either<ValueFailure<Set<Url>>, Set<Url>> value;
 
   /// Maximum number of [Url]s
   static const maxLength = 5;

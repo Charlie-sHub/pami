@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/converters/date_only_datetime.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:pami/domain/core/validation/validators/validate_past_date.dart';
@@ -10,11 +10,11 @@ class PastDate extends ValueObject<DateTime> {
 
   /// Creates a new [PastDate]
   factory PastDate(DateTime input) => PastDate._(
-        dateOnlyDateTime(input).flatMap(validatePastDate),
-      );
+    dateOnlyDateTime(input).flatMap(validatePastDate),
+  );
 
   @override
-  final Either<Failure<DateTime>, DateTime> value;
+  final Either<ValueFailure<DateTime>, DateTime> value;
 
   @override
   List<Either> get props => [value];

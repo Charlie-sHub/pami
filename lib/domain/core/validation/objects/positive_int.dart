@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:pami/domain/core/validation/validators/validate_bounded_int.dart';
 
@@ -15,7 +15,7 @@ class PositiveInt extends ValueObject<int> {
   );
 
   @override
-  final Either<Failure<int>, int> value;
+  final Either<ValueFailure<int>, int> value;
 
   @override
   List<Object> get props => [value];

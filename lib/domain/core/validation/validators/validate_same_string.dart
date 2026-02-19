@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 
 /// Validates that two strings are the same
-Either<Failure<String>, String> validateSameString(
+Either<ValueFailure<String>, String> validateSameString(
   String firstInput,
   String secondInput,
 ) {
   if (firstInput.trim() == secondInput.trim()) {
     return right(firstInput);
   } else {
-    return left(Failure.stringMismatch(failedValue: secondInput));
+    return left(ValueFailure.stringMismatch(failedValue: secondInput));
   }
 }

@@ -1,12 +1,12 @@
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 
-/// [Error] class that encapsulates a [Failure]
+/// [Error] class that encapsulates a [ValueFailure]
 class UnexpectedValueError extends Error {
   /// Default constructor
   UnexpectedValueError(this.valueFailure);
 
-  /// The [Failure] that caused the error
-  final Failure<dynamic> valueFailure;
+  /// The [ValueFailure] that caused the error
+  final ValueFailure<dynamic> valueFailure;
 
   @override
   String toString() {
@@ -20,7 +20,8 @@ class UnexpectedValueError extends Error {
 class UnAuthenticatedError extends Error {
   @override
   String toString() {
-    const explanation = "Couldn't get the authenticated User "
+    const explanation =
+        "Couldn't get the authenticated User "
         'at a point where only authenticated Users should be';
     return Error.safeToString(explanation);
   }

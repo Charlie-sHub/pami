@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:pami/domain/core/validation/validators/validate_max_length_set.dart';
@@ -10,14 +11,14 @@ class CategorySet extends ValueObject<Set<Category>> {
 
   /// Creates a new [CategorySet]
   factory CategorySet(Set<Category> input) => CategorySet._(
-        validateMaxLengthSet(
-          input: input,
-          maxLength: maxLength,
-        ),
-      );
+    validateMaxLengthSet(
+      input: input,
+      maxLength: maxLength,
+    ),
+  );
 
   @override
-  final Either<Failure<Set<Category>>, Set<Category>> value;
+  final Either<ValueFailure<Set<Category>>, Set<Category>> value;
 
   /// Maximum number of categories
   static const maxLength = 5;

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 
 /// Validates that a string does not exceed a given length
-Either<Failure<String>, String> validateStringLength({
+Either<ValueFailure<String>, String> validateStringLength({
   required String input,
   required int length,
 }) {
@@ -10,7 +10,7 @@ Either<Failure<String>, String> validateStringLength({
     return right(input);
   } else {
     return left(
-      Failure.stringExceedsLength(
+      ValueFailure.stringExceedsLength(
         failedValue: input,
         maxLength: length,
       ),

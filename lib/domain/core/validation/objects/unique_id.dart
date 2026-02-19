@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,10 +12,10 @@ class UniqueId extends ValueObject<String> {
 
   /// Creates a new [UniqueId] from a assumed unique string
   factory UniqueId.fromUniqueString(String uniqueId) => UniqueId._(
-        right(uniqueId),
-      );
+    right(uniqueId),
+  );
   @override
-  final Either<Failure<String>, String> value;
+  final Either<ValueFailure<String>, String> value;
 
   @override
   List<Object> get props => [value];
