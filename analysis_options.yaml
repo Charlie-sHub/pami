@@ -1,29 +1,8 @@
+# Use Very Good Analysis as the base lint ruleset
 include: package:very_good_analysis/analysis_options.yaml
 
-linter:
-  rules:
-    - always_use_package_imports
-    - avoid_print
-    - avoid_function_literals_in_foreach_calls
-    - prefer_final_locals
-    - prefer_final_fields
-    - prefer_single_quotes
-    - prefer_const_declarations
-    - prefer_expression_function_bodies
-    - unnecessary_this
-    - unnecessary_underscores
-    - use_super_parameters
-    - use_null_aware_elements
-    - avoid_redundant_argument_values
-    - omit_local_variable_types
-    - sort_constructors_first
-    - sort_unnamed_constructors_first
-    - avoid_classes_with_only_static_members
-    - require_trailing_commas
-    - lines_longer_than_80_chars
-    - directives_ordering
-
 analyzer:
+  # Exclude generated/build and tool directories
   exclude:
     - "**/*.g.dart"
     - "**/*.gr.dart"
@@ -42,19 +21,43 @@ analyzer:
     - "android/**"
     - "gen/**"
 
+  # Stricter static analysis (type checks)
+  language:
+    strict-casts: true        # Catch implicit downcasts
+    strict-inference: true    # Avoid dynamic fallback
+    strict-raw-types: true    # Require type arguments on generics
+
+  # Custom error severity overrides (only non-default changes)
   errors:
+    # Elevate missing returns from warning to error
     missing_return: error
-    missing_required_param: error
-    parameter_assignments: error
-    must_be_immutable: error
-    sort_unnamed_constructors_first: ignore
+
+    # Keep package imports style (conflicts with always_use_package_imports)
     prefer_relative_imports: ignore
-    always_use_package_imports: error
-    inference_failure_on_function_invocation: ignore
-    inference_failure_on_instance_creation: ignore
-    strict_raw_type: ignore
-    one_member_abstracts: ignore
-    flutter_style_todos: ignore
+
+linter:
+  rules:
+    # Your selected rules (no duplicates)
+    always_use_package_imports
+    avoid_print
+    avoid_function_literals_in_foreach_calls
+    prefer_final_locals
+    prefer_final_fields
+    prefer_single_quotes
+    prefer_const_declarations
+    prefer_expression_function_bodies
+    unnecessary_this
+    unnecessary_underscores
+    use_super_parameters
+    use_null_aware_elements
+    avoid_redundant_argument_values
+    omit_local_variable_types
+    sort_constructors_first
+    sort_unnamed_constructors_first
+    avoid_classes_with_only_static_members
+    require_trailing_commas
+    lines_longer_than_80_chars
+    directives_ordering
 
 coverage:
   ignore:
