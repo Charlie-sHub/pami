@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/authentication/forgotten_password_form/forgotten_password_form_bloc.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/authentication/widgets/forgot_password_form/forgot_password_form.dart';

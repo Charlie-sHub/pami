@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
@@ -24,7 +24,7 @@ class DevelopmentInterestedShoutOutsRepository
   final Logger _logger;
 
   @override
-  Stream<Either<Failure, List<ShoutOut>>> watchInterestedShoutOuts() {
+  Stream<Either<AppFailure, List<ShoutOut>>> watchInterestedShoutOuts() {
     _logger.d('Watching interested shout outs...');
 
     final shoutOuts = [
@@ -66,17 +66,17 @@ class DevelopmentInterestedShoutOutsRepository
   }
 
   @override
-  Future<Either<Failure, Unit>> addInterestedShoutOut(
+  Future<Either<AppFailure, Unit>> addInterestedShoutOut(
     UniqueId shoutOutId,
   ) async => right(unit);
 
   @override
-  Future<Either<Failure, Unit>> dismissInterestedShoutOut(
+  Future<Either<AppFailure, Unit>> dismissInterestedShoutOut(
     UniqueId shoutOutId,
   ) async => right(unit);
 
   @override
-  Future<Either<Failure, Unit>> confirmScan({
+  Future<Either<AppFailure, Unit>> confirmScan({
     required UniqueId shoutOutId,
     required UniqueId scannerUserId,
     required Option<String> rawPayload,

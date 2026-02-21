@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
@@ -178,7 +178,7 @@ void main() {
           final result = invalidEmailUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -189,7 +189,7 @@ void main() {
           final result = invalidNameUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -200,7 +200,7 @@ void main() {
           final result = invalidUsernameUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -211,7 +211,7 @@ void main() {
           final result = invalidBioUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -222,7 +222,7 @@ void main() {
           final result = invalidAvatarUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -233,7 +233,7 @@ void main() {
           final result = invalidKarmaUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -244,7 +244,7 @@ void main() {
           final result = invalidLastLoginUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -255,7 +255,7 @@ void main() {
           final result = invalidDateCreatedUser.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -266,7 +266,7 @@ void main() {
           final result = invalidEmailUser.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -277,7 +277,7 @@ void main() {
           final result = invalidNameUser.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -288,7 +288,7 @@ void main() {
           final result = invalidBioUser.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -299,7 +299,7 @@ void main() {
           final result = invalidAvatarUser.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -310,7 +310,7 @@ void main() {
           final result = invalidKarmaUser.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -321,7 +321,7 @@ void main() {
           final result = invalidLastLoginUser.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -332,7 +332,7 @@ void main() {
           final result = invalidDateCreatedUser.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
     },

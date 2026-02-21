@@ -16,7 +16,7 @@ abstract class RegistrationFormState with _$RegistrationFormState {
     required bool isSubmitting,
     required bool acceptedEULA,
     required bool initialized,
-    required Option<Either<Failure, Unit>> failureOrSuccessOption,
+    required Option<Either<AppFailure, Unit>> failureOrSuccessOption,
   }) = _RegistrationFormState;
 
   /// Empty constructor

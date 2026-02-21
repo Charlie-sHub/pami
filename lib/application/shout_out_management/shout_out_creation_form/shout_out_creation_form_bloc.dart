@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
@@ -90,7 +90,7 @@ class ShoutOutCreationFormBloc
       ),
     );
 
-    Either<Failure, Unit> failureOrUnit;
+    Either<AppFailure, Unit> failureOrUnit;
     final canSubmit = state.shoutOut.isValid && state.imageFile.isSome();
     if (canSubmit) {
       final imageFile = state.imageFile.fold(
@@ -102,7 +102,7 @@ class ShoutOutCreationFormBloc
         imageFile: imageFile!,
       );
     } else {
-      failureOrUnit = left(const Failure.emptyFields());
+      failureOrUnit = left(const AppFailure.emptyFields());
     }
 
     emit(

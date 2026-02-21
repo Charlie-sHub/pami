@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/validation/objects/value_object.dart';

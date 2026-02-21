@@ -129,7 +129,7 @@ void main() {
     'shows error message on LoadFailure',
     (tester) async {
       // Arrange
-      const failure = Failure.serverError(errorString: '');
+      const failure = AppFailure.serverError(errorString: '');
       when(watcherBloc.state).thenReturn(
         const MyShoutOutsWatcherState.actionInProgress(),
       );

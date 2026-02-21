@@ -171,7 +171,7 @@ void main() {
       // Act
       watcherStream.add(
         const InterestedShoutOutsWatcherState.loadFailure(
-          Failure.serverError(errorString: 'error'),
+          AppFailure.serverError(errorString: 'error'),
         ),
       );
       await tester.pump();

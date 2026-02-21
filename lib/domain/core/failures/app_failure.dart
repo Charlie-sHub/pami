@@ -23,6 +23,8 @@ sealed class AppFailure extends Failure with _$AppFailure {
 
   const factory AppFailure.usernameAlreadyInUse() = UsernameAlreadyInUse;
 
+  const factory AppFailure.emptyFields() = EmptyFields;
+
   // --- Infrastructure errors ---
 
   const factory AppFailure.serverError({
@@ -49,7 +51,7 @@ sealed class AppFailure extends Failure with _$AppFailure {
     UsernameAlreadyInUse() => 'Username is already taken.',
     ServerError(:final errorString) => 'Server error: $errorString',
     CacheError(:final errorString) => 'Cache error: $errorString',
-    UnexpectedError(:final errorMessage) =>
-      'An unexpected error occurred: $errorMessage',
+    UnexpectedError(:final errorMessage) => 'Unexpected error: $errorMessage',
+    EmptyFields() => 'Some required fields are empty.',
   };
 }

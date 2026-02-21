@@ -10,16 +10,16 @@ abstract class ProfileEditingFormState with _$ProfileEditingFormState {
     required bool showErrorMessages,
     required bool initialized,
     required bool isSubmitting,
-    required Option<Either<Failure, Unit>> failureOrSuccessOption,
+    required Option<Either<AppFailure, Unit>> failureOrSuccessOption,
   }) = _ProfileEditingFormState;
 
   /// Initial state
   factory ProfileEditingFormState.initial() => ProfileEditingFormState(
-        userOption: none(),
-        imageFile: none(),
-        showErrorMessages: false,
-        initialized: false,
-        isSubmitting: false,
-        failureOrSuccessOption: none(),
-      );
+    userOption: none(),
+    imageFile: none(),
+    showErrorMessages: false,
+    initialized: false,
+    isSubmitting: false,
+    failureOrSuccessOption: none(),
+  );
 }

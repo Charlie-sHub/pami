@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/conversation.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
@@ -91,7 +91,7 @@ void main() {
           // Assert
           expect(
             invalidLastMessageConversation.failureOption,
-            isA<Some<Failure<dynamic>>>(),
+            isA<Some<ValueFailure<dynamic>>>(),
           );
         },
       );
@@ -102,7 +102,7 @@ void main() {
           // Assert
           expect(
             invalidDateCreatedConversation.failureOption,
-            isA<Some<Failure<dynamic>>>(),
+            isA<Some<ValueFailure<dynamic>>>(),
           );
         },
       );
@@ -114,7 +114,7 @@ void main() {
           final result = invalidLastMessageConversation.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -125,7 +125,7 @@ void main() {
           final result = invalidDateCreatedConversation.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
     },

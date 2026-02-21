@@ -2,7 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/interested_shout_outs/interested_shout_outs_repository_interface.dart';
 
@@ -70,7 +72,7 @@ class InterestedShoutOutsActorBloc
     if (event.shoutOutId.getOrCrash() != parsedId.getOrCrash()) {
       emit(
         InterestedShoutOutsActorState.scanFailure(
-          Failure.invalidQr(failedValue: event.payload),
+          ValueFailure.invalidQr(failedValue: event.payload),
         ),
       );
     } else {

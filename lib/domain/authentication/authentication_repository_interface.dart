@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
@@ -11,27 +11,27 @@ abstract class AuthenticationRepositoryInterface {
   Future<Option<User>> getLoggedInUser();
 
   /// Registers a new user with the given email and password
-  Future<Either<Failure, Unit>> register({
+  Future<Either<AppFailure, Unit>> register({
     required User user,
     required Password password,
     required XFile imageFile,
   });
 
   /// Signs in a user with the given email and password
-  Future<Either<Failure, Unit>> logIn({
+  Future<Either<AppFailure, Unit>> logIn({
     required EmailAddress email,
     required Password password,
   });
 
   /// Signs in a user via Google
-  Future<Either<Failure, Option<User>>> logInGoogle();
+  Future<Either<AppFailure, Option<User>>> logInGoogle();
 
   /// Signs in a user via Apple
-  Future<Either<Failure, Option<User>>> logInApple();
+  Future<Either<AppFailure, Option<User>>> logInApple();
 
   /// Signs out the current user
   Future<void> logOut();
 
   /// Resets the password for the given email
-  Future<Either<Failure, Unit>> resetPassword(EmailAddress emailAddress);
+  Future<Either<AppFailure, Unit>> resetPassword(EmailAddress emailAddress);
 }

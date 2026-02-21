@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/transaction.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/transaction_status.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
@@ -76,7 +76,7 @@ void main() {
           final result = invalidDateCreatedTransaction.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -87,7 +87,7 @@ void main() {
           final result = invalidDateCreatedTransaction.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
     },

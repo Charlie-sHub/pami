@@ -7,7 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/messages/conversation_watcher/conversation_watcher_bloc.dart';
 import 'package:pami/domain/core/entities/message.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/messages/messages_repository_interface.dart';
 
@@ -20,7 +20,7 @@ void main() {
 
   final validConversationId = UniqueId();
   final validMessages = <Message>[Message.empty()];
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

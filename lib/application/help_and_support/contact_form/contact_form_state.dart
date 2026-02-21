@@ -8,7 +8,7 @@ abstract class ContactFormState with _$ContactFormState {
     required ContactMessage message,
     required bool showErrorMessages,
     required bool isSubmitting,
-    required Option<Either<Failure, Unit>> failureOrSuccessOption,
+    required Option<Either<AppFailure, Unit>> failureOrSuccessOption,
   }) = _ContactFormState;
 
   /// Initial contact form state

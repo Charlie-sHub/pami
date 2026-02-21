@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 
 /// Password confirmator text field widget
 class PasswordConfirmatorTextField extends StatelessWidget {

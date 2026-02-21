@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/contact_message_type.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';

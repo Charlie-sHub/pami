@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/field_confirmator.dart';
@@ -160,7 +160,7 @@ class RegistrationFormBloc
       ),
     );
 
-    Either<Failure, Unit>? result;
+    Either<AppFailure, Unit>? result;
     final canRegister =
         state.user.isValid &&
             state.password.isValid() &&

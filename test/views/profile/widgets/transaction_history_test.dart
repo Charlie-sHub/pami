@@ -78,7 +78,7 @@ void main() {
   testWidgets(
     'shows failure text when state is loadFailure',
     (tester) async {
-      const failure = Failure.serverError(errorString: 'test');
+      const failure = AppFailure.serverError(errorString: 'test');
       when(mockBloc.state).thenReturn(
         const TransactionHistoryWatcherState.loadFailure(failure),
       );

@@ -6,7 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/profile/profile_editing_form/profile_editing_form_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
@@ -27,7 +27,7 @@ void main() {
     bio: EntityDescription(''),
   );
   final validImageFile = XFile('path/to/valid/image.jpg');
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {
@@ -287,7 +287,7 @@ void main() {
             isSubmitting: false,
             showErrorMessages: true,
             failureOrSuccessOption: some(
-              left(const Failure.emptyFields()),
+              left(const AppFailure.emptyFields()),
             ),
           ),
         ],

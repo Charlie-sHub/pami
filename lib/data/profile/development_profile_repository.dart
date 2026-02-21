@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
@@ -23,7 +23,7 @@ class DevelopmentProfileRepository implements ProfileRepositoryInterface {
   final Logger _logger;
 
   @override
-  Future<Either<Failure, User>> getUserProfile(UniqueId id) async {
+  Future<Either<AppFailure, User>> getUserProfile(UniqueId id) async {
     _logger.d('Getting user profile with id: ${id.getOrCrash()}');
     final user = getValidUser().copyWith(id: id);
     _logger.d('Returning mock user: ${user.id}');
@@ -31,7 +31,7 @@ class DevelopmentProfileRepository implements ProfileRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, User>> getCurrentUser() async {
+  Future<Either<AppFailure, User>> getCurrentUser() async {
     _logger.d('Getting current user profile...');
     final user = getValidUser().copyWith(
       name: Name('John'),
@@ -49,13 +49,13 @@ class DevelopmentProfileRepository implements ProfileRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateUserProfile(User user) async {
+  Future<Either<AppFailure, Unit>> updateUserProfile(User user) async {
     _logger.d('Updating user profile: ${user.id.getOrCrash()}');
     return right(unit);
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteUser() async {
+  Future<Either<AppFailure, Unit>> deleteUser() async {
     _logger.d('Deleting user...');
     return right(unit);
   }

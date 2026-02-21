@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/shout_out_management/shout_out_management_repository_interface.dart';
 
@@ -21,7 +21,7 @@ class DevelopmentShoutOutManagementRepository
   final Logger _logger;
 
   @override
-  Future<Either<Failure, Unit>> createShoutOut({
+  Future<Either<AppFailure, Unit>> createShoutOut({
     required ShoutOut shoutOut,
     required XFile imageFile,
   }) async {
@@ -30,7 +30,7 @@ class DevelopmentShoutOutManagementRepository
   }
 
   @override
-  Future<Either<Failure, Unit>> editShoutOut({
+  Future<Either<AppFailure, Unit>> editShoutOut({
     required ShoutOut shoutOut,
     required Option<XFile> imageFile,
   }) async {
@@ -39,7 +39,7 @@ class DevelopmentShoutOutManagementRepository
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteShoutOut(UniqueId id) async {
+  Future<Either<AppFailure, Unit>> deleteShoutOut(UniqueId id) async {
     _logger.d('Deleting shout out: ${id.getOrCrash()}');
     return right(unit);
   }

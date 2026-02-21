@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/map_radius.dart';
@@ -72,7 +72,7 @@ void main() {
           final result = invalidRadiusMapSettings.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -83,7 +83,7 @@ void main() {
           final result = invalidRadiusMapSettings.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
     },

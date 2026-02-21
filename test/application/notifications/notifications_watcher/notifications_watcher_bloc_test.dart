@@ -7,7 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/notifications/notifications_watcher/notifications_watcher_bloc.dart';
 import 'package:pami/domain/core/entities/notification.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/notifications/notifications_repository_interface.dart';
 
 import 'notifications_watcher_bloc_test.mocks.dart';
@@ -18,7 +18,7 @@ void main() {
   late NotificationsWatcherBloc notificationsWatcherBloc;
 
   final validNotifications = <Notification>[Notification.empty()];
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

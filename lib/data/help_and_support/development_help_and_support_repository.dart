@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/domain/core/entities/contact_message.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/help_and_support/help_and_support_repository_interface.dart';
 
 // coverage:ignore-files
@@ -19,7 +19,7 @@ class DevelopmentHelpAndSupportRepository
   final Logger _logger;
 
   @override
-  Future<Either<Failure, Unit>> submitContact(ContactMessage message) async {
+  Future<Either<AppFailure, Unit>> submitContact(ContactMessage message) async {
     _logger.d(
       'Submitting contact message: '
       'id: ${message.id.getOrCrash()}, '

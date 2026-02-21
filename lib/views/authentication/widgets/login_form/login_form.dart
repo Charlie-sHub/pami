@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/authentication/login_form/login_form_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/views/authentication/widgets/email_text_field.dart';
 import 'package:pami/views/authentication/widgets/login_form/login_apple_button.dart';
 import 'package:pami/views/authentication/widgets/login_form/login_button.dart';

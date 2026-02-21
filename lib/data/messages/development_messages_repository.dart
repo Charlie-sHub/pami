@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/conversation.dart';
 import 'package:pami/domain/core/entities/message.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/messages/messages_repository_interface.dart';
 
@@ -21,7 +21,7 @@ class DevelopmentMessagesRepository implements MessagesRepositoryInterface {
   final Logger _logger;
 
   @override
-  Stream<Either<Failure, List<Conversation>>> watchConversations(
+  Stream<Either<AppFailure, List<Conversation>>> watchConversations(
     UniqueId shoutOutId,
   ) {
     _logger.d(
@@ -44,7 +44,7 @@ class DevelopmentMessagesRepository implements MessagesRepositoryInterface {
   }
 
   @override
-  Stream<Either<Failure, List<Message>>> watchMessages(
+  Stream<Either<AppFailure, List<Message>>> watchMessages(
     UniqueId conversationId,
   ) {
     _logger.d(
@@ -65,7 +65,7 @@ class DevelopmentMessagesRepository implements MessagesRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, Unit>> sendMessage(Message message) async {
+  Future<Either<AppFailure, Unit>> sendMessage(Message message) async {
     _logger.d('Sending message: ${message.id.getOrCrash()} ');
     return right(unit);
   }

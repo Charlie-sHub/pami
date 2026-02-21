@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pami/domain/core/entities/message.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/messages/messages_repository_interface.dart';
 
@@ -46,11 +46,11 @@ class MessageFormBloc extends Bloc<MessageFormEvent, MessageFormState> {
       ),
     );
 
-    Either<Failure, Unit> failureOrUnit;
+    Either<AppFailure, Unit> failureOrUnit;
     if (state.message.isValid) {
       failureOrUnit = await _repository.sendMessage(state.message);
     } else {
-      failureOrUnit = left(const Failure.emptyFields());
+      failureOrUnit = left(const AppFailure.emptyFields());
     }
 
     emit(

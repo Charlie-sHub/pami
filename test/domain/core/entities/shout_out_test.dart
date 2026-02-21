@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
@@ -142,7 +142,7 @@ void main() {
           final result = invalidTitleShoutOut.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -153,7 +153,7 @@ void main() {
           final result = invalidDescriptionShoutOut.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -164,7 +164,7 @@ void main() {
           final result = invalidCoordinatesShoutOut.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -175,7 +175,7 @@ void main() {
           final result = invalidDurationShoutOut.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -186,7 +186,7 @@ void main() {
           final result = invalidDateCreatedShoutOut.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -197,7 +197,7 @@ void main() {
           final result = invalidTitleShoutOut.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -208,7 +208,7 @@ void main() {
           final result = invalidDescriptionShoutOut.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -219,7 +219,7 @@ void main() {
           final result = invalidCoordinatesShoutOut.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -230,7 +230,7 @@ void main() {
           final result = invalidDurationShoutOut.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -241,7 +241,7 @@ void main() {
           final result = invalidDateCreatedShoutOut.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
     },

@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/forgotten_password_form/forgotten_password_form_bloc.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 
 import 'forgotten_password_form_bloc_test.mocks.dart';
@@ -17,7 +17,7 @@ void main() {
 
   const validEmail = 'test@email.com';
   const invalidEmail = 'invalid-email';
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

@@ -17,7 +17,7 @@ sealed class InterestedShoutOutsActorState
 
   /// Addition failure state
   const factory InterestedShoutOutsActorState.additionFailure(
-    Failure failure,
+    AppFailure failure,
   ) = AdditionFailure;
 
   /// Addition success state
@@ -26,7 +26,7 @@ sealed class InterestedShoutOutsActorState
 
   /// Dismissal failure state
   const factory InterestedShoutOutsActorState.dismissalFailure(
-    Failure failure,
+    AppFailure failure,
   ) = DismissalFailure;
 
   /// Addition success state

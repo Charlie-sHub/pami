@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 
@@ -85,7 +85,7 @@ void main() {
           final result = invalidLatitudeCoordinates.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -96,7 +96,7 @@ void main() {
           final result = invalidLongitudeCoordinates.failureOption;
 
           // Assert
-          expect(result, isA<Some<Failure<dynamic>>>());
+          expect(result, isA<Some<ValueFailure<dynamic>>>());
         },
       );
 
@@ -107,7 +107,7 @@ void main() {
           final result = invalidLatitudeCoordinates.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
 
@@ -118,7 +118,7 @@ void main() {
           final result = invalidLongitudeCoordinates.failureOrUnit;
 
           // Assert
-          expect(result, isA<Left<Failure<dynamic>, Unit>>());
+          expect(result, isA<Left<ValueFailure<dynamic>, Unit>>());
         },
       );
     },

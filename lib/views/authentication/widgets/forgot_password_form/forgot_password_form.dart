@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/authentication/forgotten_password_form/forgotten_password_form_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/views/authentication/widgets/email_text_field.dart';
 
 /// Forgot password form widget

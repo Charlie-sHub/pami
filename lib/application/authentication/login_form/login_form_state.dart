@@ -10,7 +10,7 @@ abstract class LoginFormState with _$LoginFormState {
     required bool showErrorMessages,
     required bool isSubmitting,
     required Option<User> thirdPartyUserOption,
-    required Option<Either<Failure, Unit>> failureOrSuccessOption,
+    required Option<Either<AppFailure, Unit>> failureOrSuccessOption,
   }) = _LoginFormState;
 
   /// Empty constructor

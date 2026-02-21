@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/profile/user_deletion_actor/user_deletion_actor_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
 import 'user_deletion_actor_bloc_test.mocks.dart';
@@ -14,7 +14,7 @@ void main() {
   late MockProfileRepositoryInterface mockRepository;
   late UserDeletionActorBloc userDeletionActorBloc;
 
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

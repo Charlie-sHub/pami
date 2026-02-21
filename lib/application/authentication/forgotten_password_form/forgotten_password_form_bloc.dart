@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 
@@ -42,7 +43,7 @@ class ForgottenPasswordFormBloc
       ),
     );
 
-    Either<Failure, Unit>? failureOrUnit;
+    Either<AppFailure, Unit>? failureOrUnit;
     if (state.email.isValid()) {
       failureOrUnit = await _repository.resetPassword(state.email);
     }

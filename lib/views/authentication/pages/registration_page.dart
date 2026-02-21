@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/authentication/authentication/authentication_bloc.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/authentication/widgets/registration_form/registration_form.dart';
 import 'package:pami/views/core/routes/router.gr.dart';
@@ -59,7 +59,7 @@ class RegistrationPage extends StatelessWidget {
         ),
       );
 
-  Future<void> _onFailure(Failure failure, BuildContext context) async {
+  Future<void> _onFailure(AppFailure failure, BuildContext context) async {
     final message = switch (failure) {
       ServerError() => 'Server error',
       EmailAlreadyInUse() => 'The email is already in use',

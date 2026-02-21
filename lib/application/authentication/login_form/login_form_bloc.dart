@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/app_failure.dart';
-import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
@@ -58,7 +57,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       ),
     );
 
-    Either<Failure, Unit>? failureOrUnit;
+    Either<AppFailure, Unit>? failureOrUnit;
     final canSubmit = state.email.isValid() && state.password.isValid();
     if (canSubmit) {
       failureOrUnit = await _repository.logIn(

@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/my_shout_outs/my_shout_outs_watcher/my_shout_outs_watcher_bloc.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/my_shout_outs/my_shout_outs_repository_interface.dart';
 
 import 'my_shout_outs_watcher_bloc_test.mocks.dart';
@@ -16,7 +16,7 @@ void main() {
   late MyShoutOutsWatcherBloc myShoutOutsWatcherBloc;
 
   final validShoutOuts = <ShoutOut>{ShoutOut.empty()};
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

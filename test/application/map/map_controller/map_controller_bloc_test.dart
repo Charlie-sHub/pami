@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/map/map_controller/map_controller_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/longitude.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
 
@@ -132,7 +132,7 @@ void main() {
         'emits the same state when getCurrentLocation fails',
         setUp: () {
           when(mockMapRepository.getCurrentLocation()).thenAnswer(
-            (_) async => const Left(Failure.serverError(errorString: 'test')),
+            (_) async => const Left(AppFailure.serverError(errorString: 'test')),
           );
         },
         build: () => mapControllerBloc,
@@ -148,7 +148,7 @@ void main() {
           );
           when(mockMapRepository.getUserLocationStream()).thenAnswer(
             (_) => Stream.fromIterable(
-              [const Left(Failure.serverError(errorString: 'test'))],
+              [const Left(AppFailure.serverError(errorString: 'test'))],
             ),
           );
         },
@@ -167,7 +167,7 @@ void main() {
         build: () => mapControllerBloc,
         act: (bloc) => bloc.add(
           const MapControllerEvent.userLocationUpdated(
-            result: Left(Failure.serverError(errorString: 'test')),
+            result: Left(AppFailure.serverError(errorString: 'test')),
           ),
         ),
         expect: () => [MapControllerState.initial()],

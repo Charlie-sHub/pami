@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/map/map_repository_interface.dart';
 
 import 'map_watcher_bloc_test.mocks.dart';
@@ -18,7 +18,7 @@ void main() {
 
   final validSettings = getValidMapSettings();
   final validShoutOuts = {ShoutOut.empty()};
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

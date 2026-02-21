@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/login_form/login_form_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
@@ -20,7 +20,7 @@ void main() {
   const email = 'test@email.com';
   const password = 'Abcd*1234';
   final validUser = getValidUser();
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

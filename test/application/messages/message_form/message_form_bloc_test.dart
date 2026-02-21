@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/messages/message_form/message_form_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/message.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 import 'package:pami/domain/messages/messages_repository_interface.dart';
 
@@ -19,7 +19,7 @@ void main() {
 
   const validMessageContent = 'This is a valid message.';
   const invalidMessageContent = '';
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
   final validMessage = getValidMessage();
 
   setUp(
@@ -147,7 +147,7 @@ void main() {
             isSubmitting: false,
             showErrorMessages: true,
             failureOrSuccessOption: some(
-              left(const Failure.emptyFields()),
+              left(const AppFailure.emptyFields()),
             ),
           ),
         ],

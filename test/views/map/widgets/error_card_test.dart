@@ -41,7 +41,7 @@ void main() {
     ' (e.g., ServerError with empty string)',
     (tester) async {
       // Arrange
-      const emptyServerErrorMessage = Failure.serverError(errorString: '');
+      const emptyServerErrorMessage = AppFailure.serverError(errorString: '');
 
       // Act
       await tester.pumpWidget(

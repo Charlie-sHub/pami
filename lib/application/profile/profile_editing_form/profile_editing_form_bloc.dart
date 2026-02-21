@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
@@ -129,14 +129,14 @@ class ProfileEditingFormBloc
       ),
     );
 
-    Either<Failure, Unit> failureOrUnit;
+    Either<AppFailure, Unit> failureOrUnit;
     final hasValidImage = state.imageFile.isSome() || user.avatar.isValid();
     final canSubmit = user.isValid && hasValidImage;
 
     if (canSubmit) {
       failureOrUnit = await _repository.updateUserProfile(user);
     } else {
-      failureOrUnit = left(const Failure.emptyFields());
+      failureOrUnit = left(const AppFailure.emptyFields());
     }
 
     emit(

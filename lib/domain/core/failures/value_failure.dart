@@ -75,8 +75,6 @@ sealed class ValueFailure<T> extends Failure with _$ValueFailure<T> {
     required String failedValue,
   }) = InvalidQr<T>;
 
-  const factory ValueFailure.emptyFields() = EmptyFields<T>;
-
   @override
   String get message => switch (this) {
     InvalidDate(:final failedValue) => 'Invalid date: $failedValue',
@@ -100,6 +98,5 @@ sealed class ValueFailure<T> extends Failure with _$ValueFailure<T> {
       'Collection exceeds maximum length of $maxLength items.',
     InvalidUrl(:final failedValue) => 'Invalid URL: $failedValue',
     InvalidQr(:final failedValue) => 'Invalid QR code: $failedValue',
-    EmptyFields() => 'Some required fields are empty.',
   };
 }

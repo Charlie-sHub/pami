@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/notification.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/notifications/notifications_repository_interface.dart';
@@ -22,7 +22,7 @@ class DevelopmentNotificationRepository
   final Logger _logger;
 
   @override
-  Stream<Either<Failure, List<Notification>>> watchNotifications() {
+  Stream<Either<AppFailure, List<Notification>>> watchNotifications() {
     _logger.d('Watching notifications...');
     final notifications = [
       getValidNotification().copyWith(
@@ -45,13 +45,13 @@ class DevelopmentNotificationRepository
   }
 
   @override
-  Future<Either<Failure, Unit>> markAsRead(UniqueId id) async {
+  Future<Either<AppFailure, Unit>> markAsRead(UniqueId id) async {
     _logger.d('Marking notification as read: ${id.getOrCrash()}');
     return right(unit);
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteNotification(UniqueId id) async {
+  Future<Either<AppFailure, Unit>> deleteNotification(UniqueId id) async {
     _logger.d('Deleting notification: ${id.getOrCrash()}');
     return right(unit);
   }

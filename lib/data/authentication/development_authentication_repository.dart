@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 
@@ -31,7 +31,7 @@ class DevelopmentAuthenticationRepository
   }
 
   @override
-  Future<Either<Failure, Unit>> logIn({
+  Future<Either<AppFailure, Unit>> logIn({
     required EmailAddress email,
     required Password password,
   }) async {
@@ -40,7 +40,7 @@ class DevelopmentAuthenticationRepository
   }
 
   @override
-  Future<Either<Failure, Option<User>>> logInApple() async {
+  Future<Either<AppFailure, Option<User>>> logInApple() async {
     _logger.d('Attempting Apple login...');
     final user = getValidUser();
     _logger.d('Apple login successful, returning user: ${user.id}');
@@ -48,7 +48,7 @@ class DevelopmentAuthenticationRepository
   }
 
   @override
-  Future<Either<Failure, Option<User>>> logInGoogle() async {
+  Future<Either<AppFailure, Option<User>>> logInGoogle() async {
     _logger.d('Attempting Google login...');
     final user = getValidUser();
     _logger.d('Google login successful, returning user: ${user.id}');
@@ -61,7 +61,7 @@ class DevelopmentAuthenticationRepository
   }
 
   @override
-  Future<Either<Failure, Unit>> register({
+  Future<Either<AppFailure, Unit>> register({
     required User user,
     required Password password,
     required XFile imageFile,
@@ -73,7 +73,7 @@ class DevelopmentAuthenticationRepository
   }
 
   @override
-  Future<Either<Failure, Unit>> resetPassword(EmailAddress emailAddress) async {
+  Future<Either<AppFailure, Unit>> resetPassword(EmailAddress emailAddress) async {
     _logger.d('Resetting password for email: ${emailAddress.getOrCrash()}');
     return right(unit);
   }

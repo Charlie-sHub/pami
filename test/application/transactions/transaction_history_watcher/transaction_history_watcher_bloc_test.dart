@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/transactions/transaction_history_watcher/transaction_history_watcher_bloc.dart';
 import 'package:pami/domain/core/entities/transaction.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/transactions/transaction_repository_interface.dart';
 
@@ -54,7 +54,7 @@ void main() {
     build: () {
       when(repository.fetchUserTransactions(userId)).thenAnswer(
         (_) async =>
-            left(const Failure.serverError(errorString: 'errorString')),
+            left(const AppFailure.serverError(errorString: 'errorString')),
       );
       return bloc;
     },
@@ -64,7 +64,7 @@ void main() {
     expect: () => [
       const TransactionHistoryWatcherState.loadInProgress(),
       const TransactionHistoryWatcherState.loadFailure(
-        Failure.serverError(errorString: 'errorString'),
+        AppFailure.serverError(errorString: 'errorString'),
       ),
     ],
   );

@@ -9,15 +9,15 @@ abstract class ShoutOutCreationFormState with _$ShoutOutCreationFormState {
     required Option<XFile> imageFile,
     required bool showErrorMessages,
     required bool isSubmitting,
-    required Option<Either<Failure, Unit>> failureOrSuccessOption,
+    required Option<Either<AppFailure, Unit>> failureOrSuccessOption,
   }) = _State;
 
   /// Empty constructor
   factory ShoutOutCreationFormState.initial() => ShoutOutCreationFormState(
-        shoutOut: ShoutOut.empty(),
-        imageFile: none(),
-        showErrorMessages: false,
-        isSubmitting: false,
-        failureOrSuccessOption: none(),
-      );
+    shoutOut: ShoutOut.empty(),
+    imageFile: none(),
+    showErrorMessages: false,
+    isSubmitting: false,
+    failureOrSuccessOption: none(),
+  );
 }

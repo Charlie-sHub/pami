@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/profile/profile_watcher/profile_watcher_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
 import 'profile_watcher_bloc_test.mocks.dart';
@@ -16,7 +16,7 @@ void main() {
   late ProfileWatcherBloc profileWatcherBloc;
 
   final validUser = getValidUser();
-  const failure = Failure.serverError(errorString: 'error');
+  const failure = AppFailure.serverError(errorString: 'error');
 
   setUp(
     () {

@@ -91,7 +91,7 @@ void main() {
       // Arrange
       when(mockProfileBloc.state).thenReturn(
         const ProfileWatcherState.loadFailure(
-          Failure.serverError(errorString: 'errorString'),
+          AppFailure.serverError(errorString: 'errorString'),
         ),
       );
 

@@ -5,7 +5,7 @@ import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/coordinates.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
@@ -28,7 +28,7 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
   final Logger _logger;
 
   @override
-  Stream<Either<Failure, Set<ShoutOut>>> watchShoutOuts(
+  Stream<Either<AppFailure, Set<ShoutOut>>> watchShoutOuts(
     MapSettings settings,
   ) {
     _logger.d(
@@ -132,12 +132,12 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, Coordinates>> getCurrentLocation() async => right(
+  Future<Either<AppFailure, Coordinates>> getCurrentLocation() async => right(
     getValidCoordinates(),
   );
 
   @override
-  Stream<Either<Failure, Coordinates>> getUserLocationStream() => Stream.value(
+  Stream<Either<AppFailure, Coordinates>> getUserLocationStream() => Stream.value(
     right(getValidCoordinates()),
   );
 }

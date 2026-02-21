@@ -109,7 +109,7 @@ void main() {
           // Arrange
           final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(const Failure.serverError(errorString: 'test error')),
+              left(const AppFailure.serverError(errorString: 'test error')),
             ),
           );
 

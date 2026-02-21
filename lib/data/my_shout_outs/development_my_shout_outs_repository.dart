@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
@@ -24,7 +24,7 @@ class DevelopmentMyShoutOutsRepository
   final Logger _logger;
 
   @override
-  Stream<Either<Failure, Set<ShoutOut>>> watchMyShoutOuts() {
+  Stream<Either<AppFailure, Set<ShoutOut>>> watchMyShoutOuts() {
     _logger.d('Watching my shout outs...');
 
     final shoutOuts = {

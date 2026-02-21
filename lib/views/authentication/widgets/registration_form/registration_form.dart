@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/views/authentication/widgets/email_text_field.dart';
 import 'package:pami/views/authentication/widgets/password_text_field.dart';
 import 'package:pami/views/authentication/widgets/registration_form/bio_text_field.dart';

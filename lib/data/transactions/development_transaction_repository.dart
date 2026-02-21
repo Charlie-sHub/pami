@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/transaction.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/transactions/transaction_repository_interface.dart';
 
@@ -21,13 +21,13 @@ class DevelopmentTransactionRepository
   final Logger _logger;
 
   @override
-  Future<Either<Failure, Unit>> createTransaction(UniqueId shoutOutId) async {
+  Future<Either<AppFailure, Unit>> createTransaction(UniqueId shoutOutId) async {
     _logger.d('Creating transaction for shout out: ${shoutOutId.getOrCrash()}');
     return right(unit);
   }
 
   @override
-  Future<Either<Failure, Unit>> submitKarmaVote({
+  Future<Either<AppFailure, Unit>> submitKarmaVote({
     UniqueId? shoutOutId,
     bool? vote,
   }) async {
@@ -39,7 +39,7 @@ class DevelopmentTransactionRepository
   }
 
   @override
-  Future<Either<Failure, List<Transaction>>> fetchUserTransactions(
+  Future<Either<AppFailure, List<Transaction>>> fetchUserTransactions(
     UniqueId userId,
   ) async {
     _logger.d('Fetching user transactions for user: ${userId.getOrCrash()}');
@@ -61,7 +61,7 @@ class DevelopmentTransactionRepository
   }
 
   @override
-  Stream<Either<Failure, Transaction>> watchShoutOutForTransaction(
+  Stream<Either<AppFailure, Transaction>> watchShoutOutForTransaction(
     UniqueId shoutOutId,
   ) {
     _logger.d('Watching shout out for transaction: ${shoutOutId.getOrCrash()}');
