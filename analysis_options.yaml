@@ -34,30 +34,30 @@ analyzer:
 
     # Keep package imports style (conflicts with always_use_package_imports)
     prefer_relative_imports: ignore
+    one_member_abstracts: ignore
 
 linter:
   rules:
-    # Your selected rules (no duplicates)
-    always_use_package_imports
-    avoid_print
-    avoid_function_literals_in_foreach_calls
-    prefer_final_locals
-    prefer_final_fields
-    prefer_single_quotes
-    prefer_const_declarations
-    prefer_expression_function_bodies
-    unnecessary_this
-    unnecessary_underscores
-    use_super_parameters
-    use_null_aware_elements
-    avoid_redundant_argument_values
-    omit_local_variable_types
-    sort_constructors_first
-    sort_unnamed_constructors_first
-    avoid_classes_with_only_static_members
-    require_trailing_commas
-    lines_longer_than_80_chars
-    directives_ordering
+    prefer_const_declarations: true
+    always_use_package_imports: true
+    avoid_print: true
+    avoid_function_literals_in_foreach_calls: true
+    prefer_final_locals: true
+    prefer_final_fields: true
+    prefer_single_quotes: true
+    prefer_expression_function_bodies: true
+    unnecessary_this: true
+    unnecessary_underscores: true
+    use_super_parameters: true
+    use_null_aware_elements: true
+    avoid_redundant_argument_values: true
+    omit_local_variable_types: true
+    sort_constructors_first: true
+    sort_unnamed_constructors_first: true
+    avoid_classes_with_only_static_members: true
+    require_trailing_commas: true
+    lines_longer_than_80_chars: true
+    directives_ordering: true
 
 coverage:
   ignore:

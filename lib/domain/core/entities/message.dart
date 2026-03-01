@@ -10,8 +10,6 @@ part 'message.freezed.dart';
 /// Message entity
 @freezed
 abstract class Message with _$Message {
-  const Message._();
-
   /// Default constructor
   const factory Message({
     required UniqueId id,
@@ -20,6 +18,7 @@ abstract class Message with _$Message {
     required bool isRead,
     required PastDate dateCreated,
   }) = _Message;
+  const Message._();
 
   /// Empty constructor
   factory Message.empty() => Message(

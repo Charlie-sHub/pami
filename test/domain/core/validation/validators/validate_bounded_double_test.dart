@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_bounded_double.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
           final result = validateBoundedDouble(input: input, max: max);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<double>, double>(input));
         },
       );
 
@@ -33,7 +33,7 @@ void main() {
           final result = validateBoundedDouble(input: input, max: max);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<double>, double>(input));
         },
       );
 
@@ -47,7 +47,7 @@ void main() {
           final result = validateBoundedDouble(input: input, max: max);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<double>, double>(input));
         },
       );
     },
@@ -57,7 +57,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input is less than the min',
         () {
           // Arrange
@@ -69,15 +69,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<double>, double>(
-              const Failure.doubleOutOfBounds(failedValue: input),
+            left<ValueFailure<double>, double>(
+              const ValueFailure.doubleOutOfBounds(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input is greater than the max',
         () {
           // Arrange
@@ -89,15 +89,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<double>, double>(
-              const Failure.doubleOutOfBounds(failedValue: input),
+            left<ValueFailure<double>, double>(
+              const ValueFailure.doubleOutOfBounds(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input is a double less than the min',
         () {
           // Arrange
@@ -109,15 +109,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<double>, double>(
-              const Failure.doubleOutOfBounds(failedValue: input),
+            left<ValueFailure<double>, double>(
+              const ValueFailure.doubleOutOfBounds(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input is a double greater than the max',
         () {
           // Arrange
@@ -129,8 +129,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<double>, double>(
-              const Failure.doubleOutOfBounds(failedValue: input),
+            left<ValueFailure<double>, double>(
+              const ValueFailure.doubleOutOfBounds(failedValue: input),
             ),
           );
         },

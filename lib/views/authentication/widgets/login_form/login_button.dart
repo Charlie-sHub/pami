@@ -9,14 +9,14 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-        onPressed: () => context.read<LoginFormBloc>().add(
-              const LoginFormEvent.loggedIn(),
-            ),
-        child: const Text(
-          'Log In',
-          style: TextStyle(
-            fontSize: 20,
-          ),
-        ),
-      );
+    onPressed: () => context.read<LoginFormBloc>().add(
+      const LoginFormEvent.loggedIn(),
+    ),
+    child: const Text(
+      'Log In',
+      style: TextStyle(
+        fontSize: 20,
+      ),
+    ),
+  );
 }

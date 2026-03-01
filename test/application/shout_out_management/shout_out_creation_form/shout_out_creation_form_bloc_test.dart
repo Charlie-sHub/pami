@@ -127,15 +127,15 @@ void main() {
       blocTest<ShoutOutCreationFormBloc, ShoutOutCreationFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(right(unit))] when shoutOut and '
-        'image are valid and repository returns Right',
+        'failureOrSuccessOption: some(right<AppFailure, Unit>(unit))]'
+        ' when shoutOut and image are valid and repository returns Right',
         setUp: () {
           when(
             mockRepository.createShoutOut(
               shoutOut: anyNamed('shoutOut'),
               imageFile: anyNamed('imageFile'),
             ),
-          ).thenAnswer((_) async => right(unit));
+          ).thenAnswer((_) async => right<AppFailure, Unit>(unit));
         },
         seed: () => ShoutOutCreationFormState.initial().copyWith(
           shoutOut: validShoutOut,
@@ -152,7 +152,7 @@ void main() {
           shoutOutCreationFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(right<AppFailure, Unit>(unit)),
           ),
         ],
         verify: (_) => verify(
@@ -171,15 +171,15 @@ void main() {
       blocTest<ShoutOutCreationFormBloc, ShoutOutCreationFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(failure))] when shoutOut and '
-        'image are valid and repository returns Left',
+        'failureOrSuccessOption: some(left<AppFailure, Unit>(failure))] '
+        'when shoutOut and image are valid and repository returns Left',
         setUp: () {
           when(
             mockRepository.createShoutOut(
               shoutOut: anyNamed('shoutOut'),
               imageFile: anyNamed('imageFile'),
             ),
-          ).thenAnswer((_) async => left(failure));
+          ).thenAnswer((_) async => left<AppFailure, Unit>(failure));
         },
         seed: () => ShoutOutCreationFormState.initial().copyWith(
           shoutOut: validShoutOut,
@@ -196,7 +196,7 @@ void main() {
           shoutOutCreationFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
         verify: (_) => verify(
@@ -209,8 +209,8 @@ void main() {
 
       blocTest<ShoutOutCreationFormBloc, ShoutOutCreationFormState>(
         'emits [isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(Failure.emptyFields()))] '
-        'when shoutOut is invalid',
+        'failureOrSuccessOption: some(left<AppFailure, '
+        'Unit>(Failure.emptyFields()))] when shoutOut is invalid',
         seed: () => ShoutOutCreationFormState.initial().copyWith(
           shoutOut: ShoutOut.empty(),
           imageFile: some(validImage),
@@ -227,7 +227,7 @@ void main() {
             isSubmitting: false,
             showErrorMessages: true,
             failureOrSuccessOption: some(
-              left(const AppFailure.emptyFields()),
+              left<AppFailure, Unit>(const AppFailure.emptyFields()),
             ),
           ),
         ],

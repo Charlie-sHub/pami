@@ -137,7 +137,8 @@ class DevelopmentMapRepository implements MapRepositoryInterface {
   );
 
   @override
-  Stream<Either<AppFailure, Coordinates>> getUserLocationStream() => Stream.value(
-    right(getValidCoordinates()),
-  );
+  Stream<Either<AppFailure, Coordinates>> getUserLocationStream() =>
+      Stream.value(
+        right(getValidCoordinates()),
+      );
 }

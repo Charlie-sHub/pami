@@ -9,8 +9,8 @@ class ShoutOutCreationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Scaffold(
-        body: Center(
-          child: Text('Shout-Out Creation Page'),
-        ),
-      );
+    body: Center(
+      child: Text('Shout-Out Creation Page'),
+    ),
+  );
 }

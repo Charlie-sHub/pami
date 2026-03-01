@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/image_url_set.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 
@@ -22,7 +22,7 @@ void main() {
           final result = imageUrlSet.value;
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<Set<Url>>, Set<Url>>(input));
         },
       );
 
@@ -40,7 +40,7 @@ void main() {
           final result = imageUrlSet.failureOrUnit;
 
           // Assert
-          expect(result, right(unit));
+          expect(result, right<ValueFailure<dynamic>, Unit>(unit));
         },
       );
 
@@ -192,8 +192,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<Set<Url>>, Set<Url>>(
-              Failure.collectionExceedsLength(
+            left<ValueFailure<Set<Url>>, Set<Url>>(
+              ValueFailure.collectionExceedsLength(
                 failedValue: {
                   Url('https://a.com'),
                   Url('https://b.com'),
@@ -229,8 +229,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<Set<Url>>, Unit>(
-              Failure.collectionExceedsLength(
+            left<ValueFailure<Set<Url>>, Unit>(
+              ValueFailure.collectionExceedsLength(
                 failedValue: {
                   Url('https://a.com'),
                   Url('https://b.com'),

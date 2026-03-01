@@ -8,7 +8,7 @@ import 'package:pami/application/map/map_controller/map_controller_bloc.dart';
 import 'package:pami/application/map/map_settings_form/map_settings_form_bloc.dart';
 import 'package:pami/application/map/map_watcher/map_watcher_bloc.dart';
 import 'package:pami/domain/core/entities/map_settings.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/misc/enums/shout_out_type.dart';
 import 'package:pami/domain/core/validation/objects/map_radius.dart';
@@ -127,7 +127,7 @@ void main() {
     'renders ErrorCard when MapWatcherBloc is in loadFailure state',
     (tester) async {
       // Arrange
-      const testFailure = Failure.serverError(
+      const testFailure = AppFailure.serverError(
         errorString: 'Failed to load',
       );
       when(mockMapWatcherBloc.stream).thenAnswer(

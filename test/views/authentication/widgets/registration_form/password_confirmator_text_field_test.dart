@@ -29,16 +29,16 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: const Form(
-              autovalidateMode: AutovalidateMode.always,
-              child: PasswordConfirmatorTextField(),
-            ),
-          ),
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: const Form(
+          autovalidateMode: AutovalidateMode.always,
+          child: PasswordConfirmatorTextField(),
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

@@ -21,23 +21,23 @@ abstract class RegistrationFormState with _$RegistrationFormState {
 
   /// Empty constructor
   factory RegistrationFormState.initial() => RegistrationFormState(
-        user: User.empty(),
-        emailConfirmator: FieldConfirmator(
-          field: '',
-          confirmation: '',
-        ),
-        emailToCompare: '',
-        imageFile: none(),
-        password: Password(''),
-        passwordConfirmator: FieldConfirmator(
-          field: '',
-          confirmation: '',
-        ),
-        passwordToCompare: '',
-        showErrorMessages: false,
-        isSubmitting: false,
-        acceptedEULA: false,
-        initialized: false,
-        failureOrSuccessOption: none(),
-      );
+    user: User.empty(),
+    emailConfirmator: FieldConfirmator(
+      field: '',
+      confirmation: '',
+    ),
+    emailToCompare: '',
+    imageFile: none(),
+    password: Password(''),
+    passwordConfirmator: FieldConfirmator(
+      field: '',
+      confirmation: '',
+    ),
+    passwordToCompare: '',
+    showErrorMessages: false,
+    isSubmitting: false,
+    acceptedEULA: false,
+    initialized: false,
+    failureOrSuccessOption: none(),
+  );
 }

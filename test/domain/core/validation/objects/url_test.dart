@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 
 void main() {
@@ -23,7 +23,7 @@ void main() {
           final result = Url(validUrl);
 
           // Assert
-          expect(result.value, right(validUrl));
+          expect(result.value, right<ValueFailure<String>, String>(validUrl));
         },
       );
 
@@ -35,7 +35,10 @@ void main() {
           final result = Url(validUrlWithPath);
 
           // Assert
-          expect(result.value, right(validUrlWithPath));
+          expect(
+            result.value,
+            right<ValueFailure<String>, String>(validUrlWithPath),
+          );
         },
       );
 
@@ -47,7 +50,10 @@ void main() {
           final result = Url(validUrlWithQueryParams);
 
           // Assert
-          expect(result.value, right(validUrlWithQueryParams));
+          expect(
+            result.value,
+            right<ValueFailure<String>, String>(validUrlWithQueryParams),
+          );
         },
       );
 
@@ -59,7 +65,10 @@ void main() {
           final result = Url(validUrlWithFragment);
 
           // Assert
-          expect(result.value, right(validUrlWithFragment));
+          expect(
+            result.value,
+            right<ValueFailure<String>, String>(validUrlWithFragment),
+          );
         },
       );
 
@@ -71,7 +80,10 @@ void main() {
           final result = Url(validUrlWithPort);
 
           // Assert
-          expect(result.value, right(validUrlWithPort));
+          expect(
+            result.value,
+            right<ValueFailure<String>, String>(validUrlWithPort),
+          );
         },
       );
 
@@ -83,7 +95,10 @@ void main() {
           final result = Url(validUrlWithSubdomain);
 
           // Assert
-          expect(result.value, right(validUrlWithSubdomain));
+          expect(
+            result.value,
+            right<ValueFailure<String>, String>(validUrlWithSubdomain),
+          );
         },
       );
     },
@@ -97,7 +112,8 @@ void main() {
       const multiLineUrl = 'https://www.example.com\nmore';
 
       test(
-        'should return a Failure.emptyString when the input is an empty string',
+        'should return a ValueFailure.emptyString '
+        'when the input is an empty string',
         () {
           // Arrange
           final result = Url(emptyUrl);
@@ -105,13 +121,16 @@ void main() {
           // Assert
           expect(
             result.value,
-            left(const Failure<String>.emptyString(failedValue: emptyUrl)),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.emptyString(failedValue: emptyUrl),
+            ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidUrl when the input is not a valid URL',
+        'should return a ValueFailure.invalidUrl '
+        'when the input is not a valid URL',
         () {
           // Arrange
           final result = Url(invalidUrl);
@@ -119,13 +138,15 @@ void main() {
           // Assert
           expect(
             result.value,
-            left(const Failure<String>.invalidUrl(failedValue: invalidUrl)),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.invalidUrl(failedValue: invalidUrl),
+            ),
           );
         },
       );
 
       test(
-        'should return a Failure.multiLineString '
+        'should return a ValueFailure.multiLineString '
         'when the input contains multiple lines',
         () {
           // Arrange
@@ -134,8 +155,8 @@ void main() {
           // Assert
           expect(
             result.value,
-            left(
-              const Failure<String>.multiLineString(
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.multiLineString(
                 failedValue: multiLineUrl,
               ),
             ),

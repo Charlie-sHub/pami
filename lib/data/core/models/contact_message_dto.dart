@@ -12,8 +12,6 @@ part 'contact_message_dto.g.dart';
 /// Contact Message DTO
 @freezed
 abstract class ContactMessageDto with _$ContactMessageDto {
-  const ContactMessageDto._();
-
   /// Default constructor
   const factory ContactMessageDto({
     required String id,
@@ -22,6 +20,7 @@ abstract class ContactMessageDto with _$ContactMessageDto {
     required String content,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _ContactMessageDto;
+  const ContactMessageDto._();
 
   /// Constructor from [ContactMessage]
   factory ContactMessageDto.fromDomain(ContactMessage contactMessage) =>
@@ -39,10 +38,10 @@ abstract class ContactMessageDto with _$ContactMessageDto {
 
   /// Returns a [](ContactMessage) from this DTO
   ContactMessage toDomain() => ContactMessage(
-        id: UniqueId.fromUniqueString(id),
-        senderId: UniqueId.fromUniqueString(senderId),
-        type: type,
-        content: MessageContent(content),
-        dateCreated: PastDate(dateCreated),
-      );
+    id: UniqueId.fromUniqueString(id),
+    senderId: UniqueId.fromUniqueString(senderId),
+    type: type,
+    content: MessageContent(content),
+    dateCreated: PastDate(dateCreated),
+  );
 }

@@ -26,13 +26,13 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: const EulaCheckbox(),
-          ),
-        ),
-      );
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: const EulaCheckbox(),
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

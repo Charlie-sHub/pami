@@ -22,14 +22,14 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: const Scaffold(
-            body: LoginTroubleButton(),
-          ),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: const Scaffold(
+        body: LoginTroubleButton(),
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

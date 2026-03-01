@@ -4,10 +4,10 @@ import 'package:pami/views/profile/widgets/outcome_icon.dart';
 
 void main() {
   Widget build({required bool? isPositive}) => MaterialApp(
-        home: Scaffold(
-          body: OutcomeIcon(isPositive: isPositive),
-        ),
-      );
+    home: Scaffold(
+      body: OutcomeIcon(isPositive: isPositive),
+    ),
+  );
 
   testWidgets(
     'shows a green thumbs up icon when isPositive is true',

@@ -20,13 +20,13 @@ void main() {
   );
 
   Widget buildWidget({required int index}) => MaterialApp(
-        home: BlocProvider<HomeNavigationActorBloc>(
-          create: (context) => mockHomeNavigationActorBloc,
-          child: Scaffold(
-            body: PamiBottomNavigationBar(index: index),
-          ),
-        ),
-      );
+    home: BlocProvider<HomeNavigationActorBloc>(
+      create: (context) => mockHomeNavigationActorBloc,
+      child: Scaffold(
+        body: PamiBottomNavigationBar(index: index),
+      ),
+    ),
+  );
 
   testWidgets(
     'PamiBottomNavigationBar renders correctly',

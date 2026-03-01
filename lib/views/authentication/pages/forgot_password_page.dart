@@ -16,40 +16,38 @@ class ForgotPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Forgot Password'),
-          ),
-          body: BlocProvider(
-            create: (context) => getIt<ForgottenPasswordFormBloc>(),
-            child: BlocListener<ForgottenPasswordFormBloc,
-                ForgottenPasswordFormState>(
+    onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+    child: Scaffold(
+      appBar: AppBar(
+        title: const Text('Forgot Password'),
+      ),
+      body: BlocProvider(
+        create: (context) => getIt<ForgottenPasswordFormBloc>(),
+        child:
+            BlocListener<ForgottenPasswordFormBloc, ForgottenPasswordFormState>(
               listenWhen: _listenWhen,
               listener: _listener,
               child: const ForgotPasswordForm(),
             ),
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 
   bool _listenWhen(
     ForgottenPasswordFormState previous,
     ForgottenPasswordFormState current,
-  ) =>
-      previous.failureOrSuccessOption != current.failureOrSuccessOption;
+  ) => previous.failureOrSuccessOption != current.failureOrSuccessOption;
 
   void _listener(
     BuildContext context,
     ForgottenPasswordFormState state,
-  ) =>
-      state.failureOrSuccessOption.fold(
-        () {},
-        (either) => either.fold(
-          (failure) => _onFailure(failure, context),
-          (_) => _onSuccess(context),
-        ),
-      );
+  ) => state.failureOrSuccessOption.fold(
+    () {},
+    (either) => either.fold(
+      (failure) => _onFailure(failure, context),
+      (_) => _onSuccess(context),
+    ),
+  );
 
   Future<void> _onFailure(Failure failure, BuildContext context) async {
     final message = switch (failure) {
@@ -64,7 +62,7 @@ class ForgotPasswordPage extends StatelessWidget {
   }
 
   void _onSuccess(BuildContext context) => FlushbarHelper.createSuccess(
-        duration: const Duration(seconds: 8),
-        message: 'Check your email for password reset instructions',
-      ).show(context);
+    duration: const Duration(seconds: 8),
+    message: 'Check your email for password reset instructions',
+  ).show(context);
 }

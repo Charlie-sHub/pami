@@ -10,5 +10,5 @@ enum TransactionStatus {
   completed,
 
   /// If either party cancels
-  cancelled
+  cancelled,
 }

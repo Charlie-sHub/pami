@@ -27,15 +27,15 @@ void main() {
   );
 
   Widget buildWidget({required Option<XFile> imageFileOption}) => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: UserImagePicker(
-              imageFileOption: imageFileOption,
-            ),
-          ),
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: UserImagePicker(
+          imageFileOption: imageFileOption,
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders CameraButton when no image is selected',

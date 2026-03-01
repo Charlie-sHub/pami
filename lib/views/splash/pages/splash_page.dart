@@ -26,10 +26,10 @@ class SplashPage extends StatelessWidget {
       switch (state) {
         Initial() => null,
         Authenticated() => context.router.replace(
-            const HomeRoute(),
-          ),
+          const HomeRoute(),
+        ),
         UnAuthenticated() => context.router.replace(
-            const LoginRoute(),
-          ),
+          const LoginRoute(),
+        ),
       };
 }

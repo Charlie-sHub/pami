@@ -5,16 +5,15 @@ import 'package:pami/domain/core/validation/validators/validate_email.dart';
 
 /// A value object representing an email address.
 class EmailAddress extends ValueObject<String> {
-  const EmailAddress._(this.value);
-
   /// Creates a new [EmailAddress]
   factory EmailAddress(String input) => EmailAddress._(
     validateEmail(input),
   );
+  const EmailAddress._(this.value);
 
   @override
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

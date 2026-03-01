@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_url.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -31,7 +31,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -45,7 +45,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -59,7 +59,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -74,7 +74,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -88,7 +88,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -102,7 +102,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -117,7 +117,7 @@ void main() {
           final result = validateUrl(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
     },
@@ -127,7 +127,8 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.invalidUrl when the input is an empty string',
+        'should return a ValueFailure.invalidUrl '
+        'when the input is an empty string',
         () {
           // Arrange
           const input = '';
@@ -138,15 +139,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidUrl(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidUrl(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidUrl when the input is not a URL',
+        'should return a ValueFailure.invalidUrl when the input is not a URL',
         () {
           // Arrange
           const input = 'not a url';
@@ -157,15 +158,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidUrl(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidUrl(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidUrl '
+        'should return a ValueFailure.invalidUrl '
         'when the input is missing the domain',
         () {
           // Arrange
@@ -177,15 +178,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidUrl(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidUrl(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidUrl '
+        'should return a ValueFailure.invalidUrl '
         'when the input is missing the top level domain',
         () {
           // Arrange
@@ -197,15 +198,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidUrl(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidUrl(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidUrl '
+        'should return a ValueFailure.invalidUrl '
         'when the input has an invalid top level domain',
         () {
           // Arrange
@@ -217,8 +218,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidUrl(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidUrl(failedValue: input),
             ),
           );
         },

@@ -12,18 +12,18 @@ class PamiAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) => AppBar(
-        automaticallyImplyLeading: false,
-        title: BlocBuilder<HomeNavigationActorBloc, HomeNavigationActorState>(
-          builder: (context, state) => Text(
-            _getTitleForIndex(state.currentIndex),
-          ),
-        ),
-        actions: const [
-          NotificationsButton(),
-          SettingsButton(),
-        ],
-        elevation: 0,
-      );
+    automaticallyImplyLeading: false,
+    title: BlocBuilder<HomeNavigationActorBloc, HomeNavigationActorState>(
+      builder: (context, state) => Text(
+        _getTitleForIndex(state.currentIndex),
+      ),
+    ),
+    actions: const [
+      NotificationsButton(),
+      SettingsButton(),
+    ],
+    elevation: 0,
+  );
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight - 15);

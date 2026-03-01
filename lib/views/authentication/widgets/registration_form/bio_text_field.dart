@@ -34,11 +34,11 @@ class BioTextField extends StatelessWidget {
   }
 
   String _validator(RegistrationFormState state) => state.user.bio.value.fold(
-        (failure) => switch (failure) {
-          EmptyString() => 'Empty bio',
-          StringExceedsLength() => 'String exceeds length',
-          _ => 'Unknown error',
-        },
-        (_) => '',
-      );
+    (failure) => switch (failure) {
+      EmptyString() => 'Empty bio',
+      StringExceedsLength() => 'String exceeds length',
+      _ => 'Unknown error',
+    },
+    (_) => '',
+  );
 }

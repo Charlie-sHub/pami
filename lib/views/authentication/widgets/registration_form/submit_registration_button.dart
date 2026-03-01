@@ -21,8 +21,8 @@ class SubmitRegistrationButton extends StatelessWidget {
               )
             : ElevatedButton(
                 onPressed: () => context.read<RegistrationFormBloc>().add(
-                      const RegistrationFormEvent.submitted(),
-                    ),
+                  const RegistrationFormEvent.submitted(),
+                ),
                 child: const Text(
                   'Submit',
                   style: TextStyle(
@@ -35,6 +35,5 @@ class SubmitRegistrationButton extends StatelessWidget {
   bool _buildWhen(
     RegistrationFormState previous,
     RegistrationFormState current,
-  ) =>
-      previous.isSubmitting != current.isSubmitting;
+  ) => previous.isSubmitting != current.isSubmitting;
 }

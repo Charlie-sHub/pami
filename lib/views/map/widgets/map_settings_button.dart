@@ -10,18 +10,18 @@ class MapSettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        mini: true,
-        heroTag: null,
-        onPressed: () => showModalBottomSheet(
-          context: context,
-          builder: (_) => BlocProvider.value(
-            value: context.read<MapSettingsFormBloc>(),
-            child: const MapSettingsSheet(),
-          ),
-        ),
-        child: const Icon(Icons.tune),
-      );
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+    mini: true,
+    heroTag: null,
+    onPressed: () => showModalBottomSheet<void>(
+      context: context,
+      builder: (_) => BlocProvider.value(
+        value: context.read<MapSettingsFormBloc>(),
+        child: const MapSettingsSheet(),
+      ),
+    ),
+    child: const Icon(Icons.tune),
+  );
 }

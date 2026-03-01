@@ -26,18 +26,18 @@ void main() {
   );
 
   Widget buildWidget({String? initialValue}) => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: Form(
-              autovalidateMode: AutovalidateMode.always,
-              child: BioTextField(
-                initialValue: initialValue,
-              ),
-            ),
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: Form(
+          autovalidateMode: AutovalidateMode.always,
+          child: BioTextField(
+            initialValue: initialValue,
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

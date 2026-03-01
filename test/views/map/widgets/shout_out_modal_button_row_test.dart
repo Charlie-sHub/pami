@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/interested_shout_outs/interested_shout_outs_actor/interested_shout_outs_actor_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/views/map/widgets/shout_out_modal_button_row.dart';
 
@@ -185,7 +185,7 @@ void main() {
           // Arrange
           final controller =
               StreamController<InterestedShoutOutsActorState>.broadcast();
-          const testFailure = Failure.unexpectedError(
+          const testFailure = AppFailure.unexpectedError(
             errorMessage: 'Test error',
           );
           when(mockInterestedShoutOutsActorBloc.state).thenReturn(

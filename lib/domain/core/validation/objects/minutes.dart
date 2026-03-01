@@ -5,8 +5,6 @@ import 'package:pami/domain/core/validation/validators/validate_bounded_double.d
 
 /// A value object representing minutes.
 class Minutes extends ValueObject<double> {
-  const Minutes._(this.value);
-
   /// Creates a new [Minutes]
   factory Minutes(double input) => Minutes._(
     validateBoundedDouble(
@@ -14,6 +12,7 @@ class Minutes extends ValueObject<double> {
       input: input,
     ),
   );
+  const Minutes._(this.value);
 
   /// Maximum amount of minutes
   static const limit = 1440.0;

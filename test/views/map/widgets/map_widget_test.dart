@@ -247,7 +247,7 @@ void main() {
 
       testWidgets(
         'uses default marker icon if category icon is not found '
-            'or no categories',
+        'or no categories',
         (tester) async {
           // Act
           await tester.pumpWidget(

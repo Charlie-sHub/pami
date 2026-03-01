@@ -15,8 +15,6 @@ part 'user.freezed.dart';
 /// User entity
 @freezed
 abstract class User with _$User {
-  const User._();
-
   /// Default constructor
   const factory User({
     required UniqueId id,
@@ -33,6 +31,7 @@ abstract class User with _$User {
     required PastDate lastLogin,
     required PastDate dateCreated,
   }) = _User;
+  const User._();
 
   /// Empty constructor
   factory User.empty() => User(

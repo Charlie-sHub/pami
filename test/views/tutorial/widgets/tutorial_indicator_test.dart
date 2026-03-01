@@ -17,14 +17,14 @@ void main() {
   setUp(() => mockController = MockCarouselSliderController());
 
   Widget buildWidget(int index) => MaterialApp(
-        home: Scaffold(
-          body: TutorialIndicator(
-            slideCount: tutorialSlides.length,
-            currentIndex: index,
-            controller: mockController,
-          ),
-        ),
-      );
+    home: Scaffold(
+      body: TutorialIndicator(
+        slideCount: tutorialSlides.length,
+        currentIndex: index,
+        controller: mockController,
+      ),
+    ),
+  );
 
   testWidgets(
     'TutorialIndicator renders correctly',

@@ -11,8 +11,6 @@ part 'message_dto.g.dart';
 /// Message DTO
 @freezed
 abstract class MessageDto with _$MessageDto {
-  const MessageDto._();
-
   /// Default constructor
   const factory MessageDto({
     required String id,
@@ -21,15 +19,16 @@ abstract class MessageDto with _$MessageDto {
     required bool isRead,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _MessageDto;
+  const MessageDto._();
 
   /// Constructor from [Message]
   factory MessageDto.fromDomain(Message message) => MessageDto(
-        id: message.id.getOrCrash(),
-        senderId: message.senderId.getOrCrash(),
-        content: message.content.getOrCrash(),
-        isRead: message.isRead,
-        dateCreated: message.dateCreated.getOrCrash(),
-      );
+    id: message.id.getOrCrash(),
+    senderId: message.senderId.getOrCrash(),
+    content: message.content.getOrCrash(),
+    isRead: message.isRead,
+    dateCreated: message.dateCreated.getOrCrash(),
+  );
 
   /// Factory constructor from JSON [Map]
   factory MessageDto.fromJson(Map<String, dynamic> json) =>
@@ -37,10 +36,10 @@ abstract class MessageDto with _$MessageDto {
 
   /// Returns a [Message] from this DTO
   Message toDomain() => Message(
-        id: UniqueId.fromUniqueString(id),
-        senderId: UniqueId.fromUniqueString(senderId),
-        content: MessageContent(content),
-        isRead: isRead,
-        dateCreated: PastDate(dateCreated),
-      );
+    id: UniqueId.fromUniqueString(id),
+    senderId: UniqueId.fromUniqueString(senderId),
+    content: MessageContent(content),
+    isRead: isRead,
+    dateCreated: PastDate(dateCreated),
+  );
 }

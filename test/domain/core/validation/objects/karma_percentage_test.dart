@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/karma_percentage.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
           final result = validKarma.value;
 
           // Assert
-          expect(result, right(50));
+          expect(result, right<ValueFailure<double>, double>(50));
         },
       );
 
@@ -35,7 +35,10 @@ void main() {
           final result = limitKarma.value;
 
           // Assert
-          expect(result, right(KarmaPercentage.limit));
+          expect(
+            result,
+            right<ValueFailure<double>, double>(KarmaPercentage.limit),
+          );
         },
       );
 
@@ -51,7 +54,7 @@ void main() {
           final result = zeroKarma.value;
 
           // Assert
-          expect(result, right(0));
+          expect(result, right<ValueFailure<double>, double>(0));
         },
       );
     },
@@ -61,7 +64,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input exceeds the limit',
         () {
           // Arrange
@@ -74,8 +77,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<double>.doubleOutOfBounds(
+            left<ValueFailure<double>, double>(
+              const ValueFailure<double>.doubleOutOfBounds(
                 failedValue: KarmaPercentage.limit + 0.1,
               ),
             ),
@@ -84,7 +87,7 @@ void main() {
       );
 
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input is negative',
         () {
           // Arrange
@@ -97,8 +100,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<double>.doubleOutOfBounds(
+            left<ValueFailure<double>, double>(
+              const ValueFailure<double>.doubleOutOfBounds(
                 failedValue: -1,
               ),
             ),

@@ -10,9 +10,9 @@ class LoginGoogleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: const FaIcon(FontAwesomeIcons.google),
-        onPressed: () => context.read<LoginFormBloc>().add(
-              const LoginFormEvent.loggedInGoogle(),
-            ),
-      );
+    icon: const FaIcon(FontAwesomeIcons.google),
+    onPressed: () => context.read<LoginFormBloc>().add(
+      const LoginFormEvent.loggedInGoogle(),
+    ),
+  );
 }

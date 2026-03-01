@@ -10,22 +10,22 @@ class CreateShoutOutFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 40,
-        width: 40,
-        child: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          backgroundColor: AppColors.primary,
-          onPressed: () => context.router.push(
-            const ShoutOutCreationRoute(),
-          ),
-          elevation: 0,
-          child: const Icon(
-            Icons.add,
-            color: AppColors.onPrimary,
-            size: 32,
-          ),
-        ),
-      );
+    height: 40,
+    width: 40,
+    child: FloatingActionButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      backgroundColor: AppColors.primary,
+      onPressed: () => context.router.push(
+        const ShoutOutCreationRoute(),
+      ),
+      elevation: 0,
+      child: const Icon(
+        Icons.add,
+        color: AppColors.onPrimary,
+        size: 32,
+      ),
+    ),
+  );
 }

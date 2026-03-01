@@ -12,7 +12,9 @@ abstract class InterestedShoutOutsRepositoryInterface {
   Future<Either<AppFailure, Unit>> addInterestedShoutOut(UniqueId shoutOutId);
 
   /// Dismisses a shout out from the list of interested shout outs
-  Future<Either<AppFailure, Unit>> dismissInterestedShoutOut(UniqueId shoutOutId);
+  Future<Either<AppFailure, Unit>> dismissInterestedShoutOut(
+    UniqueId shoutOutId,
+  );
 
   /// Dismisses a shout out from the list of interested shout outs
   Future<Either<AppFailure, Unit>> confirmScan({

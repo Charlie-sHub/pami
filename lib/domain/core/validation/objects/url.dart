@@ -7,18 +7,17 @@ import 'package:pami/domain/core/validation/validators/validate_url.dart';
 
 /// A value object representing a URL.
 class Url extends ValueObject<String> {
-  const Url._(this.value);
-
   /// Creates a new [Url]
   factory Url(String input) => Url._(
     validateStringNotEmpty(
       input,
     ).flatMap(validateSingleLineString).flatMap(validateUrl),
   );
+  const Url._(this.value);
 
   @override
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

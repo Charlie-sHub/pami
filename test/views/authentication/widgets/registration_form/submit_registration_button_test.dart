@@ -26,13 +26,13 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: const SubmitRegistrationButton(),
-          ),
-        ),
-      );
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: const SubmitRegistrationButton(),
+      ),
+    ),
+  );
 
   testWidgets(
     'renders ElevatedButton when not submitting',

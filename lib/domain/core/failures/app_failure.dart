@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'failure.dart';
+import 'package:pami/domain/core/failures/failure.dart';
 
 part 'app_failure.freezed.dart';
 

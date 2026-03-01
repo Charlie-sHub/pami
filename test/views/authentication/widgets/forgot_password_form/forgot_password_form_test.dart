@@ -33,17 +33,17 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: BlocProvider<ForgottenPasswordFormBloc>.value(
-            value: mockBloc,
-            child: const Scaffold(
-              body: ForgotPasswordForm(),
-            ),
-          ),
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: BlocProvider<ForgottenPasswordFormBloc>.value(
+        value: mockBloc,
+        child: const Scaffold(
+          body: ForgotPasswordForm(),
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders all expected widgets',

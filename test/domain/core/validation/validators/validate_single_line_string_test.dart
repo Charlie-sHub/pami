@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_single_line_string.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
           final result = validateSingleLineString(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
     },
@@ -27,7 +27,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.multiLineString '
+        'should return a ValueFailure.multiLineString '
         'when the input string contains a new line',
         () {
           // Arrange
@@ -39,15 +39,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.multiLineString(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.multiLineString(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.multiLineString '
+        'should return a ValueFailure.multiLineString '
         'when the input string contains multiple new lines',
         () {
           // Arrange
@@ -59,8 +59,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.multiLineString(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.multiLineString(failedValue: input),
             ),
           );
         },

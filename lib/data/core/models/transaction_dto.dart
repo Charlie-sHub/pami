@@ -15,8 +15,6 @@ part 'transaction_dto.g.dart';
 /// Transaction DTO
 @freezed
 abstract class TransactionDto with _$TransactionDto {
-  const TransactionDto._();
-
   /// Default constructor
   const factory TransactionDto({
     required String id,
@@ -30,6 +28,7 @@ abstract class TransactionDto with _$TransactionDto {
     required bool? isPositiveForCreator,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _TransactionDto;
+  const TransactionDto._();
 
   /// Constructor from [Transaction]
   factory TransactionDto.fromDomain(Transaction transaction) => TransactionDto(

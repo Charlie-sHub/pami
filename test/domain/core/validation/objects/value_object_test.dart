@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/domain/core/failures/error.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 
 void main() {
@@ -9,7 +9,8 @@ void main() {
     'failureOrUnit',
     () {
       test(
-        'should return right(unit) when value is Right',
+        'should return right<ValueFailure<dynamic>, Unit>(unit) '
+        'when value is Right',
         () {
           // Arrange
           const validName = 'John Doe';
@@ -19,17 +20,18 @@ void main() {
           final result = name.failureOrUnit;
 
           // Assert
-          expect(result, right(unit));
+          expect(result, right<ValueFailure<dynamic>, Unit>(unit));
         },
       );
 
       test(
-        'should return left(Failure) when value is Left',
+        'should return left<ValueFailure<String>, String>(Failure) '
+        'when value is Left',
         () {
           // Arrange
           const invalidName = '';
           final name = Name(invalidName);
-          const expectedFailure = Failure<String>.emptyString(
+          const expectedFailure = ValueFailure<String>.emptyString(
             failedValue: invalidName,
           );
 
@@ -37,7 +39,7 @@ void main() {
           final result = name.failureOrUnit;
 
           // Assert
-          expect(result, left(expectedFailure));
+          expect(result, left<ValueFailure<String>, String>(expectedFailure));
         },
       );
     },
@@ -102,7 +104,7 @@ void main() {
           // Arrange
           const invalidName = '';
           final name = Name(invalidName);
-          const expectedFailure = Failure<String>.emptyString(
+          const expectedFailure = ValueFailure<String>.emptyString(
             failedValue: invalidName,
           );
 
@@ -140,7 +142,7 @@ void main() {
           // Arrange
           const invalidName = '';
           final name = Name(invalidName);
-          const expectedFailure = Failure<String>.emptyString(
+          const expectedFailure = ValueFailure<String>.emptyString(
             failedValue: invalidName,
           );
 
@@ -173,7 +175,7 @@ void main() {
           // Arrange
           const invalidName = '';
           final name = Name(invalidName);
-          const expectedFailure = Failure<String>.emptyString(
+          const expectedFailure = ValueFailure<String>.emptyString(
             failedValue: invalidName,
           );
 

@@ -48,17 +48,17 @@ void main() {
   });
 
   Widget buildWidget({Option<User>? userOption}) => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: Scaffold(
-              body: RegistrationForm(userOption: userOption ?? none()),
-            ),
-          ),
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: Scaffold(
+          body: RegistrationForm(userOption: userOption ?? none()),
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders all expected widgets',

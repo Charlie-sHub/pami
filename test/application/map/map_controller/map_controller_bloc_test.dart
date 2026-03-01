@@ -28,9 +28,7 @@ void main() {
     () {
       TestWidgetsFlutterBinding.ensureInitialized();
       mockMapRepository = MockMapRepositoryInterface();
-      mapControllerBloc = MapControllerBloc(
-        mockMapRepository
-      );
+      mapControllerBloc = MapControllerBloc(mockMapRepository);
     },
   );
 
@@ -132,7 +130,8 @@ void main() {
         'emits the same state when getCurrentLocation fails',
         setUp: () {
           when(mockMapRepository.getCurrentLocation()).thenAnswer(
-            (_) async => const Left(AppFailure.serverError(errorString: 'test')),
+            (_) async =>
+                const Left(AppFailure.serverError(errorString: 'test')),
           );
         },
         build: () => mapControllerBloc,

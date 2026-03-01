@@ -33,7 +33,7 @@ void main() {
         'transactionCreated is added and repository returns Right',
         setUp: () {
           when(mockRepository.createTransaction(any)).thenAnswer(
-            (_) async => right(unit),
+            (_) async => right<AppFailure, Unit>(unit),
           );
         },
         build: () => transactionActorBloc,
@@ -59,7 +59,7 @@ void main() {
         'transactionCreated is added and repository returns Left',
         setUp: () {
           when(mockRepository.createTransaction(any)).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, Unit>(failure),
           );
         },
         build: () => transactionActorBloc,

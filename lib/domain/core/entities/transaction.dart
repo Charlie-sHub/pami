@@ -12,8 +12,6 @@ part 'transaction.freezed.dart';
 /// Transaction entity
 @freezed
 abstract class Transaction with _$Transaction {
-  const Transaction._();
-
   /// Default constructor
   const factory Transaction({
     required UniqueId id,
@@ -27,6 +25,7 @@ abstract class Transaction with _$Transaction {
     required Option<bool> isPositiveForCreator,
     required PastDate dateCreated,
   }) = _Transaction;
+  const Transaction._();
 
   /// Empty constructor
   factory Transaction.empty() => Transaction(

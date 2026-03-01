@@ -123,7 +123,7 @@ void main() {
         buildWidget(
           (context) async {
             await Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ScanPage()),
+              MaterialPageRoute<String>(builder: (_) => const ScanPage()),
             );
           },
         ),

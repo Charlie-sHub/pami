@@ -18,8 +18,6 @@ part 'shout_out.freezed.dart';
 /// ShoutOut entity
 @freezed
 abstract class ShoutOut with _$ShoutOut {
-  const ShoutOut._();
-
   /// Default constructor
   const factory ShoutOut({
     required UniqueId id,
@@ -36,6 +34,7 @@ abstract class ShoutOut with _$ShoutOut {
     required PastDate dateCreated,
     required QrCode qrCode,
   }) = _ShoutOut;
+  const ShoutOut._();
 
   /// Empty constructor
   factory ShoutOut.empty() {

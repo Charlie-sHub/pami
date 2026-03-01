@@ -43,13 +43,13 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: BlocProvider<HomeNavigationActorBloc>(
-          create: (context) => mockHomeNavigationActorBloc,
-          child: const Scaffold(
-            appBar: PamiAppBar(),
-          ),
-        ),
-      );
+    home: BlocProvider<HomeNavigationActorBloc>(
+      create: (context) => mockHomeNavigationActorBloc,
+      child: const Scaffold(
+        appBar: PamiAppBar(),
+      ),
+    ),
+  );
 
   testWidgets(
     'PamiAppBar renders correctly',

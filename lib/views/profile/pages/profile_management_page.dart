@@ -9,8 +9,8 @@ class ProfileManagementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Scaffold(
-        body: Center(
-          child: Text('Profile Management Page'),
-        ),
-      );
+    body: Center(
+      child: Text('Profile Management Page'),
+    ),
+  );
 }

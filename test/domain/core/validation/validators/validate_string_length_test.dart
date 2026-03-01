@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_string_length.dart';
 
 void main() {
@@ -18,7 +18,7 @@ void main() {
           final result = validateStringLength(input: input, length: length);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -33,7 +33,7 @@ void main() {
           final result = validateStringLength(input: input, length: length);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -48,7 +48,7 @@ void main() {
           final result = validateStringLength(input: input, length: length);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -63,7 +63,7 @@ void main() {
           final result = validateStringLength(input: input, length: length);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
     },
@@ -85,8 +85,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.stringExceedsLength(
+            left<ValueFailure<String>, String>(
+              const ValueFailure.stringExceedsLength(
                 failedValue: input,
                 maxLength: length,
               ),

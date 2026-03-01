@@ -6,8 +6,6 @@ import 'package:pami/domain/core/validation/validators/validate_string_not_empty
 
 /// A value object representing a Field.
 class FieldConfirmator extends ValueObject<String> {
-  const FieldConfirmator._(this.value);
-
   /// Creates a new [FieldConfirmator]
   factory FieldConfirmator({
     required String field,
@@ -18,10 +16,11 @@ class FieldConfirmator extends ValueObject<String> {
       confirmation,
     ).flatMap(validateStringNotEmpty),
   );
+  const FieldConfirmator._(this.value);
 
   @override
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

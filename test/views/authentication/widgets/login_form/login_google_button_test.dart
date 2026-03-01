@@ -26,13 +26,13 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<LoginFormBloc>.value(
-            value: mockBloc,
-            child: const LoginGoogleButton(),
-          ),
-        ),
-      );
+    home: Scaffold(
+      body: BlocProvider<LoginFormBloc>.value(
+        value: mockBloc,
+        child: const LoginGoogleButton(),
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

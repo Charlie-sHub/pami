@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/views/authentication/widgets/email_text_field.dart';
 import 'package:pami/views/core/misc/event_to_add_typedef.dart';
 
@@ -28,22 +28,21 @@ void main() {
     required EventToAdd eventToAdd,
     required FormFieldValidator<String?> validator,
     String? initialValue,
-  }) =>
-      MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: Form(
-              autovalidateMode: AutovalidateMode.always,
-              child: EmailTextField(
-                eventToAdd: eventToAdd,
-                validator: validator,
-                initialValue: initialValue,
-              ),
-            ),
+  }) => MaterialApp(
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: Form(
+          autovalidateMode: AutovalidateMode.always,
+          child: EmailTextField(
+            eventToAdd: eventToAdd,
+            validator: validator,
+            initialValue: initialValue,
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   String emailValidator(RegistrationFormState state) =>
       state.user.email.value.fold(

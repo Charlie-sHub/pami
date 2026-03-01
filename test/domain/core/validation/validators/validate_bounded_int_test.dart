@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_bounded_int.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
           final result = validateBoundedInteger(input: input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<int>, int>(input));
         },
       );
 
@@ -31,7 +31,7 @@ void main() {
           final result = validateBoundedInteger(input: input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<int>, int>(input));
         },
       );
     },
@@ -41,7 +41,8 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.intOutOfBounds when the input is negative',
+        'should return a ValueFailure.intOutOfBounds '
+        'when the input is negative',
         () {
           // Arrange
           const input = -1;
@@ -52,16 +53,16 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<int>, int>(
-              const Failure.intOutOfBounds(failedValue: input),
+            left<ValueFailure<int>, int>(
+              const ValueFailure.intOutOfBounds(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.intOutOfBounds when the input is '
-            'a larger negative number',
+        'should return a ValueFailure.intOutOfBounds when the input is '
+        'a larger negative number',
         () {
           // Arrange
           const input = -100;
@@ -72,8 +73,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<int>, int>(
-              const Failure.intOutOfBounds(failedValue: input),
+            left<ValueFailure<int>, int>(
+              const ValueFailure.intOutOfBounds(failedValue: input),
             ),
           );
         },

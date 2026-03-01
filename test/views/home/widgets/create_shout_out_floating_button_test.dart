@@ -19,15 +19,15 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: Scaffold(
-            body: Container(),
-            floatingActionButton: const CreateShoutOutFloatingButton(),
-          ),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: Scaffold(
+        body: Container(),
+        floatingActionButton: const CreateShoutOutFloatingButton(),
+      ),
+    ),
+  );
 
   testWidgets(
     'CreateShoutOutFloatingButton renders correctly',

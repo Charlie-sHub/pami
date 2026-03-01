@@ -20,29 +20,28 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => getIt<HomeNavigationActorBloc>(),
-        child: BlocBuilder<HomeNavigationActorBloc, HomeNavigationActorState>(
-          builder: (context, state) => Scaffold(
-            appBar: const PamiAppBar(),
-            extendBody: true,
-            body: IndexedStack(
-              index: state.currentIndex,
-              children: const [
-                MapView(),
-                InterestedShoutOutsView(),
-                MyShoutOutsView(),
-                ProfileView(),
-                NotificationsView(),
-              ],
-            ),
-            resizeToAvoidBottomInset: false,
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: const CreateShoutOutFloatingButton(),
-            bottomNavigationBar: PamiBottomNavigationBar(
-              index: state.currentIndex,
-            ),
-          ),
+    create: (context) => getIt<HomeNavigationActorBloc>(),
+    child: BlocBuilder<HomeNavigationActorBloc, HomeNavigationActorState>(
+      builder: (context, state) => Scaffold(
+        appBar: const PamiAppBar(),
+        extendBody: true,
+        body: IndexedStack(
+          index: state.currentIndex,
+          children: const [
+            MapView(),
+            InterestedShoutOutsView(),
+            MyShoutOutsView(),
+            ProfileView(),
+            NotificationsView(),
+          ],
         ),
-      );
+        resizeToAvoidBottomInset: false,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: const CreateShoutOutFloatingButton(),
+        bottomNavigationBar: PamiBottomNavigationBar(
+          index: state.currentIndex,
+        ),
+      ),
+    ),
+  );
 }

@@ -9,19 +9,18 @@ part 'coordinates_dto.g.dart';
 /// Coordinates DTO
 @freezed
 abstract class CoordinatesDto with _$CoordinatesDto {
-  const CoordinatesDto._();
-
   /// Default constructor
   const factory CoordinatesDto({
     required double latitude,
     required double longitude,
   }) = _CoordinatesDto;
+  const CoordinatesDto._();
 
   /// Constructor from [Coordinates]
   factory CoordinatesDto.fromDomain(Coordinates coordinates) => CoordinatesDto(
-        latitude: coordinates.latitude.getOrCrash(),
-        longitude: coordinates.longitude.getOrCrash(),
-      );
+    latitude: coordinates.latitude.getOrCrash(),
+    longitude: coordinates.longitude.getOrCrash(),
+  );
 
   /// Factory constructor from JSON [Map]
   factory CoordinatesDto.fromJson(Map<String, dynamic> json) =>
@@ -29,7 +28,7 @@ abstract class CoordinatesDto with _$CoordinatesDto {
 
   /// Returns a [Coordinates] from this DTO
   Coordinates toDomain() => Coordinates(
-        latitude: Latitude(latitude),
-        longitude: Longitude(longitude),
-      );
+    latitude: Latitude(latitude),
+    longitude: Longitude(longitude),
+  );
 }

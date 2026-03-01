@@ -22,23 +22,23 @@ class TutorialIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(
-          slideCount,
-          (index) => GestureDetector(
-            onTap: () => controller.animateToPage(index),
-            child: Container(
-              width: 8,
-              height: 8,
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: currentIndex == index
-                    ? Colors.black.withValues(alpha: 0.8)
-                    : Colors.black.withValues(alpha: 0.2),
-              ),
-            ),
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: List.generate(
+      slideCount,
+      (index) => GestureDetector(
+        onTap: () => controller.animateToPage(index),
+        child: Container(
+          width: 8,
+          height: 8,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: currentIndex == index
+                ? Colors.black.withValues(alpha: 0.8)
+                : Colors.black.withValues(alpha: 0.2),
           ),
         ),
-      );
+      ),
+    ),
+  );
 }

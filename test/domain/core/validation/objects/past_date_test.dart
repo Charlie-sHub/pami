@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/past_date.dart';
 
 void main() {
@@ -24,7 +24,10 @@ void main() {
           final result = pastDateObject.value;
 
           // Assert
-          expect(result, right(expectedPastDate));
+          expect(
+            result,
+            right<ValueFailure<DateTime>, DateTime>(expectedPastDate),
+          );
         },
       );
     },
@@ -52,8 +55,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              Failure<DateTime>.invalidDate(
+            left<ValueFailure<DateTime>, DateTime>(
+              ValueFailure<DateTime>.invalidDate(
                 failedValue: expectedFutureDate,
               ),
             ),

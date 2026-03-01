@@ -16,65 +16,65 @@ class MapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => getIt<MapSettingsFormBloc>(),
+    providers: [
+      BlocProvider(
+        create: (context) => getIt<MapSettingsFormBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => getIt<MapControllerBloc>()
+          ..add(
+            const MapControllerEvent.locationPermissionRequested(),
           ),
-          BlocProvider(
-            create: (context) => getIt<MapControllerBloc>()
-              ..add(
-                const MapControllerEvent.locationPermissionRequested(),
+      ),
+      BlocProvider(
+        create: (context) => getIt<MapWatcherBloc>()
+          ..add(
+            MapWatcherEvent.watchStarted(MapSettings.empty()),
+          ),
+      ),
+    ],
+    child: BlocListener<MapSettingsFormBloc, MapSettingsFormState>(
+      listener: _listener,
+      child: BlocBuilder<MapWatcherBloc, MapWatcherState>(
+        builder: (builderContext, state) {
+          const space = kBottomNavigationBarHeight;
+          return Stack(
+            children: [
+              MapWidget(
+                shoutOuts: switch (state) {
+                  LoadSuccess(:final shoutOuts) => shoutOuts,
+                  _ => {},
+                },
               ),
-          ),
-          BlocProvider(
-            create: (context) => getIt<MapWatcherBloc>()
-              ..add(
-                MapWatcherEvent.watchStarted(MapSettings.empty()),
+              switch (state) {
+                ActionInProgress() => const Positioned(
+                  top: space,
+                  left: space,
+                  child: CircularProgressIndicator(),
+                ),
+                LoadFailure(:final failure) => Positioned(
+                  top: space,
+                  left: space,
+                  right: space,
+                  child: ErrorCard(failure: failure),
+                ),
+                _ => const SizedBox.shrink(),
+              },
+              const Positioned(
+                bottom: space * 1.6,
+                right: 10,
+                child: MapSettingsButton(),
               ),
-          ),
-        ],
-        child: BlocListener<MapSettingsFormBloc, MapSettingsFormState>(
-          listener: _listener,
-          child: BlocBuilder<MapWatcherBloc, MapWatcherState>(
-            builder: (builderContext, state) {
-              const space = kBottomNavigationBarHeight;
-              return Stack(
-                children: [
-                  MapWidget(
-                    shoutOuts: switch (state) {
-                      LoadSuccess(:final shoutOuts) => shoutOuts,
-                      _ => {},
-                    },
-                  ),
-                  switch (state) {
-                    ActionInProgress() => const Positioned(
-                        top: space,
-                        left: space,
-                        child: CircularProgressIndicator(),
-                      ),
-                    LoadFailure(:final failure) => Positioned(
-                        top: space,
-                        left: space,
-                        right: space,
-                        child: ErrorCard(failure: failure),
-                      ),
-                    _ => const SizedBox.shrink(),
-                  },
-                  const Positioned(
-                    bottom: space * 1.6,
-                    right: 10,
-                    child: MapSettingsButton(),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      );
+            ],
+          );
+        },
+      ),
+    ),
+  );
 
   void _listener(BuildContext context, MapSettingsFormState state) {
     context.read<MapWatcherBloc>().add(
-          MapWatcherEvent.watchStarted(state.settings),
-        );
+      MapWatcherEvent.watchStarted(state.settings),
+    );
   }
 }

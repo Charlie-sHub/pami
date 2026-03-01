@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/misc/enums/category.dart';
 import 'package:pami/domain/core/validation/objects/category_set.dart';
 
@@ -10,7 +10,7 @@ void main() {
     () {
       test(
         'should return a CategorySet with the input value '
-            'when the input is valid',
+        'when the input is valid',
         () {
           // Arrange
           const input = {
@@ -23,7 +23,10 @@ void main() {
           final result = categorySet.value;
 
           // Assert
-          expect(result, right(input));
+          expect(
+            result,
+            right<ValueFailure<Set<Category>>, Set<Category>>(input),
+          );
         },
       );
 
@@ -41,7 +44,7 @@ void main() {
           final result = categorySet.failureOrUnit;
 
           // Assert
-          expect(result, right(unit));
+          expect(result, right<ValueFailure<dynamic>, Unit>(unit));
         },
       );
 
@@ -174,8 +177,8 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.collectionExceedsLength '
-            'when the input set exceeds the max length',
+        'should return a ValueFailure.collectionExceedsLength '
+        'when the input set exceeds the max length',
         () {
           // Arrange
           const input = {
@@ -194,8 +197,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<Set<Category>>, Set<Category>>(
-              const Failure.collectionExceedsLength(
+            left<ValueFailure<Set<Category>>, Set<Category>>(
+              const ValueFailure.collectionExceedsLength(
                 failedValue: {
                   Category.food,
                   Category.music,
@@ -231,8 +234,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<Set<Category>>, Unit>(
-              const Failure.collectionExceedsLength(
+            left<ValueFailure<Set<Category>>, Unit>(
+              const ValueFailure.collectionExceedsLength(
                 failedValue: {
                   Category.food,
                   Category.music,

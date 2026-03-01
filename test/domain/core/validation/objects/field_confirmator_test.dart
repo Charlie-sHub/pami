@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/field_confirmator.dart';
 
 void main() {
@@ -23,7 +23,10 @@ void main() {
           final result = validFieldConfirmator.value;
 
           // Assert
-          expect(result, right(validConfirmation));
+          expect(
+            result,
+            right<ValueFailure<String>, String>(validConfirmation),
+          );
         },
       );
     },
@@ -33,7 +36,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.stringMismatch '
+        'should return a ValueFailure.stringMismatch '
         'when the password and confirmation do not match',
         () {
           // Arrange
@@ -50,8 +53,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.stringMismatch(
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.stringMismatch(
                 failedValue: mismatchedConfirmation,
               ),
             ),
@@ -60,7 +63,7 @@ void main() {
       );
 
       test(
-        'should return a Failure.emptyString when the password is empty',
+        'should return a ValueFailure.emptyString when the password is empty',
         () {
           // Arrange
           const emptyPassword = '';
@@ -76,8 +79,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.emptyString(
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.emptyString(
                 failedValue: emptyConfirmation,
               ),
             ),
@@ -86,7 +89,7 @@ void main() {
       );
 
       test(
-        'should return a Failure.emptyString '
+        'should return a ValueFailure.emptyString '
         'when the confirmation is empty',
         () {
           // Arrange
@@ -103,8 +106,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.emptyString(
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.emptyString(
                 failedValue: emptyConfirmation,
               ),
             ),

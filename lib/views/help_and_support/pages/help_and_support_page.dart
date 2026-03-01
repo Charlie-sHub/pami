@@ -9,8 +9,8 @@ class HelpAndSupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Scaffold(
-        body: Center(
-          child: Text('Help and Support Page'),
-        ),
-      );
+    body: Center(
+      child: Text('Help and Support Page'),
+    ),
+  );
 }

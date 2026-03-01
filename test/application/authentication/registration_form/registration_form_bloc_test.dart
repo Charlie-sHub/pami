@@ -219,8 +219,8 @@ void main() {
       blocTest<RegistrationFormBloc, RegistrationFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(right(unit))] when registration data '
-        'is valid and repository returns Right',
+        'failureOrSuccessOption: some(right<AppFailure, Unit>(unit))] '
+        'when registration data is valid and repository returns Right',
         setUp: () {
           when(
             mockRepository.register(
@@ -228,7 +228,7 @@ void main() {
               password: anyNamed('password'),
               imageFile: anyNamed('imageFile'),
             ),
-          ).thenAnswer((_) async => right(unit));
+          ).thenAnswer((_) async => right<AppFailure, Unit>(unit));
         },
         build: () => registrationFormBloc,
         seed: () => RegistrationFormState.initial().copyWith(
@@ -255,7 +255,7 @@ void main() {
           registrationFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(right<AppFailure, Unit>(unit)),
           ),
         ],
         verify: (_) => verify(
@@ -275,7 +275,7 @@ void main() {
       blocTest<RegistrationFormBloc, RegistrationFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(failure))] when submitted with '
+        'failureOrSuccessOption: none()] when submitted with '
         'invalid form data',
         build: () => registrationFormBloc,
         act: (bloc) => bloc.add(const RegistrationFormEvent.submitted()),
@@ -303,8 +303,8 @@ void main() {
       blocTest<RegistrationFormBloc, RegistrationFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(failure))] when registration data '
-        'is valid but repository returns Left',
+        'failureOrSuccessOption: some(left<AppFailure, Unit>(failure))] '
+        'when registration data is valid but repository returns Left',
         setUp: () {
           when(
             mockRepository.register(
@@ -312,7 +312,7 @@ void main() {
               password: anyNamed('password'),
               imageFile: anyNamed('imageFile'),
             ),
-          ).thenAnswer((_) async => left(failure));
+          ).thenAnswer((_) async => left<AppFailure, Unit>(failure));
         },
         build: () => registrationFormBloc,
         seed: () => RegistrationFormState.initial().copyWith(
@@ -339,7 +339,7 @@ void main() {
           registrationFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
         verify: (_) => verify(

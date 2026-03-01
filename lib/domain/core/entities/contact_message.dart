@@ -11,8 +11,6 @@ part 'contact_message.freezed.dart';
 /// Contact Message entity
 @freezed
 abstract class ContactMessage with _$ContactMessage {
-  const ContactMessage._();
-
   /// Default constructor
   const factory ContactMessage({
     required UniqueId id,
@@ -21,6 +19,7 @@ abstract class ContactMessage with _$ContactMessage {
     required MessageContent content,
     required PastDate dateCreated,
   }) = _ContactMessage;
+  const ContactMessage._();
 
   /// Empty constructor
   factory ContactMessage.empty() => ContactMessage(

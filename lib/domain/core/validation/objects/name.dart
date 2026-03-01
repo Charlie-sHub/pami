@@ -7,8 +7,6 @@ import 'package:pami/domain/core/validation/validators/validate_string_not_empty
 
 /// A value object representing a name.
 class Name extends ValueObject<String> {
-  const Name._(this.value);
-
   /// Creates a new [Name]
   factory Name(String input) => Name._(
     validateStringLength(
@@ -16,6 +14,7 @@ class Name extends ValueObject<String> {
       length: maxLength,
     ).flatMap(validateStringNotEmpty).flatMap(validateSingleLineString),
   );
+  const Name._(this.value);
 
   /// Maximum number of characters
   static const maxLength = 50;
@@ -24,5 +23,5 @@ class Name extends ValueObject<String> {
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

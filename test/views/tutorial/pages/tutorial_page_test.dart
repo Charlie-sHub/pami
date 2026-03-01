@@ -7,8 +7,8 @@ import 'package:pami/views/tutorial/widgets/tutorial_indicator.dart';
 
 void main() {
   Widget buildWidget() => const MaterialApp(
-        home: TutorialPage(),
-      );
+    home: TutorialPage(),
+  );
 
   testWidgets(
     'renders all expected widgets',

@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/transactions/transaction_history_watcher/transaction_history_watcher_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/profile/widgets/transaction_history.dart';

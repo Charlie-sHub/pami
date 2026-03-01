@@ -10,8 +10,6 @@ part 'conversation.freezed.dart';
 /// Conversation entity
 @freezed
 abstract class Conversation with _$Conversation {
-  const Conversation._();
-
   /// Default constructor
   const factory Conversation({
     required UniqueId id,
@@ -22,6 +20,7 @@ abstract class Conversation with _$Conversation {
     required DateTime lastMessageDate,
     required PastDate dateCreated,
   }) = _Conversation;
+  const Conversation._();
 
   /// Empty constructor
   factory Conversation.empty() => Conversation(

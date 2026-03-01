@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:uuid/uuid.dart';
 
@@ -18,7 +18,7 @@ void main() {
           final result = uniqueId.value;
 
           // Assert
-          expect(result, isA<Right<Failure<String>, String>>());
+          expect(result, isA<Right<ValueFailure<String>, String>>());
           result.fold(
             (_) => fail('Should not be a failure'),
             (id) => expect(Uuid.isValidUUID(fromString: id), true),
@@ -37,7 +37,7 @@ void main() {
           final result = uniqueId.value;
 
           // Assert
-          expect(result, right(uniqueString));
+          expect(result, right<ValueFailure<String>, String>(uniqueString));
         },
       );
 
@@ -53,8 +53,8 @@ void main() {
           final result2 = id2.value;
 
           // Assert
-          expect(result1, isA<Right<Failure<String>, String>>());
-          expect(result2, isA<Right<Failure<String>, String>>());
+          expect(result1, isA<Right<ValueFailure<String>, String>>());
+          expect(result2, isA<Right<ValueFailure<String>, String>>());
           result1.fold(
             (_) => fail('Should not be a failure'),
             (uuid1) => result2.fold(

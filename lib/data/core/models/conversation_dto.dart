@@ -11,8 +11,6 @@ part 'conversation_dto.g.dart';
 /// Conversation DTO
 @freezed
 abstract class ConversationDto with _$ConversationDto {
-  const ConversationDto._();
-
   /// Default constructor
   const factory ConversationDto({
     required String id,
@@ -23,6 +21,7 @@ abstract class ConversationDto with _$ConversationDto {
     @ServerDateStringConverter() required DateTime lastMessageDate,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _ConversationDto;
+  const ConversationDto._();
 
   /// Constructor from [Conversation]
   factory ConversationDto.fromDomain(Conversation conversation) =>
@@ -42,12 +41,12 @@ abstract class ConversationDto with _$ConversationDto {
 
   /// Returns a [Conversation] from this DTO
   Conversation toDomain() => Conversation(
-        id: UniqueId.fromUniqueString(id),
-        shoutOutId: UniqueId.fromUniqueString(shoutOutId),
-        shoutOutCreatorId: UniqueId.fromUniqueString(shoutOutCreatorId),
-        interestedId: UniqueId.fromUniqueString(interestedId),
-        lastMessage: MessageContent(lastMessage),
-        lastMessageDate: lastMessageDate,
-        dateCreated: PastDate(dateCreated),
-      );
+    id: UniqueId.fromUniqueString(id),
+    shoutOutId: UniqueId.fromUniqueString(shoutOutId),
+    shoutOutCreatorId: UniqueId.fromUniqueString(shoutOutCreatorId),
+    interestedId: UniqueId.fromUniqueString(interestedId),
+    lastMessage: MessageContent(lastMessage),
+    lastMessageDate: lastMessageDate,
+    dateCreated: PastDate(dateCreated),
+  );
 }

@@ -15,12 +15,12 @@ class TutorialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: ElevatedButton(
-          onPressed: () => context.router.replace(const HomeRoute()),
-          child: Text(
-            isLast ? 'Get Started!' : 'Skip Tutorial',
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: ElevatedButton(
+      onPressed: () => context.router.replace(const HomeRoute()),
+      child: Text(
+        isLast ? 'Get Started!' : 'Skip Tutorial',
+      ),
+    ),
+  );
 }

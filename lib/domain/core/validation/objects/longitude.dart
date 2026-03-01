@@ -5,8 +5,6 @@ import 'package:pami/domain/core/validation/validators/validate_bounded_double.d
 
 /// A value object representing a longitude.
 class Longitude extends ValueObject<double> {
-  const Longitude._(this.value);
-
   /// Creates a new [Longitude]
   factory Longitude(double input) => Longitude._(
     validateBoundedDouble(
@@ -15,6 +13,7 @@ class Longitude extends ValueObject<double> {
       input: input,
     ),
   );
+  const Longitude._(this.value);
 
   /// Maximum latitude
   static const limit = 180.0;

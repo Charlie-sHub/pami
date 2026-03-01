@@ -6,16 +6,15 @@ import 'package:pami/domain/core/validation/validators/validate_past_date.dart';
 
 /// A value object representing a date in the past
 class PastDate extends ValueObject<DateTime> {
-  const PastDate._(this.value);
-
   /// Creates a new [PastDate]
   factory PastDate(DateTime input) => PastDate._(
     dateOnlyDateTime(input).flatMap(validatePastDate),
   );
+  const PastDate._(this.value);
 
   @override
   final Either<ValueFailure<DateTime>, DateTime> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<DateTime>, DateTime>> get props => [value];
 }

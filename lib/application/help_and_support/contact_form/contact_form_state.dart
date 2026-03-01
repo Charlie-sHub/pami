@@ -13,9 +13,9 @@ abstract class ContactFormState with _$ContactFormState {
 
   /// Initial contact form state
   factory ContactFormState.initial() => ContactFormState(
-        message: ContactMessage.empty(),
-        showErrorMessages: false,
-        isSubmitting: false,
-        failureOrSuccessOption: none(),
-      );
+    message: ContactMessage.empty(),
+    showErrorMessages: false,
+    isSubmitting: false,
+    failureOrSuccessOption: none(),
+  );
 }

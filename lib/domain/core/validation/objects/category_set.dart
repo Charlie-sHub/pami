@@ -6,8 +6,6 @@ import 'package:pami/domain/core/validation/validators/validate_max_length_set.d
 
 /// A value object representing a set of categories.
 class CategorySet extends ValueObject<Set<Category>> {
-  const CategorySet._(this.value);
-
   /// Creates a new [CategorySet]
   factory CategorySet(Set<Category> input) => CategorySet._(
     validateMaxLengthSet(
@@ -15,6 +13,7 @@ class CategorySet extends ValueObject<Set<Category>> {
       maxLength: maxLength,
     ),
   );
+  const CategorySet._(this.value);
 
   @override
   final Either<ValueFailure<Set<Category>>, Set<Category>> value;

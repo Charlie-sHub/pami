@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pami/domain/core/failures/error.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 
 void main() {
   group(
@@ -10,7 +10,7 @@ void main() {
         'should be a subclass of Error',
         () {
           // Arrange
-          const failure = Failure<String>.emptyString(failedValue: '');
+          const failure = ValueFailure<String>.emptyString(failedValue: '');
 
           // Act
           final error = UnexpectedValueError(failure);
@@ -25,7 +25,9 @@ void main() {
         () {
           // Arrange
           const failedValue = 'test';
-          const failure = Failure<String>.emptyString(failedValue: failedValue);
+          const failure = ValueFailure<String>.emptyString(
+            failedValue: failedValue,
+          );
 
           // Act
           final error = UnexpectedValueError(failure);
@@ -40,7 +42,9 @@ void main() {
         () {
           // Arrange
           const failedValue = 'test';
-          const failure = Failure<String>.emptyString(failedValue: failedValue);
+          const failure = ValueFailure<String>.emptyString(
+            failedValue: failedValue,
+          );
 
           // Act
           final error = UnexpectedValueError(failure);

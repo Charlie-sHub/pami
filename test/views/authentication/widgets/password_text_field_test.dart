@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
 import 'package:pami/views/authentication/widgets/password_text_field.dart';
 import 'package:pami/views/core/misc/event_to_add_typedef.dart';
@@ -28,21 +28,20 @@ void main() {
   Widget buildWidget({
     required EventToAdd eventToAdd,
     required FormFieldValidator<String?> validator,
-  }) =>
-      MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: Form(
-              autovalidateMode: AutovalidateMode.always,
-              child: PasswordTextField(
-                eventToAdd: eventToAdd,
-                validator: validator,
-              ),
-            ),
+  }) => MaterialApp(
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: Form(
+          autovalidateMode: AutovalidateMode.always,
+          child: PasswordTextField(
+            eventToAdd: eventToAdd,
+            validator: validator,
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   String passwordValidator(RegistrationFormState state) =>
       state.password.value.fold(

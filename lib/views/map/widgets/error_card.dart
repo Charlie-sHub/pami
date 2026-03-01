@@ -15,13 +15,13 @@ class ErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        color: AppColors.onError,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            'Error loading shout-outs: ${failure.message}',
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
-      );
+    color: AppColors.onError,
+    child: Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        'Error loading shout-outs: ${failure.message}',
+        style: const TextStyle(color: Colors.white),
+      ),
+    ),
+  );
 }

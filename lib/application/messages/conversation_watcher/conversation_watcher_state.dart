@@ -11,9 +11,11 @@ sealed class ConversationWatcherState with _$ConversationWatcherState {
 
   /// Load success state
   const factory ConversationWatcherState.loadSuccess(
-      List<Message> messages,) = LoadSuccess;
+    List<Message> messages,
+  ) = LoadSuccess;
 
   /// Load failure state
   const factory ConversationWatcherState.loadFailure(
-      Failure failure,) = LoadFailure;
+    Failure failure,
+  ) = LoadFailure;
 }

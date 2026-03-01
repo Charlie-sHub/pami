@@ -51,13 +51,13 @@ void main() {
       blocTest<ContactFormBloc, ContactFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(right(unit))] when message is '
-        'valid and repository returns Right',
+        'failureOrSuccessOption: some(right<AppFailure, Unit>(unit))] '
+        'when message is valid and repository returns Right',
         setUp: () {
           when(
             mockRepository.submitContact(any),
           ).thenAnswer(
-            (_) async => right(unit),
+            (_) async => right<AppFailure, Unit>(unit),
           );
         },
         seed: () => ContactFormState.initial().copyWith(
@@ -76,7 +76,7 @@ void main() {
           contactFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(right<AppFailure, Unit>(unit)),
           ),
         ],
         verify: (_) => verify(
@@ -92,11 +92,11 @@ void main() {
       blocTest<ContactFormBloc, ContactFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(failure))] when message is '
-        'valid and repository returns Left',
+        'failureOrSuccessOption: some(left<AppFailure, Unit>(failure))] '
+        'when message is valid and repository returns Left',
         setUp: () {
           when(mockRepository.submitContact(any)).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, Unit>(failure),
           );
         },
         seed: () => ContactFormState.initial().copyWith(
@@ -115,7 +115,7 @@ void main() {
           contactFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
         verify: (_) => verify(
@@ -126,8 +126,8 @@ void main() {
       blocTest<ContactFormBloc, ContactFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(Failure.emptyFields()))] '
-        'when message is invalid',
+        'failureOrSuccessOption: some(left<AppFailure, '
+        'Unit>(Failure.emptyFields()))] when message is invalid',
         seed: () => ContactFormState.initial().copyWith(
           message: ContactMessage.empty().copyWith(
             content: MessageContent(invalidMessageContent),
@@ -147,7 +147,7 @@ void main() {
             isSubmitting: false,
             showErrorMessages: true,
             failureOrSuccessOption: some(
-              left(const AppFailure.emptyFields()),
+              left<AppFailure, Unit>(const AppFailure.emptyFields()),
             ),
           ),
         ],

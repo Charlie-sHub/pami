@@ -20,14 +20,14 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: const Scaffold(
-            body: RegisterButton(),
-          ),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: const Scaffold(
+        body: RegisterButton(),
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

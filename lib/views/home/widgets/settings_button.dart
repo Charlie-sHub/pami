@@ -9,14 +9,14 @@ class SettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        padding: EdgeInsets.zero,
-        icon: const Icon(
-          Icons.settings_rounded,
-          size: 25,
-          // color: WorldOnColors.accent,
-        ),
-        onPressed: () => context.router.push(
-          const SettingsRoute(),
-        ),
-      );
+    padding: EdgeInsets.zero,
+    icon: const Icon(
+      Icons.settings_rounded,
+      size: 25,
+      // color: WorldOnColors.accent,
+    ),
+    onPressed: () => context.router.push(
+      const SettingsRoute(),
+    ),
+  );
 }

@@ -9,8 +9,8 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Scaffold(
-        body: Center(
-          child: Text('Settings Page'),
-        ),
-      );
+    body: Center(
+      child: Text('Settings Page'),
+    ),
+  );
 }

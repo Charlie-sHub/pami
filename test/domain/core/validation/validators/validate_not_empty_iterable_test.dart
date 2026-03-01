@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_not_empty_iterable.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
           final result = validateNotEmptyIterable(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<List<int>>, List<int>>(input));
         },
       );
 
@@ -31,7 +31,7 @@ void main() {
           final result = validateNotEmptyIterable(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<List<int>>, List<int>>(input));
         },
       );
     },
@@ -41,7 +41,8 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.emptyList when the input iterable is empty',
+        'should return a ValueFailure.emptyList '
+        'when the input iterable is empty',
         () {
           // Arrange
           const input = <dynamic>[];
@@ -52,8 +53,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<Iterable<dynamic>>, Iterable<dynamic>>(
-              const Failure.emptyList(failedValue: input),
+            left<ValueFailure<Iterable<dynamic>>, Iterable<dynamic>>(
+              const ValueFailure.emptyList(failedValue: input),
             ),
           );
         },

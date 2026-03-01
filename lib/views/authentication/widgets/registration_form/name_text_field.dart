@@ -34,13 +34,13 @@ class NameTextField extends StatelessWidget {
   }
 
   String _validator(RegistrationFormState state) => state.user.name.value.fold(
-        (failure) => switch (failure) {
-          EmptyString() => 'Empty name',
-          MultiLineString() => 'Multi-line string',
-          StringExceedsLength() => 'String exceeds length',
-          InvalidName() => 'Invalid name',
-          _ => 'Unknown error',
-        },
-        (_) => '',
-      );
+    (failure) => switch (failure) {
+      EmptyString() => 'Empty name',
+      MultiLineString() => 'Multi-line string',
+      StringExceedsLength() => 'String exceeds length',
+      InvalidName() => 'Invalid name',
+      _ => 'Unknown error',
+    },
+    (_) => '',
+  );
 }

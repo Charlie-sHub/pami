@@ -5,10 +5,9 @@ import 'package:uuid/uuid.dart';
 
 /// A value object representing a unique identifier.
 class UniqueId extends ValueObject<String> {
-  const UniqueId._(this.value);
-
   /// Creates a new [UniqueId]
   factory UniqueId() => UniqueId._(right(const Uuid().v1()));
+  const UniqueId._(this.value);
 
   /// Creates a new [UniqueId] from a assumed unique string
   factory UniqueId.fromUniqueString(String uniqueId) => UniqueId._(

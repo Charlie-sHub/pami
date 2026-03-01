@@ -81,7 +81,7 @@ void main() {
         setUp: () {
           when(mockRepository.watchShoutOutForTransaction(any)).thenAnswer(
             (_) => Stream.value(
-              left(failure),
+              left<AppFailure, Transaction>(failure),
             ),
           );
         },
@@ -102,7 +102,9 @@ void main() {
         'emits [loadFailure] when shoutOutUpdated is added and result is Left',
         build: () => transactionListenerBloc,
         act: (bloc) => bloc.add(
-          TransactionListenerEvent.shoutOutUpdated(left(failure)),
+          TransactionListenerEvent.shoutOutUpdated(
+            left<AppFailure, Transaction>(failure),
+          ),
         ),
         expect: () => [
           const TransactionListenerState.loadFailure(failure),

@@ -10,9 +10,9 @@ class LoginAppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: const FaIcon(FontAwesomeIcons.apple),
-        onPressed: () => context.read<LoginFormBloc>().add(
-              const LoginFormEvent.loggedInApple(),
-            ),
-      );
+    icon: const FaIcon(FontAwesomeIcons.apple),
+    onPressed: () => context.read<LoginFormBloc>().add(
+      const LoginFormEvent.loggedInApple(),
+    ),
+  );
 }

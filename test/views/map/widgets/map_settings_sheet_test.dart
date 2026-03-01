@@ -64,7 +64,6 @@ void main() {
       await tester.pumpWidget(buildWidget());
       await tester.drag(find.byType(Slider), const Offset(50, 0));
 
-
       // Assert
       verify(
         mockMapSettingsFormBloc.add(

@@ -10,14 +10,14 @@ class RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-        onPressed: () => context.router.push(
-          RegistrationRoute(userOption: none()),
-        ),
-        child: const Text(
-          'Register',
-          style: TextStyle(
-            fontSize: 20,
-          ),
-        ),
-      );
+    onPressed: () => context.router.push(
+      RegistrationRoute(userOption: none()),
+    ),
+    child: const Text(
+      'Register',
+      style: TextStyle(
+        fontSize: 20,
+      ),
+    ),
+  );
 }

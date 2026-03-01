@@ -15,11 +15,11 @@ abstract class LoginFormState with _$LoginFormState {
 
   /// Empty constructor
   factory LoginFormState.initial() => LoginFormState(
-        email: EmailAddress(''),
-        password: Password(''),
-        showErrorMessages: false,
-        isSubmitting: false,
-        thirdPartyUserOption: none(),
-        failureOrSuccessOption: none(),
-      );
+    email: EmailAddress(''),
+    password: Password(''),
+    showErrorMessages: false,
+    isSubmitting: false,
+    thirdPartyUserOption: none(),
+    failureOrSuccessOption: none(),
+  );
 }

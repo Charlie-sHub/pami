@@ -5,8 +5,6 @@ import 'package:pami/domain/core/validation/validators/validate_bounded_double.d
 
 /// A value object representing a radius.
 class MapRadius extends ValueObject<double> {
-  const MapRadius._(this.value);
-
   /// Creates a new [MapRadius]
   factory MapRadius(double input) => MapRadius._(
     validateBoundedDouble(
@@ -14,6 +12,7 @@ class MapRadius extends ValueObject<double> {
       input: input,
     ),
   );
+  const MapRadius._(this.value);
 
   /// Maximum radius
   static const limit = 20.0;

@@ -33,7 +33,7 @@ void main() {
         'repository returns Right',
         setUp: () {
           when(mockRepository.markAsRead(any)).thenAnswer(
-            (_) async => right(unit),
+            (_) async => right<AppFailure, Unit>(unit),
           );
         },
         build: () => notificationActorBloc,
@@ -53,7 +53,7 @@ void main() {
         'deleteNotification is added and repository returns Right',
         setUp: () {
           when(mockRepository.deleteNotification(any)).thenAnswer(
-            (_) async => right(unit),
+            (_) async => right<AppFailure, Unit>(unit),
           );
         },
         build: () => notificationActorBloc,
@@ -79,7 +79,7 @@ void main() {
         'repository returns Left',
         setUp: () {
           when(mockRepository.markAsRead(any)).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, Unit>(failure),
           );
         },
         build: () => notificationActorBloc,
@@ -97,7 +97,7 @@ void main() {
         'deleteNotification is added and repository returns Left',
         setUp: () {
           when(mockRepository.deleteNotification(any)).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, Unit>(failure),
           );
         },
         build: () => notificationActorBloc,

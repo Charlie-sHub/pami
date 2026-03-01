@@ -9,41 +9,41 @@ class ImagePickerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-        backgroundColor: AppColors.background,
-        actionsPadding: const EdgeInsets.all(10),
-        actions: [
-          ElevatedButton(
-            onPressed: () => _pickImage(context, ImageSource.camera),
-            child: const Row(
-              children: [
-                Icon(Icons.photo_camera),
-                SizedBox(width: 10),
-                Text(
-                  'Camera',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ],
+    backgroundColor: AppColors.background,
+    actionsPadding: const EdgeInsets.all(10),
+    actions: [
+      ElevatedButton(
+        onPressed: () => _pickImage(context, ImageSource.camera),
+        child: const Row(
+          children: [
+            Icon(Icons.photo_camera),
+            SizedBox(width: 10),
+            Text(
+              'Camera',
+              style: TextStyle(
+                fontSize: 18,
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () => _pickImage(context, ImageSource.gallery),
-            child: const Row(
-              children: [
-                Icon(Icons.grid_view),
-                SizedBox(width: 10),
-                Text(
-                  'Gallery',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ],
+          ],
+        ),
+      ),
+      ElevatedButton(
+        onPressed: () => _pickImage(context, ImageSource.gallery),
+        child: const Row(
+          children: [
+            Icon(Icons.grid_view),
+            SizedBox(width: 10),
+            Text(
+              'Gallery',
+              style: TextStyle(
+                fontSize: 18,
+              ),
             ),
-          ),
-        ],
-      );
+          ],
+        ),
+      ),
+    ],
+  );
 
   Future<void> _pickImage(BuildContext context, ImageSource source) async {
     final navigatorState = Navigator.of(context);

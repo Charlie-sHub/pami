@@ -73,7 +73,9 @@ class DevelopmentAuthenticationRepository
   }
 
   @override
-  Future<Either<AppFailure, Unit>> resetPassword(EmailAddress emailAddress) async {
+  Future<Either<AppFailure, Unit>> resetPassword(
+    EmailAddress emailAddress,
+  ) async {
     _logger.d('Resetting password for email: ${emailAddress.getOrCrash()}');
     return right(unit);
   }

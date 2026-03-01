@@ -84,7 +84,7 @@ void main() {
         setUp: () {
           when(mockRepository.watchConversations(any)).thenAnswer(
             (_) => Stream.value(
-              left(failure),
+              left<AppFailure, List<Conversation>>(failure),
             ),
           );
         },
@@ -106,7 +106,9 @@ void main() {
         'is added and result is Left',
         build: () => conversationsWatcherBloc,
         act: (bloc) => bloc.add(
-          ConversationsWatcherEvent.resultsReceived(left(failure)),
+          ConversationsWatcherEvent.resultsReceived(
+            left<AppFailure, List<Conversation>>(failure),
+          ),
         ),
         expect: () => [
           const ConversationsWatcherState.loadFailure(failure),

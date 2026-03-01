@@ -37,17 +37,17 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: BlocProvider<LoginFormBloc>.value(
-            value: mockBloc,
-            child: const Scaffold(
-              body: LoginForm(),
-            ),
-          ),
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: BlocProvider<LoginFormBloc>.value(
+        value: mockBloc,
+        child: const Scaffold(
+          body: LoginForm(),
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders all expected widgets',

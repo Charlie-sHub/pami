@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
           final result = validEmailAddress.value;
 
           // Assert
-          expect(result, right(validEmail));
+          expect(result, right<ValueFailure<String>, String>(validEmail));
         },
       );
 
@@ -35,7 +35,7 @@ void main() {
           final result = validEmailAddress.value;
 
           // Assert
-          expect(result, right(validEmail));
+          expect(result, right<ValueFailure<String>, String>(validEmail));
         },
       );
 
@@ -51,7 +51,7 @@ void main() {
           final result = validEmailAddress.value;
 
           // Assert
-          expect(result, right(validEmail));
+          expect(result, right<ValueFailure<String>, String>(validEmail));
         },
       );
 
@@ -67,7 +67,7 @@ void main() {
           final result = validEmailAddress.value;
 
           // Assert
-          expect(result, right(validEmail));
+          expect(result, right<ValueFailure<String>, String>(validEmail));
         },
       );
     },
@@ -77,7 +77,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.invalidEmail '
+        'should return a ValueFailure.invalidEmail '
         'when the input is not a valid email',
         () {
           // Arrange
@@ -90,15 +90,17 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.invalidEmail(failedValue: invalidEmail),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.invalidEmail(
+                failedValue: invalidEmail,
+              ),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail '
+        'should return a ValueFailure.invalidEmail '
         'when the input is an empty string',
         () {
           // Arrange
@@ -111,15 +113,15 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.invalidEmail(failedValue: emptyEmail),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.invalidEmail(failedValue: emptyEmail),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail '
+        'should return a ValueFailure.invalidEmail '
         'when the input is missing the @ symbol',
         () {
           // Arrange
@@ -132,15 +134,17 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.invalidEmail(failedValue: invalidEmail),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.invalidEmail(
+                failedValue: invalidEmail,
+              ),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail '
+        'should return a ValueFailure.invalidEmail '
         'when the input is missing the domain',
         () {
           // Arrange
@@ -153,15 +157,17 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.invalidEmail(failedValue: invalidEmail),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.invalidEmail(
+                failedValue: invalidEmail,
+              ),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail '
+        'should return a ValueFailure.invalidEmail '
         'when the input is missing the username',
         () {
           // Arrange
@@ -174,8 +180,10 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.invalidEmail(failedValue: invalidEmail),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.invalidEmail(
+                failedValue: invalidEmail,
+              ),
             ),
           );
         },

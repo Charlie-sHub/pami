@@ -6,8 +6,6 @@ import 'package:pami/domain/core/validation/validators/validate_string_not_empty
 
 /// A value object representing a message content.
 class MessageContent extends ValueObject<String> {
-  const MessageContent._(this.value);
-
   /// Creates a new [MessageContent]
   factory MessageContent(String input) => MessageContent._(
     validateStringLength(
@@ -15,6 +13,7 @@ class MessageContent extends ValueObject<String> {
       length: maxLength,
     ).flatMap(validateStringNotEmpty),
   );
+  const MessageContent._(this.value);
 
   /// Maximum number of characters
   static const maxLength = 800;
@@ -23,5 +22,5 @@ class MessageContent extends ValueObject<String> {
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

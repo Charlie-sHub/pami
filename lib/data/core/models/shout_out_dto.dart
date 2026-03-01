@@ -21,8 +21,6 @@ part 'shout_out_dto.g.dart';
 /// ShoutOut DTO
 @freezed
 abstract class ShoutOutDto with _$ShoutOutDto {
-  const ShoutOutDto._();
-
   /// Default constructor
   const factory ShoutOutDto({
     required String id,
@@ -38,22 +36,23 @@ abstract class ShoutOutDto with _$ShoutOutDto {
     required bool isOpen,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _ShoutOutDto;
+  const ShoutOutDto._();
 
   /// Constructor from [ShoutOut]
   factory ShoutOutDto.fromDomain(ShoutOut shoutOut) => ShoutOutDto(
-        id: shoutOut.id.getOrCrash(),
-        creatorId: shoutOut.creatorId.getOrCrash(),
-        type: shoutOut.type,
-        title: shoutOut.title.getOrCrash(),
-        description: shoutOut.description.getOrCrash(),
-        latitude: shoutOut.coordinates.latitude.getOrCrash(),
-        longitude: shoutOut.coordinates.longitude.getOrCrash(),
-        duration: shoutOut.duration.getOrCrash(),
-        categories: shoutOut.categories,
-        imageUrls: shoutOut.imageUrls.map((url) => url.getOrCrash()).toSet(),
-        isOpen: shoutOut.isOpen,
-        dateCreated: shoutOut.dateCreated.getOrCrash(),
-      );
+    id: shoutOut.id.getOrCrash(),
+    creatorId: shoutOut.creatorId.getOrCrash(),
+    type: shoutOut.type,
+    title: shoutOut.title.getOrCrash(),
+    description: shoutOut.description.getOrCrash(),
+    latitude: shoutOut.coordinates.latitude.getOrCrash(),
+    longitude: shoutOut.coordinates.longitude.getOrCrash(),
+    duration: shoutOut.duration.getOrCrash(),
+    categories: shoutOut.categories,
+    imageUrls: shoutOut.imageUrls.map((url) => url.getOrCrash()).toSet(),
+    isOpen: shoutOut.isOpen,
+    dateCreated: shoutOut.dateCreated.getOrCrash(),
+  );
 
   /// Factory constructor from JSON [Map]
   factory ShoutOutDto.fromJson(Map<String, dynamic> json) =>
@@ -61,24 +60,24 @@ abstract class ShoutOutDto with _$ShoutOutDto {
 
   /// Returns a [ShoutOut] from this DTO
   ShoutOut toDomain() => ShoutOut(
-        id: UniqueId.fromUniqueString(id),
-        creatorId: UniqueId.fromUniqueString(creatorId),
-        creatorUser: dartz.none(),
-        type: type,
-        title: Name(title),
-        description: EntityDescription(description),
-        coordinates: Coordinates(
-          latitude: Latitude(latitude),
-          longitude: Longitude(longitude),
-        ),
-        duration: Minutes(duration),
-        categories: categories,
-        imageUrls: imageUrls.map(Url.new).toSet(),
-        isOpen: isOpen,
-        dateCreated: PastDate(dateCreated),
-        qrCode: QrCode.fromData(
-          data: id,
-          errorCorrectLevel: QrErrorCorrectLevel.M,
-        ),
-      );
+    id: UniqueId.fromUniqueString(id),
+    creatorId: UniqueId.fromUniqueString(creatorId),
+    creatorUser: dartz.none(),
+    type: type,
+    title: Name(title),
+    description: EntityDescription(description),
+    coordinates: Coordinates(
+      latitude: Latitude(latitude),
+      longitude: Longitude(longitude),
+    ),
+    duration: Minutes(duration),
+    categories: categories,
+    imageUrls: imageUrls.map(Url.new).toSet(),
+    isOpen: isOpen,
+    dateCreated: PastDate(dateCreated),
+    qrCode: QrCode.fromData(
+      data: id,
+      errorCorrectLevel: QrErrorCorrectLevel.M,
+    ),
+  );
 }

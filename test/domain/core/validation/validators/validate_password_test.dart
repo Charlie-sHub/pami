@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_password.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
           final result = validatePassword(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -32,7 +32,7 @@ void main() {
           final result = validatePassword(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -47,7 +47,7 @@ void main() {
           final result = validatePassword(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -62,7 +62,7 @@ void main() {
           final result = validatePassword(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
     },
@@ -72,7 +72,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.invalidPassword '
+        'should return a ValueFailure.invalidPassword '
         'when the input is an empty string',
         () {
           // Arrange
@@ -84,15 +84,16 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidPassword(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidPassword(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidPassword when the input is too short',
+        'should return a ValueFailure.invalidPassword '
+        'when the input is too short',
         () {
           // Arrange
           const input = 'Short1@';
@@ -103,15 +104,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidPassword(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidPassword(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidPassword '
+        'should return a ValueFailure.invalidPassword '
         'when the input does not contain a number',
         () {
           // Arrange
@@ -123,15 +124,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidPassword(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidPassword(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidPassword '
+        'should return a ValueFailure.invalidPassword '
         'when the input does not contain an uppercase letter',
         () {
           // Arrange
@@ -143,15 +144,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidPassword(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidPassword(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidPassword '
+        'should return a ValueFailure.invalidPassword '
         'when the input does not contain a lowercase letter',
         () {
           // Arrange
@@ -163,15 +164,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidPassword(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidPassword(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidPassword '
+        'should return a ValueFailure.invalidPassword '
         'when the input does not contain a special character',
         () {
           // Arrange
@@ -183,8 +184,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidPassword(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidPassword(failedValue: input),
             ),
           );
         },

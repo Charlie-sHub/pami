@@ -26,13 +26,13 @@ void main() {
   tearDown(() async => mockBloc.close());
 
   Widget buildWidget() => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: const CameraButton(),
-          ),
-        ),
-      );
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: const CameraButton(),
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

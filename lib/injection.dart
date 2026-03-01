@@ -8,6 +8,5 @@ final GetIt getIt = GetIt.instance;
 @InjectableInit(
   preferRelativeImports: true,
 )
-
 /// Configures the dependency injection container
 void configureDependencies(String env) => getIt.init(environment: env);

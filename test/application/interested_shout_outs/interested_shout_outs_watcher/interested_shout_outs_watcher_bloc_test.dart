@@ -82,7 +82,7 @@ void main() {
         setUp: () {
           when(mockRepository.watchInterestedShoutOuts()).thenAnswer(
             (_) => Stream.value(
-              left(failure),
+              left<AppFailure, List<ShoutOut>>(failure),
             ),
           );
         },
@@ -104,7 +104,9 @@ void main() {
         'is added and result is Left',
         build: () => interestedShoutOutsWatcherBloc,
         act: (bloc) => bloc.add(
-          InterestedShoutOutsWatcherEvent.resultsReceived(left(failure)),
+          InterestedShoutOutsWatcherEvent.resultsReceived(
+            left<AppFailure, List<ShoutOut>>(failure),
+          ),
         ),
         expect: () => [
           const InterestedShoutOutsWatcherState.loadFailure(failure),

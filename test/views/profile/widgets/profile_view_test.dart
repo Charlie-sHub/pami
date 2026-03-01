@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/profile/profile_watcher/profile_watcher_bloc.dart';
 import 'package:pami/application/transactions/transaction_history_watcher/transaction_history_watcher_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/profile/widgets/profile_view.dart';

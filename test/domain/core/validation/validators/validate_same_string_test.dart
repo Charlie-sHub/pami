@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_same_string.dart';
 
 void main() {
@@ -18,7 +18,7 @@ void main() {
           final result = validateSameString(firstInput, secondInput);
 
           // Assert
-          expect(result, right(firstInput));
+          expect(result, right<ValueFailure<String>, String>(firstInput));
         },
       );
     },
@@ -28,7 +28,8 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.stringMismatch when the strings are different',
+        'should return a ValueFailure.stringMismatch '
+        'when the strings are different',
         () {
           // Arrange
           const firstInput = 'test1';
@@ -40,8 +41,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.stringMismatch(failedValue: secondInput),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.stringMismatch(failedValue: secondInput),
             ),
           );
         },

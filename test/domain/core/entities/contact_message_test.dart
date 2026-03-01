@@ -40,18 +40,19 @@ void main() {
           final result = validContactMessage.failureOption;
 
           // Assert
-          expect(result, none());
+          expect(result, none<ValueFailure<dynamic>>());
         },
       );
 
       test(
-        'should return right(unit) when all inputs are valid',
+        'should return right<ValueFailure<dynamic>, Unit>(unit) '
+        'when all inputs are valid',
         () {
           // Act
           final result = validContactMessage.failureOrUnit;
 
           // Assert
-          expect(result, right(unit));
+          expect(result, right<ValueFailure<dynamic>, Unit>(unit));
         },
       );
     },

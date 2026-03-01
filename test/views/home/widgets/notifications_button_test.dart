@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/home/home_navigation_actor/home_navigation_actor_bloc.dart';
 import 'package:pami/application/notifications/notifications_watcher/notifications_watcher_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/home/misc/navigation_indexes.dart';
 import 'package:pami/views/home/widgets/notifications_button.dart';
@@ -43,11 +43,11 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: BlocProvider<HomeNavigationActorBloc>(
-          create: (context) => mockHomeNavigationActorBloc,
-          child: const Scaffold(body: NotificationsButton()),
-        ),
-      );
+    home: BlocProvider<HomeNavigationActorBloc>(
+      create: (context) => mockHomeNavigationActorBloc,
+      child: const Scaffold(body: NotificationsButton()),
+    ),
+  );
 
   testWidgets(
     'NotificationsButton renders correctly',
@@ -133,7 +133,7 @@ void main() {
       // Arrange
       when(mockNotificationsWatcherBloc.state).thenReturn(
         const NotificationsWatcherState.loadFailure(
-          Failure.notFoundError(),
+          AppFailure.notFoundError(),
         ),
       );
 

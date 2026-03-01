@@ -7,16 +7,15 @@ part 'settings.freezed.dart';
 /// this entity is basically a placeholder
 @freezed
 abstract class Settings with _$Settings {
-  const Settings._();
-
   /// Default constructor
   const factory Settings({
     // Placeholder setting
     required bool notificationsEnabled,
   }) = _Settings;
+  const Settings._();
 
   /// Empty constructor
   factory Settings.empty() => const Settings(
-        notificationsEnabled: true,
-      );
+    notificationsEnabled: true,
+  );
 }

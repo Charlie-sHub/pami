@@ -19,14 +19,14 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: const Scaffold(
-            body: SettingsButton(),
-          ),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: const Scaffold(
+        body: SettingsButton(),
+      ),
+    ),
+  );
 
   testWidgets(
     'SettingsButton renders correctly',

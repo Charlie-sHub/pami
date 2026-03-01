@@ -7,7 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/my_shout_outs/my_shout_outs_watcher/my_shout_outs_watcher_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/home/widgets/shout_out_card.dart';
 import 'package:pami/views/my_shout_outs/widgets/my_shout_outs_view.dart';

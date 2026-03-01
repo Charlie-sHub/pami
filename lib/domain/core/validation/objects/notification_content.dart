@@ -7,8 +7,6 @@ import 'package:pami/domain/core/validation/validators/validate_string_not_empty
 
 /// A value object representing a description.
 class NotificationContent extends ValueObject<String> {
-  const NotificationContent._(this.value);
-
   /// Creates a new [NotificationContent]
   factory NotificationContent(String input) => NotificationContent._(
     validateStringLength(
@@ -16,6 +14,7 @@ class NotificationContent extends ValueObject<String> {
       length: maxLength,
     ).flatMap(validateStringNotEmpty).flatMap(validateSingleLineString),
   );
+  const NotificationContent._(this.value);
 
   /// Maximum number of characters
   static const maxLength = 100;
@@ -24,5 +23,5 @@ class NotificationContent extends ValueObject<String> {
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

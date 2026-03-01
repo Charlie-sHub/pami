@@ -77,7 +77,7 @@ void main() {
         setUp: () {
           when(mockMapRepository.watchShoutOuts(any)).thenAnswer(
             (_) => Stream.value(
-              left(failure),
+              left<AppFailure, Set<ShoutOut>>(failure),
             ),
           );
         },
@@ -98,7 +98,9 @@ void main() {
         'emits [loadFailure] when resultsReceived is added and result is Left',
         build: () => mapWatcherBloc,
         act: (bloc) => bloc.add(
-          MapWatcherEvent.resultsReceived(left(failure)),
+          MapWatcherEvent.resultsReceived(
+            left<AppFailure, Set<ShoutOut>>(failure),
+          ),
         ),
         expect: () => [
           const MapWatcherState.loadFailure(failure),

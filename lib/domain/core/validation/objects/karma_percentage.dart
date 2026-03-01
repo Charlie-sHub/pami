@@ -5,8 +5,6 @@ import 'package:pami/domain/core/validation/validators/validate_bounded_double.d
 
 /// A value object representing a percentage.
 class KarmaPercentage extends ValueObject<double> {
-  const KarmaPercentage._(this.value);
-
   /// Creates a new [KarmaPercentage]
   factory KarmaPercentage(double input) => KarmaPercentage._(
     validateBoundedDouble(
@@ -14,6 +12,7 @@ class KarmaPercentage extends ValueObject<double> {
       input: input,
     ),
   );
+  const KarmaPercentage._(this.value);
 
   /// Maximum percentage
   static const limit = 100.0;

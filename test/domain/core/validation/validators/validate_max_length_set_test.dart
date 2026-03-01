@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_max_length_set.dart';
 
 void main() {
@@ -22,7 +22,7 @@ void main() {
           );
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<Set<int>>, Set<int>>(input));
         },
       );
 
@@ -34,11 +34,13 @@ void main() {
           const input = {1, 2, 3};
 
           // Act
-          final result =
-              validateMaxLengthSet(input: input, maxLength: maxLength);
+          final result = validateMaxLengthSet(
+            input: input,
+            maxLength: maxLength,
+          );
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<Set<int>>, Set<int>>(input));
         },
       );
 
@@ -50,11 +52,13 @@ void main() {
           const input = {1, 2, 3, 4, 5};
 
           // Act
-          final result =
-              validateMaxLengthSet(input: input, maxLength: maxLength);
+          final result = validateMaxLengthSet(
+            input: input,
+            maxLength: maxLength,
+          );
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<Set<int>>, Set<int>>(input));
         },
       );
     },
@@ -64,21 +68,23 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.collectionExceedsLength '
+        'should return a ValueFailure.collectionExceedsLength '
         'when the input length is greater than the max length',
         () {
           // Arrange
           const input = {1, 2, 3, 4, 5, 6};
 
           // Act
-          final result =
-              validateMaxLengthSet(input: input, maxLength: maxLength);
+          final result = validateMaxLengthSet(
+            input: input,
+            maxLength: maxLength,
+          );
 
           // Assert
           expect(
             result,
-            left<Failure<Set<int>>, Set<int>>(
-              const Failure.collectionExceedsLength(
+            left<ValueFailure<Set<int>>, Set<int>>(
+              const ValueFailure.collectionExceedsLength(
                 failedValue: input,
                 maxLength: maxLength,
               ),

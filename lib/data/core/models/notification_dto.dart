@@ -11,8 +11,6 @@ part 'notification_dto.g.dart';
 /// Notification DTO
 @freezed
 abstract class NotificationDto with _$NotificationDto {
-  const NotificationDto._();
-
   /// Default constructor
   const factory NotificationDto({
     required String id,
@@ -21,6 +19,7 @@ abstract class NotificationDto with _$NotificationDto {
     required bool seen,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _NotificationDto;
+  const NotificationDto._();
 
   /// Constructor from [Notification]
   factory NotificationDto.fromDomain(Notification notification) =>
@@ -38,10 +37,10 @@ abstract class NotificationDto with _$NotificationDto {
 
   /// Returns a [Notification] from this DTO
   Notification toDomain() => Notification(
-        id: UniqueId.fromUniqueString(id),
-        recipientId: UniqueId.fromUniqueString(recipientId),
-        description: EntityDescription(description),
-        seen: seen,
-        dateCreated: PastDate(dateCreated),
-      );
+    id: UniqueId.fromUniqueString(id),
+    recipientId: UniqueId.fromUniqueString(recipientId),
+    description: EntityDescription(description),
+    seen: seen,
+    dateCreated: PastDate(dateCreated),
+  );
 }

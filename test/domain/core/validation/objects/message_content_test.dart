@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/message_content.dart';
 
 void main() {
@@ -19,7 +19,10 @@ void main() {
           final result = validMessageContentObject.value;
 
           // Assert
-          expect(result, right(validMessageContent));
+          expect(
+            result,
+            right<ValueFailure<String>, String>(validMessageContent),
+          );
         },
       );
 
@@ -37,7 +40,10 @@ void main() {
           final result = maxLengthMessageContentObject.value;
 
           // Assert
-          expect(result, right(maxLengthMessageContent));
+          expect(
+            result,
+            right<ValueFailure<String>, String>(maxLengthMessageContent),
+          );
         },
       );
     },
@@ -63,8 +69,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              Failure<String>.stringExceedsLength(
+            left<ValueFailure<String>, String>(
+              ValueFailure<String>.stringExceedsLength(
                 failedValue: overMaxLengthMessageContent,
                 maxLength: MessageContent.maxLength,
               ),
@@ -74,7 +80,7 @@ void main() {
       );
 
       test(
-        'should return a Failure.emptyString when the input is empty',
+        'should return a ValueFailure.emptyString when the input is empty',
         () {
           // Arrange
           const emptyMessageContent = '';
@@ -88,8 +94,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.emptyString(
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.emptyString(
                 failedValue: emptyMessageContent,
               ),
             ),

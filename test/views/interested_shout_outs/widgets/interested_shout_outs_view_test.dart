@@ -10,7 +10,7 @@ import 'package:pami/application/interested_shout_outs/interested_shout_outs_wat
 import 'package:pami/application/transactions/karma_vote_actor/karma_vote_actor_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/core/entities/shout_out.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/url.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/home/widgets/shout_out_card.dart';

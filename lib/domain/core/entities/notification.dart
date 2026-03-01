@@ -10,8 +10,6 @@ part 'notification.freezed.dart';
 /// Notification entity
 @freezed
 abstract class Notification with _$Notification {
-  const Notification._();
-
   /// Default constructor
   const factory Notification({
     required UniqueId id,
@@ -20,6 +18,7 @@ abstract class Notification with _$Notification {
     required bool seen,
     required PastDate dateCreated,
   }) = _Notification;
+  const Notification._();
 
   /// Empty constructor
   factory Notification.empty() => Notification(

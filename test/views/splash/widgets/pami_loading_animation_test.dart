@@ -6,10 +6,10 @@ void main() {
   const letters = ['P', 'A', 'M', 'I'];
 
   Widget buildWidget() => const MaterialApp(
-        home: Scaffold(
-          body: PamiLoadingAnimation(),
-        ),
-      );
+    home: Scaffold(
+      body: PamiLoadingAnimation(),
+    ),
+  );
 
   testWidgets(
     'renders all letters',

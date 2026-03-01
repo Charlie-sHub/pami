@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/name.dart';
 
 void main() {
@@ -18,7 +18,7 @@ void main() {
           final result = validNameObject.value;
 
           // Assert
-          expect(result, right(validName));
+          expect(result, right<ValueFailure<String>, String>(validName));
         },
       );
 
@@ -34,7 +34,7 @@ void main() {
           final result = maxLengthNameObject.value;
 
           // Assert
-          expect(result, right(maxLengthName));
+          expect(result, right<ValueFailure<String>, String>(maxLengthName));
         },
       );
     },
@@ -57,8 +57,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              Failure<String>.stringExceedsLength(
+            left<ValueFailure<String>, String>(
+              ValueFailure<String>.stringExceedsLength(
                 failedValue: overMaxLengthName,
                 maxLength: Name.maxLength,
               ),
@@ -68,7 +68,7 @@ void main() {
       );
 
       test(
-        'should return a Failure.emptyString when the input is empty',
+        'should return a ValueFailure.emptyString when the input is empty',
         () {
           // Arrange
           const emptyName = '';
@@ -80,15 +80,15 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.emptyString(failedValue: emptyName),
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.emptyString(failedValue: emptyName),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.multiLineString '
+        'should return a ValueFailure.multiLineString '
         'when the input contains multiple lines',
         () {
           // Arrange
@@ -101,8 +101,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.multiLineString(
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.multiLineString(
                 failedValue: multiLineName,
               ),
             ),

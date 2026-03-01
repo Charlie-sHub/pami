@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/profile/profile_editing_form/profile_editing_form_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
+import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
@@ -155,11 +156,11 @@ void main() {
       blocTest<ProfileEditingFormBloc, ProfileEditingFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(right(unit))] when submitted is '
-        'added, user is valid, and repository returns Right',
+        'failureOrSuccessOption: some(right<AppFailure, Unit>(unit))]'
+        ' when submitted is added, user is valid, and repository returns Right',
         setUp: () {
           when(mockRepository.updateUserProfile(any)).thenAnswer(
-            (_) async => right(unit),
+            (_) async => right<AppFailure, Unit>(unit),
           );
         },
         seed: () => ProfileEditingFormState.initial().copyWith(
@@ -183,7 +184,7 @@ void main() {
             imageFile: some(validImageFile),
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(right<AppFailure, Unit>(unit)),
           ),
         ],
         verify: (_) => verify(
@@ -198,11 +199,11 @@ void main() {
     () {
       blocTest<ProfileEditingFormBloc, ProfileEditingFormState>(
         'emits [userOption: none, failureOrSuccessOption: '
-        'some(left(failure)), initialized: true] when initialized is '
-        'added and repository returns Left',
+        'some(left<AppFailure, Unit>(failure)), initialized: true] '
+        'when initialized is added and repository returns Left',
         setUp: () {
           when(mockRepository.getCurrentUser()).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, User>(failure),
           );
         },
         build: () => profileEditingFormBloc,
@@ -212,7 +213,7 @@ void main() {
         expect: () => [
           ProfileEditingFormState.initial().copyWith(
             userOption: none(),
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
             initialized: true,
           ),
         ],
@@ -224,11 +225,11 @@ void main() {
       blocTest<ProfileEditingFormBloc, ProfileEditingFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(failure))] when submitted is '
-        'added, user is valid, and repository returns Left',
+        'failureOrSuccessOption: some(left<AppFailure, Unit>(failure))]'
+        ' when submitted is added, user is valid, and repository returns Left',
         setUp: () {
           when(mockRepository.updateUserProfile(any)).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, Unit>(failure),
           );
         },
         seed: () => ProfileEditingFormState.initial().copyWith(
@@ -252,7 +253,7 @@ void main() {
             imageFile: some(validImageFile),
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
         verify: (_) => verify(
@@ -263,7 +264,8 @@ void main() {
       blocTest<ProfileEditingFormBloc, ProfileEditingFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(left(Failure.emptyFields()))] '
+        'failureOrSuccessOption: some(left<AppFailure, '
+        'Unit>(Failure.emptyFields()))] '
         'when submitted is added and user is invalid',
         seed: () => ProfileEditingFormState.initial().copyWith(
           userOption: some(invalidUser),
@@ -287,7 +289,7 @@ void main() {
             isSubmitting: false,
             showErrorMessages: true,
             failureOrSuccessOption: some(
-              left(const AppFailure.emptyFields()),
+              left<AppFailure, Unit>(const AppFailure.emptyFields()),
             ),
           ),
         ],

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/latitude.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
           final result = validLatitudeObject.value;
 
           // Assert
-          expect(result, right(45));
+          expect(result, right<ValueFailure<double>, double>(45));
         },
       );
 
@@ -35,7 +35,7 @@ void main() {
           final result = limitLatitudeObject.value;
 
           // Assert
-          expect(result, right(Latitude.limit));
+          expect(result, right<ValueFailure<double>, double>(Latitude.limit));
         },
       );
 
@@ -50,7 +50,7 @@ void main() {
           final result = zeroLatitudeObject.value;
 
           // Assert
-          expect(result, right(0));
+          expect(result, right<ValueFailure<double>, double>(0));
         },
       );
 
@@ -66,7 +66,7 @@ void main() {
           final result = negativeLatitudeObject.value;
 
           // Assert
-          expect(result, right(-45));
+          expect(result, right<ValueFailure<double>, double>(-45));
         },
       );
 
@@ -82,7 +82,7 @@ void main() {
           final result = negativeLimitLatitudeObject.value;
 
           // Assert
-          expect(result, right(-Latitude.limit));
+          expect(result, right<ValueFailure<double>, double>(-Latitude.limit));
         },
       );
     },
@@ -92,7 +92,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input exceeds the positive limit',
         () {
           // Arrange
@@ -105,8 +105,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<double>.doubleOutOfBounds(
+            left<ValueFailure<double>, double>(
+              const ValueFailure<double>.doubleOutOfBounds(
                 failedValue: Latitude.limit + 0.1,
               ),
             ),
@@ -115,13 +115,14 @@ void main() {
       );
 
       test(
-        'should return a Failure.doubleOutOfBounds '
+        'should return a ValueFailure.doubleOutOfBounds '
         'when the input exceeds the negative limit',
         () {
           // Arrange
           const underNegativeLimitLatitude = -Latitude.limit - 0.1;
-          final underNegativeLimitLatitudeObject =
-              Latitude(underNegativeLimitLatitude);
+          final underNegativeLimitLatitudeObject = Latitude(
+            underNegativeLimitLatitude,
+          );
 
           // Act
           final result = underNegativeLimitLatitudeObject.value;
@@ -129,8 +130,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<double>.doubleOutOfBounds(
+            left<ValueFailure<double>, double>(
+              const ValueFailure<double>.doubleOutOfBounds(
                 failedValue: -Latitude.limit - 0.1,
               ),
             ),

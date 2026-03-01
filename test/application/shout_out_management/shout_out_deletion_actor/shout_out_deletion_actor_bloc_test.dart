@@ -30,7 +30,7 @@ void main() {
     'when deleteRequested is added and repository returns Right',
     setUp: () {
       when(mockRepository.deleteShoutOut(any)).thenAnswer(
-        (_) async => right(unit),
+        (_) async => right<AppFailure, Unit>(unit),
       );
     },
     build: () => shoutOutDeletionActorBloc,
@@ -51,7 +51,7 @@ void main() {
     'when deleteRequested is added and repository returns Left',
     setUp: () {
       when(mockRepository.deleteShoutOut(any)).thenAnswer(
-        (_) async => left(failure),
+        (_) async => left<AppFailure, Unit>(failure),
       );
     },
     build: () => shoutOutDeletionActorBloc,

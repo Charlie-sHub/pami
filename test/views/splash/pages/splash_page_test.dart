@@ -41,15 +41,15 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        builder: (context, child) => StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: BlocProvider<AuthenticationBloc>.value(
-            value: mockBloc,
-            child: const SplashPage(),
-          ),
-        ),
-      );
+    builder: (context, child) => StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: BlocProvider<AuthenticationBloc>.value(
+        value: mockBloc,
+        child: const SplashPage(),
+      ),
+    ),
+  );
 
   testWidgets(
     'displays PamiLoadingAnimation',

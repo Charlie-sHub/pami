@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/forgotten_password_form/forgotten_password_form_bloc.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
 import 'package:pami/domain/core/failures/app_failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 
 import 'forgotten_password_form_bloc_test.mocks.dart';
@@ -45,12 +46,13 @@ void main() {
 
       blocTest<ForgottenPasswordFormBloc, ForgottenPasswordFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
-        '[isSubmitting: false, failureOrSuccessOption: some(right(unit))]'
+        '[isSubmitting: false, '
+        'failureOrSuccessOption: some(right<AppFailure, Unit>(unit))]'
         ' when email is valid and repository returns Right',
         setUp: () {
           when(
             mockRepository.resetPassword(any),
-          ).thenAnswer((_) async => right(unit));
+          ).thenAnswer((_) async => right<AppFailure, Unit>(unit));
         },
         seed: () => ForgottenPasswordFormState.initial().copyWith(
           email: EmailAddress(validEmail),
@@ -67,7 +69,9 @@ void main() {
           ),
           forgottenPasswordFormBloc.state.copyWith(
             isSubmitting: false,
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(
+              right<ValueFailure<dynamic>, Unit>(unit),
+            ),
           ),
         ],
         verify: (_) => verify(
@@ -82,11 +86,13 @@ void main() {
     () {
       blocTest<ForgottenPasswordFormBloc, ForgottenPasswordFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
-        '[isSubmitting: false, failureOrSuccessOption: some(left(failure))]'
+        '[isSubmitting: false, '
+        'failureOrSuccessOption: some(left<AppFailure, Unit>(failure))]'
         ' when email is valid and repository returns Left',
         setUp: () {
-          when(mockRepository.resetPassword(any))
-              .thenAnswer((_) async => left(failure));
+          when(
+            mockRepository.resetPassword(any),
+          ).thenAnswer((_) async => left<AppFailure, Unit>(failure));
         },
         seed: () => ForgottenPasswordFormState.initial().copyWith(
           email: EmailAddress(validEmail),
@@ -103,7 +109,7 @@ void main() {
           ),
           forgottenPasswordFormBloc.state.copyWith(
             isSubmitting: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
         verify: (_) => verify(

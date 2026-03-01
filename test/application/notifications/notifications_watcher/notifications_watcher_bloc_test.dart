@@ -82,7 +82,7 @@ void main() {
         setUp: () {
           when(mockRepository.watchNotifications()).thenAnswer(
             (_) => Stream.value(
-              left(failure),
+              left<AppFailure, List<Notification>>(failure),
             ),
           );
         },
@@ -104,7 +104,9 @@ void main() {
         'added and result is Left',
         build: () => notificationsWatcherBloc,
         act: (bloc) => bloc.add(
-          NotificationsWatcherEvent.resultsReceived(left(failure)),
+          NotificationsWatcherEvent.resultsReceived(
+            left<AppFailure, List<Notification>>(failure),
+          ),
         ),
         expect: () => [
           const NotificationsWatcherState.loadFailure(failure),

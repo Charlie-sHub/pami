@@ -96,7 +96,6 @@ void main() {
           () => mockProfileBloc,
         );
 
-
       provideDummy<NotificationsWatcherState>(
         const NotificationsWatcherState.initial(),
       );

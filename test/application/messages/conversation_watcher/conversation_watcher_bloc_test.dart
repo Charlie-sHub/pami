@@ -8,6 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/messages/conversation_watcher/conversation_watcher_bloc.dart';
 import 'package:pami/domain/core/entities/message.dart';
 import 'package:pami/domain/core/failures/app_failure.dart';
+import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/domain/core/validation/objects/unique_id.dart';
 import 'package:pami/domain/messages/messages_repository_interface.dart';
 
@@ -79,7 +80,7 @@ void main() {
         'is added and repository returns Left',
         setUp: () {
           when(mockRepository.watchMessages(any)).thenAnswer(
-            (_) => Stream.value(left(failure)),
+            (_) => Stream.value(left<AppFailure, List<Message>>(failure)),
           );
         },
         build: () => conversationWatcherBloc,
@@ -99,7 +100,9 @@ void main() {
         'emits [loadFailure] when resultsReceived is added and result is Left',
         build: () => conversationWatcherBloc,
         act: (bloc) => bloc.add(
-          ConversationWatcherEvent.resultsReceived(left(failure)),
+          ConversationWatcherEvent.resultsReceived(
+            left<Failure, List<Message>>(failure),
+          ),
         ),
         expect: () => [
           const ConversationWatcherState.loadFailure(failure),

@@ -6,8 +6,6 @@ import 'package:pami/domain/core/validation/validators/validate_string_not_empty
 
 /// A value object representing an entity's description.
 class EntityDescription extends ValueObject<String> {
-  const EntityDescription._(this.value);
-
   /// Creates a new [EntityDescription]
   factory EntityDescription(String input) => EntityDescription._(
     validateStringLength(
@@ -15,6 +13,7 @@ class EntityDescription extends ValueObject<String> {
       length: maxLength,
     ).flatMap(validateStringNotEmpty),
   );
+  const EntityDescription._(this.value);
 
   /// Maximum number of characters
   static const maxLength = 200;
@@ -23,5 +22,5 @@ class EntityDescription extends ValueObject<String> {
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

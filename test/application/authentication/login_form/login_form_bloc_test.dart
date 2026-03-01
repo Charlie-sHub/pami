@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/login_form/login_form_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
 import 'package:pami/domain/authentication/authentication_repository_interface.dart';
+import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/domain/core/validation/objects/password.dart';
@@ -63,15 +64,15 @@ void main() {
       blocTest<LoginFormBloc, LoginFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(right(unit))] when email and '
-        'password are valid and repository returns Right',
+        'failureOrSuccessOption: some(right<AppFailure, Unit>(unit))] '
+        'when email and password are valid and repository returns Right',
         setUp: () {
           when(
             mockRepository.logIn(
               email: anyNamed('email'),
               password: anyNamed('password'),
             ),
-          ).thenAnswer((_) async => right(unit));
+          ).thenAnswer((_) async => right<AppFailure, Unit>(unit));
         },
         seed: () => LoginFormState.initial().copyWith(
           email: EmailAddress(email),
@@ -92,7 +93,7 @@ void main() {
           logInFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(right<AppFailure, Unit>(unit)),
           ),
         ],
       );
@@ -157,15 +158,15 @@ void main() {
       blocTest<LoginFormBloc, LoginFormState>(
         'emits [isSubmitting: true, failureOrSuccessOption: none], '
         '[isSubmitting: false, showErrorMessages: true, '
-        'failureOrSuccessOption: some(right(unit))] when email and '
-        'password are valid and repository returns Right',
+        'failureOrSuccessOption: some(left<AppFailure, Unit>(unit))] when email'
+        ' and password are valid and repository returns Left',
         setUp: () {
           when(
             mockRepository.logIn(
               email: anyNamed('email'),
               password: anyNamed('password'),
             ),
-          ).thenAnswer((_) async => left(failure));
+          ).thenAnswer((_) async => left<AppFailure, Unit>(failure));
         },
         seed: () => LoginFormState.initial().copyWith(
           email: EmailAddress(email),
@@ -186,7 +187,7 @@ void main() {
           logInFormBloc.state.copyWith(
             isSubmitting: false,
             showErrorMessages: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
       );
@@ -197,7 +198,7 @@ void main() {
         'repository returns Left',
         build: () {
           when(mockRepository.logInGoogle()).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, Option<User>>(failure),
           );
           return logInFormBloc;
         },
@@ -214,7 +215,7 @@ void main() {
           ),
           logInFormBloc.state.copyWith(
             isSubmitting: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
       );
@@ -225,7 +226,7 @@ void main() {
         'repository returns Left',
         build: () {
           when(mockRepository.logInApple()).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, Option<User>>(failure),
           );
           return logInFormBloc;
         },
@@ -242,7 +243,7 @@ void main() {
           ),
           logInFormBloc.state.copyWith(
             isSubmitting: false,
-            failureOrSuccessOption: some(left(failure)),
+            failureOrSuccessOption: some(left<AppFailure, Unit>(failure)),
           ),
         ],
       );

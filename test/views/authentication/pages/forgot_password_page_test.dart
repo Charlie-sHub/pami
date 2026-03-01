@@ -8,7 +8,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/forgotten_password_form/forgotten_password_form_bloc.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/authentication/pages/forgot_password_page.dart';
@@ -48,12 +50,12 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: const ForgotPasswordPage(),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: const ForgotPasswordPage(),
+    ),
+  );
 
   testWidgets(
     'displays ForgotPasswordForm and AppBar with correct title',
@@ -76,7 +78,9 @@ void main() {
         (tester) async {
           // Arrange
           final successState = ForgottenPasswordFormState.initial().copyWith(
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(
+              right<ValueFailure<dynamic>, Unit>(unit),
+            ),
           );
 
           // Act
@@ -97,7 +101,9 @@ void main() {
         (tester) async {
           // Arrange
           final failureState = ForgottenPasswordFormState.initial().copyWith(
-            failureOrSuccessOption: some(left(const EmptyFields())),
+            failureOrSuccessOption: some(
+              left<Failure, Unit>(const EmptyFields()),
+            ),
           );
 
           // Act
@@ -116,7 +122,9 @@ void main() {
           // Arrange
           final failureState = ForgottenPasswordFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(const ServerError(errorString: 'Server unavailable')),
+              left<AppFailure, Unit>(
+                const ServerError(errorString: 'Server unavailable'),
+              ),
             ),
           );
 
@@ -136,7 +144,9 @@ void main() {
           // Arrange
           final failureState = ForgottenPasswordFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(const Failure.unexpectedError(errorMessage: 'test error')),
+              left<AppFailure, Unit>(
+                const AppFailure.unexpectedError(errorMessage: 'test error'),
+              ),
             ),
           );
 

@@ -21,10 +21,9 @@ class UsernameTextField extends StatelessWidget {
     return TextFormField(
       maxLength: Name.maxLength,
       initialValue: initialValue,
-      onChanged: (value) =>
-          bloc.add(
-            RegistrationFormEvent.usernameChanged(value.trim()),
-          ),
+      onChanged: (value) => bloc.add(
+        RegistrationFormEvent.usernameChanged(value.trim()),
+      ),
       validator: (_) => _validator(bloc.state),
       autocorrect: false,
       decoration: const InputDecoration(
@@ -36,14 +35,13 @@ class UsernameTextField extends StatelessWidget {
 
   String _validator(RegistrationFormState state) =>
       state.user.username.value.fold(
-            (failure) =>
-        switch (failure) {
+        (failure) => switch (failure) {
           EmptyString() => 'Empty username',
           MultiLineString() => 'Multi-line string',
           StringExceedsLength() => 'String exceeds length',
           InvalidName() => 'Invalid username',
           _ => 'Unknown error',
         },
-            (_) => '',
+        (_) => '',
       );
 }

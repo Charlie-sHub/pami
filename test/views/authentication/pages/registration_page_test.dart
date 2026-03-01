@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/authentication/authentication_bloc.dart';
 import 'package:pami/application/authentication/registration_form/registration_form_bloc.dart';
 import 'package:pami/domain/core/entities/user.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/authentication/pages/registration_page.dart';
 import 'package:pami/views/authentication/widgets/registration_form/registration_form.dart';
@@ -85,7 +85,7 @@ void main() {
         (tester) async {
           // Arrange
           final successState = RegistrationFormState.initial().copyWith(
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(right<AppFailure, Unit>(unit)),
           );
 
           // Act
@@ -109,7 +109,9 @@ void main() {
           // Arrange
           final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(const AppFailure.serverError(errorString: 'test error')),
+              left<AppFailure, Unit>(
+                const AppFailure.serverError(errorString: 'test error'),
+              ),
             ),
           );
 
@@ -129,7 +131,7 @@ void main() {
           // Arrange
           final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(const Failure.emailAlreadyInUse()),
+              left<AppFailure, Unit>(const AppFailure.emailAlreadyInUse()),
             ),
           );
 
@@ -149,7 +151,7 @@ void main() {
           // Arrange
           final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(const Failure.usernameAlreadyInUse()),
+              left<AppFailure, Unit>(const AppFailure.usernameAlreadyInUse()),
             ),
           );
 
@@ -168,7 +170,9 @@ void main() {
         (tester) async {
           // Arrange
           final failureState = RegistrationFormState.initial().copyWith(
-            failureOrSuccessOption: some(left(const Failure.emptyFields())),
+            failureOrSuccessOption: some(
+              left<AppFailure, Unit>(const AppFailure.emptyFields()),
+            ),
           );
 
           // Act
@@ -187,7 +191,9 @@ void main() {
           // Arrange
           final failureState = RegistrationFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(const Failure.unexpectedError(errorMessage: 'test error')),
+              left<AppFailure, Unit>(
+                const AppFailure.unexpectedError(errorMessage: 'test error'),
+              ),
             ),
           );
 

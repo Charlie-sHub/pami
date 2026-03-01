@@ -72,7 +72,7 @@ class InterestedShoutOutsActorBloc
     if (event.shoutOutId.getOrCrash() != parsedId.getOrCrash()) {
       emit(
         InterestedShoutOutsActorState.scanFailure(
-          ValueFailure.invalidQr(failedValue: event.payload),
+          ValueFailure<String>.invalidQr(failedValue: event.payload),
         ),
       );
     } else {

@@ -26,18 +26,18 @@ void main() {
   tearDown(() async => mockBloc.close());
 
   Widget buildWidget({String? initialValue}) => MaterialApp(
-        home: Scaffold(
-          body: BlocProvider<RegistrationFormBloc>.value(
-            value: mockBloc,
-            child: Form(
-              autovalidateMode: AutovalidateMode.always,
-              child: UsernameTextField(
-                initialValue: initialValue,
-              ),
-            ),
+    home: Scaffold(
+      body: BlocProvider<RegistrationFormBloc>.value(
+        value: mockBloc,
+        child: Form(
+          autovalidateMode: AutovalidateMode.always,
+          child: UsernameTextField(
+            initialValue: initialValue,
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

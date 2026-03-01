@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_email.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
           final result = validateEmail(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -31,7 +31,7 @@ void main() {
           final result = validateEmail(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -45,7 +45,7 @@ void main() {
           final result = validateEmail(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -60,7 +60,7 @@ void main() {
           final result = validateEmail(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
     },
@@ -70,7 +70,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.invalidEmail when the input is empty',
+        'should return a ValueFailure.invalidEmail when the input is empty',
         () {
           // Arrange
           const input = '';
@@ -81,15 +81,16 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidEmail(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidEmail(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail when the input is not an email',
+        'should return a ValueFailure.invalidEmail '
+        'when the input is not an email',
         () {
           // Arrange
           const input = 'not an email';
@@ -100,15 +101,16 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidEmail(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidEmail(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail when the input is missing the @',
+        'should return a ValueFailure.invalidEmail '
+        'when the input is missing the @',
         () {
           // Arrange
           const input = 'testexample.com';
@@ -119,15 +121,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidEmail(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidEmail(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail '
+        'should return a ValueFailure.invalidEmail '
         'when the input is missing the domain',
         () {
           // Arrange
@@ -139,15 +141,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidEmail(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidEmail(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.invalidEmail '
+        'should return a ValueFailure.invalidEmail '
         'when the input is missing the top level domain',
         () {
           // Arrange
@@ -159,8 +161,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.invalidEmail(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.invalidEmail(failedValue: input),
             ),
           );
         },

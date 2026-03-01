@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/validators/validate_string_not_empty.dart';
 
 void main() {
@@ -17,7 +17,7 @@ void main() {
           final result = validateStringNotEmpty(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
 
@@ -31,7 +31,7 @@ void main() {
           final result = validateStringNotEmpty(input);
 
           // Assert
-          expect(result, right(input));
+          expect(result, right<ValueFailure<String>, String>(input));
         },
       );
     },
@@ -41,7 +41,8 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.emptyString when the input string is empty',
+        'should return a ValueFailure.emptyString '
+        'when the input string is empty',
         () {
           // Arrange
           const input = '';
@@ -52,15 +53,15 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.emptyString(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.emptyString(failedValue: input),
             ),
           );
         },
       );
 
       test(
-        'should return a Failure.emptyString '
+        'should return a ValueFailure.emptyString '
         'when the input string contains only spaces',
         () {
           // Arrange
@@ -72,8 +73,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<String>, String>(
-              const Failure.emptyString(failedValue: input),
+            left<ValueFailure<String>, String>(
+              const ValueFailure.emptyString(failedValue: input),
             ),
           );
         },

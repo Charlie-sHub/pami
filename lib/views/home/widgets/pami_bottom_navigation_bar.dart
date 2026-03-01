@@ -17,25 +17,25 @@ class PamiBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AnimatedBottomNavigationBar(
-        scaleFactor: 0,
-        notchSmoothness: NotchSmoothness.defaultEdge,
-        notchMargin: 5,
-        iconSize: 28,
-        backgroundColor: AppColors.background,
-        onTap: (index) => context.read<HomeNavigationActorBloc>().add(
-              HomeNavigationActorEvent.tabSelected(index),
-            ),
-        gapLocation: GapLocation.center,
-        activeIndex: index,
-        activeColor: AppColors.primary,
-        inactiveColor: AppColors.secondary,
-        leftCornerRadius: 12,
-        rightCornerRadius: 12,
-        icons: const [
-          Icons.explore_rounded,
-          Icons.flag_rounded,
-          Icons.bookmark_rounded,
-          Icons.person_rounded,
-        ],
-      );
+    scaleFactor: 0,
+    notchSmoothness: NotchSmoothness.defaultEdge,
+    notchMargin: 5,
+    iconSize: 28,
+    backgroundColor: AppColors.background,
+    onTap: (index) => context.read<HomeNavigationActorBloc>().add(
+      HomeNavigationActorEvent.tabSelected(index),
+    ),
+    gapLocation: GapLocation.center,
+    activeIndex: index,
+    activeColor: AppColors.primary,
+    inactiveColor: AppColors.secondary,
+    leftCornerRadius: 12,
+    rightCornerRadius: 12,
+    icons: const [
+      Icons.explore_rounded,
+      Icons.flag_rounded,
+      Icons.bookmark_rounded,
+      Icons.person_rounded,
+    ],
+  );
 }

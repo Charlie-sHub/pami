@@ -91,7 +91,7 @@ class MapWidget extends StatelessWidget {
           snippet: shout.description.getOrCrash(),
         ),
         onTap: () async {
-          await showModalBottomSheet(
+          await showModalBottomSheet<void>(
             context: context,
             backgroundColor: Colors.transparent,
             useRootNavigator: true,

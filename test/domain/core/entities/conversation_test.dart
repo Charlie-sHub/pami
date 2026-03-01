@@ -19,15 +19,15 @@ void main() {
       ),
     ),
   );
-  final invalidLastMessageAndDateCreatedConversation =
-      validConversation.copyWith(
-    lastMessage: MessageContent(''),
-    dateCreated: PastDate(
-      DateTime.now().add(
-        const Duration(days: 10),
-      ),
-    ),
-  );
+  final invalidLastMessageAndDateCreatedConversation = validConversation
+      .copyWith(
+        lastMessage: MessageContent(''),
+        dateCreated: PastDate(
+          DateTime.now().add(
+            const Duration(days: 10),
+          ),
+        ),
+      );
 
   group(
     'Testing on success',
@@ -44,15 +44,22 @@ void main() {
         'should return none when all inputs are valid',
         () {
           // Assert
-          expect(validConversation.failureOption, none());
+          expect(
+            validConversation.failureOption,
+            none<ValueFailure<dynamic>>(),
+          );
         },
       );
 
       test(
-        'should return right(unit) when all inputs are valid',
+        'should return right<ValueFailure<dynamic>, Unit>(unit) '
+        'when all inputs are valid',
         () {
           // Assert
-          expect(validConversation.failureOrUnit, right(unit));
+          expect(
+            validConversation.failureOrUnit,
+            right<ValueFailure<dynamic>, Unit>(unit),
+          );
         },
       );
     },
@@ -108,7 +115,8 @@ void main() {
       );
 
       test(
-        'should return left(Failure) when lastMessage is invalid',
+        'should return left<ValueFailure<String>, String>(Failure) '
+        'when lastMessage is invalid',
         () {
           // Act
           final result = invalidLastMessageConversation.failureOrUnit;
@@ -119,7 +127,8 @@ void main() {
       );
 
       test(
-        'should return left(Failure) when dateCreated is invalid',
+        'should return left<ValueFailure<String>, String>(Failure) '
+        'when dateCreated is invalid',
         () {
           // Act
           final result = invalidDateCreatedConversation.failureOrUnit;

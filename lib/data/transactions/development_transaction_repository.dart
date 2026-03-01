@@ -21,7 +21,9 @@ class DevelopmentTransactionRepository
   final Logger _logger;
 
   @override
-  Future<Either<AppFailure, Unit>> createTransaction(UniqueId shoutOutId) async {
+  Future<Either<AppFailure, Unit>> createTransaction(
+    UniqueId shoutOutId,
+  ) async {
     _logger.d('Creating transaction for shout out: ${shoutOutId.getOrCrash()}');
     return right(unit);
   }

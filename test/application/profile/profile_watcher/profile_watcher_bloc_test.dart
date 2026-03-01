@@ -5,6 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pami/application/profile/profile_watcher/profile_watcher_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
+import 'package:pami/domain/core/entities/user.dart';
 import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/profile/profile_repository_interface.dart';
 
@@ -59,7 +60,7 @@ void main() {
         'added and repository returns Left',
         setUp: () {
           when(mockRepository.getCurrentUser()).thenAnswer(
-            (_) async => left(failure),
+            (_) async => left<AppFailure, User>(failure),
           );
         },
         build: () => profileWatcherBloc,

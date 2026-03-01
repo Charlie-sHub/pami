@@ -38,7 +38,7 @@ void main() {
               shoutOutId: anyNamed('shoutOutId'),
               vote: anyNamed('vote'),
             ),
-          ).thenAnswer((_) async => right(unit));
+          ).thenAnswer((_) async => right<AppFailure, Unit>(unit));
         },
         build: () => karmaVoteActorBloc,
         act: (bloc) => bloc.add(
@@ -73,7 +73,7 @@ void main() {
               shoutOutId: anyNamed('shoutOutId'),
               vote: anyNamed('vote'),
             ),
-          ).thenAnswer((_) async => left(failure));
+          ).thenAnswer((_) async => left<AppFailure, Unit>(failure));
         },
         build: () => karmaVoteActorBloc,
         act: (bloc) => bloc.add(

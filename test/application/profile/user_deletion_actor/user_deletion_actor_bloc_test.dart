@@ -31,7 +31,7 @@ void main() {
         'deletionRequested is added and repository returns Right',
         setUp: () {
           when(mockRepository.deleteUser()).thenAnswer(
-            (_) async => right(unit),
+            (_) async => right<AppFailure, Unit>(unit),
           );
         },
         build: () => userDeletionActorBloc,
@@ -56,8 +56,9 @@ void main() {
         'emits [actionInProgress, deletionFailure] when '
         'deletionRequested is added and repository returns Left',
         setUp: () {
-          when(mockRepository.deleteUser())
-              .thenAnswer((_) async => left(failure));
+          when(
+            mockRepository.deleteUser(),
+          ).thenAnswer((_) async => left<AppFailure, Unit>(failure));
         },
         build: () => userDeletionActorBloc,
         act: (bloc) => bloc.add(

@@ -5,18 +5,18 @@ import 'package:pami/views/core/widgets/image_picker_dialog.dart';
 
 void main() {
   Widget buildWidget() => MaterialApp(
-        home: Scaffold(
-          body: Builder(
-            builder: (context) => ElevatedButton(
-              onPressed: () => showDialog<XFile>(
-                context: context,
-                builder: (context) => const ImagePickerDialog(),
-              ),
-              child: const Text('Open Dialog'),
-            ),
+    home: Scaffold(
+      body: Builder(
+        builder: (context) => ElevatedButton(
+          onPressed: () => showDialog<XFile>(
+            context: context,
+            builder: (context) => const ImagePickerDialog(),
           ),
+          child: const Text('Open Dialog'),
         ),
-      );
+      ),
+    ),
+  );
 
   testWidgets(
     'renders correctly',

@@ -24,8 +24,8 @@ class EulaCheckbox extends StatelessWidget {
                 )
               : null,
           onChanged: (_) => context.read<RegistrationFormBloc>().add(
-                const RegistrationFormEvent.tappedEULA(),
-              ),
+            const RegistrationFormEvent.tappedEULA(),
+          ),
         ),
       );
 }

@@ -191,7 +191,7 @@ void main() {
         expect: () => [
           const InterestedShoutOutsActorState.actionInProgress(),
           const InterestedShoutOutsActorState.scanFailure(
-            ValueFailure.invalidQr(failedValue: 'wrong-payload'),
+            ValueFailure<String>.invalidQr(failedValue: 'wrong-payload'),
           ),
         ],
         verify: (_) => verifyNever(

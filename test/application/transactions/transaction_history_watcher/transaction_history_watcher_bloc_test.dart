@@ -53,8 +53,9 @@ void main() {
     'emits loadInProgress -> loadFailure when repository fails',
     build: () {
       when(repository.fetchUserTransactions(userId)).thenAnswer(
-        (_) async =>
-            left(const AppFailure.serverError(errorString: 'errorString')),
+        (_) async => left<AppFailure, List<Transaction>>(
+          const AppFailure.serverError(errorString: 'errorString'),
+        ),
       );
       return bloc;
     },

@@ -10,14 +10,13 @@ part 'map_settings.freezed.dart';
 /// MapSettings entity
 @freezed
 abstract class MapSettings with _$MapSettings {
-  const MapSettings._();
-
   /// Default constructor
   const factory MapSettings({
     required MapRadius radius,
     required ShoutOutType type,
     required Set<Category> categories,
   }) = _MapSettings;
+  const MapSettings._();
 
   /// Empty constructor
   factory MapSettings.empty() => MapSettings(

@@ -13,24 +13,25 @@ class NotificationsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => getIt<NotificationsWatcherBloc>()
+    create: (context) =>
+        getIt<NotificationsWatcherBloc>()
           ..add(const NotificationsWatcherEvent.watchStarted()),
-        child: BlocBuilder<NotificationsWatcherBloc, NotificationsWatcherState>(
-          builder: (context, state) => IconButton(
-            padding: EdgeInsets.zero,
-            icon: Icon(
-              _getIconData(state),
-              color: _getIconColor(state),
-              size: 25,
-            ),
-            onPressed: () => context.read<HomeNavigationActorBloc>().add(
-                  const HomeNavigationActorEvent.tabSelected(
-                    NavigationIndexes.notificationsView,
-                  ),
-                ),
+    child: BlocBuilder<NotificationsWatcherBloc, NotificationsWatcherState>(
+      builder: (context, state) => IconButton(
+        padding: EdgeInsets.zero,
+        icon: Icon(
+          _getIconData(state),
+          color: _getIconColor(state),
+          size: 25,
+        ),
+        onPressed: () => context.read<HomeNavigationActorBloc>().add(
+          const HomeNavigationActorEvent.tabSelected(
+            NavigationIndexes.notificationsView,
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   IconData _getIconData(NotificationsWatcherState state) {
     switch (state) {

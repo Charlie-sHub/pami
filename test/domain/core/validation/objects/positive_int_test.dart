@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/positive_int.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
           final result = smallPositiveIntObject.value;
 
           // Assert
-          expect(result, right(1));
+          expect(result, right<ValueFailure<int>, int>(1));
         },
       );
 
@@ -35,7 +35,7 @@ void main() {
           final result = largerPositiveIntObject.value;
 
           // Assert
-          expect(result, right(42));
+          expect(result, right<ValueFailure<int>, int>(42));
         },
       );
     },
@@ -45,7 +45,7 @@ void main() {
     'Testing on failure',
     () {
       test(
-        'should return a Failure.intOutOfBounds '
+        'should return a ValueFailure.intOutOfBounds '
         'when the input is negative',
         () {
           // Arrange
@@ -58,8 +58,8 @@ void main() {
           // Assert
           expect(
             result,
-            left<Failure<int>, int>(
-              const Failure.intOutOfBounds(
+            left<ValueFailure<int>, int>(
+              const ValueFailure.intOutOfBounds(
                 failedValue: -1,
               ),
             ),

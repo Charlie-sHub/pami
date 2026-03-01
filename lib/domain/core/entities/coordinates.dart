@@ -9,13 +9,12 @@ part 'coordinates.freezed.dart';
 /// Coordinates entity
 @freezed
 abstract class Coordinates with _$Coordinates {
-  const Coordinates._();
-
   /// Default constructor
   const factory Coordinates({
     required Latitude latitude,
     required Longitude longitude,
   }) = _Coordinates;
+  const Coordinates._();
 
   /// Empty constructor
   factory Coordinates.empty() => Coordinates(

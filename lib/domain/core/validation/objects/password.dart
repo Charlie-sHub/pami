@@ -28,5 +28,5 @@ class Password extends ValueObject<String> {
   final Either<ValueFailure<String>, String> value;
 
   @override
-  List<Either> get props => [value];
+  List<Either<ValueFailure<String>, String>> get props => [value];
 }

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/value_failure.dart';
 import 'package:pami/domain/core/validation/objects/entity_description.dart';
 
 void main() {
@@ -21,7 +21,7 @@ void main() {
           final result = validEntityDescription.value;
 
           // Assert
-          expect(result, right(validDescription));
+          expect(result, right<ValueFailure<String>, String>(validDescription));
         },
       );
 
@@ -39,7 +39,10 @@ void main() {
           final result = maxLengthEntityDescription.value;
 
           // Assert
-          expect(result, right(maxLengthDescription));
+          expect(
+            result,
+            right<ValueFailure<String>, String>(maxLengthDescription),
+          );
         },
       );
     },
@@ -65,8 +68,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              Failure<String>.stringExceedsLength(
+            left<ValueFailure<String>, String>(
+              ValueFailure<String>.stringExceedsLength(
                 failedValue: overMaxLengthDescription,
                 maxLength: EntityDescription.maxLength,
               ),
@@ -76,7 +79,7 @@ void main() {
       );
 
       test(
-        'should return a Failure.emptyString when the input is empty',
+        'should return a ValueFailure.emptyString when the input is empty',
         () {
           // Arrange
           const emptyDescription = '';
@@ -90,8 +93,8 @@ void main() {
           // Assert
           expect(
             result,
-            left(
-              const Failure<String>.emptyString(
+            left<ValueFailure<String>, String>(
+              const ValueFailure<String>.emptyString(
                 failedValue: emptyDescription,
               ),
             ),

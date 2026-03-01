@@ -17,8 +17,6 @@ part 'user_dto.g.dart';
 /// User DTO
 @freezed
 abstract class UserDto with _$UserDto {
-  const UserDto._();
-
   /// Default constructor
   const factory UserDto({
     required String id,
@@ -35,6 +33,7 @@ abstract class UserDto with _$UserDto {
     @ServerDateStringConverter() required DateTime lastLogin,
     @ServerDateStringConverter() required DateTime dateCreated,
   }) = _UserDto;
+  const UserDto._();
 
   /// Constructor from [User]
   factory UserDto.fromDomain(User user) => UserDto(

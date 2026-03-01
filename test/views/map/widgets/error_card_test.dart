@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/failures/failure.dart';
 import 'package:pami/views/core/theme/colors.dart';
 import 'package:pami/views/map/widgets/error_card.dart';
@@ -16,7 +17,7 @@ void main() {
     (tester) async {
       // Arrange
       const testErrorMessage = 'Network connection lost.';
-      const testFailure = Failure.serverError(
+      const testFailure = AppFailure.serverError(
         errorString: testErrorMessage,
       );
 

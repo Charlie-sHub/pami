@@ -21,21 +21,21 @@ class UserImagePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => imageFileOption.fold(
-        CameraButton.new,
-        (imageFile) => TextButton(
-          onPressed: () async {
-            final bloc = context.read<RegistrationFormBloc>();
-            final imageFile = await openPictureSelectDialog(context);
-            if (imageFile != null) {
-              bloc.add(RegistrationFormEvent.imageChanged(imageFile));
-            }
-          },
-          child: CircleAvatar(
-            radius: 50,
-            backgroundImage: FileImage(
-              File(imageFile.path),
-            ),
-          ),
+    CameraButton.new,
+    (imageFile) => TextButton(
+      onPressed: () async {
+        final bloc = context.read<RegistrationFormBloc>();
+        final imageFile = await openPictureSelectDialog(context);
+        if (imageFile != null) {
+          bloc.add(RegistrationFormEvent.imageChanged(imageFile));
+        }
+      },
+      child: CircleAvatar(
+        radius: 50,
+        backgroundImage: FileImage(
+          File(imageFile.path),
         ),
-      );
+      ),
+    ),
+  );
 }

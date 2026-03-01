@@ -10,7 +10,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pami/application/authentication/authentication/authentication_bloc.dart';
 import 'package:pami/application/authentication/login_form/login_form_bloc.dart';
 import 'package:pami/core/dev/dev_helpers.dart';
-import 'package:pami/domain/core/failures/failure.dart';
+import 'package:pami/domain/core/failures/app_failure.dart';
 import 'package:pami/domain/core/validation/objects/email_address.dart';
 import 'package:pami/injection.dart';
 import 'package:pami/views/authentication/pages/login_page.dart';
@@ -52,15 +52,15 @@ void main() {
   );
 
   Widget buildWidget() => MaterialApp(
-        home: StackRouterScope(
-          controller: mockRouter,
-          stateHash: 0,
-          child: BlocProvider<AuthenticationBloc>.value(
-            value: mockAuthBloc,
-            child: const LoginPage(),
-          ),
-        ),
-      );
+    home: StackRouterScope(
+      controller: mockRouter,
+      stateHash: 0,
+      child: BlocProvider<AuthenticationBloc>.value(
+        value: mockAuthBloc,
+        child: const LoginPage(),
+      ),
+    ),
+  );
 
   testWidgets(
     'displays LoginForm',
@@ -81,7 +81,7 @@ void main() {
         (tester) async {
           // Arrange
           final successState = LoginFormState.initial().copyWith(
-            failureOrSuccessOption: some(right(unit)),
+            failureOrSuccessOption: some(right<AppFailure, Unit>(unit)),
             isSubmitting: false,
           );
 
@@ -105,7 +105,9 @@ void main() {
         (tester) async {
           // Arrange
           final failureState = LoginFormState.initial().copyWith(
-            failureOrSuccessOption: some(left(const InvalidCredentials())),
+            failureOrSuccessOption: some(
+              left<AppFailure, Unit>(const InvalidCredentials()),
+            ),
             isSubmitting: false,
           );
 
@@ -124,7 +126,9 @@ void main() {
         (tester) async {
           // Arrange
           final failureState = LoginFormState.initial().copyWith(
-            failureOrSuccessOption: some(left(const UnregisteredUser())),
+            failureOrSuccessOption: some(
+              left<AppFailure, Unit>(const UnregisteredUser()),
+            ),
             isSubmitting: false,
           );
 
@@ -144,8 +148,8 @@ void main() {
           // Arrange
           final failureState = LoginFormState.initial().copyWith(
             failureOrSuccessOption: some(
-              left(
-                const Failure.unexpectedError(errorMessage: 'test error'),
+              left<AppFailure, Unit>(
+                const AppFailure.unexpectedError(errorMessage: 'test error'),
               ),
             ),
             isSubmitting: false,
