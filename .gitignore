@@ -55,3 +55,6 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Local secrets
+ios/Flutter/.env.xcconfig
