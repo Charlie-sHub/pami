@@ -16,16 +16,16 @@ dependencies:
   bloc: ^9.2.0
   cached_network_image: ^3.4.1
   carousel_slider: ^5.1.2
-  cloud_firestore: ^6.1.3
-  cloud_functions: ^6.0.7
-  cupertino_icons: ^1.0.8
+  cloud_firestore: ^6.2.0
+  cloud_functions: ^6.1.0
+  cupertino_icons: ^1.0.9
   dartz: ^0.10.1
   email_validator: ^3.0.0
   equatable: ^2.0.8
-  firebase_auth: ^6.2.0
-  firebase_core: ^4.5.0
-  firebase_messaging: ^16.1.2
-  firebase_storage: ^13.1.0
+  firebase_auth: ^6.3.0
+  firebase_core: ^4.6.0
+  firebase_messaging: ^16.1.3
+  firebase_storage: ^13.2.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
@@ -39,12 +39,12 @@ dependencies:
   geoflutterfire_plus: ^0.0.34
   geolocator: ^14.0.2
   get_it: ^9.2.1
-  google_maps_flutter: ^2.15.0
+  google_maps_flutter: ^2.16.0
   google_sign_in: ^7.2.0
   image_picker: ^1.2.1
   injectable: ^2.7.1+4
   json_annotation: ^4.11.0
-  logger: ^2.6.2
+  logger: ^2.7.0
   mobile_scanner: ^7.2.0
   path: ^1.9.1
   path_provider: ^2.1.5
@@ -58,18 +58,18 @@ dependencies:
 dev_dependencies:
   auto_route_generator: ^10.5.0
   bloc_test: ^10.0.0
-  build_runner:
+  build_runner: ^2.13.1
   coverage: ^1.15.0
-  fake_cloud_firestore: ^4.0.2+1
+  fake_cloud_firestore: ^4.1.0+1
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
   freezed: ^3.2.5
   google_sign_in_mocks: ^0.4.1
   injectable_generator: ^2.12.1
-  json_serializable: ^6.13.0
+  json_serializable: ^6.13.1
   mock_exceptions: ^0.8.2
-  mockito: ^5.6.3
+  mockito: ^5.6.4
   mocktail: ^1.0.4
   very_good_analysis: ^10.2.0
 
